@@ -19,6 +19,7 @@ export const login = async (user, password) => {
       headers: getAuth,
     }
   );
+  console.log(response);
   const data = await response.data;
   return data;
 };

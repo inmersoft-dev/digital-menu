@@ -79,14 +79,14 @@ const Register = () => {
     setLoading(true);
     const { user, password } = data;
     try {
-      const response = await register({ user, password });
+      const response = await register(user, password);
       if (response.status === 200) {
         logUser(remember, user);
-        /* createCookie(
+        createCookie(
           config.basicKey,
           response.data.expire,
           response.data.token
-        ); */
+        );
         setNotificationState({
           type: "set",
           message: languageState.texts.Messages.RegisterSuccessful,

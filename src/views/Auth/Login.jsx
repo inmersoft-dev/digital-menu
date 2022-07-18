@@ -72,7 +72,7 @@ const Login = () => {
     setLoading(true);
     const { user, password } = data;
     try {
-      const response = await login({ user, password });
+      const response = await login(user, password);
       if (response.status === 200) {
         logUser(remember, user);
         createCookie(
