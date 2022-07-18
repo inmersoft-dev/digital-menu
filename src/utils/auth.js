@@ -34,6 +34,13 @@ export const logUser = (remember, user) => {
   else sessionStorage.setItem(config.userCookie, user);
 };
 
+export const logoutUser = () => {
+  // @ts-ignore
+  localStorage.removeItem(config.userCookie);
+  // @ts-ignore
+  sessionStorage.removeItem(config.userCookie);
+};
+
 /**
  * Takes a name, expiration, and value, and creates a cookie with those values
  * @param {string} name - The name of the cookie

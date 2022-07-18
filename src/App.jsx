@@ -11,6 +11,7 @@ import dark from "./assets/theme/dark";
 
 // views
 import Login from "./views/Auth/Login";
+import Logout from "./views/Auth/Logout";
 import Register from "./views/Auth/Register";
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="/" element={<Login />} />
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
+            <Route path="/auth/logout" element={<Logout />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
