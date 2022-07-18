@@ -8,6 +8,9 @@ import { css } from "@emotion/css";
 // sito components
 import SitoContainer from "sito-container";
 
+// own components
+import Loading from "../../components/Loading/Loading";
+
 // @mui
 import {
   useTheme,
@@ -39,7 +42,7 @@ import { register } from "../../services/auth";
 
 import config from "../../config";
 
-const Login = () => {
+const Register = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { setNotificationState } = useNotification();
@@ -159,7 +162,7 @@ const Login = () => {
       alignItems="center"
       sx={{
         width: "400px",
-        height: "400px",
+        height: "450px",
         padding: "1rem",
         borderRadius: "1rem",
         position: "relative",
@@ -280,7 +283,7 @@ const Login = () => {
         <FormControlLabel
           sx={{ marginTop: "20px" }}
           control={<Checkbox checked={remember} onChange={toggleRemember} />}
-          label="Label"
+          label={languageState.texts.Login.Remember}
         />
         <SitoContainer
           justifyContent="flex-end"
@@ -304,4 +307,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

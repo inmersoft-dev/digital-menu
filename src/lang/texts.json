@@ -34,6 +34,7 @@
           "Placeholder": "ej: *********"
         }
       },
+      "Remember": "Recordarme",
       "Buttons": {
         "Login": "Iniciar sesión",
         "Register": "Registrarse"

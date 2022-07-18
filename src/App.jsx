@@ -11,6 +11,7 @@ import dark from "./assets/theme/dark";
 
 // views
 import Login from "./views/Auth/Login";
+import Register from "./views/Auth/Register";
 
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/register" element={<Register />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

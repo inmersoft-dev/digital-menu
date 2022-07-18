@@ -236,7 +236,7 @@ const Login = () => {
         <FormControlLabel
           sx={{ marginTop: "20px" }}
           control={<Checkbox checked={remember} onChange={toggleRemember} />}
-          label="Label"
+          label={languageState.texts.Login.Remember}
         />
         <SitoContainer
           justifyContent="flex-end"
