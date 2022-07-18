@@ -24,6 +24,7 @@ import {
   OutlinedInput,
   InputAdornment,
   Typography,
+  Box,
 } from "@mui/material";
 
 // @mui icons
@@ -73,6 +74,7 @@ const Login = () => {
     const { user, password } = data;
     try {
       const response = await login(user, password);
+      console.log(response);
       if (response.status === 200) {
         logUser(remember, user);
         createCookie(
@@ -88,13 +90,9 @@ const Login = () => {
         setTimeout(() => {
           if (userLogged()) navigate("/edit");
         }, 100);
-      }
-
-      if (response.error) {
-        setLoading(false);
+      } else {
         const { error } = response;
         let message;
-        console.log(response);
         if (error.indexOf("422") > -1)
           message = languageState.texts.Errors.Wrong;
         else if (error.indexOf("Error: Network Error") > -1)
@@ -113,7 +111,6 @@ const Login = () => {
         ntype: "error",
         message: languageState.texts.Errors.SomeWrong,
       });
-      setLoading(false);
     }
     setLoading(false);
   };
@@ -151,16 +148,17 @@ const Login = () => {
   };
 
   return (
-    <SitoContainer
-      alignItems="center"
+    <Box
       sx={{
-        width: "400px",
+        alignItems: "center",
+        background: theme.palette.background.paper,
+        maxWidth: "400px",
+        minWidth: "320px",
         height: "400px",
         padding: "1rem",
         borderRadius: "1rem",
         position: "relative",
       }}
-      background={theme.palette.background.paper}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Loading
@@ -256,7 +254,7 @@ const Login = () => {
           </Link>
         </SitoContainer>
       </form>
-    </SitoContainer>
+    </Box>
   );
 };
 

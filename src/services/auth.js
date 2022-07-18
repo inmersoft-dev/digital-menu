@@ -13,13 +13,12 @@ import md5 from "md5";
 export const login = async (user, password) => {
   const response = await axios.post(
     // @ts-ignore
-    `${config.apiUrl}/user/login`,
+    `${config.apiUrl}user/login`,
     { user, password: md5(password) },
     {
       headers: getAuth,
     }
   );
-  console.log(response);
   const data = await response.data;
   return data;
 };
@@ -33,8 +32,8 @@ export const login = async (user, password) => {
 export const register = async (user, password) => {
   const response = await axios.post(
     // @ts-ignore
-    `${config.apiUrl}/user/register`,
-    { user, password },
+    `${config.apiUrl}user/register`,
+    { user, password: md5(password) },
     {
       headers: getAuth,
     }
