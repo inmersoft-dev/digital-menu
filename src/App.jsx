@@ -34,16 +34,12 @@ const App = () => {
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
-            <Route path="/" element={<View />} />
-            <Route exact path="/auth" element={<View />}>
-              <Route index element={<Login />} />
-              <Route exact path="/auth/register" element={<Register />} />
-              <Route exact path="/auth/logout" element={<Logout />} />
-            </Route>
-            <Route exact path="/menu" element={<View />}>
-              <Route index element={<Watch />} />
-              <Route exact path element={<Edit />} />
-            </Route>
+            <Route path="/" element={<Login />} />
+            <Route exact path="/auth/" element={<Login />} />
+            <Route exact path="/auth/register" element={<Register />} />
+            <Route exact path="/auth/logout" element={<Logout />} />
+            <Route exact path="/menu/" element={<Watch />} />
+            <Route exact path="/menu/edit" element={<Edit />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

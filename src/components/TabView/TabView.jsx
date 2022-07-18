@@ -63,7 +63,8 @@ const TabView = (props) => {
           indicatorColor="primary"
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          scrollButtons="auto"
+          aria-label="tabs"
         >
           {tabs.map((item, i) => (
             <Tab key={item} label={item} {...a11yProps(i)} />

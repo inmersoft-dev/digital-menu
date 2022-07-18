@@ -87,7 +87,7 @@ const Login = () => {
           ntype: "success",
         });
         setTimeout(() => {
-          if (userLogged()) navigate("/edit");
+          if (userLogged()) navigate("/menu/edit");
         }, 100);
       } else {
         const { error } = response.data;
@@ -115,7 +115,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (userLogged()) navigate("/edit");
+    if (userLogged()) navigate("/menu/edit");
     setLoading(false);
   }, []);
 

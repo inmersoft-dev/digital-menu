@@ -93,7 +93,7 @@ const Register = () => {
           ntype: "success",
         });
         setTimeout(() => {
-          if (userLogged()) navigate("/edit");
+          if (userLogged()) navigate("/menu/edit");
         }, 100);
       } else {
         setLoading(false);
@@ -123,7 +123,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (userLogged()) navigate("/edit");
+    if (userLogged()) navigate("/menu/edit");
     setLoading(false);
   }, []);
 
