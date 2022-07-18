@@ -1,5 +1,44 @@
 {
   "es": {
+    "Errors": {
+      "NotConnected": "No tienes conexión con el servidor",
+      "SomeWrong": "Ha ocurrido un error",
+      "Wrong": "Usuario o contraseña incorrecta",
+      "NameRequired": "Debes introducir un nombre",
+      "PasswordLengthValidation": "La contraseña debe tener al menos 8 caracteres y no debe pasar de 12 caracteres",
+      "PasswordCharacterValidation": "La contraseña debe tener al menos una letra mayúscula, una minúscula y un número",
+      "PasswordNameValidation": "La contraseña no debe contener el nombre de usuario",
+      "NoEmptyPassword": "La contraseña no puede estar vacía",
+      "DifferentPassword": "Las contraseñas no coinciden"
+    },
+    "Messages": {
+      "LoginSuccessful": "Inicio de sesión correctamente",
+      "RegisterSuccessful": "Usuario creado correctamente"
+    },
+    "Register": {
+      "Title": "Registro"
+    },
+    "Login": {
+      "Title": "Iniciar sesión",
+      "Inputs": {
+        "User": {
+          "Label": "Usuario",
+          "Placeholder": "ej: tusuario"
+        },
+        "Password": {
+          "Label": "Contraseña",
+          "Placeholder": "ej: *********"
+        },
+        "RPassword": {
+          "Label": "Confirmar contraseña",
+          "Placeholder": "ej: *********"
+        }
+      },
+      "Buttons": {
+        "Login": "Iniciar sesión",
+        "Register": "Registrarse"
+      }
+    },
     "Inputs": [
       {
         "id": "title",

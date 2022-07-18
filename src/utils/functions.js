@@ -1,4 +1,15 @@
 /**
+ * Scroll to a target position, default the top of the page.
+ * @param {number} [target=0] - The target position to scroll to.
+ */
+export const scrollTo = (target = 0) =>
+  window.scroll({
+    top: target,
+    left: 0,
+    behavior: "smooth",
+  });
+
+/**
  * It takes a string, splits it into an array of words, capitalizes the first letter of each word, and
  * then joins the array back into a string
  * @param {string} string - The string to be converted to sentence case.

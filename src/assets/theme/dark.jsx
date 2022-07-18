@@ -44,7 +44,7 @@ const dark = createTheme({
     divider: "rgba(0,0,0,0.12)",
     background: {
       default: "#222333",
-      paper: "#222",
+      paper: "#222222",
     },
     text: {
       main: "#fff",
