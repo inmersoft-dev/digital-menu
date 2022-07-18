@@ -12,10 +12,15 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 // theme
 import dark from "./assets/theme/dark";
 
+// layouts
+import View from "./layouts/View/View";
+
 // views
 import Login from "./views/Auth/Login";
 import Logout from "./views/Auth/Logout";
 import Register from "./views/Auth/Register";
+import Watch from "./views/Menu/Watch";
+import Edit from "./views/Menu/Edit";
 
 const App = () => {
   return (
@@ -29,10 +34,16 @@ const App = () => {
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/auth/login" element={<Login />} />
-            <Route path="/auth/register" element={<Register />} />
-            <Route path="/auth/logout" element={<Logout />} />
+            <Route path="/" element={<View />} />
+            <Route exact path="/auth" element={<View />}>
+              <Route index element={<Login />} />
+              <Route exact path="/auth/register" element={<Register />} />
+              <Route exact path="/auth/logout" element={<Logout />} />
+            </Route>
+            <Route exact path="/menu" element={<View />}>
+              <Route index element={<Watch />} />
+              <Route exact path element={<Edit />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
