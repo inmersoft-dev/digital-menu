@@ -1,2 +1,2 @@
-# mern-client
-MongoDB Express React Node client
+# digital-menu  
+The digital menu!!

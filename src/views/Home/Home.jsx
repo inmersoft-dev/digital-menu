@@ -22,27 +22,6 @@ const Home = () => {
   const { register, handleSubmit } = useForm();
   const { languageState } = useLanguage();
 
-  /* const notesReducer = (notesState, action) => {
-    const { type } = action;
-    switch (type) {
-      case "add": {
-        const { title, content } = action;
-        const newNotes = notesState;
-        newNotes.push({ title, content });
-        return newNotes;
-      }
-      case "delete": {
-        const { index } = action;
-        const newNotes = notesState;
-        newNotes.splice(index, 1);
-        console.log(newNotes);
-        return newNotes;
-      }
-      default:
-        return { title: "To do", content: "Content..." };
-    }
-  }; */
-
   const [notes, setNotes] = useState([
     { title: "To do", content: "Content..." },
   ]); // useReducer(notesReducer, []);
