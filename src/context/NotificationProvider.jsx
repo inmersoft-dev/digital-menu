@@ -9,15 +9,11 @@ const NotificationContext = React.createContext();
 
 const notificationReducer = (notificationState, action) => {
   switch (action.type) {
-    case "hide":
-      return {
-        visible: false,
-      };
-    case "show":
+    case "set":
       return {
         visible: true,
-        ntype: action.ntype,
-        text: action.text,
+        type: action.ntype,
+        message: action.message,
       };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -29,6 +25,8 @@ const NotificationProvider = ({ children }) => {
     notificationReducer,
     {
       visible: false,
+      type: "success",
+      message: "message",
     }
   );
 

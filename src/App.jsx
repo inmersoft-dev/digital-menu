@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // sito components
 import SitoContainer from "sito-container";
 
+// own components
+import Notification from "./components/Notification/Notification";
+
 // @mui
 import { ThemeProvider, CssBaseline } from "@mui/material";
 
@@ -21,6 +24,7 @@ const App = () => {
       alignItems="center"
       justifyContent="center"
     >
+      <Notification />
       <ThemeProvider theme={dark}>
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>

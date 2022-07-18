@@ -1,44 +1,50 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react/function-component-definition */
+/* eslint-disable react/jsx-no-undef */
+/* eslint-disable no-undef */
 
-// prop types
-import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
 
-// @mui components
-import { Snackbar, Alert } from "@mui/material/";
+// react-cool-onclickoutside
+import useOnclickOutside from "react-cool-onclickoutside";
 
-const Notification = (props) => {
-  const { visible, text, type, onClose } = props;
+// mui components
+import { Snackbar } from "@mui/material/";
+import MuiAlert from "@mui/material/Alert";
+
+// contexts
+import { useNotification } from "../../context/NotificationProvider";
+
+const Notification = () => {
+  const { notificationState } = useNotification();
 
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setOpen(visible);
-  }, [visible]);
+    setOpen(notificationState.visible);
+  }, [notificationState]);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const ref = useOnclickOutside(() => {
+    setOpen(false);
+  });
 
   return (
-    <Snackbar open={open} autoHideDuration={6000} onClose={onClose}>
-      <Alert
-        variant="filled"
-        onClose={onClose}
-        severity={type}
-        sx={{ width: "100%" }}
-      >
-        {text}
-      </Alert>
-    </Snackbar>
+    <div ref={ref}>
+      <Snackbar open={open} autoHideDuration={99000} onClose={handleClose}>
+        <MuiAlert
+          variant="filled"
+          onClose={handleClose}
+          severity={notificationState.type}
+          style={{ opacity: open ? 1 : 0, zIndex: open ? 98 : -1, minWidth: 250 }}
+        >
+          {notificationState.message}
+        </MuiAlert>
+      </Snackbar>
+    </div>
   );
-};
-
-Notification.defaultProps = {
-  text: "",
-  type: "error",
-};
-
-Notification.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  text: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired, // error warning info success
-  onClose: PropTypes.func.isRequired,
 };
 
 export default Notification;
