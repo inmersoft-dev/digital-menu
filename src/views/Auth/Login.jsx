@@ -74,12 +74,11 @@ const Login = () => {
     const { user, password } = data;
     try {
       const response = await login(user, password);
-      console.log(response);
       if (response.status === 200) {
         logUser(remember, user);
         createCookie(
           config.basicKey,
-          response.data.expire,
+          response.data.expiration,
           response.data.token
         );
         setNotificationState({
@@ -91,9 +90,9 @@ const Login = () => {
           if (userLogged()) navigate("/edit");
         }, 100);
       } else {
-        const { error } = response;
+        const { error } = response.data;
         let message;
-        if (error.indexOf("422") > -1)
+        if (error.indexOf("not found") > -1)
           message = languageState.texts.Errors.Wrong;
         else if (error.indexOf("Error: Network Error") > -1)
           message = languageState.texts.Errors.NotConnected;

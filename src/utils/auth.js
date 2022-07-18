@@ -39,6 +39,7 @@ export const logoutUser = () => {
   localStorage.removeItem(config.userCookie);
   // @ts-ignore
   sessionStorage.removeItem(config.userCookie);
+  deleteCookie(config.basicKey);
 };
 
 /**

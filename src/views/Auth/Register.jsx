@@ -63,7 +63,7 @@ const Register = () => {
 
   const [showRPassword, setShowRPassword] = useState(false);
 
-  const handleClickShowRPassword = () => setShowRPassword(!showPassword);
+  const handleClickShowRPassword = () => setShowRPassword(!showRPassword);
 
   const handleMouseDownRPassword = (event) => event.preventDefault();
 
@@ -84,7 +84,7 @@ const Register = () => {
         logUser(remember, user);
         createCookie(
           config.basicKey,
-          response.data.expire,
+          response.data.expiration,
           response.data.token
         );
         setNotificationState({
@@ -95,15 +95,12 @@ const Register = () => {
         setTimeout(() => {
           if (userLogged()) navigate("/edit");
         }, 100);
-      }
-
-      if (response.error) {
+      } else {
         setLoading(false);
-        const { error } = response;
+        const { error } = response.data;
         let message;
-        console.log(response);
-        if (error.indexOf("422") > -1)
-          message = languageState.texts.Errors.Wrong;
+        if (error.indexOf("username taken") > -1)
+          message = languageState.texts.Errors.UsernameTaken;
         else if (error.indexOf("Error: Network Error") > -1)
           message = languageState.texts.Errors.NotConnected;
         else message = languageState.texts.Errors.SomeWrong;
@@ -212,12 +209,12 @@ const Register = () => {
               sx={{ width: "100%", marginTop: "20px" }}
               variant="outlined"
             >
-              <InputLabel htmlFor="outlined-adornment-password">
+              <InputLabel htmlFor="password">
                 {languageState.texts.Login.Inputs.Password.Label}
               </InputLabel>
               <OutlinedInput
                 required
-                id="outlined-adornment-password"
+                id="password"
                 placeholder={
                   languageState.texts.Login.Inputs.Password.Placeholder
                 }
@@ -250,12 +247,12 @@ const Register = () => {
               sx={{ width: "100%", marginTop: "20px" }}
               variant="outlined"
             >
-              <InputLabel htmlFor="outlined-adornment-password">
+              <InputLabel htmlFor="rpassword">
                 {languageState.texts.Login.Inputs.RPassword.Label}
               </InputLabel>
               <OutlinedInput
                 required
-                id="outlined-adornment-password"
+                id="rpassword"
                 placeholder={
                   languageState.texts.Login.Inputs.RPassword.Placeholder
                 }
