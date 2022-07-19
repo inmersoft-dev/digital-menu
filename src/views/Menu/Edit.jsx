@@ -23,7 +23,7 @@ import Loading from "../../components/Loading/Loading";
 import TabView from "../../components/TabView/TabView";
 import NotConnected from "../../components/NotConnected/NotConnected";
 import Empty from "../../components/Empty/Empty";
-import Modal from "../../components/Modal/Modal";
+import Modal from "../../components/Modal/EditModal";
 
 // functions
 import { userLogged } from "../../utils/auth";
@@ -156,17 +156,8 @@ const Edit = () => {
     setLoading(false);
   };
 
-  const [ok, setOk] = useState(1);
-
   const { setNotificationState } = useNotification();
   const { languageState } = useLanguage();
-
-  const { control, handleSubmit } = useForm({
-    defaultValues: {
-      user: "",
-      password: "",
-    },
-  });
 
   const retry = () => {
     fetch();
@@ -230,33 +221,6 @@ const Edit = () => {
     setLoading(false);
   }, []);
 
-  const validate = () => {
-    setOk(true);
-  };
-
-  const invalidate = (e) => {
-    e.preventDefault();
-    if (ok) {
-      const { id } = e.target;
-      e.target.focus();
-      setOk(false);
-      switch (id) {
-        case "user":
-          return setNotificationState({
-            type: "set",
-            ntype: "error",
-            message: languageState.texts.Errors.NameRequired,
-          });
-        default:
-          return setNotificationState({
-            type: "set",
-            ntype: "error",
-            message: languageState.texts.Errors.NoEmptyPassword,
-          });
-      }
-    }
-  };
-
   return (
     <SitoContainer
       sx={{ width: "100vw", height: "100vh" }}
@@ -292,7 +256,13 @@ const Edit = () => {
         <Button
           variant="contained"
           onClick={() => {
-            setSelected(undefined);
+            setSelected({
+              ph: "",
+              n: languageState.texts.Insert.Inputs.Product.Label,
+              d: languageState.texts.Insert.Inputs.Description.Label,
+              p: languageState.texts.Insert.Inputs.Price.Label,
+              t: languageState.texts.Insert.Inputs.Type.Label,
+            });
             setVisible(true);
           }}
         >
