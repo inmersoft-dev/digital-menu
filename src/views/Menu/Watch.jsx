@@ -11,6 +11,7 @@ import SitoImage from "sito-image";
 // own components
 import Loading from "../../components/Loading/Loading";
 import TabView from "../../components/TabView/TabView";
+import Modal from "../../components/Modal/Modal";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
@@ -24,6 +25,12 @@ const Watch = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
+  const [selected, setSelected] = useState();
+
+  const onModalClose = () => {
+    setSelected(undefined);
+  };
+
   const [types, setTypes] = useState([]);
 
   const [tab, setTab] = useState(0);
@@ -32,6 +39,7 @@ const Watch = () => {
   const [loading, setLoading] = useState(true);
   const [currentOwner, setCurrentOwner] = useState("admin");
   const [currentMenu, setCurrentMenu] = useState("menu");
+
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
@@ -52,6 +60,7 @@ const Watch = () => {
             sx={{ width: "100%" }}
           >
             <Paper
+              onClick={() => setSelected(data.l[i])}
               id={`obj-${i}`}
               elevation={1}
               sx={{
@@ -189,6 +198,7 @@ const Watch = () => {
       sx={{ width: "100vw", height: "100vh" }}
       flexDirection="column"
     >
+      {selected && <Modal visible={true} item={selected} />}
       <Loading
         visible={loading}
         sx={{
