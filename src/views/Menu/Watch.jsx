@@ -105,8 +105,7 @@ const Watch = () => {
 
   const onScroll = useCallback(
     (e) => {
-      if (!shouldScroll) {
-        console.log("onScroll", tab);
+      if (!shouldScroll && allData) {
         const visibilities = [];
         for (let i = 0; i < allData.length; i += 1) {
           const elem = document.getElementById(`obj-${i}`);
