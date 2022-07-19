@@ -154,7 +154,6 @@ const Login = () => {
         background: theme.palette.background.paper,
         maxWidth: "400px",
         minWidth: "320px",
-        height: "400px",
         padding: "1rem",
         borderRadius: "1rem",
         border: "none",

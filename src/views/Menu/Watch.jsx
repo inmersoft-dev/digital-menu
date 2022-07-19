@@ -12,6 +12,8 @@ import SitoImage from "sito-image";
 import Loading from "../../components/Loading/Loading";
 import TabView from "../../components/TabView/TabView";
 import Modal from "../../components/Modal/Modal";
+import Empty from "../../components/Empty/Empty";
+import NotConnected from "../../components/NotConnected/NotConnected";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
@@ -39,6 +41,7 @@ const Watch = () => {
   const [tabs, setTabs] = useState([]);
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [currentOwner, setCurrentOwner] = useState("admin");
   const [currentMenu, setCurrentMenu] = useState("menu");
 
@@ -47,6 +50,7 @@ const Watch = () => {
 
   const fetch = async () => {
     setLoading(true);
+    setError(false);
     try {
       const response = await fetchMenu(currentOwner, currentMenu);
       const data = await response.data;
@@ -135,6 +139,7 @@ const Watch = () => {
         ntype: "error",
         message: languageState.texts.Errors.NotConnected,
       });
+      setError(true);
     }
     setLoading(false);
   };
@@ -225,32 +230,36 @@ const Watch = () => {
         content={[]}
         shouldScroll={shouldScroll}
       />
-      <Box
-        sx={{
-          margin: "20px 20px",
-          flexDirection: "column",
-        }}
-      >
-        {tabs.map((item, i) => (
-          <Box
-            key={i}
-            sx={{
-              flexDirection: "column",
-              marginTop: i === 0 ? "40px" : "20px",
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
+      {error && !loading && <NotConnected />}
+      {!loading && !error && !allData.length && <Empty />}
+      {!error && !loading && allData.length && (
+        <Box
+          sx={{
+            margin: "20px 20px",
+            flexDirection: "column",
+          }}
+        >
+          {tabs.map((item, i) => (
             <Box
-              id={`title-${i}`}
-              sx={{ width: { md: "800px", sm: "630px", xs: "100%" } }}
+              key={i}
+              sx={{
+                flexDirection: "column",
+                marginTop: i === 0 ? "40px" : "20px",
+                alignItems: "center",
+                display: "flex",
+              }}
             >
-              <Typography variant="h5">{types[i]}</Typography>
+              <Box
+                id={`title-${i}`}
+                sx={{ width: { md: "800px", sm: "630px", xs: "100%" } }}
+              >
+                <Typography variant="h5">{types[i]}</Typography>
+              </Box>
+              {item}
             </Box>
-            {item}
-          </Box>
-        ))}
-      </Box>
+          ))}
+        </Box>
+      )}
     </SitoContainer>
   );
 };

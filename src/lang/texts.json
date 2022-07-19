@@ -2,6 +2,7 @@
   "es": {
     "Errors": {
       "NotConnected": "No tienes conexión con el servidor",
+      "Empty": "No hay productos",
       "UsernameTaken": "Nombre de usuario en uso",
       "SomeWrong": "Ha ocurrido un error",
       "Wrong": "Usuario o contraseña incorrecta",

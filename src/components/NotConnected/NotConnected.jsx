@@ -1,5 +1,5 @@
 // @mui icons
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import ErrorOutlineTowToneIcon from "@mui/icons-material/ErrorOutlineTwoTone";
 
 // @mui components
 import { Typography } from "@mui/material";
@@ -10,7 +10,7 @@ import SitoContainer from "sito-container";
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
 
-const Empty = () => {
+const NotConnected = () => {
   const { languageState } = useLanguage();
   return (
     <SitoContainer
@@ -26,12 +26,12 @@ const Empty = () => {
       }}
       flexDirection="column"
     >
-      <ReceiptLongIcon color="primary" sx={{ fontSize: "4rem" }} />
-      <Typography color="primary" variant="h4">
-        {languageState.texts.Errors.Empty}
+      <ErrorOutlineTowToneIcon color="error" sx={{ fontSize: "4rem" }} />
+      <Typography color="error" variant="h4">
+        {languageState.texts.Errors.NotConnected}
       </Typography>
     </SitoContainer>
   );
 };
 
-export default Empty;
+export default NotConnected;

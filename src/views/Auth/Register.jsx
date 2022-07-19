@@ -162,7 +162,6 @@ const Register = () => {
         background: theme.palette.background.paper,
         display: "flex",
         width: "400px",
-        height: "450px",
         padding: "1rem",
         borderRadius: "1rem",
         position: "relative",
@@ -295,7 +294,7 @@ const Register = () => {
           >
             {languageState.texts.Login.Buttons.Register}
           </Button>
-          <Link to="/auth/login" className={css({ textDecoration: "none" })}>
+          <Link to="/auth/" className={css({ textDecoration: "none" })}>
             <Button variant="outlined">
               {languageState.texts.Login.Buttons.Login}
             </Button>
