@@ -23,8 +23,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sito-container": "^0.2.21",
-    "sito-image": "^0.2.20",
-    "sito-modal": "^0.1.8"
+    "sito-image": "^0.2.20"
   },
   "scripts": {
     "start": "env-cmd -f .env react-scripts start",

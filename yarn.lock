@@ -7988,18 +7988,6 @@ sisteransi@^1.0.5:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
-sito-container@^0.2.14:
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/sito-container/-/sito-container-0.2.20.tgz#4fa158ba2c62a0174382453d6c83959f4be3e32a"
-  integrity sha512-VgyB1h+unjgA8/HQe6t6h4Zilt8gpovRYK5cbfHA6FaVT/to4fLufJpvmZh/t6L1CIfCRuszd53kZTYqETX5pQ==
-  dependencies:
-    "@emotion/css" "^11.9.0"
-    "@emotion/react" "^11.9.3"
-    "@emotion/styled" "^11.9.3"
-    react "^18.2.0"
-    react-dom "^18.2.0"
-    react-scripts "5.0.1"
-
 sito-container@^0.2.21:
   version "0.2.21"
   resolved "https://registry.yarnpkg.com/sito-container/-/sito-container-0.2.21.tgz#ffbe8a878baf68c8e79c94ac44462e1b3d55f315"
@@ -8024,19 +8012,6 @@ sito-image@^0.2.20:
     react-dom "^18.2.0"
     react-scripts "5.0.1"
     react-shimmer "^3.2.0"
-
-sito-modal@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/sito-modal/-/sito-modal-0.1.8.tgz#26dd104d442438e47f23b163ff81f601c8a39d6c"
-  integrity sha512-QsdkAGNzKdjf06rHaCLrbx0iVGiCa1o8iiRLwdTBYA1QhO9Uuq+BV+G+iIhI+wI8FlA2D0w5HmjKiXi6lYdoKg==
-  dependencies:
-    "@emotion/css" "^11.9.0"
-    "@emotion/react" "^11.9.3"
-    "@emotion/styled" "^11.9.3"
-    react "^18.2.0"
-    react-dom "^18.2.0"
-    react-scripts "5.0.1"
-    sito-container "^0.2.14"
 
 slash@^3.0.0:
   version "3.0.0"

@@ -27,8 +27,10 @@ const Watch = () => {
 
   const [selected, setSelected] = useState();
 
+  const [visible, setVisible] = useState(false);
+
   const onModalClose = () => {
-    setSelected(undefined);
+    setVisible(false);
   };
 
   const [types, setTypes] = useState([]);
@@ -60,14 +62,17 @@ const Watch = () => {
             sx={{ width: "100%" }}
           >
             <Paper
-              onClick={() => setSelected(data.l[i])}
+              onClick={() => {
+                setVisible(true);
+                setSelected(data.l[i]);
+              }}
               id={`obj-${i}`}
               elevation={1}
               sx={{
                 cursor: "pointer",
+                marginTop: "20px",
                 display: "flex",
                 width: { md: "800px", sm: "630px", xs: "100%" },
-                marginTop: "20px",
                 padding: "1rem",
                 borderRadius: "1rem",
                 background: theme.palette.background.paper,
@@ -197,7 +202,9 @@ const Watch = () => {
       sx={{ width: "100vw", height: "100vh" }}
       flexDirection="column"
     >
-      {selected && <Modal visible={true} item={selected} />}
+      {selected && (
+        <Modal visible={visible} item={selected} onClose={onModalClose} />
+      )}
       <Loading
         visible={loading}
         sx={{
@@ -236,7 +243,7 @@ const Watch = () => {
           >
             <Box
               id={`title-${i}`}
-              sx={{ width: { md: "800px", sm: "630px", xs: "530px" } }}
+              sx={{ width: { md: "800px", sm: "630px", xs: "100%" } }}
             >
               <Typography variant="h5">{types[i]}</Typography>
             </Box>
