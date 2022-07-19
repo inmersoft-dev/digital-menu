@@ -46,60 +46,69 @@ const Watch = () => {
       });
       data.l.forEach((item, i) => {
         tabsByType[item.t].push(
-          <Paper
-            id={`obj-${i}`}
-            elevation={1}
+          <SitoContainer
             key={item.i}
-            sx={{
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "top",
-              width: { md: "800px", sm: "500px", xs: "98%" },
-              marginTop: "20px",
-              padding: "1rem",
-              borderRadius: "1rem",
-              background: theme.palette.background.paper,
-            }}
+            justifyContent="center"
+            sx={{ width: "100%" }}
           >
-            <SitoContainer sx={{ marginRight: "20px" }}>
+            <Paper
+              id={`obj-${i}`}
+              elevation={1}
+              sx={{
+                cursor: "pointer",
+                display: "flex",
+                width: { md: "800px", sm: "630px", xs: "100%" },
+                marginTop: "20px",
+                padding: "1rem",
+                borderRadius: "1rem",
+                background: theme.palette.background.paper,
+              }}
+            >
+              <SitoContainer sx={{ marginRight: "20px" }}>
+                <Box
+                  sx={{
+                    width: { md: "160px", sm: "120px", xs: "80px" },
+                    height: { md: "160px", sm: "120px", xs: "80px" },
+                  }}
+                >
+                  <SitoImage
+                    src={item.ph}
+                    alt={item.n}
+                    sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
+                  />
+                </Box>
+              </SitoContainer>
               <Box
                 sx={{
-                  width: { md: "160px", xs: "80px" },
-                  height: { md: "160px", xs: "80px" },
-                }}
-              >
-                <SitoImage
-                  src={item.ph}
-                  alt={item.n}
-                  sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
-                />
-              </Box>
-            </SitoContainer>
-            <SitoContainer flexDirection="column" justifyContent="flex-start">
-              <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                {item.n}
-              </Typography>
-              <Box
-                sx={{
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
                   width: { md: "585px", sm: "350px", xs: "95%" },
-                  height: { xs: "28px", md: "100px" },
-                  lineHeight: "20px",
-                  wordBreak: "break-all",
-                  display: "-webkit-box",
-                  boxOrient: "vertical",
-                  lineClamp: 5,
-                  overflow: "hidden",
                 }}
               >
-                <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                  {item.d}
+                <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                  {item.n}
+                </Typography>
+                <Box
+                  sx={{
+                    height: { xs: "28px", sm: "50px", md: "100px" },
+                    lineHeight: "20px",
+                    wordBreak: "break-all",
+                    display: "-webkit-box",
+                    boxOrient: "vertical",
+                    lineClamp: 5,
+                    overflow: "hidden",
+                  }}
+                >
+                  <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                    {item.d}
+                  </Typography>
+                </Box>
+                <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                  {item.p}
                 </Typography>
               </Box>
-              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                {item.p}
-              </Typography>
-            </SitoContainer>
-          </Paper>
+            </Paper>
+          </SitoContainer>
         );
       });
       setAllData(data.l);
@@ -204,20 +213,26 @@ const Watch = () => {
         sx={{
           margin: "20px 20px",
           flexDirection: "column",
-          alignItems: { md: "center", xs: "flex-start" },
         }}
       >
         {tabs.map((item, i) => (
-          <SitoContainer
-            flexDirection="column"
+          <Box
             key={i}
-            sx={{ marginTop: i === 0 ? "40px" : "20px" }}
+            sx={{
+              flexDirection: "column",
+              marginTop: i === 0 ? "40px" : "20px",
+              alignItems: "center",
+              display: "flex",
+            }}
           >
-            <SitoContainer id={`title-${i}`}>
+            <Box
+              id={`title-${i}`}
+              sx={{ width: { md: "800px", sm: "630px", xs: "530px" } }}
+            >
               <Typography variant="h5">{types[i]}</Typography>
-            </SitoContainer>
+            </Box>
             {item}
-          </SitoContainer>
+          </Box>
         ))}
       </Box>
     </SitoContainer>

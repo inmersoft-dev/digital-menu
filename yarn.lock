@@ -7988,7 +7988,7 @@ sisteransi@^1.0.5:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
-sito-container@^0.2.14, sito-container@^0.2.20:
+sito-container@^0.2.14:
   version "0.2.20"
   resolved "https://registry.yarnpkg.com/sito-container/-/sito-container-0.2.20.tgz#4fa158ba2c62a0174382453d6c83959f4be3e32a"
   integrity sha512-VgyB1h+unjgA8/HQe6t6h4Zilt8gpovRYK5cbfHA6FaVT/to4fLufJpvmZh/t6L1CIfCRuszd53kZTYqETX5pQ==
@@ -8000,10 +8000,22 @@ sito-container@^0.2.14, sito-container@^0.2.20:
     react-dom "^18.2.0"
     react-scripts "5.0.1"
 
-sito-image@^0.2.17:
-  version "0.2.17"
-  resolved "https://registry.yarnpkg.com/sito-image/-/sito-image-0.2.17.tgz#639686c9dd398006d3023b20d3278bed042ee66c"
-  integrity sha512-kCd7AIYJG8HwcUx7udVVdGxwKDN0X3iLOVZ8Zw1AJjcSGgJgs7CH8S/tH0NzgVZD/O1gjuVVb9hJgy3vbqDE+A==
+sito-container@^0.2.21:
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/sito-container/-/sito-container-0.2.21.tgz#ffbe8a878baf68c8e79c94ac44462e1b3d55f315"
+  integrity sha512-fX7UBVunMshoQm8CZHz4fRSgwUpx4N3RnvwDJdwRmqrf8Vbvk19XcfzaoJBqJ9VfVA4h5PYunJ/LTO5bv/6aQw==
+  dependencies:
+    "@emotion/css" "^11.9.0"
+    "@emotion/react" "^11.9.3"
+    "@emotion/styled" "^11.9.3"
+    react "^18.2.0"
+    react-dom "^18.2.0"
+    react-scripts "5.0.1"
+
+sito-image@^0.2.20:
+  version "0.2.20"
+  resolved "https://registry.yarnpkg.com/sito-image/-/sito-image-0.2.20.tgz#01e184a57895e973ab8d668c85f8107dadf41700"
+  integrity sha512-EqhNxR94dZ4m1amViffAhIND/MZttSpnmqsvszFT9hPdtCKaJ8bCCsb1+4eFNl04Ss3PfRRqdnuGAjin1A+xZA==
   dependencies:
     "@emotion/css" "^11.9.0"
     "@emotion/react" "^11.9.3"
