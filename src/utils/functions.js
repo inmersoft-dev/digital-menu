@@ -4,7 +4,7 @@
  */
 export const scrollTo = (target) =>
   window.scroll({
-    top: target,
+    top: target > 55 ? target - 55 : target,
     left: 0,
     behavior: "smooth",
   });

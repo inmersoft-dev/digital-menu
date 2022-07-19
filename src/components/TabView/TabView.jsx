@@ -12,9 +12,6 @@ import { useTheme, Tabs, Tab, Typography, Box } from "@mui/material";
 // functions
 import { scrollTo } from "../../utils/functions";
 
-// contexts
-import { useScroll } from "../../context/ScrollProvider";
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 

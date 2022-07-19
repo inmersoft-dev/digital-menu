@@ -18,11 +18,9 @@ import { fetchMenu } from "../../services/menu.js";
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
-import { useScroll } from "../../context/ScrollProvider";
 
 const Watch = () => {
   const theme = useTheme();
-  const { scrollState, setScrollState } = useScroll();
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
@@ -50,7 +48,12 @@ const Watch = () => {
         tabsByType[item.t].push(
           <SitoContainer
             alignItems="top"
-            sx={{ marginTop: "20px" }}
+            sx={{
+              marginTop: "20px",
+              padding: "1rem",
+              borderRadius: "1rem",
+              background: theme.palette.background.paper,
+            }}
             id={`obj-${i}`}
           >
             <SitoContainer sx={{ marginRight: "20px" }}>
@@ -138,11 +141,6 @@ const Watch = () => {
       window.removeEventListener("click", onClick);
     };
   }, [onScroll, onClick]);
-
-  useEffect(() => {
-    if (tab === scrollState.tab && scrollState.scrolling)
-      setScrollState({ type: "no-scroll" });
-  }, [scrollState, tab, setScrollState]);
 
   useEffect(() => {
     retry();
