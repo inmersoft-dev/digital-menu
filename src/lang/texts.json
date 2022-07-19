@@ -41,6 +41,7 @@
         }
       },
       "Buttons": {
+        "Insert": "Nuevo Producto",
         "Save": "Guardar"
       }
     },
