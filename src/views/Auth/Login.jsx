@@ -11,7 +11,7 @@ import SitoContainer from "sito-container";
 // own components
 import Loading from "../../components/Loading/Loading";
 
-// @mui
+// @mui components
 import {
   useTheme,
   FormControlLabel,
@@ -24,7 +24,6 @@ import {
   OutlinedInput,
   InputAdornment,
   Typography,
-  Box,
   Paper,
 } from "@mui/material";
 

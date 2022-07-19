@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-// @mui
+// @mui components
 import { useTheme } from "@mui/material";
 
 // sito components

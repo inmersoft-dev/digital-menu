@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import inViewport from "in-viewport";
 
-// @mui
+// @mui components
 import { useTheme, Paper, Box, Typography } from "@mui/material";
 
 // sito components

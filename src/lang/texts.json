@@ -19,6 +19,30 @@
     "Register": {
       "Title": "Registro"
     },
+    "Insert": {
+      "Title": "Crea tu menú",
+      "Inputs": {
+        "Product": {
+          "Label": "Nombre del producto",
+          "Placeholder": "ej: Vino rojo"
+        },
+        "Description": {
+          "Label": "Descripción del producto",
+          "Placeholder": "Alguna descripción"
+        },
+        "Price": {
+          "Label": "Precio",
+          "Placeholder": "ej 100 CUP"
+        },
+        "Type": {
+          "Label": "Categoria",
+          "Placeholder": "ej: Bebidas"
+        }
+      },
+      "Buttons": {
+        "Save": "Guardar"
+      }
+    },
     "Login": {
       "Title": "Iniciar sesión",
       "Inputs": {
