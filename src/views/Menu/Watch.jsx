@@ -204,7 +204,7 @@ const Watch = () => {
         sx={{
           margin: "20px 20px",
           flexDirection: "column",
-          alignItems: { md: "center", xs: "left" },
+          alignItems: { md: "center", xs: "flex-start" },
         }}
       >
         {tabs.map((item, i) => (
