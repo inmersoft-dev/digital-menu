@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import inViewport from "in-viewport";
 
 // @mui
-import { useTheme } from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -17,9 +18,11 @@ import { fetchMenu } from "../../services/menu.js";
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
+import { useScroll } from "../../context/ScrollProvider";
 
 const Watch = () => {
   const theme = useTheme();
+  const { scrollState, setScrollState } = useScroll();
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
@@ -28,23 +31,49 @@ const Watch = () => {
   const [tab, setTab] = useState(0);
   const [tabs, setTabs] = useState([]);
 
-  const handleChange = (e, newTab) => {
-    setTab(newTab);
-  };
-
-  const scrollNavigate = (to) => {
-    setTab(to);
-  };
-
   const [loading, setLoading] = useState(true);
   const [currentOwner, setCurrentOwner] = useState("admin");
   const [currentMenu, setCurrentMenu] = useState("menu");
+  const [allData, setAllData] = useState([]);
+  const [shouldScroll, setShouldScroll] = useState(false);
 
   const fetch = async () => {
     setLoading(true);
     try {
       const response = await fetchMenu(currentOwner, currentMenu);
-      console.log(response);
+      const data = await response.data;
+      const tabsByType = [];
+      types.forEach((item, i) => {
+        tabsByType.push([]);
+      });
+      data.menu.forEach((item, i) => {
+        tabsByType[item.t].push(
+          <SitoContainer
+            alignItems="top"
+            sx={{ marginTop: "20px" }}
+            id={`obj-${i}`}
+          >
+            <SitoContainer sx={{ marginRight: "20px" }}>
+              <SitoImage
+                src={item.ph}
+                alt={item.n}
+                sx={{ width: "160px", height: "160px", borderRadius: "100%" }}
+              />
+            </SitoContainer>
+            <SitoContainer flexDirection="column" justifyContent="flex-start">
+              <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                {item.n}
+              </Typography>
+              <Typography variant="body1">{item.d}</Typography>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                {item.p}
+              </Typography>
+            </SitoContainer>
+          </SitoContainer>
+        );
+      });
+      setAllData(data.menu);
+      setTabs(tabsByType);
     } catch (err) {
       console.log(err);
       setNotificationState({
@@ -60,12 +89,70 @@ const Watch = () => {
     fetch();
   };
 
+  const firstActive = (array) => {
+    let i = 0;
+    while (i < array.length) {
+      if (array[i].visibility) return array[i];
+      i += 1;
+    }
+    return -1;
+  };
+
+  const onScroll = useCallback(
+    (e) => {
+      if (!shouldScroll) {
+        const visibilities = [];
+        for (let i = 0; i < allData.length; i += 1) {
+          const elem = document.getElementById(`obj-${i}`);
+          const isInViewport = inViewport(elem);
+          visibilities.push({
+            index: i,
+            visibility: isInViewport,
+            type: allData[i].t,
+          });
+        }
+        const localFirstActive = firstActive(visibilities);
+        if (localFirstActive !== -1 && tab !== localFirstActive.type)
+          setTab(localFirstActive.type);
+      }
+      setShouldScroll(false);
+    },
+    [tab, allData, shouldScroll]
+  );
+
+  const onClick = useCallback(
+    (e) => {
+      if (!shouldScroll && e.target.id && e.target.id.split("-").length > 2) {
+        setTab(Number(e.target.id.split("-")[2]));
+        setShouldScroll(true);
+      }
+    },
+    [shouldScroll, setShouldScroll]
+  );
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    window.addEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("click", onClick);
+    };
+  }, [onScroll, onClick]);
+
+  useEffect(() => {
+    if (tab === scrollState.tab && scrollState.scrolling)
+      setScrollState({ type: "no-scroll" });
+  }, [scrollState, tab, setScrollState]);
+
   useEffect(() => {
     retry();
   }, []);
 
   return (
-    <SitoContainer sx={{ width: "100vw", height: "100vh" }}>
+    <SitoContainer
+      sx={{ width: "100vw", height: "100vh" }}
+      flexDirection="column"
+    >
       <Loading
         visible={loading}
         sx={{
@@ -82,10 +169,24 @@ const Watch = () => {
       />
       <TabView
         value={tab}
-        onChange={handleChange}
         tabs={types}
-        content={tabs}
+        content={[]}
+        shouldScroll={shouldScroll}
       />
+      <SitoContainer flexDirection="column" sx={{ margin: "20px 20px" }}>
+        {tabs.map((item, i) => (
+          <SitoContainer
+            flexDirection="column"
+            key={i}
+            sx={{ marginTop: i === 0 ? "40px" : "20px" }}
+          >
+            <SitoContainer id={`title-${i}`}>
+              <Typography variant="h5">{types[i]}</Typography>
+            </SitoContainer>
+            {item}
+          </SitoContainer>
+        ))}
+      </SitoContainer>
     </SitoContainer>
   );
 };

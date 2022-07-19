@@ -7,7 +7,13 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 // @mui components
-import { Tabs, Tab, Typography, Box } from "@mui/material";
+import { useTheme, Tabs, Tab, Typography, Box } from "@mui/material";
+
+// functions
+import { scrollTo } from "../../utils/functions";
+
+// contexts
+import { useScroll } from "../../context/ScrollProvider";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,25 +49,37 @@ function a11yProps(index) {
 }
 
 const TabView = (props) => {
-  const { content, tabs, onChange } = props;
+  const theme = useTheme();
 
-  const [value, setValue] = useState(0);
+  const { content, tabs, value, shouldScroll } = props;
+
+  const [localValue, setLocalValue] = useState(0);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    if (shouldScroll)
+      scrollTo(document.getElementById(`title-${newValue}`).offsetTop);
+    setLocalValue(newValue);
   };
 
   useEffect(() => {
-    if (onChange) onChange(value);
+    handleChange({}, value);
   }, [value]);
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      sx={{
+        width: "100%",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        background: theme.palette.background.paper,
+      }}
+    >
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor="primary"
           indicatorColor="primary"
-          value={value}
+          value={localValue}
           onChange={handleChange}
           scrollButtons="auto"
           aria-label="tabs"
