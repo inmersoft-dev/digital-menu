@@ -8000,10 +8000,10 @@ sito-container@^0.2.14, sito-container@^0.2.20:
     react-dom "^18.2.0"
     react-scripts "5.0.1"
 
-sito-image@^0.2.16:
-  version "0.2.16"
-  resolved "https://registry.yarnpkg.com/sito-image/-/sito-image-0.2.16.tgz#9ff9d20b7ac07d481863fd27085130f3cfff44ce"
-  integrity sha512-grPmdmbNiXizD7wrnEPZLYNp5paUiFYGP/GL3W/7MxKq44oTBOnWkzEbHpIJolsSrYuH7/pzgcbuCoR2xgPy5g==
+sito-image@^0.2.17:
+  version "0.2.17"
+  resolved "https://registry.yarnpkg.com/sito-image/-/sito-image-0.2.17.tgz#639686c9dd398006d3023b20d3278bed042ee66c"
+  integrity sha512-kCd7AIYJG8HwcUx7udVVdGxwKDN0X3iLOVZ8Zw1AJjcSGgJgs7CH8S/tH0NzgVZD/O1gjuVVb9hJgy3vbqDE+A==
   dependencies:
     "@emotion/css" "^11.9.0"
     "@emotion/react" "^11.9.3"

@@ -23,7 +23,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sito-container": "^0.2.20",
-    "sito-image": "^0.2.16",
+    "sito-image": "^0.2.17",
     "sito-modal": "^0.1.8"
   },
   "scripts": {

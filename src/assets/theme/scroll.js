@@ -1,8 +1,8 @@
 // track, thumb and active are derieved from macOS 10.15.7
 const scrollBar = {
   track: "#FFFFFF00",
-  thumb: "#0b1a2a",
-  active: "#11263C",
+  thumb: "#FFFFFF00",
+  active: "#FFFFFF00",
 };
 export default function darkScrollbar(options = scrollBar) {
   return {

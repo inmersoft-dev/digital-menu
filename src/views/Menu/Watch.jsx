@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import inViewport from "in-viewport";
 
 // @mui
-import { Typography, useTheme } from "@mui/material";
+import { useTheme, Paper, Box, Typography } from "@mui/material";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -46,37 +46,63 @@ const Watch = () => {
       });
       data.l.forEach((item, i) => {
         tabsByType[item.t].push(
-          <SitoContainer
+          <Paper
+            id={`obj-${i}`}
+            elevation={1}
             key={item.i}
-            alignItems="top"
             sx={{
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "top",
+              width: { md: "800px", sm: "500px", xs: "98%" },
               marginTop: "20px",
               padding: "1rem",
               borderRadius: "1rem",
               background: theme.palette.background.paper,
             }}
-            id={`obj-${i}`}
           >
             <SitoContainer sx={{ marginRight: "20px" }}>
-              <SitoImage
-                src={item.ph}
-                alt={item.n}
-                sx={{ width: "160px", height: "160px", borderRadius: "100%" }}
-              />
+              <Box
+                sx={{
+                  width: { md: "160px", xs: "80px" },
+                  height: { md: "160px", xs: "80px" },
+                }}
+              >
+                <SitoImage
+                  src={item.ph}
+                  alt={item.n}
+                  sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
+                />
+              </Box>
             </SitoContainer>
             <SitoContainer flexDirection="column" justifyContent="flex-start">
               <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
                 {item.n}
               </Typography>
-              <Typography variant="body1">{item.d}</Typography>
+              <Box
+                sx={{
+                  width: { md: "585px", sm: "350px", xs: "95%" },
+                  height: { xs: "28px", md: "100px" },
+                  lineHeight: "20px",
+                  wordBreak: "break-all",
+                  display: "-webkit-box",
+                  boxOrient: "vertical",
+                  lineClamp: 5,
+                  overflow: "hidden",
+                }}
+              >
+                <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                  {item.d}
+                </Typography>
+              </Box>
               <Typography variant="body2" sx={{ fontWeight: "bold" }}>
                 {item.p}
               </Typography>
             </SitoContainer>
-          </SitoContainer>
+          </Paper>
         );
       });
-      setAllData(data.menu);
+      setAllData(data.l);
       setTypes(data.t);
       setTabs(tabsByType);
     } catch (err) {
@@ -116,6 +142,7 @@ const Watch = () => {
             type: allData[i].t,
           });
         }
+        console.log(visibilities);
         const localFirstActive = firstActive(visibilities);
         if (localFirstActive !== -1 && tab !== localFirstActive.type)
           setTab(localFirstActive.type);
@@ -127,7 +154,6 @@ const Watch = () => {
 
   const onClick = useCallback(
     (e) => {
-      console.log(e.target.id);
       if (!shouldScroll && e.target.id && e.target.id.split("-").length > 2) {
         setTab(Number(e.target.id.split("-")[2]));
         setShouldScroll(true);
@@ -174,7 +200,13 @@ const Watch = () => {
         content={[]}
         shouldScroll={shouldScroll}
       />
-      <SitoContainer flexDirection="column" sx={{ margin: "20px 20px" }}>
+      <Box
+        sx={{
+          margin: "20px 20px",
+          flexDirection: "column",
+          alignItems: { md: "center", xs: "left" },
+        }}
+      >
         {tabs.map((item, i) => (
           <SitoContainer
             flexDirection="column"
@@ -187,7 +219,7 @@ const Watch = () => {
             {item}
           </SitoContainer>
         ))}
-      </SitoContainer>
+      </Box>
     </SitoContainer>
   );
 };

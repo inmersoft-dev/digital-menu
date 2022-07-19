@@ -25,6 +25,7 @@ import {
   InputAdornment,
   Typography,
   Box,
+  Paper,
 } from "@mui/material";
 
 // @mui icons
@@ -147,7 +148,8 @@ const Login = () => {
   };
 
   return (
-    <Box
+    <Paper
+      elevation={1}
       sx={{
         alignItems: "center",
         background: theme.palette.background.paper,
@@ -156,6 +158,7 @@ const Login = () => {
         height: "400px",
         padding: "1rem",
         borderRadius: "1rem",
+        border: "none",
         position: "relative",
       }}
     >
@@ -253,7 +256,7 @@ const Login = () => {
           </Link>
         </SitoContainer>
       </form>
-    </Box>
+    </Paper>
   );
 };
 

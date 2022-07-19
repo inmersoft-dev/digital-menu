@@ -24,6 +24,7 @@ import {
   OutlinedInput,
   InputAdornment,
   Typography,
+  Paper,
 } from "@mui/material";
 
 // @mui icons
@@ -155,16 +156,17 @@ const Register = () => {
   };
 
   return (
-    <SitoContainer
-      alignItems="center"
+    <Paper
       sx={{
+        alignItems: "center",
+        background: theme.palette.background.paper,
+        display: "flex",
         width: "400px",
         height: "450px",
         padding: "1rem",
         borderRadius: "1rem",
         position: "relative",
       }}
-      background={theme.palette.background.paper}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Loading
@@ -300,7 +302,7 @@ const Register = () => {
           </Link>
         </SitoContainer>
       </form>
-    </SitoContainer>
+    </Paper>
   );
 };
 
