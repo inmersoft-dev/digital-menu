@@ -160,7 +160,6 @@ const Watch = () => {
             type: allData[i].t,
           });
         }
-        console.log(visibilities);
         const localFirstActive = firstActive(visibilities);
         if (localFirstActive !== -1 && tab !== localFirstActive.type)
           setTab(localFirstActive.type);
