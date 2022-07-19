@@ -283,7 +283,7 @@ const Edit = () => {
               key={i}
               sx={{
                 flexDirection: "column",
-                marginTop: i === 0 ? "40px" : "20px",
+                marginTop: "20px",
                 alignItems: "center",
                 display: "flex",
               }}

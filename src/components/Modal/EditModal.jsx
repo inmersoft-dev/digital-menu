@@ -89,8 +89,17 @@ const Modal = (props) => {
   };
 
   const uploadPhoto = useCallback((e) => {
-    console.log("hola");
+    const file = document.getElementById("product-photo");
+    if (file !== null) file.click();
   }, []);
+
+  const onError = (err) => {
+    console.log("Error", err);
+  };
+
+  const onSuccess = (res) => {
+    console.log("Success", res);
+  };
 
   useEffect(() => {
     const image = document.getElementById("no-product");
@@ -158,18 +167,14 @@ const Modal = (props) => {
               publicKey={config.imagekitPublicKey}
               urlEndpoint={config.imagekitUrl}
               transformationPosition="path"
-              authenticationEndpoint={config.imagetkietAuthUrl}
+              authenticationEndpoint={config.imagekitAuthUrl}
             >
-              <IKImage
-                path="/default-image.jpg"
-                transformation={[
-                  {
-                    height: "300",
-                    width: "400",
-                  },
-                ]}
+              <IKUpload
+                id="product-photo"
+                fileName="product-photo"
+                onError={onError}
+                onSuccess={onSuccess}
               />
-              <IKUpload fileName="product-photo" />
             </IKContext>
             {item.ph === "" ? (
               <SitoImage
