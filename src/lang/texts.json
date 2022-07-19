@@ -32,7 +32,7 @@
         },
         "Price": {
           "Label": "Precio",
-          "Placeholder": "ej 100 CUP"
+          "Placeholder": "ej 100"
         },
         "Type": {
           "Label": "Categoria",

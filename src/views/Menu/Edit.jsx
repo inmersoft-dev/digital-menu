@@ -78,7 +78,6 @@ const Edit = () => {
         background: theme.palette.background.paper,
         maxWidth: "400px",
         minWidth: "320px",
-        height: "400px",
         padding: "1rem",
         borderRadius: "1rem",
         border: "none",
@@ -102,17 +101,77 @@ const Edit = () => {
         />
         <Typography variant="h3">{languageState.texts.Insert.Title}</Typography>
         <Controller
-          name="user"
+          name="product"
           control={control}
           render={({ field }) => (
             <TextField
               sx={{ width: "100%", marginTop: "20px" }}
-              id="user"
+              id="product"
               required
               onInput={validate}
               onInvalid={invalidate}
-              label={languageState.texts.Login.Inputs.User.Label}
-              placeholder={languageState.texts.Login.Inputs.User.Placeholder}
+              label={languageState.texts.Insert.Inputs.Product.Label}
+              placeholder={
+                languageState.texts.Insert.Inputs.Product.Placeholder
+              }
+              variant="outlined"
+              {...field}
+            />
+          )}
+        />
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              sx={{ width: "100%", marginTop: "20px" }}
+              id="description"
+              required
+              onInput={validate}
+              onInvalid={invalidate}
+              label={languageState.texts.Insert.Inputs.Description.Label}
+              maxRows={3}
+              minRows={3}
+              placeholder={
+                languageState.texts.Insert.Inputs.Description.Placeholder
+              }
+              variant="outlined"
+              {...field}
+            />
+          )}
+        />
+        <Controller
+          name="price"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              sx={{ width: "100%", marginTop: "20px" }}
+              id="price"
+              required
+              type="number"
+              onInput={validate}
+              onInvalid={invalidate}
+              label={languageState.texts.Insert.Inputs.Price.Label}
+              placeholder={languageState.texts.Insert.Inputs.Price.Placeholder}
+              variant="outlined"
+              {...field}
+            />
+          )}
+        />
+        <Controller
+          name="type"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              sx={{ width: "100%", marginTop: "20px" }}
+              id="type"
+              required
+              onInput={validate}
+              onInvalid={invalidate}
+              label={languageState.texts.Insert.Inputs.Type.Label}
+              maxRows={3}
+              minRows={3}
+              placeholder={languageState.texts.Insert.Inputs.Type.Placeholder}
               variant="outlined"
               {...field}
             />
@@ -122,11 +181,7 @@ const Edit = () => {
           justifyContent="flex-end"
           sx={{ width: "100%", marginTop: "20px" }}
         >
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ marginRight: "20px" }}
-          >
+          <Button type="submit" variant="contained">
             {languageState.texts.Insert.Buttons.Save}
           </Button>
         </SitoContainer>
