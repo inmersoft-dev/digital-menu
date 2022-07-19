@@ -24,7 +24,7 @@ const Watch = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
-  const types = ["Bebidas", "Entrantes"];
+  const [types, setTypes] = useState([]);
 
   const [tab, setTab] = useState(0);
   const [tabs, setTabs] = useState([]);
@@ -41,12 +41,13 @@ const Watch = () => {
       const response = await fetchMenu(currentOwner, currentMenu);
       const data = await response.data;
       const tabsByType = [];
-      types.forEach((item, i) => {
+      data.t.forEach((item, i) => {
         tabsByType.push([]);
       });
-      data.menu.forEach((item, i) => {
+      data.l.forEach((item, i) => {
         tabsByType[item.t].push(
           <SitoContainer
+            key={item.i}
             alignItems="top"
             sx={{
               marginTop: "20px",
@@ -76,6 +77,7 @@ const Watch = () => {
         );
       });
       setAllData(data.menu);
+      setTypes(data.t);
       setTabs(tabsByType);
     } catch (err) {
       console.log(err);
@@ -104,6 +106,7 @@ const Watch = () => {
   const onScroll = useCallback(
     (e) => {
       if (!shouldScroll) {
+        console.log("onScroll", tab);
         const visibilities = [];
         for (let i = 0; i < allData.length; i += 1) {
           const elem = document.getElementById(`obj-${i}`);
@@ -125,6 +128,7 @@ const Watch = () => {
 
   const onClick = useCallback(
     (e) => {
+      console.log(e.target.id);
       if (!shouldScroll && e.target.id && e.target.id.split("-").length > 2) {
         setTab(Number(e.target.id.split("-")[2]));
         setShouldScroll(true);
