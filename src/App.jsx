@@ -16,6 +16,7 @@ import dark from "./assets/theme/dark";
 import View from "./layouts/View/View";
 
 // views
+import Home from "./views/Home/Home";
 import Login from "./views/Auth/Login";
 import Logout from "./views/Auth/Logout";
 import Register from "./views/Auth/Register";
@@ -34,7 +35,7 @@ const App = () => {
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Home />} />
             <Route exact path="/auth/" element={<Login />} />
             <Route exact path="/auth/register" element={<Register />} />
             <Route exact path="/auth/logout" element={<Logout />} />

@@ -342,7 +342,7 @@ const Edit = () => {
           {languageState.texts.Insert.Buttons.Insert}
         </Button>
       </SitoContainer>
-      {error && !loading && <NotConnected />}
+      {error && !loading && <NotConnected onRetry={retry} />}
       {!loading && !error && !allData.length && <Empty />}
       {!error && !loading && allData.length && (
         <Box

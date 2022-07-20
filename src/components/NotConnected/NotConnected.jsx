@@ -1,8 +1,10 @@
+import PropTypes from "prop-types";
+
 // @mui icons
 import ErrorOutlineTowToneIcon from "@mui/icons-material/ErrorOutlineTwoTone";
 
 // @mui components
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -10,7 +12,8 @@ import SitoContainer from "sito-container";
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
 
-const NotConnected = () => {
+const NotConnected = (props) => {
+  const { onRetry } = props;
   const { languageState } = useLanguage();
   return (
     <SitoContainer
@@ -30,8 +33,15 @@ const NotConnected = () => {
       <Typography color="error" variant="h4">
         {languageState.texts.Errors.NotConnected}
       </Typography>
+      <Button variant="contained" onClick={onRetry} sx={{ marginTop: "20px" }}>
+        {languageState.texts.Insert.Buttons.Retry}
+      </Button>
     </SitoContainer>
   );
+};
+
+NotConnected.propTypes = {
+  onRetry: PropTypes.func,
 };
 
 export default NotConnected;

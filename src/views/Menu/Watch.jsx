@@ -54,84 +54,95 @@ const Watch = () => {
     try {
       const response = await fetchMenu(currentOwner, currentMenu);
       const data = await response.data;
-      const tabsByType = [];
-      data.t.forEach((item, i) => {
-        tabsByType.push([]);
-      });
-      data.l.forEach((item, i) => {
-        tabsByType[item.t].push(
-          <SitoContainer
-            key={item.i}
-            justifyContent="center"
-            sx={{ width: "100%" }}
-          >
-            <Paper
-              onClick={() => {
-                setVisible(true);
-                setSelected(data.l[i]);
-              }}
-              id={`obj-${i}`}
-              elevation={1}
-              sx={{
-                cursor: "pointer",
-                marginTop: "20px",
-                display: "flex",
-                width: { md: "800px", sm: "630px", xs: "100%" },
-                padding: "1rem",
-                borderRadius: "1rem",
-                background: theme.palette.background.paper,
-              }}
+      if (data && data.t && data.l) {
+        const tabsByType = [];
+        data.t.forEach((item, i) => {
+          tabsByType.push([]);
+        });
+        data.l.forEach((item, i) => {
+          tabsByType[item.t].push(
+            <SitoContainer
+              key={item.i}
+              justifyContent="center"
+              sx={{ width: "100%" }}
             >
-              <SitoContainer sx={{ marginRight: "20px" }}>
-                <Box
-                  sx={{
-                    width: { md: "160px", sm: "120px", xs: "80px" },
-                    height: { md: "160px", sm: "120px", xs: "80px" },
-                  }}
-                >
-                  <SitoImage
-                    src={item.ph}
-                    alt={item.n}
-                    sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
-                  />
-                </Box>
-              </SitoContainer>
-              <Box
+              <Paper
+                onClick={() => {
+                  setVisible(true);
+                  setSelected(data.l[i]);
+                }}
+                id={`obj-${i}`}
+                elevation={1}
                 sx={{
-                  flexDirection: "column",
-                  justifyContent: "flex-start",
-                  width: { md: "585px", sm: "350px", xs: "95%" },
+                  cursor: "pointer",
+                  marginTop: "20px",
+                  display: "flex",
+                  width: { md: "800px", sm: "630px", xs: "100%" },
+                  padding: "1rem",
+                  borderRadius: "1rem",
+                  background: theme.palette.background.paper,
                 }}
               >
-                <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                  {item.n}
-                </Typography>
+                <SitoContainer sx={{ marginRight: "20px" }}>
+                  <Box
+                    sx={{
+                      width: { md: "160px", sm: "120px", xs: "80px" },
+                      height: { md: "160px", sm: "120px", xs: "80px" },
+                    }}
+                  >
+                    <SitoImage
+                      src={item.ph}
+                      alt={item.n}
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "100%",
+                      }}
+                    />
+                  </Box>
+                </SitoContainer>
                 <Box
                   sx={{
-                    height: { xs: "28px", sm: "50px", md: "100px" },
-                    lineHeight: "20px",
-                    wordBreak: "break-all",
-                    display: "-webkit-box",
-                    boxOrient: "vertical",
-                    lineClamp: 5,
-                    overflow: "hidden",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: { md: "585px", sm: "350px", xs: "95%" },
                   }}
                 >
-                  <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                    {item.d}
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                    {item.n}
+                  </Typography>
+                  <Box
+                    sx={{
+                      height: { xs: "28px", sm: "50px", md: "100px" },
+                      lineHeight: "20px",
+                      wordBreak: "break-all",
+                      display: "-webkit-box",
+                      boxOrient: "vertical",
+                      lineClamp: 5,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                      {item.d}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                    {item.p}
                   </Typography>
                 </Box>
-                <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                  {item.p}
-                </Typography>
-              </Box>
-            </Paper>
-          </SitoContainer>
-        );
-      });
-      setAllData(data.l);
-      setTypes(data.t);
-      setTabs(tabsByType);
+              </Paper>
+            </SitoContainer>
+          );
+        });
+        setAllData(data.l);
+        setTypes(data.t);
+        setTabs(tabsByType);
+      } else
+        setNotificationState({
+          type: "set",
+          ntype: "error",
+          message: languageState.texts.Errors.NotConnected,
+        });
     } catch (err) {
       console.log(err);
       setNotificationState({
@@ -230,7 +241,7 @@ const Watch = () => {
         content={[]}
         shouldScroll={shouldScroll}
       />
-      {error && !loading && <NotConnected />}
+      {error && !loading && <NotConnected onRetry={retry} />}
       {!loading && !error && !allData.length && <Empty />}
       {!error && !loading && allData.length && (
         <Box

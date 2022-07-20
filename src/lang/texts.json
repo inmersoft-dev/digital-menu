@@ -44,6 +44,7 @@
         }
       },
       "Buttons": {
+        "Retry": "Recargar",
         "Insert": "Nuevo Producto",
         "Save": "Guardar"
       }
