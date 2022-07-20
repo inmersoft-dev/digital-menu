@@ -3,6 +3,21 @@ import { getAuth } from "../auth/auth";
 import config from "../config";
 
 /**
+ * @returns The response from the server.
+ */
+export const fetchAll = async () => {
+  const response = await axios.get(
+    // @ts-ignore
+    `${config.apiUrl}menu/`,
+    {
+      headers: getAuth,
+    }
+  );
+  const data = await response.data;
+  return data;
+};
+
+/**
  * Takes a user object and sends it to the backend to be authenticated
  * @param {string} user - the user name
  * @param {string} menuName - the menu name
@@ -13,7 +28,7 @@ export const fetchMenu = async (user, menuName) => {
     // @ts-ignore
     `${config.apiUrl}menu/fetch?user=${user}&menuName=${menuName}`,
     {
-      headers: getAuth,
+      headers: { ...getAuth, Authorization: `Bearer ${config.basicKey}` },
     }
   );
   const data = await response.data;
@@ -34,7 +49,7 @@ export const saveMenu = async (user, menuName, menu, types) => {
     `${config.apiUrl}menu/save`,
     { user, menuName, menu, types },
     {
-      headers: getAuth,
+      headers: { ...getAuth, Authorization: `Bearer ${config.basicKey}` },
     }
   );
   const data = await response.data;
