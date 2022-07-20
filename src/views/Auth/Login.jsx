@@ -90,7 +90,6 @@ const Login = () => {
           if (userLogged()) navigate("/menu/edit");
         }, 100);
       } else {
-        console.log(response);
         const { error } = response.data;
         let message;
         if (

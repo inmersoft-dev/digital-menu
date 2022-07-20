@@ -258,6 +258,7 @@ const Watch = () => {
           display: "flex",
           alignItems: "center",
           marginTop: "80px",
+          margin: "auto",
         }}
       >
         <Box
