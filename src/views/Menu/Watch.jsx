@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import inViewport from "in-viewport";
 
 // @mui components
@@ -24,6 +25,7 @@ import { useNotification } from "../../context/NotificationProvider";
 
 const Watch = () => {
   const theme = useTheme();
+  const location = useLocation();
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
@@ -94,6 +96,7 @@ const Watch = () => {
                       src={item.ph}
                       alt={item.n}
                       sx={{
+                        objectFit: "cover",
                         width: "100%",
                         height: "100%",
                         borderRadius: "100%",
@@ -210,6 +213,15 @@ const Watch = () => {
   }, [onScroll, onClick]);
 
   useEffect(() => {
+    if (location.search) {
+      const [userParam, menuParam] = location.search.substring(1).split("&");
+      const [, user] = userParam.split("=");
+      const [, menu] = menuParam.split("=");
+      if ((user, menu)) {
+        setCurrentMenu(menu);
+        setCurrentOwner(user);
+      }
+    }
     retry();
   }, []);
 

@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
+// @emotion/css
+import { css } from "@emotion/css";
 
 // @mui components
 import { useTheme, Paper, Box, Typography } from "@mui/material";
@@ -20,6 +24,13 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 const Home = () => {
+  const linkStyle = css({
+    width: "100%",
+    textDecoration: "none",
+    display: "flex",
+    justifyContent: "center",
+  });
+
   const theme = useTheme();
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
@@ -45,69 +56,75 @@ const Home = () => {
               justifyContent="center"
               sx={{ width: "100%" }}
             >
-              <Paper
-                id={`obj-${i}`}
-                elevation={1}
-                sx={{
-                  cursor: "pointer",
-                  marginTop: "20px",
-                  display: "flex",
-                  width: { md: "800px", sm: "630px", xs: "100%" },
-                  padding: "1rem",
-                  borderRadius: "1rem",
-                  background: theme.palette.background.paper,
-                }}
+              <Link
+                to={`/menu/?user=${item.u}&menu=${item.m}`}
+                className={linkStyle}
               >
-                <SitoContainer sx={{ marginRight: "20px" }}>
-                  <Box
-                    sx={{
-                      width: { md: "160px", sm: "120px", xs: "80px" },
-                      height: { md: "160px", sm: "120px", xs: "80px" },
-                    }}
-                  >
-                    <SitoImage
-                      src={item.ph}
-                      alt={item.m}
-                      sx={{
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: "100%",
-                      }}
-                    />
-                  </Box>
-                </SitoContainer>
-                <Box
+                <Paper
+                  id={`obj-${i}`}
+                  elevation={1}
                   sx={{
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                    width: { md: "585px", sm: "350px", xs: "95%" },
+                    cursor: "pointer",
+                    marginTop: "20px",
+                    display: "flex",
+                    width: { md: "800px", sm: "630px", xs: "100%" },
+                    padding: "1rem",
+                    borderRadius: "1rem",
+                    background: theme.palette.background.paper,
                   }}
                 >
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                    {item.m}
-                  </Typography>
+                  <SitoContainer sx={{ marginRight: "20px" }}>
+                    <Box
+                      sx={{
+                        width: { md: "160px", sm: "120px", xs: "80px" },
+                        height: { md: "160px", sm: "120px", xs: "80px" },
+                      }}
+                    >
+                      <SitoImage
+                        src={item.ph}
+                        alt={item.m}
+                        sx={{
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "100%",
+                        }}
+                      />
+                    </Box>
+                  </SitoContainer>
                   <Box
                     sx={{
-                      height: { xs: "28px", sm: "50px", md: "100px" },
-                      lineHeight: "20px",
-                      wordBreak: "break-all",
-                      display: "-webkit-box",
-                      boxOrient: "vertical",
-                      lineClamp: 5,
-                      overflow: "hidden",
+                      flexDirection: "column",
+                      justifyContent: "flex-start",
+                      width: { md: "585px", sm: "350px", xs: "95%" },
                     }}
                   >
-                    <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                      {item.d}
+                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                      {item.m}
                     </Typography>
+                    <Box
+                      sx={{
+                        height: { xs: "28px", sm: "50px", md: "100px" },
+                        lineHeight: "20px",
+                        wordBreak: "break-all",
+                        display: "-webkit-box",
+                        boxOrient: "vertical",
+                        lineClamp: 5,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                        {item.d}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </Paper>
+                </Paper>
+              </Link>
             </SitoContainer>
           );
         });
         setList(newList);
-        setAllData(data);
+        setAllData(Object.keys(data.u));
       } else
         setNotificationState({
           type: "set",

@@ -127,6 +127,7 @@ const Edit = () => {
                         src={item.ph}
                         alt={item.n}
                         sx={{
+                          objectFit: "cover",
                           width: "100%",
                           height: "100%",
                           borderRadius: "100%",

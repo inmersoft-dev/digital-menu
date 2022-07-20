@@ -30,10 +30,7 @@ export const fetchMenu = async (user, menuName) => {
     // @ts-ignore
     `${config.apiUrl}menu/fetch?user=${user}&menuName=${menuName}`,
     {
-      headers: {
-        ...getAuth,
-        Authorization: `Bearer ${encode(config.basicKey)}`,
-      },
+      headers: getAuth,
     }
   );
   const data = await response.data;
