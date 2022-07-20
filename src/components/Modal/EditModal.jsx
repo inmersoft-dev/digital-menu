@@ -14,7 +14,7 @@ import SitoImage from "sito-image";
 import CloseIcon from "@mui/icons-material/Close";
 
 // @mui components
-import { useTheme, Box, TextField, IconButton } from "@mui/material";
+import { useTheme, Box, Button, IconButton, TextField } from "@mui/material";
 
 // image
 import noProduct from "../../assets/images/no-product.webp";
@@ -45,6 +45,11 @@ const Modal = (props) => {
   });
 
   const onSubmit = (data) => {};
+
+  useEffect(() => {
+    const textarea = document.getElementById("description");
+    if (textarea !== null) textarea.setAttribute("maxlength", 255);
+  }, []);
 
   useEffect(() => {
     setShow(visible);
@@ -258,6 +263,7 @@ const Modal = (props) => {
                   id="description"
                   required
                   multiline
+                  maxLength="255"
                   maxRows={3}
                   minRows={3}
                   onInput={validate}
@@ -291,6 +297,13 @@ const Modal = (props) => {
                 />
               )}
             />
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ marginTop: "10px" }}
+            >
+              {languageState.texts.Insert.Buttons.Save}
+            </Button>
           </form>
         </SitoContainer>
       </Box>
