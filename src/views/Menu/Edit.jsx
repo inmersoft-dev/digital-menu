@@ -71,105 +71,112 @@ const Edit = () => {
     setError(false);
     try {
       const data = await justGetData();
-      const tabsByType = [];
-      data.t.forEach((item, i) => {
-        tabsByType.push([]);
-      });
-      data.l.forEach((item, i) => {
-        tabsByType[item.t].push(
-          <SitoContainer
-            key={item.i}
-            justifyContent="center"
-            sx={{ width: "100%" }}
-          >
-            <Paper
-              id={`obj-${i}`}
-              elevation={1}
-              sx={{
-                position: "relative",
-                marginTop: "20px",
-                width: { md: "800px", sm: "630px", xs: "100%" },
-                padding: "1rem",
-                borderRadius: "1rem",
-                background: theme.palette.background.paper,
-              }}
+      if (data && data.t && data.l) {
+        const tabsByType = [];
+        data.t.forEach((item, i) => {
+          tabsByType.push([]);
+        });
+        data.l.forEach((item, i) => {
+          tabsByType[item.t].push(
+            <SitoContainer
+              key={item.i}
+              justifyContent="center"
+              sx={{ width: "100%" }}
             >
-              <Box
+              <Paper
+                id={`obj-${i}`}
+                elevation={1}
                 sx={{
-                  width: { xs: "95%", md: "98%" },
-                  position: "absolute",
-                  marginTop: "-10px",
-                  justifyContent: "flex-end",
-                  display: "flex",
-                  cursor: "pointer",
+                  position: "relative",
+                  marginTop: "20px",
+                  width: { md: "800px", sm: "630px", xs: "100%" },
+                  padding: "1rem",
+                  borderRadius: "1rem",
+                  background: theme.palette.background.paper,
                 }}
               >
-                <IconButton color="error" onClick={() => deleteProduct(i)}>
-                  <CloseIcon />
-                </IconButton>
-              </Box>
-              <Box
-                sx={{ cursor: "pointer", display: "flex" }}
-                onClick={() => {
-                  setVisible(true);
-                  setSelected(data.l[i]);
-                }}
-              >
-                <SitoContainer sx={{ marginRight: "20px" }}>
-                  <Box
-                    sx={{
-                      width: { md: "160px", sm: "120px", xs: "80px" },
-                      height: { md: "160px", sm: "120px", xs: "80px" },
-                    }}
-                  >
-                    <SitoImage
-                      src={item.ph}
-                      alt={item.n}
-                      sx={{
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: "100%",
-                      }}
-                    />
-                  </Box>
-                </SitoContainer>
                 <Box
                   sx={{
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                    width: { md: "585px", sm: "350px", xs: "95%" },
+                    width: { xs: "95%", md: "98%" },
+                    position: "absolute",
+                    marginTop: "-10px",
+                    justifyContent: "flex-end",
+                    display: "flex",
+                    cursor: "pointer",
                   }}
                 >
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                    {item.n}
-                  </Typography>
+                  <IconButton color="error" onClick={() => deleteProduct(i)}>
+                    <CloseIcon />
+                  </IconButton>
+                </Box>
+                <Box
+                  sx={{ cursor: "pointer", display: "flex" }}
+                  onClick={() => {
+                    setVisible(true);
+                    setSelected(data.l[i]);
+                  }}
+                >
+                  <SitoContainer sx={{ marginRight: "20px" }}>
+                    <Box
+                      sx={{
+                        width: { md: "160px", sm: "120px", xs: "80px" },
+                        height: { md: "160px", sm: "120px", xs: "80px" },
+                      }}
+                    >
+                      <SitoImage
+                        src={item.ph}
+                        alt={item.n}
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "100%",
+                        }}
+                      />
+                    </Box>
+                  </SitoContainer>
                   <Box
                     sx={{
-                      height: { xs: "28px", sm: "50px", md: "100px" },
-                      lineHeight: "20px",
-                      wordBreak: "break-all",
-                      display: "-webkit-box",
-                      boxOrient: "vertical",
-                      lineClamp: 5,
-                      overflow: "hidden",
+                      flexDirection: "column",
+                      justifyContent: "flex-start",
+                      width: { md: "585px", sm: "350px", xs: "95%" },
                     }}
                   >
-                    <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                      {item.d}
+                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                      {item.n}
+                    </Typography>
+                    <Box
+                      sx={{
+                        height: { xs: "28px", sm: "50px", md: "100px" },
+                        lineHeight: "20px",
+                        wordBreak: "break-all",
+                        display: "-webkit-box",
+                        boxOrient: "vertical",
+                        lineClamp: 5,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                        {item.d}
+                      </Typography>
+                    </Box>
+                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                      {item.p}
                     </Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                    {item.p}
-                  </Typography>
                 </Box>
-              </Box>
-            </Paper>
-          </SitoContainer>
-        );
-      });
-      setAllData(data.l);
-      setTypes(data.t);
-      setTabs(tabsByType);
+              </Paper>
+            </SitoContainer>
+          );
+        });
+        setAllData(data.l);
+        setTypes(data.t);
+        setTabs(tabsByType);
+      } else
+        setNotificationState({
+          type: "set",
+          ntype: "error",
+          message: languageState.texts.Errors.NotConnected,
+        });
     } catch (err) {
       console.log(err);
       setNotificationState({

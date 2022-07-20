@@ -2,6 +2,8 @@ import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
 
+import { encode } from "js-base64";
+
 /**
  * @returns The response from the server.
  */
@@ -28,7 +30,10 @@ export const fetchMenu = async (user, menuName) => {
     // @ts-ignore
     `${config.apiUrl}menu/fetch?user=${user}&menuName=${menuName}`,
     {
-      headers: { ...getAuth, Authorization: `Bearer ${config.basicKey}` },
+      headers: {
+        ...getAuth,
+        Authorization: `Bearer ${encode(config.basicKey)}`,
+      },
     }
   );
   const data = await response.data;
@@ -49,7 +54,10 @@ export const saveMenu = async (user, menuName, menu, types) => {
     `${config.apiUrl}menu/save`,
     { user, menuName, menu, types },
     {
-      headers: { ...getAuth, Authorization: `Bearer ${config.basicKey}` },
+      headers: {
+        ...getAuth,
+        Authorization: `Bearer ${encode(config.basicKey)}`,
+      },
     }
   );
   const data = await response.data;

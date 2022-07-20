@@ -26,8 +26,8 @@ const Empty = () => {
       }}
       flexDirection="column"
     >
-      <ReceiptLongIcon color="primary" sx={{ fontSize: "4rem" }} />
-      <Typography color="primary" variant="h4">
+      <ReceiptLongIcon color="secondary" sx={{ fontSize: "4rem" }} />
+      <Typography color="secondary" variant="h4">
         {languageState.texts.Errors.Empty}
       </Typography>
     </SitoContainer>
