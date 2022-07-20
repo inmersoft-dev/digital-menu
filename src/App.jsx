@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SitoContainer from "sito-container";
 
 // own components
+import ToTop from "./components/ToTop/ToTop";
 import Notification from "./components/Notification/Notification";
 
 // @mui
@@ -31,6 +32,7 @@ const App = () => {
       justifyContent="center"
     >
       <Notification />
+      <ToTop />
       <ThemeProvider theme={dark}>
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>
