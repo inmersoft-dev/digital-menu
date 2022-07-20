@@ -44,19 +44,26 @@ const Watch = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [currentOwner, setCurrentOwner] = useState("admin");
-  const [currentMenu, setCurrentMenu] = useState("menu");
+  const [currentOwner, setCurrentOwner] = useState("");
+  const [currentMenu, setCurrentMenu] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [description, setDescription] = useState("");
 
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
-  const fetch = async () => {
+  const fetch = async (user = undefined, menu = undefined) => {
     setLoading(true);
     setError(false);
     try {
-      const response = await fetchMenu(currentOwner, currentMenu);
+      const response = await fetchMenu(
+        user || currentOwner,
+        menu || currentMenu
+      );
       const data = await response.data;
       if (data && data.t && data.l) {
+        setPhoto(data.ph);
+        setDescription(data.d);
         const tabsByType = [];
         data.t.forEach((item, i) => {
           tabsByType.push([]);
@@ -140,12 +147,7 @@ const Watch = () => {
         setAllData(data.l);
         setTypes(data.t);
         setTabs(tabsByType);
-      } else
-        setNotificationState({
-          type: "set",
-          ntype: "error",
-          message: languageState.texts.Errors.NotConnected,
-        });
+      }
     } catch (err) {
       console.log(err);
       setNotificationState({
@@ -213,17 +215,19 @@ const Watch = () => {
   }, [onScroll, onClick]);
 
   useEffect(() => {
+    let user;
+    let menu;
     if (location.search) {
       const [userParam, menuParam] = location.search.substring(1).split("&");
-      const [, user] = userParam.split("=");
-      const [, menu] = menuParam.split("=");
-      if ((user, menu)) {
+      user = userParam.split("=")[1];
+      menu = menuParam.split("=")[1];
+      if (user && menu) {
         setCurrentMenu(menu);
         setCurrentOwner(user);
       }
     }
-    retry();
-  }, []);
+    retry(user, menu);
+  }, [currentOwner, currentMenu, location]);
 
   return (
     <SitoContainer
@@ -247,15 +251,54 @@ const Watch = () => {
           zIndex: loading ? 99 : -1,
         }}
       />
+      <Box
+        sx={{
+          width: { md: "800px", sm: "630px", xs: "100%" },
+          flexDirection: "column",
+          display: "flex",
+          alignItems: "center",
+          marginTop: "80px",
+        }}
+      >
+        <Box
+          sx={{
+            width: { md: "160px", sm: "120px", xs: "80px" },
+            height: { md: "160px", sm: "120px", xs: "80px" },
+          }}
+        >
+          <SitoImage
+            src={photo}
+            alt={currentMenu}
+            sx={{
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              borderRadius: "100%",
+            }}
+          />
+        </Box>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+          {currentMenu}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "justify" }}>
+          {description}
+        </Typography>
+      </Box>
       <TabView
         value={tab}
         tabs={types}
         content={[]}
         shouldScroll={shouldScroll}
       />
-      {error && !loading && <NotConnected onRetry={retry} />}
-      {!loading && !error && !allData.length && <Empty />}
-      {!error && !loading && allData.length && (
+      {error && !currentOwner && !currentMenu && !loading && (
+        <NotConnected onRetry={retry} />
+      )}
+      {!loading &&
+        !error &&
+        !allData.length &&
+        !currentOwner &&
+        !currentMenu && <Empty />}
+      {!error && !loading && currentOwner && currentMenu && allData.length && (
         <Box
           sx={{
             margin: "20px 20px",
@@ -267,7 +310,7 @@ const Watch = () => {
               key={i}
               sx={{
                 flexDirection: "column",
-                marginTop: i === 0 ? "40px" : "20px",
+                marginTop: i === 0 ? 0 : "20px",
                 alignItems: "center",
                 display: "flex",
               }}

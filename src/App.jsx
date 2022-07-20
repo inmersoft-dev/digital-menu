@@ -5,6 +5,7 @@ import SitoContainer from "sito-container";
 
 // own components
 import ToTop from "./components/ToTop/ToTop";
+import ToLogin from "./components/ToLogin/ToLogin";
 import Notification from "./components/Notification/Notification";
 
 // @mui
@@ -23,6 +24,7 @@ import Logout from "./views/Auth/Logout";
 import Register from "./views/Auth/Register";
 import Watch from "./views/Menu/Watch";
 import Edit from "./views/Menu/Edit";
+import Settings from "@mui/icons-material/Settings";
 
 const App = () => {
   return (
@@ -32,15 +34,18 @@ const App = () => {
       justifyContent="center"
     >
       <Notification />
+
       <ToTop />
       <ThemeProvider theme={dark}>
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <ToLogin />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route exact path="/auth/" element={<Login />} />
             <Route exact path="/auth/register" element={<Register />} />
             <Route exact path="/auth/logout" element={<Logout />} />
+            <Route exact path="/settings/" element={<Settings />} />
             <Route exact path="/menu/" element={<Watch />} />
             <Route exact path="/menu/edit" element={<Edit />} />
           </Routes>
