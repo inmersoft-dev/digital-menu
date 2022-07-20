@@ -1,6 +1,6 @@
+import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 // imagekitio
 import { IKContext, IKUpload } from "imagekitio-react";
@@ -15,7 +15,14 @@ import BackButton from "../../components/BackButton/BackButton";
 import NotConnected from "../../components/NotConnected/NotConnected";
 
 // @mui
-import { useTheme, Button, TextField, Typography, Paper } from "@mui/material";
+import {
+  useTheme,
+  Paper,
+  Box,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
@@ -47,6 +54,11 @@ const Settings = () => {
       description: "",
     },
   });
+
+  const uploadPhoto = useCallback((e) => {
+    const file = document.getElementById("menu-photo");
+    if (file !== null) file.click();
+  }, []);
 
   const onError = (err) => {
     console.log("Error", err);
@@ -104,6 +116,18 @@ const Settings = () => {
   };
 
   useEffect(() => {
+    const image = document.getElementById("no-image");
+    if (image !== null) {
+      image.onclick = uploadPhoto;
+    }
+    return () => {
+      if (image !== null) {
+        image.onclick = undefined;
+      }
+    };
+  }, [uploadPhoto]);
+
+  useEffect(() => {
     if (!userLogged()) navigate("/");
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
@@ -148,23 +172,31 @@ const Settings = () => {
               authenticationEndpoint={config.imagekitAuthUrl}
             >
               <IKUpload
-                id="product-photo"
-                fileName="product-photo"
+                id="menu-photo"
+                fileName="menu-photo"
                 onError={onError}
                 onSuccess={onSuccess}
               />
             </IKContext>
-            <SitoImage
-              id="no-product"
-              src={photo}
-              alt="no-product"
+            <Box
               sx={{
-                width: "100%",
-                cursor: "pointer",
-                height: "100%",
-                borderRadius: "100%",
+                width: { md: "160px", sm: "120px", xs: "80px" },
+                height: { md: "160px", sm: "120px", xs: "80px" },
               }}
-            />
+            >
+              <SitoImage
+                id="no-image"
+                src={photo}
+                alt="no-image"
+                sx={{
+                  objectFit: "cover",
+                  width: "100%",
+                  cursor: "pointer",
+                  height: "100%",
+                  borderRadius: "100%",
+                }}
+              />
+            </Box>
           </SitoContainer>
           <Controller
             name="menu"

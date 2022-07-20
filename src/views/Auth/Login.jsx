@@ -90,9 +90,13 @@ const Login = () => {
           if (userLogged()) navigate("/menu/edit");
         }, 100);
       } else {
+        console.log(response);
         const { error } = response.data;
         let message;
-        if (error.indexOf("not found") > -1)
+        if (
+          error.indexOf("not found") > -1 ||
+          error.indexOf("wrong password") > -1
+        )
           message = languageState.texts.Errors.Wrong;
         else if (error.indexOf("Error: Network Error") > -1)
           message = languageState.texts.Errors.NotConnected;
