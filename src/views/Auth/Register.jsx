@@ -97,7 +97,6 @@ const Register = () => {
           if (userLogged()) navigate("/menu/edit");
         }, 100);
       } else {
-        setLoading(false);
         const { error } = response.data;
         let message;
         if (error.indexOf("username taken") > -1)
@@ -118,7 +117,6 @@ const Register = () => {
         ntype: "error",
         message: languageState.texts.Errors.SomeWrong,
       });
-      setLoading(false);
     }
     setLoading(false);
   };

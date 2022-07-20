@@ -24,7 +24,7 @@ import Logout from "./views/Auth/Logout";
 import Register from "./views/Auth/Register";
 import Watch from "./views/Menu/Watch";
 import Edit from "./views/Menu/Edit";
-import Settings from "@mui/icons-material/Settings";
+import Settings from "./views/Settings/Settings";
 
 const App = () => {
   return (

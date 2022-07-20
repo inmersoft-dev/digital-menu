@@ -6,12 +6,20 @@ import { Button } from "@mui/material";
 // @mui icons
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 
-// own components
-import Container from "../Container/Container";
+// sito components
+import SitoContainer from "sito-container";
 
 const BackButton = () => {
   return (
-    <Container sx={{ position: "absolute", top: "10px", left: "10px" }}>
+    <SitoContainer
+      sx={{
+        top: 10,
+        left: 10,
+        position: "absolute",
+        top: "10px",
+        left: "10px",
+      }}
+    >
       <Link to="/">
         <Button
           variant="contained"
@@ -21,7 +29,7 @@ const BackButton = () => {
           <ChevronLeft />
         </Button>
       </Link>
-    </Container>
+    </SitoContainer>
   );
 };
 

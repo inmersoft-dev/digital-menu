@@ -23,6 +23,19 @@
     "Register": {
       "Title": "Registro"
     },
+    "Settings": {
+      "Title": "Ajustes",
+      "Inputs": {
+        "Menu": {
+          "Label": "Nombre del centro",
+          "Placeholder": "ej: El Rincón dulce"
+        },
+        "Description": {
+          "Label": "Descripción del centro",
+          "Placeholder": "Alguna descripción"
+        }
+      }
+    },
     "Insert": {
       "Title": "Crea tu menú",
       "Inputs": {
