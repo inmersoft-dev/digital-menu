@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
 
 import inViewport from "in-viewport";
 
@@ -9,14 +8,7 @@ import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
 
 // @mui components
-import {
-  useTheme,
-  Paper,
-  Box,
-  Button,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { useTheme, Paper, Box, Button, Typography } from "@mui/material";
 
 // own components
 import Loading from "../../components/Loading/Loading";
@@ -26,10 +18,10 @@ import Empty from "../../components/Empty/Empty";
 import Modal from "../../components/Modal/EditModal";
 
 // functions
-import { userLogged } from "../../utils/auth";
+import { getUserName, userLogged } from "../../utils/auth";
 
 // services
-import { fetchMenu } from "../../services/menu";
+import { fetchMenu, saveMenu } from "../../services/menu";
 
 // contexts
 import { useNotification } from "../../context/NotificationProvider";
@@ -204,7 +196,27 @@ const Edit = () => {
     [shouldScroll, setShouldScroll]
   );
 
-  const onSubmit = async (data) => {};
+  const onSubmit = async (data) => {
+    setVisible(false);
+    setLoading(true);
+    const { name, type, description, price } = data;
+    let typePosition = types.indexOf(type);
+    const newAllData = allData;
+    const newTypes = types;
+    if (typePosition === -1) newTypes.push(type);
+    typePosition = types.indexOf(type);
+    const parsedData = {
+      i: allData.length,
+      n: name,
+      t: typePosition,
+      d: description,
+      p: price,
+      ph: "",
+    };
+    newAllData.push(parsedData);
+    saveMenu(getUserName(), getUserName(), newAllData, newTypes);
+    retry();
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
@@ -227,7 +239,13 @@ const Edit = () => {
       flexDirection="column"
     >
       {selected && (
-        <Modal visible={visible} item={selected} onClose={onModalClose} />
+        <Modal
+          visible={visible}
+          item={selected}
+          onClose={onModalClose}
+          onSubmit={onSubmit}
+          types={types}
+        />
       )}
       <Loading
         visible={loading}

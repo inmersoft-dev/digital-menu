@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 // imagekitio
-import { IKContext, IKImage, IKUpload } from "imagekitio-react";
+import { IKContext, IKUpload } from "imagekitio-react";
 
 import PropTypes from "prop-types";
 
@@ -29,13 +29,15 @@ const Modal = (props) => {
   const theme = useTheme();
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
-  const { visible, onClose, item } = props;
+
+  const { visible, onClose, onSubmit, item, types } = props;
 
   const [show, setShow] = useState(visible);
 
   const [ok, setOk] = useState(1);
 
-  const { control, handleSubmit } = useForm({
+  const [photo, setPhoto] = useState("");
+  const { control, handleSubmit, reset, getValues } = useForm({
     defaultValues: {
       price: "",
       name: "",
@@ -44,11 +46,11 @@ const Modal = (props) => {
     },
   });
 
-  const onSubmit = (data) => {};
-
   useEffect(() => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
+    const { n, p, d, ph, t } = item;
+    reset({ name: n, price: p, description: d, photo: ph, type: types[t] });
   }, []);
 
   useEffect(() => {
@@ -195,8 +197,8 @@ const Modal = (props) => {
               />
             ) : (
               <SitoImage
-                src={item.ph}
-                alt={item.n}
+                src={photo}
+                alt={getValues("name")}
                 sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
               />
             )}
@@ -314,7 +316,9 @@ const Modal = (props) => {
 Modal.propTypes = {
   visible: PropTypes.bool,
   onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
   item: PropTypes.object,
+  types: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default Modal;
