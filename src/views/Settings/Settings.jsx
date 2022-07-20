@@ -86,7 +86,12 @@ const Settings = () => {
     setLoading(true);
     const { menu, description } = data;
     try {
-      const response = await saveProfile(getUserName(), menu, description);
+      const response = await saveProfile(
+        getUserName(),
+        menu,
+        description,
+        photo
+      );
     } catch (err) {
       console.log(err);
       setNotificationState({
