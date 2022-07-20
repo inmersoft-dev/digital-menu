@@ -8,7 +8,17 @@ import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
 
 // @mui components
-import { useTheme, Paper, Box, Button, Typography } from "@mui/material";
+import {
+  useTheme,
+  Paper,
+  Box,
+  Button,
+  IconButton,
+  Typography,
+} from "@mui/material";
+
+// @mui icons
+import CloseIcon from "@mui/icons-material/Close";
 
 // own components
 import Loading from "../../components/Loading/Loading";
@@ -46,18 +56,21 @@ const Edit = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [currentOwner, setCurrentOwner] = useState("admin");
-  const [currentMenu, setCurrentMenu] = useState("menu");
 
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
+
+  const justGetData = async () => {
+    const response = await fetchMenu(getUserName(), getUserName());
+    const data = await response.data;
+    return data;
+  };
 
   const fetch = async () => {
     setLoading(true);
     setError(false);
     try {
-      const response = await fetchMenu(currentOwner, currentMenu);
-      const data = await response.data;
+      const data = await justGetData();
       const tabsByType = [];
       data.t.forEach((item, i) => {
         tabsByType.push([]);
@@ -70,64 +83,85 @@ const Edit = () => {
             sx={{ width: "100%" }}
           >
             <Paper
-              onClick={() => {
-                setVisible(true);
-                setSelected(data.l[i]);
-              }}
               id={`obj-${i}`}
               elevation={1}
               sx={{
-                cursor: "pointer",
+                position: "relative",
                 marginTop: "20px",
-                display: "flex",
                 width: { md: "800px", sm: "630px", xs: "100%" },
                 padding: "1rem",
                 borderRadius: "1rem",
                 background: theme.palette.background.paper,
               }}
             >
-              <SitoContainer sx={{ marginRight: "20px" }}>
-                <Box
-                  sx={{
-                    width: { md: "160px", sm: "120px", xs: "80px" },
-                    height: { md: "160px", sm: "120px", xs: "80px" },
-                  }}
-                >
-                  <SitoImage
-                    src={item.ph}
-                    alt={item.n}
-                    sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
-                  />
-                </Box>
-              </SitoContainer>
               <Box
                 sx={{
-                  flexDirection: "column",
-                  justifyContent: "flex-start",
-                  width: { md: "585px", sm: "350px", xs: "95%" },
+                  width: { xs: "95%", md: "98%" },
+                  position: "absolute",
+                  marginTop: "-10px",
+                  justifyContent: "flex-end",
+                  display: "flex",
+                  cursor: "pointer",
                 }}
               >
-                <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                  {item.n}
-                </Typography>
+                <IconButton color="error" onClick={() => deleteProduct(i)}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <Box
+                sx={{ cursor: "pointer", display: "flex" }}
+                onClick={() => {
+                  setVisible(true);
+                  setSelected(data.l[i]);
+                }}
+              >
+                <SitoContainer sx={{ marginRight: "20px" }}>
+                  <Box
+                    sx={{
+                      width: { md: "160px", sm: "120px", xs: "80px" },
+                      height: { md: "160px", sm: "120px", xs: "80px" },
+                    }}
+                  >
+                    <SitoImage
+                      src={item.ph}
+                      alt={item.n}
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "100%",
+                      }}
+                    />
+                  </Box>
+                </SitoContainer>
                 <Box
                   sx={{
-                    height: { xs: "28px", sm: "50px", md: "100px" },
-                    lineHeight: "20px",
-                    wordBreak: "break-all",
-                    display: "-webkit-box",
-                    boxOrient: "vertical",
-                    lineClamp: 5,
-                    overflow: "hidden",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    width: { md: "585px", sm: "350px", xs: "95%" },
                   }}
                 >
-                  <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                    {item.d}
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                    {item.n}
+                  </Typography>
+                  <Box
+                    sx={{
+                      height: { xs: "28px", sm: "50px", md: "100px" },
+                      lineHeight: "20px",
+                      wordBreak: "break-all",
+                      display: "-webkit-box",
+                      boxOrient: "vertical",
+                      lineClamp: 5,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                      {item.d}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                    {item.p}
                   </Typography>
                 </Box>
-                <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                  {item.p}
-                </Typography>
               </Box>
             </Paper>
           </SitoContainer>
@@ -196,6 +230,21 @@ const Edit = () => {
     [shouldScroll, setShouldScroll]
   );
 
+  const deleteProduct = async (index) => {
+    setLoading(true);
+    const data = await justGetData();
+    const newAllData = data.l;
+    const newTypes = data.t;
+    const deletionType = newTypes.indexOf(newAllData[index].t);
+    newAllData.splice(index, 1);
+    let found = false;
+    for (let i = 0; i < newAllData.length && !found; i += 1)
+      if (newAllData[i].t === deletionType) found = true;
+    if (!found) newTypes.splice(deletionType, 1);
+    saveMenu(getUserName(), getUserName(), newAllData, newTypes);
+    retry();
+  };
+
   const onSubmit = async (data) => {
     setVisible(false);
     setLoading(true);
@@ -230,7 +279,6 @@ const Edit = () => {
   useEffect(() => {
     if (!userLogged()) navigate("/auth/");
     retry();
-    setLoading(false);
   }, []);
 
   return (
@@ -276,10 +324,10 @@ const Edit = () => {
           onClick={() => {
             setSelected({
               ph: "",
-              n: languageState.texts.Insert.Inputs.Product.Label,
-              d: languageState.texts.Insert.Inputs.Description.Label,
-              p: languageState.texts.Insert.Inputs.Price.Label,
-              t: languageState.texts.Insert.Inputs.Type.Label,
+              n: "",
+              d: "",
+              p: "",
+              t: "",
             });
             setVisible(true);
           }}

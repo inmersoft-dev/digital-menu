@@ -114,7 +114,9 @@ const Modal = (props) => {
       image.onclick = uploadPhoto;
     }
     return () => {
-      image.onclick = undefined;
+      if (image !== null) {
+        image.onclick = undefined;
+      }
     };
   }, [uploadPhoto]);
 
