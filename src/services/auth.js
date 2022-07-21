@@ -20,7 +20,6 @@ export const validateBasicKey = async () => {
     }
   );
   const data = await response.data;
-  console.log(data);
   if (data.data.message) return true;
   return false;
 };

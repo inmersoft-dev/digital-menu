@@ -29,7 +29,7 @@ const Watch = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState({});
 
   const [visible, setVisible] = useState(false);
 
@@ -42,7 +42,7 @@ const Watch = () => {
   const [tab, setTab] = useState(0);
   const [tabs, setTabs] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
   const [currentOwner, setCurrentOwner] = useState("");
   const [currentMenu, setCurrentMenu] = useState("");
@@ -53,111 +53,114 @@ const Watch = () => {
   const [shouldScroll, setShouldScroll] = useState(false);
 
   const fetch = async (user = undefined, menu = undefined) => {
-    setLoading(true);
+    setLoading(1);
     setError(false);
-    try {
-      const response = await fetchMenu(
-        user || currentOwner,
-        menu || currentMenu
-      );
-      const data = await response.data;
-      if (data && data.t && data.l) {
-        setPhoto(data.ph);
-        setDescription(data.d);
-        const tabsByType = [];
-        data.t.forEach((item, i) => {
-          tabsByType.push([]);
-        });
-        data.l.forEach((item, i) => {
-          tabsByType[item.t].push(
-            <SitoContainer
-              key={item.i}
-              justifyContent="center"
-              sx={{ width: "100%" }}
-            >
-              <Paper
-                onClick={() => {
-                  setVisible(true);
-                  setSelected(data.l[i]);
-                }}
-                id={`obj-${i}`}
-                elevation={1}
-                sx={{
-                  cursor: "pointer",
-                  marginTop: "20px",
-                  display: "flex",
-                  width: { md: "800px", sm: "630px", xs: "100%" },
-                  padding: "1rem",
-                  borderRadius: "1rem",
-                  background: theme.palette.background.paper,
-                }}
+    if (user || currentOwner)
+      try {
+        const response = await fetchMenu(
+          user || currentOwner,
+          menu || currentMenu
+        );
+        const data = await response.data;
+        if (data && data.t && data.l) {
+          setPhoto(data.ph);
+          setDescription(data.d);
+          const tabsByType = [];
+          data.t.forEach((item, i) => {
+            tabsByType.push([]);
+          });
+          data.l.forEach((item, i) => {
+            tabsByType[item.t].push(
+              <SitoContainer
+                key={item.i}
+                justifyContent="center"
+                sx={{ width: "100%" }}
               >
-                <SitoContainer sx={{ marginRight: "20px" }}>
-                  <Box
-                    sx={{
-                      width: { md: "160px", sm: "120px", xs: "80px" },
-                      height: { md: "160px", sm: "120px", xs: "80px" },
-                    }}
-                  >
-                    <SitoImage
-                      src={item.ph}
-                      alt={item.n}
-                      sx={{
-                        objectFit: "cover",
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: "100%",
-                      }}
-                    />
-                  </Box>
-                </SitoContainer>
-                <Box
+                <Paper
+                  onClick={() => {
+                    setVisible(true);
+                    setSelected(data.l[i]);
+                  }}
+                  id={`obj-${i}`}
+                  elevation={1}
                   sx={{
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                    width: { md: "585px", sm: "350px", xs: "95%" },
+                    cursor: "pointer",
+                    marginTop: "20px",
+                    display: "flex",
+                    width: { md: "800px", sm: "630px", xs: "100%" },
+                    padding: "1rem",
+                    borderRadius: "1rem",
+                    background: theme.palette.background.paper,
                   }}
                 >
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                    {item.n}
-                  </Typography>
+                  <SitoContainer sx={{ marginRight: "20px" }}>
+                    <Box
+                      sx={{
+                        width: { md: "160px", sm: "120px", xs: "80px" },
+                        height: { md: "160px", sm: "120px", xs: "80px" },
+                      }}
+                    >
+                      <SitoImage
+                        src={item.ph}
+                        alt={item.n}
+                        sx={{
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "100%",
+                        }}
+                      />
+                    </Box>
+                  </SitoContainer>
                   <Box
                     sx={{
-                      height: { xs: "28px", sm: "50px", md: "100px" },
-                      lineHeight: "20px",
-                      wordBreak: "break-all",
-                      display: "-webkit-box",
-                      boxOrient: "vertical",
-                      lineClamp: 5,
-                      overflow: "hidden",
+                      flexDirection: "column",
+                      justifyContent: "flex-start",
+                      width: { md: "585px", sm: "350px", xs: "95%" },
                     }}
                   >
-                    <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                      {item.d}
+                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                      {item.n}
+                    </Typography>
+                    <Box
+                      sx={{
+                        height: { xs: "28px", sm: "50px", md: "100px" },
+                        lineHeight: "20px",
+                        wordBreak: "break-all",
+                        display: "-webkit-box",
+                        boxOrient: "vertical",
+                        lineClamp: 5,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                        {item.d}
+                      </Typography>
+                    </Box>
+                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                      {item.p} CUP
                     </Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                    {item.p} CUP
-                  </Typography>
-                </Box>
-              </Paper>
-            </SitoContainer>
-          );
+                </Paper>
+              </SitoContainer>
+            );
+          });
+          setAllData(data.l);
+          setTypes(data.t);
+          setTabs(tabsByType);
+          setLoading(0);
+        } else setLoading(-1);
+      } catch (err) {
+        console.log("hola1");
+        console.log(err);
+        setNotificationState({
+          type: "set",
+          ntype: "error",
+          message: languageState.texts.Errors.NotConnected,
         });
-        setAllData(data.l);
-        setTypes(data.t);
-        setTabs(tabsByType);
+        setError(true);
+        setLoading(-1);
       }
-    } catch (err) {
-      console.log(err);
-      setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: languageState.texts.Errors.NotConnected,
-      });
-      setError(true);
-    }
-    setLoading(false);
   };
 
   const retry = () => {
@@ -231,7 +234,7 @@ const Watch = () => {
 
   return (
     <SitoContainer
-      sx={{ width: "100vw", height: "100vh" }}
+      sx={{ width: "100vw", height: "100vh", padding: "25px" }}
       flexDirection="column"
     >
       {selected && (
@@ -291,14 +294,14 @@ const Watch = () => {
         content={[]}
         shouldScroll={shouldScroll}
       />
-      {error && !currentOwner && !currentMenu && !loading && (
+      {error && !currentOwner && !currentMenu && loading === -1 && (
         <NotConnected onRetry={retry} />
       )}
-      {!loading && !error && !currentOwner && !currentMenu && <Empty />}
-      {!error && !loading && currentOwner && currentMenu && (
+      {loading === -1 && !error && !currentOwner && !currentMenu && <Empty />}
+      {!error && currentOwner && currentMenu && (
         <Box
           sx={{
-            margin: "20px 20px",
+            padding: "20px 0",
             flexDirection: "column",
           }}
         >

@@ -54,7 +54,7 @@ const Settings = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState("no-photo");
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -108,11 +108,22 @@ const Settings = () => {
     try {
       const response = await saveProfile(
         getUserName(),
-        menu,
-        description,
-        photo
+        menu || "",
+        description || "",
+        photo || ""
       );
-      console.log(response);
+      if (response.status === 200)
+        setNotificationState({
+          type: "set",
+          ntype: "success",
+          message: languageState.texts.Messages.SaveSuccessful,
+        });
+      else
+        setNotificationState({
+          type: "set",
+          ntype: "error",
+          message: languageState.texts.Errors.SomeWrong,
+        });
     } catch (err) {
       console.log(err);
       setNotificationState({

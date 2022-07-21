@@ -36,14 +36,14 @@ const Home = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
 
   const [allData, setAllData] = useState([]);
   const [list, setList] = useState([]);
 
   const fetch = async () => {
-    setLoading(true);
+    setLoading(1);
     setError(false);
     try {
       const response = await fetchAll();
@@ -130,12 +130,15 @@ const Home = () => {
         });
         setList(newList);
         setAllData(Object.keys(data.u));
-      } else
+        setLoading(0);
+      } else {
+        setLoading(-1);
         setNotificationState({
           type: "set",
           ntype: "error",
           message: languageState.texts.Errors.NotConnected,
         });
+      }
     } catch (err) {
       console.log(err);
       setNotificationState({
@@ -144,8 +147,8 @@ const Home = () => {
         message: languageState.texts.Errors.NotConnected,
       });
       setError(true);
+      setLoading(-1);
     }
-    setLoading(false);
   };
 
   const retry = () => {
@@ -162,7 +165,7 @@ const Home = () => {
       flexDirection="column"
     >
       <Loading
-        visible={loading}
+        visible={loading === 1}
         sx={{
           position: "absolute",
           width: "100%",
@@ -175,9 +178,9 @@ const Home = () => {
           zIndex: loading ? 99 : -1,
         }}
       />
-      {error && !loading && <NotConnected onRetry={retry} />}
-      {!loading && !error && !allData.length && <Empty />}
-      {!error && !loading && allData.length && (
+      {error && loading === -1 && <NotConnected onRetry={retry} />}
+      {loading === -1 && !error && <Empty />}
+      {!error && loading === 0 && (
         <Box
           sx={{
             margin: "20px 20px",

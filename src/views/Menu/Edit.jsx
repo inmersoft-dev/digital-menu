@@ -259,10 +259,10 @@ const Edit = () => {
     retry();
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (remoteData) => {
     setVisible(false);
     setLoading(1);
-    const { name, type, description, price } = data;
+    const { name, type, description, price } = remoteData;
     let typePosition = types.indexOf(type);
     const newAllData = allData;
     const newTypes = types;
@@ -277,7 +277,24 @@ const Edit = () => {
       ph: "",
     };
     newAllData.push(parsedData);
-    saveMenu(getUserName(), getUserName(), newAllData, newTypes);
+    const result = await saveMenu(
+      getUserName(),
+      getUserName(),
+      newAllData,
+      newTypes
+    );
+    if (result.status === 200)
+      setNotificationState({
+        type: "set",
+        ntype: "success",
+        message: languageState.texts.Messages.SaveSuccessful,
+      });
+    else
+      setNotificationState({
+        type: "set",
+        ntype: "error",
+        message: languageState.texts.Errors.SomeWrong,
+      });
     retry();
   };
 

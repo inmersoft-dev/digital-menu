@@ -18,7 +18,8 @@
     },
     "Messages": {
       "LoginSuccessful": "Inicio de sesión correctamente",
-      "RegisterSuccessful": "Usuario creado correctamente"
+      "RegisterSuccessful": "Usuario creado correctamente",
+      "SaveSuccessful": "Guardado correctamente"
     },
     "Register": {
       "Title": "Registro"

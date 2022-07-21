@@ -143,7 +143,7 @@ const Modal = (props) => {
           display: "flex",
           flexDirection: "column",
           width: { md: "800px", sm: "630px", xs: "100%" },
-          height: "90%",
+          height: "540px",
           padding: "1rem",
           borderRadius: "1rem",
           background: theme.palette.background.paper,
@@ -223,6 +223,7 @@ const Modal = (props) => {
                     marginTop: "10px",
                   }}
                   id="price"
+                  type="number"
                   required
                   onInput={validate}
                   onInvalid={invalidate}
