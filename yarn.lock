@@ -5807,11 +5807,6 @@ jest@^27.4.3:
     import-local "^3.0.2"
     jest-cli "^27.5.1"
 
-js-base64@^3.7.2:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-3.7.2.tgz#816d11d81a8aff241603d19ce5761e13e41d7745"
-  integrity sha512-NnRs6dsyqUXejqk/yv2aiXlAvOs56sLkX6nUdeaNezI5LFFLlsZjOThmwnrcwh5ZZRwZlCMnVAY3CvhIhoVEKQ==
-
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -7296,6 +7291,11 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+  integrity sha512-c4iYnWb+k2E+vYpRimHqSu575b1/wKl4XFeJGpFmrJQz5I88v9aY2czh7s0w36srfCM1sXgC/xpoJz5dJfq+OQ==
+
 qs@6.10.3:
   version "6.10.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.3.tgz#d6cde1b2ffca87b5aa57889816c5f81535e22e8e"
@@ -7441,6 +7441,14 @@ react-is@^18.0.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.1.0.tgz#61aaed3096d30eacf2a2127118b5b41387d32a67"
   integrity sha512-Fl7FuabXsJnV5Q1qIOQwx/sagGF18kogb4gpfcG4gjLBWO0WDiiz1ko/ExayuxE7InyQkBLkxRFG5oxY6Uu3Kg==
+
+react-qr-code@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-2.0.7.tgz#508304e031e82426a044f5e9490aca87d7c3de38"
+  integrity sha512-NpknL80p7dWbLdHfBSIxQIqLCu3+kBlyzYD692rO0UnVwfCSziIxc1xn/p3JhPEv1RV1lRD8j0w+hR3L7tawTQ==
+  dependencies:
+    prop-types "^15.7.2"
+    qr.js "0.0.0"
 
 react-refresh@^0.11.0:
   version "0.11.0"

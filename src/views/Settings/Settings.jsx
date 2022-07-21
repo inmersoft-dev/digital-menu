@@ -16,6 +16,9 @@ import BackButton from "../../components/BackButton/BackButton";
 import NotConnected from "../../components/NotConnected/NotConnected";
 import ToLogout from "../../components/ToLogout/ToLogout";
 
+// @emotion
+import { css } from "@emotion/css";
+
 // @mui
 import {
   useTheme,
@@ -137,124 +140,164 @@ const Settings = () => {
     retry();
   }, []);
 
+  const onQrDownload = () => {
+    const svg = document.getElementById("QRCode");
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      const pngFile = canvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
+      downloadLink.download = "QRCode";
+      downloadLink.href = `${pngFile}`;
+      downloadLink.click();
+    };
+    img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+  };
+
   return (
-    <Paper
+    <Box
       sx={{
-        alignItems: "center",
+        minWidth: "100vw",
+        minHeight: "100vh",
+        padding: "70px 0",
         display: "flex",
-        width: "400px",
-        padding: "1rem",
-        borderRadius: "1rem",
+        justifyContent: "center",
       }}
     >
       <ToLogout />
       <BackButton />
-      {!error ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Loading
-            visible={loading}
-            sx={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              top: 0,
-              left: 0,
-              backdropFilter: "blur(4px)",
-              background: `${theme.palette.background.paper}ec`,
-              borderRadius: "1rem",
-              zIndex: loading ? 99 : -1,
-            }}
-          />
-          <Typography variant="h3">
-            {languageState.texts.Settings.Title}
-          </Typography>
-          <SitoContainer sx={{ width: "100%" }} justifyContent="center">
-            <IKContext
-              publicKey={config.imagekitPublicKey}
-              urlEndpoint={config.imagekitUrl}
-              transformationPosition="path"
-              authenticationEndpoint={config.imagekitAuthUrl}
+      <Paper
+        sx={{
+          display: "flex",
+          width: { md: "800px", sm: "630px", xs: "100%" },
+          padding: "1rem",
+          borderRadius: "1rem",
+        }}
+      >
+        {!error ? (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className={css({ width: "100%" })}
+          >
+            <Loading
+              visible={loading}
+              sx={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                top: 0,
+                left: 0,
+                backdropFilter: "blur(4px)",
+                background: `${theme.palette.background.paper}ec`,
+                borderRadius: "1rem",
+                zIndex: loading ? 99 : -1,
+              }}
+            />
+            <Typography variant="h3">
+              {languageState.texts.Settings.Title}
+            </Typography>
+            <SitoContainer sx={{ width: "100%" }} justifyContent="center">
+              <IKContext
+                publicKey={config.imagekitPublicKey}
+                urlEndpoint={config.imagekitUrl}
+                transformationPosition="path"
+                authenticationEndpoint={config.imagekitAuthUrl}
+              >
+                <IKUpload
+                  id="menu-photo"
+                  fileName="menu-photo"
+                  onError={onError}
+                  onSuccess={onSuccess}
+                />
+              </IKContext>
+              <Box
+                sx={{
+                  width: { md: "160px", sm: "120px", xs: "80px" },
+                  height: { md: "160px", sm: "120px", xs: "80px" },
+                }}
+              >
+                <SitoImage
+                  id="no-image"
+                  src={photo}
+                  alt="no-image"
+                  sx={{
+                    objectFit: "cover",
+                    width: "100%",
+                    cursor: "pointer",
+                    height: "100%",
+                    borderRadius: "100%",
+                  }}
+                />
+              </Box>
+            </SitoContainer>
+            <Controller
+              name="menu"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  sx={{ width: "100%", marginTop: "20px" }}
+                  id="menu"
+                  label={languageState.texts.Settings.Inputs.Menu.Label}
+                  placeholder={
+                    languageState.texts.Settings.Inputs.Menu.Placeholder
+                  }
+                  variant="outlined"
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  sx={{ width: "100%", marginTop: "20px" }}
+                  id="description"
+                  label={languageState.texts.Settings.Inputs.Description.Label}
+                  placeholder={
+                    languageState.texts.Settings.Inputs.Description.Placeholder
+                  }
+                  multiline
+                  maxLength="255"
+                  maxRows={3}
+                  minRows={3}
+                  variant="outlined"
+                  {...field}
+                />
+              )}
+            />
+            <SitoContainer
+              justifyContent="flex-end"
+              sx={{ width: "100%", marginTop: "20px" }}
             >
-              <IKUpload
-                id="menu-photo"
-                fileName="menu-photo"
-                onError={onError}
-                onSuccess={onSuccess}
-              />
-            </IKContext>
+              <Button type="submit" variant="contained">
+                {languageState.texts.Insert.Buttons.Save}
+              </Button>
+            </SitoContainer>
+            <Typography variant="h4" sx={{ marginTop: "20px" }}>
+              {languageState.texts.Settings.Qr}
+            </Typography>
             <Box
               sx={{
-                width: { md: "160px", sm: "120px", xs: "80px" },
-                height: { md: "160px", sm: "120px", xs: "80px" },
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "20px",
               }}
             >
-              <SitoImage
-                id="no-image"
-                src={photo}
-                alt="no-image"
-                sx={{
-                  objectFit: "cover",
-                  width: "100%",
-                  cursor: "pointer",
-                  height: "100%",
-                  borderRadius: "100%",
-                }}
-              />
+              <QRCode value={} id="QRCode" />
             </Box>
-          </SitoContainer>
-          <Controller
-            name="menu"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                sx={{ width: "100%", marginTop: "20px" }}
-                id="menu"
-                label={languageState.texts.Settings.Inputs.Menu.Label}
-                placeholder={
-                  languageState.texts.Settings.Inputs.Menu.Placeholder
-                }
-                variant="outlined"
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                sx={{ width: "100%", marginTop: "20px" }}
-                id="description"
-                label={languageState.texts.Settings.Inputs.Description.Label}
-                placeholder={
-                  languageState.texts.Settings.Inputs.Description.Placeholder
-                }
-                multiline
-                maxLength="255"
-                maxRows={3}
-                minRows={3}
-                variant="outlined"
-                {...field}
-              />
-            )}
-          />
-          <SitoContainer
-            justifyContent="flex-end"
-            sx={{ width: "100%", marginTop: "20px" }}
-          >
-            <Button type="submit" variant="contained">
-              {languageState.texts.Insert.Buttons.Save}
-            </Button>
-          </SitoContainer>
-          <Typography variant="h4">
-            {languageState.texts.Settings.Qr}
-          </Typography>
-          <QRCode value="hey" />
-        </form>
-      ) : (
-        <NotConnected onRetry={retry} />
-      )}
-    </Paper>
+          </form>
+        ) : (
+          <NotConnected onRetry={retry} />
+        )}
+      </Paper>
+    </Box>
   );
 };
 
