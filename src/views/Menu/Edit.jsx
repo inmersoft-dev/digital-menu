@@ -55,7 +55,7 @@ const Edit = () => {
   const [tab, setTab] = useState(0);
   const [tabs, setTabs] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
 
   const [allData, setAllData] = useState([]);
@@ -68,10 +68,11 @@ const Edit = () => {
   };
 
   const fetch = async () => {
-    setLoading(true);
+    setLoading(1);
     setError(false);
     try {
-      const data = await justGetData();
+      const response = await fetchMenu(getUserName(), getUserName());
+      const data = await response.data;
       if (data && data.t && data.l) {
         const tabsByType = [];
         data.t.forEach((item, i) => {
@@ -173,12 +174,16 @@ const Edit = () => {
         setAllData(data.l);
         setTypes(data.t);
         setTabs(tabsByType);
-      } else
-        setNotificationState({
-          type: "set",
-          ntype: "error",
-          message: languageState.texts.Errors.NotConnected,
-        });
+        setLoading(0);
+      } else {
+        setLoading(-1);
+        if (response.status !== 200)
+          setNotificationState({
+            type: "set",
+            ntype: "error",
+            message: languageState.texts.Errors.NotConnected,
+          });
+      }
     } catch (err) {
       console.log(err);
       setNotificationState({
@@ -187,8 +192,8 @@ const Edit = () => {
         message: languageState.texts.Errors.NotConnected,
       });
       setError(true);
+      setLoading(-1);
     }
-    setLoading(false);
   };
 
   const { setNotificationState } = useNotification();
@@ -240,7 +245,7 @@ const Edit = () => {
   );
 
   const deleteProduct = async (index) => {
-    setLoading(true);
+    setLoading(1);
     const data = await justGetData();
     const newAllData = data.l;
     const newTypes = data.t;
@@ -256,7 +261,7 @@ const Edit = () => {
 
   const onSubmit = async (data) => {
     setVisible(false);
-    setLoading(true);
+    setLoading(1);
     const { name, type, description, price } = data;
     let typePosition = types.indexOf(type);
     const newAllData = allData;
@@ -345,9 +350,9 @@ const Edit = () => {
           {languageState.texts.Insert.Buttons.Insert}
         </Button>
       </SitoContainer>
-      {error && !loading && <NotConnected onRetry={retry} />}
-      {!loading && !error && !allData.length && <Empty />}
-      {!error && !loading && allData.length && (
+      {error && loading === -1 && <NotConnected onRetry={retry} />}
+      {loading === -1 && !error && <Empty />}
+      {!error && loading === 0 && (
         <Box
           sx={{
             margin: "0 20px 0 20px",

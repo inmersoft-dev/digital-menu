@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // sito components
@@ -6,7 +7,6 @@ import SitoContainer from "sito-container";
 // own components
 import ToTop from "./components/ToTop/ToTop";
 import ToLogin from "./components/ToLogin/ToLogin";
-import ToLogout from "./components/ToLogout/ToLogout";
 import Notification from "./components/Notification/Notification";
 
 // @mui
@@ -14,9 +14,6 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 
 // theme
 import dark from "./assets/theme/dark";
-
-// layouts
-import View from "./layouts/View/View";
 
 // views
 import Home from "./views/Home/Home";
@@ -27,7 +24,25 @@ import Watch from "./views/Menu/Watch";
 import Edit from "./views/Menu/Edit";
 import Settings from "./views/Settings/Settings";
 
+// functions
+import { validateBasicKey } from "./services/auth";
+import { userLogged, logoutUser } from "./utils/auth";
+
 const App = () => {
+  const fetch = async () => {
+    const value = await validateBasicKey();
+    if (!value) {
+      logoutUser();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+  };
+
+  useEffect(() => {
+    if (userLogged()) fetch();
+  }, []);
+
   return (
     <SitoContainer
       sx={{ width: "100vw", height: "100vh" }}

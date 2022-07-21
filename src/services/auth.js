@@ -4,6 +4,21 @@ import config from "../config";
 
 import md5 from "md5";
 
+export const validateBasicKey = async () => {
+  const response = await axios.post(
+    // @ts-ignore
+    `${config.apiUrl}user/validate`,
+    {},
+    {
+      headers: getAuth,
+    }
+  );
+  const data = await response.data;
+  console.log(data);
+  if (data.data.message) return true;
+  return false;
+};
+
 /**
  * Takes a user object and sends it to the backend to be authenticated
  * @param {string} user - the user name

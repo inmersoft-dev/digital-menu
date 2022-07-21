@@ -294,12 +294,8 @@ const Watch = () => {
       {error && !currentOwner && !currentMenu && !loading && (
         <NotConnected onRetry={retry} />
       )}
-      {!loading &&
-        !error &&
-        !allData.length &&
-        !currentOwner &&
-        !currentMenu && <Empty />}
-      {!error && !loading && currentOwner && currentMenu && allData.length && (
+      {!loading && !error && !currentOwner && !currentMenu && <Empty />}
+      {!error && !loading && currentOwner && currentMenu && (
         <Box
           sx={{
             margin: "20px 20px",

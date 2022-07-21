@@ -2,6 +2,9 @@ import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
 
+// functions
+import { getCookie } from "../utils/auth";
+
 /**
  * @returns The response from the server.
  */
@@ -51,7 +54,7 @@ export const saveMenu = async (user, menuName, menu, types) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${config.basicKey}`,
+        Authorization: `Bearer ${getCookie(config.basicKey)}`,
       },
     }
   );
