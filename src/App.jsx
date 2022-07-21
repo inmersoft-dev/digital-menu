@@ -6,6 +6,7 @@ import SitoContainer from "sito-container";
 // own components
 import ToTop from "./components/ToTop/ToTop";
 import ToLogin from "./components/ToLogin/ToLogin";
+import ToLogout from "./components/ToLogout/ToLogout";
 import Notification from "./components/Notification/Notification";
 
 // @mui

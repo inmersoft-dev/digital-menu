@@ -2,8 +2,6 @@ import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
 
-import { encode } from "js-base64";
-
 /**
  * @returns The response from the server.
  */
@@ -53,7 +51,7 @@ export const saveMenu = async (user, menuName, menu, types) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${encode(config.basicKey)}`,
+        Authorization: `Bearer ${config.basicKey}`,
       },
     }
   );

@@ -13,6 +13,7 @@ import SitoImage from "sito-image";
 import Loading from "../../components/Loading/Loading";
 import BackButton from "../../components/BackButton/BackButton";
 import NotConnected from "../../components/NotConnected/NotConnected";
+import ToLogout from "../../components/ToLogout/ToLogout";
 
 // @mui
 import {
@@ -104,6 +105,7 @@ const Settings = () => {
         description,
         photo
       );
+      console.log(response);
     } catch (err) {
       console.log(err);
       setNotificationState({
@@ -144,6 +146,7 @@ const Settings = () => {
         borderRadius: "1rem",
       }}
     >
+      <ToLogout />
       <BackButton />
       {!error ? (
         <form onSubmit={handleSubmit(onSubmit)}>

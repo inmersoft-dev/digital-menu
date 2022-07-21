@@ -22,8 +22,9 @@ const Logout = () => {
 
   useEffect(() => {
     logoutUser();
-    deleteCookie(config.basicKey);
-    navigate("/auth/login");
+    setTimeout(() => {
+      navigate("/auth/");
+    }, 1000);
   }, []);
 
   return (

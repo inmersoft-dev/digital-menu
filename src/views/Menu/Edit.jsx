@@ -26,6 +26,7 @@ import TabView from "../../components/TabView/TabView";
 import NotConnected from "../../components/NotConnected/NotConnected";
 import Empty from "../../components/Empty/Empty";
 import Modal from "../../components/Modal/EditModal";
+import ToLogout from "../../components/ToLogout/ToLogout";
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
@@ -294,6 +295,7 @@ const Edit = () => {
       sx={{ width: "100vw", height: "100vh" }}
       flexDirection="column"
     >
+      <ToLogout />
       {selected && (
         <Modal
           visible={visible}

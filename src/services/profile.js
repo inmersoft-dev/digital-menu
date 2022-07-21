@@ -2,8 +2,6 @@ import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
 
-import { encode } from "js-base64";
-
 /**
  * @param {string} user - the user name
  * @param {string} menuName - the menu name
@@ -18,7 +16,7 @@ export const saveProfile = async (user, menuName, menuDescription, photo) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${encode(config.basicKey)}`,
+        Authorization: `Bearer ${config.basicKey}`,
       },
     }
   );
