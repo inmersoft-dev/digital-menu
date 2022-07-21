@@ -25,8 +25,10 @@ import Edit from "./views/Menu/Edit";
 import Settings from "./views/Settings/Settings";
 
 // functions
-import { validateBasicKey } from "./services/auth";
 import { userLogged, logoutUser } from "./utils/auth";
+
+// services
+import { validateBasicKey } from "./services/auth";
 
 const App = () => {
   const fetch = async () => {
