@@ -19,7 +19,10 @@ import ToLogout from "../../components/ToLogout/ToLogout";
 // @emotion
 import { css } from "@emotion/css";
 
-// @mui
+// @mui icons
+import DownloadIcon from "@mui/icons-material/Download";
+
+// @mui components
 import {
   useTheme,
   Paper,
@@ -286,11 +289,24 @@ const Settings = () => {
               sx={{
                 width: "100%",
                 display: "flex",
-                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
                 marginTop: "20px",
               }}
             >
-              <QRCode value={} id="QRCode" />
+              <QRCode value={"hola"} id="QRCode" />
+              <Button
+                onClick={onQrDownload}
+                variant="contained"
+                sx={{
+                  minWidth: 0,
+                  marginTop: "20px",
+                  padding: "10px",
+                  borderRadius: "100%",
+                }}
+              >
+                <DownloadIcon />
+              </Button>
             </Box>
           </form>
         ) : (
