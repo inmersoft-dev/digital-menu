@@ -86,7 +86,7 @@ const Home = () => {
                       }}
                     >
                       <SitoImage
-                        src={item.ph}
+                        src={item.ph.content}
                         alt={item.m}
                         sx={{
                           objectFit: "cover",

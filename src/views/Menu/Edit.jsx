@@ -126,7 +126,7 @@ const Edit = () => {
                       }}
                     >
                       <SitoImage
-                        src={item.ph}
+                        src={item.ph.content}
                         alt={item.n}
                         sx={{
                           objectFit: "cover",
@@ -262,21 +262,30 @@ const Edit = () => {
   const onSubmit = async (remoteData) => {
     setVisible(false);
     setLoading(1);
-    const { name, type, description, price } = remoteData;
+    const { id, name, type, description, price, photo } = remoteData;
     let typePosition = types.indexOf(type);
     const newAllData = allData;
     const newTypes = types;
     if (typePosition === -1) newTypes.push(type);
     typePosition = types.indexOf(type);
     const parsedData = {
-      i: allData.length,
+      i: id,
       n: name,
       t: typePosition,
       d: description,
       p: price,
-      ph: "",
+      ph: photo,
     };
-    newAllData.push(parsedData);
+    const indexes = [];
+    newAllData.filter((item, i) => {
+      if (item.i === parsedData.i) {
+        indexes.push(i);
+        return item;
+      }
+      return null;
+    });
+    if (indexes.length) newAllData[indexes[0]] = { ...parsedData };
+    else newAllData.push(parsedData);
     const result = await saveMenu(
       getUserName(),
       getUserName(),
@@ -347,7 +356,8 @@ const Edit = () => {
           variant="contained"
           onClick={() => {
             setSelected({
-              ph: "",
+              i: allData.length,
+              ph: { ext: "", content: "" },
               n: "",
               d: "",
               p: "",

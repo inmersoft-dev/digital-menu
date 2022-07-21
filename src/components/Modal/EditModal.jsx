@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 
-// imagekitio
-import { IKContext, IKUpload } from "imagekitio-react";
-
 import PropTypes from "prop-types";
 
 // sito components
@@ -23,8 +20,6 @@ import noProduct from "../../assets/images/no-product.webp";
 import { useNotification } from "../../context/NotificationProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 
-import config from "../../config";
-
 const Modal = (props) => {
   const theme = useTheme();
   const { languageState } = useLanguage();
@@ -36,9 +31,13 @@ const Modal = (props) => {
 
   const [ok, setOk] = useState(1);
 
-  const [photo, setPhoto] = useState("");
-  const { control, handleSubmit, reset, getValues } = useForm({
+  const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState();
+
+  const [photo, setPhoto] = useState({ edt: "", content: "" });
+  const { control, handleSubmit, reset, getValues, setValue } = useForm({
     defaultValues: {
+      id: "",
       price: "",
       name: "",
       description: "",
@@ -49,8 +48,9 @@ const Modal = (props) => {
   useEffect(() => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
-    const { n, p, d, ph, t } = item;
-    reset({ name: n, price: p, description: d, photo: ph, type: types[t] });
+    const { i, n, p, d, ph, t } = item;
+    setPhoto(ph);
+    reset({ id: i, name: n, price: p, description: d, type: types[t] });
   }, []);
 
   useEffect(() => {
@@ -95,24 +95,29 @@ const Modal = (props) => {
     }
   };
 
+  const onUploadPhoto = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImage(e.target.value);
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const content = e.target.result;
+      // the blob data is automatic received as base64
+      setPhoto({ ext: file.type.split("/")[1], content });
+      setValue("photo", { ext: file.type.split("/")[1], content });
+    };
+    reader.readAsDataURL(file);
+  };
+
   const uploadPhoto = useCallback((e) => {
     const file = document.getElementById("product-photo");
     if (file !== null) file.click();
   }, []);
 
-  const onError = (err) => {
-    console.log("Error", err);
-  };
-
-  const onSuccess = (res) => {
-    console.log("Success", res);
-  };
-
   useEffect(() => {
     const image = document.getElementById("no-product");
-    if (image !== null) {
-      image.onclick = uploadPhoto;
-    }
+    if (image !== null) image.onclick = uploadPhoto;
     return () => {
       if (image !== null) {
         image.onclick = undefined;
@@ -172,20 +177,14 @@ const Modal = (props) => {
               height: { md: "160px", sm: "160px", xs: "160px" },
             }}
           >
-            <IKContext
-              publicKey={config.imagekitPublicKey}
-              urlEndpoint={config.imagekitUrl}
-              transformationPosition="path"
-              authenticationEndpoint={config.imagekitAuthUrl}
-            >
-              <IKUpload
-                id="product-photo"
-                fileName="product-photo"
-                onError={onError}
-                onSuccess={onSuccess}
-              />
-            </IKContext>
-            {item.ph === "" ? (
+            <input
+              id="product-photo"
+              type="file"
+              accept=".jpg, .png, .webp, .gif"
+              value={image}
+              onChange={onUploadPhoto}
+            />
+            {photo.content === "" ? (
               <SitoImage
                 id="no-product"
                 src={noProduct}
@@ -199,9 +198,14 @@ const Modal = (props) => {
               />
             ) : (
               <SitoImage
-                src={photo}
+                src={photo.content}
                 alt={getValues("name")}
-                sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "100%",
+                  objectFit: "cover",
+                }}
               />
             )}
           </Box>

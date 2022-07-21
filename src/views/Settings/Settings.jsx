@@ -3,9 +3,6 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 
-// imagekitio
-import { IKContext, IKUpload } from "imagekitio-react";
-
 // sito components
 import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
@@ -23,14 +20,7 @@ import { css } from "@emotion/css";
 import DownloadIcon from "@mui/icons-material/Download";
 
 // @mui components
-import {
-  useTheme,
-  Paper,
-  Box,
-  Button,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Paper, Box, Button, TextField, Typography } from "@mui/material";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
@@ -43,10 +33,7 @@ import { userLogged, getUserName } from "../../utils/auth";
 import { saveProfile } from "../../services/profile";
 import { fetchMenu } from "../../services/menu.js";
 
-import config from "../../config";
-
 const Settings = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const { languageState } = useLanguage();
@@ -54,7 +41,7 @@ const Settings = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [photo, setPhoto] = useState("no-photo");
+  const [photo, setPhoto] = useState("");
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -63,18 +50,27 @@ const Settings = () => {
     },
   });
 
+  const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState();
+
+  const onUploadPhoto = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImage(e.target.value);
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const content = e.target.result;
+      // the blob data is automatic received as base64
+      setPhoto({ ext: file.type.split("/")[1], content });
+    };
+    reader.readAsDataURL(file);
+  };
+
   const uploadPhoto = useCallback((e) => {
     const file = document.getElementById("menu-photo");
     if (file !== null) file.click();
   }, []);
-
-  const onError = (err) => {
-    console.log("Error", err);
-  };
-
-  const onSuccess = (res) => {
-    console.log("Success", res);
-  };
 
   const fetch = async () => {
     setLoading(true);
@@ -110,7 +106,7 @@ const Settings = () => {
         getUserName(),
         menu || "",
         description || "",
-        photo || ""
+        photo || { ext: "", content: "" }
       );
       if (response.status === 200)
         setNotificationState({
@@ -208,28 +204,23 @@ const Settings = () => {
               {languageState.texts.Settings.Title}
             </Typography>
             <SitoContainer sx={{ width: "100%" }} justifyContent="center">
-              <IKContext
-                publicKey={config.imagekitPublicKey}
-                urlEndpoint={config.imagekitUrl}
-                transformationPosition="path"
-                authenticationEndpoint={config.imagekitAuthUrl}
-              >
-                <IKUpload
-                  id="menu-photo"
-                  fileName="menu-photo"
-                  onError={onError}
-                  onSuccess={onSuccess}
-                />
-              </IKContext>
+              <input
+                id="menu-photo"
+                type="file"
+                accept=".jpg, .png, .webp, .gif"
+                value={image}
+                onChange={onUploadPhoto}
+              />
               <Box
                 sx={{
                   width: { md: "160px", sm: "120px", xs: "80px" },
                   height: { md: "160px", sm: "120px", xs: "80px" },
+                  borderRadius: "100%",
                 }}
               >
                 <SitoImage
                   id="no-image"
-                  src={photo}
+                  src={photo.content}
                   alt="no-image"
                   sx={{
                     objectFit: "cover",

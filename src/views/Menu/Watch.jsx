@@ -101,7 +101,7 @@ const Watch = () => {
                       }}
                     >
                       <SitoImage
-                        src={item.ph}
+                        src={item.ph.content}
                         alt={item.n}
                         sx={{
                           objectFit: "cover",
@@ -151,7 +151,6 @@ const Watch = () => {
           setLoading(0);
         } else setLoading(-1);
       } catch (err) {
-        console.log("hola1");
         console.log(err);
         setNotificationState({
           type: "set",
