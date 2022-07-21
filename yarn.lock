@@ -5013,10 +5013,10 @@ imagekit-javascript@^1.3.6:
   resolved "https://registry.yarnpkg.com/imagekit-javascript/-/imagekit-javascript-1.5.2.tgz#d6b7b99771f5f120a442eaeda74dd1619c7433c4"
   integrity sha512-qZquDA8vL4TGrn4VhKzzlnaDqPoYrn1Asrcfzfq0HvAy0w0P9jrPTl8foL6bPbvAGzx7Kj2P2M51HrOQKLX4IQ==
 
-imagekitio-react@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/imagekitio-react/-/imagekitio-react-1.1.1.tgz#d0102c337ad34087145a8beb0532b1d3566dcadb"
-  integrity sha512-6zKigyWbokArNMPjJTJ7Dt8yWOVqQi5H8wohbrLQO2MYGWcUQBr4iY5XQbtevjc/0sOlnpLEw2gOHrzFwD6CFA==
+imagekitio-react@1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/imagekitio-react/-/imagekitio-react-1.0.11.tgz#95f90a45d876a98a59b39f2585c46a74c5f96e8e"
+  integrity sha512-Ohf0kpG0WU5kfAOZM/QWEeFNOaAK6fFGg3q7ZiqRWxzgJvU3tLTWf9JSPGlC5CgdWtTOAMUMiN3xzwf57vGKzA==
   dependencies:
     imagekit-javascript "^1.3.6"
     prop-types "^15.7.2"
