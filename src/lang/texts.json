@@ -25,6 +25,7 @@
     },
     "Settings": {
       "Title": "Ajustes",
+      "Qr": "Código Qr del menú",
       "Inputs": {
         "Menu": {
           "Label": "Nombre del centro",

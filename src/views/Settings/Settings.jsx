@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import QRCode from "react-qr-code";
 
 // imagekitio
 import { IKContext, IKUpload } from "imagekitio-react";
@@ -245,6 +246,10 @@ const Settings = () => {
               {languageState.texts.Insert.Buttons.Save}
             </Button>
           </SitoContainer>
+          <Typography variant="h4">
+            {languageState.texts.Settings.Qr}
+          </Typography>
+          <QRCode value="hey" />
         </form>
       ) : (
         <NotConnected onRetry={retry} />
