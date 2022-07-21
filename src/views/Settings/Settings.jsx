@@ -201,14 +201,6 @@ const Settings = () => {
             <Loading
               visible={loading}
               sx={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                top: 0,
-                left: 0,
-                backdropFilter: "blur(4px)",
-                background: `${theme.palette.background.paper}ec`,
-                borderRadius: "1rem",
                 zIndex: loading ? 99 : -1,
               }}
             />

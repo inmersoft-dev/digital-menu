@@ -14,7 +14,6 @@ import Loading from "../../components/Loading/Loading";
 import { logoutUser } from "../../utils/auth";
 
 const Logout = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
   const [loading] = useState(true);
 
@@ -30,14 +29,6 @@ const Logout = () => {
       <Loading
         visible={loading}
         sx={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          top: 0,
-          left: 0,
-          backdropFilter: "blur(4px)",
-          background: `${theme.palette.background.paper}ec`,
-          borderRadius: "1rem",
           zIndex: loading ? 99 : -1,
         }}
       />

@@ -2,12 +2,13 @@
 import PropTypes from "prop-types";
 
 // @mui components
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
 // @mui icons
 import LoopIcon from "@mui/icons-material/Loop";
 
 const Loading = (props) => {
+  const theme = useTheme();
   const { sx, visible } = props;
   return (
     <Box
@@ -17,6 +18,14 @@ const Loading = (props) => {
         alignItems: "center",
         justifyContent: "center",
         transition: "all 400ms ease",
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        top: 0,
+        left: 0,
+        backdropFilter: "blur(4px)",
+        background: `${theme.palette.background.paper}`,
+        borderRadius: "1rem",
         ...sx,
       }}
     >
