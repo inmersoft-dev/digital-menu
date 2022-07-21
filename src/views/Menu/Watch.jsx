@@ -137,7 +137,7 @@ const Watch = () => {
                     </Typography>
                   </Box>
                   <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                    {item.p}
+                    {item.p} CUP
                   </Typography>
                 </Box>
               </Paper>
@@ -238,7 +238,7 @@ const Watch = () => {
         <Modal visible={visible} item={selected} onClose={onModalClose} />
       )}
       <Loading
-        visible={loading}
+        visible={loading === 1}
         sx={{
           position: "absolute",
           width: "100%",
@@ -248,7 +248,7 @@ const Watch = () => {
           backdropFilter: "blur(4px)",
           background: `${theme.palette.background.paper}ec`,
           borderRadius: "1rem",
-          zIndex: loading ? 99 : -1,
+          zIndex: loading === 1 ? 99 : -1,
         }}
       />
       <Box
@@ -258,7 +258,7 @@ const Watch = () => {
           display: "flex",
           alignItems: "center",
           marginTop: "80px",
-          margin: "auto",
+          margin: "80px auto 0 auto",
         }}
       >
         <Box

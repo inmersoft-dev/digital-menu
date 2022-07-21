@@ -22,6 +22,7 @@ import { fetchAll } from "../../services/menu.js";
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
+import { getUserName, userLogged } from "../../utils/auth";
 
 const Home = () => {
   const linkStyle = css({
@@ -57,7 +58,11 @@ const Home = () => {
               sx={{ width: "100%" }}
             >
               <Link
-                to={`/menu/?user=${item.u}&menu=${item.m}`}
+                to={
+                  userLogged() && item.u === getUserName()
+                    ? "/menu/edit"
+                    : `/menu/?user=${item.u}&menu=${item.m}`
+                }
                 className={linkStyle}
               >
                 <Paper

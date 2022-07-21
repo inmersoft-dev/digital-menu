@@ -2,6 +2,9 @@ import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
 
+// functions
+import { getCookie } from "../utils/auth";
+
 import md5 from "md5";
 
 export const validateBasicKey = async () => {
@@ -10,7 +13,10 @@ export const validateBasicKey = async () => {
     `${config.apiUrl}user/validate`,
     {},
     {
-      headers: getAuth,
+      headers: {
+        ...getAuth,
+        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+      },
     }
   );
   const data = await response.data;

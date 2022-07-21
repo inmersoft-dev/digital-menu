@@ -11,19 +11,17 @@ import SitoContainer from "sito-container";
 import Loading from "../../components/Loading/Loading";
 
 // utils
-import { deleteCookie, logoutUser } from "../../utils/auth";
-
-import config from "../../config";
+import { logoutUser } from "../../utils/auth";
 
 const Logout = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(true);
 
   useEffect(() => {
     logoutUser();
     setTimeout(() => {
-      navigate("/auth/");
+      navigate("/");
     }, 1000);
   }, []);
 

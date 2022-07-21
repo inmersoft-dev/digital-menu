@@ -19,7 +19,7 @@ const ToLogout = () => {
         borderRadius: "100%",
         position: "fixed",
         right: 10,
-        top: 10,
+        bottom: 10,
         padding: "5px",
         minWidth: 0,
       }}

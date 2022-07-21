@@ -163,7 +163,7 @@ const Edit = () => {
                       </Typography>
                     </Box>
                     <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                      {item.p}
+                      {item.p} CUP
                     </Typography>
                   </Box>
                 </Box>
@@ -311,7 +311,7 @@ const Edit = () => {
         />
       )}
       <Loading
-        visible={loading}
+        visible={loading === 1}
         sx={{
           position: "absolute",
           width: "100%",
@@ -321,7 +321,7 @@ const Edit = () => {
           backdropFilter: "blur(4px)",
           background: `${theme.palette.background.paper}ec`,
           borderRadius: "1rem",
-          zIndex: loading ? 99 : -1,
+          zIndex: loading === 1 ? 99 : -1,
         }}
       />
       <TabView
