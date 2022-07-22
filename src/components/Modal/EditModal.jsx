@@ -119,9 +119,7 @@ const Modal = (props) => {
     const image = document.getElementById("no-product");
     if (image !== null) image.onclick = uploadPhoto;
     return () => {
-      if (image !== null) {
-        image.onclick = undefined;
-      }
+      if (image !== null) image.onclick = undefined;
     };
   }, [uploadPhoto]);
 
@@ -184,7 +182,7 @@ const Modal = (props) => {
               value={image}
               onChange={onUploadPhoto}
             />
-            {photo.content === "" ? (
+            {photo && photo.content === "" ? (
               <SitoImage
                 id="no-product"
                 src={noProduct}
@@ -198,7 +196,7 @@ const Modal = (props) => {
               />
             ) : (
               <SitoImage
-                src={photo.content}
+                src={photo ? photo.content : ""}
                 alt={getValues("name")}
                 sx={{
                   width: "100%",

@@ -126,7 +126,7 @@ const Edit = () => {
                       }}
                     >
                       <SitoImage
-                        src={item.ph.content}
+                        src={item.ph ? item.ph.content : ""}
                         alt={item.n}
                         sx={{
                           objectFit: "cover",

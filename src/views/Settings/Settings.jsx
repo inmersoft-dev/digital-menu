@@ -220,7 +220,7 @@ const Settings = () => {
               >
                 <SitoImage
                   id="no-image"
-                  src={photo.content}
+                  src={photo ? photo.content : ""}
                   alt="no-image"
                   sx={{
                     objectFit: "cover",
