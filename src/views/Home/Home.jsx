@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 // @mui icons
-import DoDisturbIcon from "@mui/icons-material/DoDisturb";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
 // @mui components
 import { Button, Typography } from "@mui/material";
@@ -32,7 +32,7 @@ const Home = () => {
       }}
       flexDirection="column"
     >
-      <DoDisturbIcon color="secondary" sx={{ fontSize: "4rem" }} />
+      <ReceiptLongIcon color="secondary" sx={{ fontSize: "4rem" }} />
       <Typography color="secondary" variant="h4" sx={{ marginTop: "20px" }}>
         {languageState.texts.Home.Title}
       </Typography>
