@@ -1,21 +1,7 @@
-const {
-  REACT_APP_API_URL,
-  REACT_APP_BASIC_KEY,
-  REACT_APP_USER_COOKIE,
-  REACT_APP_IMAGEKIT_URL,
-  REACT_APP_IMAGEKIT_PUBLIC_KEY,
-  REACT_APP_IMAGEKIT_AUTH_URL,
-  REACT_APP_URL,
-} = process.env;
+const { REACT_APP_URL } = process.env;
 
 const config = {
-  basicKey: REACT_APP_BASIC_KEY,
-  apiUrl: REACT_APP_API_URL,
-  userCookie: REACT_APP_USER_COOKIE,
   url: REACT_APP_URL,
-  imagekitUrl: REACT_APP_IMAGEKIT_URL,
-  imagekitPublicKey: REACT_APP_IMAGEKIT_PUBLIC_KEY,
-  imagekitAuthUrl: REACT_APP_IMAGEKIT_AUTH_URL,
 };
 
 export default config;
