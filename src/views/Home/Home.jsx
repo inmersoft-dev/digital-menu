@@ -1,10 +1,8 @@
-import { Link } from "react-router-dom";
-
 // @mui icons
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
 // @mui components
-import { Button, Typography } from "@mui/material";
+import { Link, Button, Typography } from "@mui/material";
 
 // @emotion/css
 import { css } from "@emotion/css";
@@ -37,7 +35,7 @@ const Home = () => {
         {languageState.texts.Home.Title}
       </Typography>
       <Link
-        to="https://digi-menu.netlify.app/"
+        href="https://digi-menu.netlify.app/"
         className={css({ textDecoration: "none", marginTop: "20px" })}
       >
         <Button variant="contained">{languageState.texts.Home.Link}</Button>
