@@ -29,6 +29,7 @@ import { userLogged, logoutUser } from "./utils/auth";
 
 // services
 import { validateBasicKey } from "./services/auth";
+import NotFound from "./views/NotFound/NotFound";
 
 const App = () => {
   const fetch = async () => {
@@ -66,6 +67,7 @@ const App = () => {
             <Route exact path="/settings/" element={<Settings />} />
             <Route exact path="/menu/" element={<Watch />} />
             <Route exact path="/menu/edit" element={<Edit />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

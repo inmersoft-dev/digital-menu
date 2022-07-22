@@ -1,5 +1,10 @@
 {
   "es": {
+    "NotFound": {
+      "Title": "404",
+      "Description": "La página que buscas no se encuentra o ha sido eliminada",
+      "Link": "Retornar al inicio"
+    },
     "Errors": {
       "NotConnected": "No tienes conexión con el servidor",
       "Empty": "No hay productos",
