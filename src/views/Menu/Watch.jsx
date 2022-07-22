@@ -263,7 +263,7 @@ const Watch = () => {
           }}
         >
           <SitoImage
-            src={photo}
+            src={photo.content}
             alt={currentMenu}
             sx={{
               objectFit: "cover",
