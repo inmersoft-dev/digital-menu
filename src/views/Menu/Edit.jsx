@@ -319,6 +319,7 @@ const Edit = () => {
   useEffect(() => {
     if (!userLogged()) navigate("/auth/");
     retry();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -13,8 +13,6 @@ const BackButton = () => {
   return (
     <SitoContainer
       sx={{
-        top: 10,
-        left: 10,
         position: "absolute",
         top: "10px",
         left: "10px",

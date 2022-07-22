@@ -39,7 +39,7 @@ const Home = () => {
   const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
 
-  const [allData, setAllData] = useState([]);
+  const [, setAllData] = useState([]);
   const [list, setList] = useState([]);
 
   const fetch = async () => {
@@ -157,6 +157,7 @@ const Home = () => {
 
   useEffect(() => {
     retry();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

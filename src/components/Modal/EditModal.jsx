@@ -32,7 +32,7 @@ const Modal = (props) => {
   const [ok, setOk] = useState(1);
 
   const [image, setImage] = useState("");
-  const [imageFile, setImageFile] = useState();
+  const [, setImageFile] = useState();
 
   const [photo, setPhoto] = useState({ edt: "", content: "" });
   const { control, handleSubmit, reset, getValues, setValue } = useForm({
@@ -51,6 +51,7 @@ const Modal = (props) => {
     const { i, n, p, d, ph, t } = item;
     setPhoto(ph);
     reset({ id: i, name: n, price: p, description: d, type: types[t] });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

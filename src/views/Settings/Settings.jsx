@@ -53,7 +53,7 @@ const Settings = () => {
   });
 
   const [image, setImage] = useState("");
-  const [imageFile, setImageFile] = useState();
+  const [, setImageFile] = useState();
 
   const onUploadPhoto = (e) => {
     const file = e.target.files[0];
@@ -150,6 +150,7 @@ const Settings = () => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
     retry();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onQrDownload = () => {

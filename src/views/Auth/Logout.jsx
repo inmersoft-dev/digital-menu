@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-// @mui components
-import { useTheme } from "@mui/material";
-
 // sito components
 import SitoContainer from "sito-container";
 
@@ -22,6 +19,7 @@ const Logout = () => {
     setTimeout(() => {
       navigate("/");
     }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

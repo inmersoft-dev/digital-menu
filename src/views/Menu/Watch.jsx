@@ -229,6 +229,7 @@ const Watch = () => {
       }
     }
     retry(user, menu);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentOwner, currentMenu, location]);
 
   return (
