@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 // @mui icons
-import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 
 // @mui components
 import { Button, Typography } from "@mui/material";

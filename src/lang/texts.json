@@ -1,7 +1,7 @@
 {
   "es": {
     "NotFound": {
-      "Title": "404",
+      "Title": "404 No encontrado",
       "Description": "La página que buscas no se encuentra o ha sido eliminada",
       "Link": "Retornar al inicio"
     },
