@@ -34,7 +34,7 @@ const Home = () => {
     >
       <DoDisturbIcon color="secondary" sx={{ fontSize: "4rem" }} />
       <Typography color="secondary" variant="h4" sx={{ marginTop: "20px" }}>
-        {languageState.texts.NotFound.Title}
+        {languageState.texts.Home.Title}
       </Typography>
       <Link
         to="/"
