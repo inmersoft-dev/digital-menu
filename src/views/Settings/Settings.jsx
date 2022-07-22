@@ -33,6 +33,8 @@ import { userLogged, getUserName } from "../../utils/auth";
 import { saveProfile } from "../../services/profile";
 import { fetchMenu } from "../../services/menu.js";
 
+import config from "../../config";
+
 const Settings = () => {
   const navigate = useNavigate();
 
@@ -288,7 +290,10 @@ const Settings = () => {
                 marginTop: "20px",
               }}
             >
-              <QRCode value={"hola"} id="QRCode" />
+              <QRCode
+                value={`${config.url}menu/?user=${getUserName()}`}
+                id="QRCode"
+              />
               <Button
                 onClick={onQrDownload}
                 variant="contained"
