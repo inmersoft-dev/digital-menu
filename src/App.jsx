@@ -43,7 +43,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log(process.env.PUBLIC_URL);
     if (userLogged()) fetch();
   }, []);
 
