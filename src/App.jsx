@@ -23,13 +23,13 @@ import Register from "./views/Auth/Register";
 import Watch from "./views/Menu/Watch";
 import Edit from "./views/Menu/Edit";
 import Settings from "./views/Settings/Settings";
+import NotFound from "./views/NotFound/NotFound";
 
 // functions
 import { userLogged, logoutUser } from "./utils/auth";
 
 // services
 import { validateBasicKey } from "./services/auth";
-import NotFound from "./views/NotFound/NotFound";
 
 const App = () => {
   const fetch = async () => {

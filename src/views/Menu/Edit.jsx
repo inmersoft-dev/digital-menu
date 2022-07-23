@@ -199,9 +199,7 @@ const Edit = () => {
   const { setNotificationState } = useNotification();
   const { languageState } = useLanguage();
 
-  const retry = () => {
-    fetch();
-  };
+  const retry = () => fetch();
 
   const firstActive = (array) => {
     let i = 0;
@@ -319,7 +317,7 @@ const Edit = () => {
   useEffect(() => {
     if (!userLogged()) navigate("/auth/");
     retry();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

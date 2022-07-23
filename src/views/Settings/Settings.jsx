@@ -45,7 +45,7 @@ const Settings = () => {
   const [error, setError] = useState(false);
   const [photo, setPhoto] = useState("");
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, getValues } = useForm({
     defaultValues: {
       menu: "",
       description: "",
@@ -96,9 +96,7 @@ const Settings = () => {
     setLoading(false);
   };
 
-  const retry = () => {
-    fetch();
-  };
+  const retry = () => fetch();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -150,7 +148,7 @@ const Settings = () => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
     retry();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onQrDownload = () => {
@@ -292,7 +290,9 @@ const Settings = () => {
               }}
             >
               <QRCode
-                value={`${config.url}menu/?user=${getUserName()}`}
+                value={`${
+                  config.url
+                }menu/?user=${getUserName()}&menu=${getValues("menu")}`}
                 id="QRCode"
               />
               <Button
