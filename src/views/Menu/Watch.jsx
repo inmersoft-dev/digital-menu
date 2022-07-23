@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
+
+// in-viewport
 import inViewport from "in-viewport";
 
 // framer-motion
@@ -28,23 +30,16 @@ import { useNotification } from "../../context/NotificationProvider";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
-import { css } from "@emotion/css";
+
+// animations
+import {
+  motionUlContainer,
+  motionUlCss,
+  motionLiAnimation,
+  motionLiCss,
+} from "../../assets/animations/motion";
 
 const Watch = () => {
-  const motionDivAnimation = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-    },
-  };
-
-  const motionDivCss = css({
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-  });
-
   const theme = useTheme();
   const location = useLocation();
   const { languageState } = useLanguage();
@@ -94,11 +89,13 @@ const Watch = () => {
           });
           data.l.forEach((item, i) => {
             tabsByType[item.t].push(
-              <motion.div
+              <motion.li
                 key={item.i}
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
-                variants={motionDivAnimation}
-                className={motionDivCss}
+                variants={motionLiAnimation}
+                className={motionLiCss}
               >
                 <Paper
                   onClick={() => {
@@ -170,7 +167,7 @@ const Watch = () => {
                     </Typography>
                   </Box>
                 </Paper>
-              </motion.div>
+              </motion.li>
             );
           });
           setAllData(data.l);
@@ -335,14 +332,13 @@ const Watch = () => {
           }}
         >
           {tabs.map((item, i) => (
-            <Box
+            <motion.ul
               key={i}
-              sx={{
-                flexDirection: "column",
-                marginTop: i === 0 ? 0 : "20px",
-                alignItems: "center",
-                display: "flex",
-              }}
+              variants={motionUlContainer}
+              className={motionUlCss}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
             >
               <Box
                 id={`title-${i}`}
@@ -351,7 +347,7 @@ const Watch = () => {
                 <Typography variant="h5">{types[i]}</Typography>
               </Box>
               {item}
-            </Box>
+            </motion.ul>
           ))}
         </Box>
       )}

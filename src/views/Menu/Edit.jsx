@@ -1,7 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
+// in-viewport
 import inViewport from "in-viewport";
+
+// @emotion
+import { motion } from "framer-motion";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -40,6 +44,14 @@ import { useLanguage } from "../../context/LanguageProvider";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
+
+// animations
+import {
+  motionUlContainer,
+  motionUlCss,
+  motionLiAnimation,
+  motionLiCss,
+} from "../../assets/animations/motion";
 
 const Edit = () => {
   const theme = useTheme();
@@ -83,10 +95,13 @@ const Edit = () => {
         });
         data.l.forEach((item, i) => {
           tabsByType[item.t].push(
-            <SitoContainer
+            <motion.li
               key={item.i}
-              justifyContent="center"
-              sx={{ width: "100%" }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={motionLiAnimation}
+              className={motionLiCss}
             >
               <Paper
                 id={`obj-${i}`}
@@ -175,7 +190,7 @@ const Edit = () => {
                   </Box>
                 </Box>
               </Paper>
-            </SitoContainer>
+            </motion.li>
           );
         });
         setAllData(data.l);
@@ -396,14 +411,13 @@ const Edit = () => {
           }}
         >
           {tabs.map((item, i) => (
-            <Box
+            <motion.ul
               key={i}
-              sx={{
-                flexDirection: "column",
-                marginTop: "20px",
-                alignItems: "center",
-                display: "flex",
-              }}
+              variants={motionUlContainer}
+              className={motionUlCss}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
             >
               <Box
                 id={`title-${i}`}
@@ -412,7 +426,7 @@ const Edit = () => {
                 <Typography variant="h5">{types[i]}</Typography>
               </Box>
               {item}
-            </Box>
+            </motion.ul>
           ))}
         </Box>
       )}

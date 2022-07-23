@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+// framer-motion
+import { motion } from "framer-motion";
+
 // @emotion/css
 import { css } from "@emotion/css";
 
@@ -26,6 +29,14 @@ import { getUserName, userLogged } from "../../utils/auth";
 
 // image
 import noProduct from "../../assets/images/no-product.webp";
+
+// animations
+import {
+  motionUlContainer,
+  motionUlCss,
+  motionLiAnimation,
+  motionLiCss,
+} from "../../assets/animations/motion";
 
 const Home = () => {
   const linkStyle = css({
@@ -55,10 +66,13 @@ const Home = () => {
         const newList = [];
         Object.values(data.u).forEach((item, i) => {
           newList.push(
-            <SitoContainer
-              key={item.u}
-              justifyContent="center"
-              sx={{ width: "100%" }}
+            <motion.li
+              key={item.i}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={motionLiAnimation}
+              className={motionLiCss}
             >
               <Link
                 to={
@@ -132,7 +146,7 @@ const Home = () => {
                   </Box>
                 </Paper>
               </Link>
-            </SitoContainer>
+            </motion.li>
           );
         });
         setList(newList);
@@ -186,17 +200,16 @@ const Home = () => {
           }}
         >
           {list.map((item, i) => (
-            <Box
+            <motion.ul
               key={i}
-              sx={{
-                flexDirection: "column",
-                marginTop: i === 0 ? "40px" : "20px",
-                alignItems: "center",
-                display: "flex",
-              }}
+              variants={motionUlContainer}
+              className={motionUlCss}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
             >
               {item}
-            </Box>
+            </motion.ul>
           ))}
         </Box>
       )}
