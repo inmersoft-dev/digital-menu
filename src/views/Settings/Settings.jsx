@@ -178,7 +178,7 @@ const Settings = () => {
       sx={{
         minWidth: "100vw",
         minHeight: "100vh",
-        padding: "70px 0",
+        padding: "50px 0 70px 0",
         display: "flex",
         justifyContent: "center",
       }}

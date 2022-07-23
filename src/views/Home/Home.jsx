@@ -17,6 +17,7 @@ import SitoImage from "sito-image";
 // own components
 import Loading from "../../components/Loading/Loading";
 import Empty from "../../components/Empty/Empty";
+import ToLogout from "../../components/ToLogout/ToLogout";
 import NotConnected from "../../components/NotConnected/NotConnected";
 
 // services
@@ -166,6 +167,7 @@ const Home = () => {
           zIndex: loading === 1 ? 99 : -1,
         }}
       />
+      {userLogged() && <ToLogout />}
       {error && loading === -1 && <NotConnected onRetry={retry} />}
       {loading === -1 && !error && <Empty />}
       {!error && loading === 0 && (
