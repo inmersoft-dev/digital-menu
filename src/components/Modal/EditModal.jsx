@@ -197,7 +197,7 @@ const Modal = (props) => {
               />
             ) : (
               <SitoImage
-                src={photo ? photo.content : ""}
+                src={photo && photo.content !== "" ? photo.content : noProduct}
                 alt={getValues("name")}
                 sx={{
                   width: "100%",

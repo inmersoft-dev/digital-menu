@@ -23,6 +23,9 @@ import { fetchMenu } from "../../services/menu.js";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
+// images
+import noProduct from "../../assets/images/no-product.webp";
+
 const Watch = () => {
   const theme = useTheme();
   const location = useLocation();
@@ -103,7 +106,11 @@ const Watch = () => {
                       }}
                     >
                       <SitoImage
-                        src={item.ph ? item.ph.content : ""}
+                        src={
+                          item.ph && item.ph.content !== ""
+                            ? item.ph.content
+                            : noProduct
+                        }
                         alt={item.n}
                         sx={{
                           objectFit: "cover",

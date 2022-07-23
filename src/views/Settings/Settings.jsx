@@ -33,6 +33,9 @@ import { userLogged, getUserName } from "../../utils/auth";
 import { saveProfile } from "../../services/profile";
 import { fetchMenu } from "../../services/menu.js";
 
+// images
+import noProduct from "../../assets/images/no-product.webp";
+
 import config from "../../config";
 
 const Settings = () => {
@@ -41,7 +44,7 @@ const Settings = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [photo, setPhoto] = useState("");
 
@@ -221,7 +224,9 @@ const Settings = () => {
               >
                 <SitoImage
                   id="no-image"
-                  src={photo ? photo.content : ""}
+                  src={
+                    photo && photo.content !== "" ? photo.content : noProduct
+                  }
                   alt="no-image"
                   sx={{
                     objectFit: "cover",
