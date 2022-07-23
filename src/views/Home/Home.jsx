@@ -157,7 +157,7 @@ const Home = () => {
 
   useEffect(() => {
     retry();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -168,7 +168,7 @@ const Home = () => {
       <Loading
         visible={loading === 1}
         sx={{
-          zIndex: loading ? 99 : -1,
+          zIndex: loading === 1 ? 99 : -1,
         }}
       />
       {error && loading === -1 && <NotConnected onRetry={retry} />}
