@@ -135,9 +135,10 @@ const Modal = (props) => {
     <Box
       sx={{
         position: "fixed",
-        top: 0,
         left: 0,
-        zIndex: show ? 99 : -1,
+        bottom: 0,
+        right: 0,
+        zIndex: show ? 20 : -1,
         opacity: show ? 1 : -1,
         width: "100vw",
         height: "100vh",
