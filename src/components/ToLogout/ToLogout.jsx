@@ -22,6 +22,7 @@ const ToLogout = () => {
         bottom: 10,
         padding: "5px",
         minWidth: 0,
+        zIndex: 20
       }}
     >
       <KeyOffIcon />

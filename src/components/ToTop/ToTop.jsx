@@ -42,7 +42,7 @@ const ToTop = () => {
         minWidth: 0,
         transform: visible ? "scale(1)" : "scale(0)",
         transition: "all 500ms ease",
-        zIndex: visible ? 10 : -1,
+        zIndex: visible ? 20 : -1,
       }}
     >
       <ArrowUpwardIcon />
