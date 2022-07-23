@@ -35,7 +35,7 @@ const Home = () => {
         {languageState.texts.Home.Title}
       </Typography>
       <Link
-        href="https://digi-menu.netlify.app/"
+        href="https://inmersoft.github.io/digi-menu/"
         className={css({ textDecoration: "none", marginTop: "20px" })}
       >
         <Button variant="contained">{languageState.texts.Home.Link}</Button>
