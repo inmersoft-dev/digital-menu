@@ -255,7 +255,7 @@ const Edit = () => {
     const data = await justGetData();
     const newAllData = data.l;
     const newTypes = data.t;
-    const deletionType = newTypes.indexOf(newAllData[index].t);
+    const deletionType = newTypes.indexOf(newTypes[newAllData[index].t]);
     newAllData.splice(index, 1);
     let found = false;
     for (let i = 0; i < newAllData.length && !found; i += 1)
