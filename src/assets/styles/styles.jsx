@@ -51,7 +51,7 @@ export const productContentBox = {
 };
 
 export const productDescriptionBox = {
-  height: { xs: "28px", sm: "50px", md: "100px" },
+  height: { xs: "25px", sm: "50px", md: "100px" },
   lineHeight: "20px",
   wordBreak: "break-all",
   display: "-webkit-box",
