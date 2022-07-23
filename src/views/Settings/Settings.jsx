@@ -45,7 +45,7 @@ const Settings = () => {
   const [error, setError] = useState(false);
   const [photo, setPhoto] = useState("");
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, getValues } = useForm({
     defaultValues: {
       menu: "",
       description: "",
@@ -290,7 +290,9 @@ const Settings = () => {
               }}
             >
               <QRCode
-                value={`${config.url}menu/?user=${getUserName()}`}
+                value={`${
+                  config.url
+                }menu/?user=${getUserName()}&menu=${getValues("menu")}`}
                 id="QRCode"
               />
               <Button
