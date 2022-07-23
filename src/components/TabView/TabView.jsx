@@ -60,7 +60,7 @@ const TabView = (props) => {
 
   useEffect(() => {
     handleChange({}, value);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (
@@ -71,6 +71,7 @@ const TabView = (props) => {
         top: 0,
         left: 0,
         background: theme.palette.background.paper,
+        zIndex: 20,
       }}
     >
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
