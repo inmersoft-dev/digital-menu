@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -43,6 +43,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    console.log(process.env.PUBLIC_URL);
     if (userLogged()) fetch();
   }, []);
 
@@ -57,7 +58,7 @@ const App = () => {
       <ToTop />
       <ThemeProvider theme={dark}>
         <CssBaseline />
-        <HashRouter basename={process.env.PUBLIC_URL}>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <ToLogin />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -69,7 +70,7 @@ const App = () => {
             <Route exact path="/menu/edit" element={<Edit />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </HashRouter>
+        </BrowserRouter>
       </ThemeProvider>
     </SitoContainer>
   );
