@@ -292,8 +292,6 @@ const Edit = () => {
     });
     if (indexes.length) newAllData[indexes[0]] = { ...parsedData };
     else newAllData.push(parsedData);
-    console.log(allData);
-    console.log(newAllData);
     const result = await saveMenu(
       getUserName(),
       getUserName(),
