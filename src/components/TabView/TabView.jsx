@@ -53,15 +53,8 @@ const TabView = (props) => {
   const [localValue, setLocalValue] = useState(0);
 
   const handleChange = (event, newValue) => {
-    console.log("tabView", shouldScroll);
-    if (shouldScroll) {
-      console.log(
-        "tavView",
-        `title-${newValue}`,
-        document.getElementById(`title-${newValue}`).offsetTop
-      );
+    if (shouldScroll)
       scrollTo(document.getElementById(`title-${newValue}`).offsetTop);
-    }
     setLocalValue(newValue);
   };
 

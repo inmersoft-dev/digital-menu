@@ -205,14 +205,7 @@ const Watch = () => {
 
   const onClick = useCallback(
     (e) => {
-      console.log(
-        "click outside",
-        shouldScroll,
-        e.target.id,
-        e.target.id.split("-").length
-      );
       if (!shouldScroll && e.target.id && e.target.id.split("-").length > 2) {
-        console.log("click inside");
         setTab(Number(e.target.id.split("-")[2]));
         setShouldScroll(true);
       }
