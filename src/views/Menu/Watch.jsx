@@ -162,9 +162,7 @@ const Watch = () => {
       }
   };
 
-  const retry = () => {
-    fetch();
-  };
+  const retry = () => fetch();
 
   const firstActive = (array) => {
     let i = 0;

@@ -16,9 +16,6 @@ export const fetchAll = async () => {
       headers: getAuth,
     }
   );
-  let a = 5 + 10;
-  // eslint-disable-next-line no-unused-vars
-  a = 5 + 10;
   const data = await response.data;
   return data;
 };
