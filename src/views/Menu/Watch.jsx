@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import inViewport from "in-viewport";
 
+// framer-motion
+import { motion } from "framer-motion";
+
 // @mui components
 import { useTheme, Paper, Box, Typography } from "@mui/material";
 
@@ -25,8 +28,23 @@ import { useNotification } from "../../context/NotificationProvider";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
+import { css } from "@emotion/css";
 
 const Watch = () => {
+  const motionDivAnimation = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
+  const motionDivCss = css({
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+  });
+
   const theme = useTheme();
   const location = useLocation();
   const { languageState } = useLanguage();
@@ -76,10 +94,11 @@ const Watch = () => {
           });
           data.l.forEach((item, i) => {
             tabsByType[item.t].push(
-              <SitoContainer
+              <motion.div
                 key={item.i}
-                justifyContent="center"
-                sx={{ width: "100%" }}
+                viewport={{ once: true }}
+                variants={motionDivAnimation}
+                className={motionDivCss}
               >
                 <Paper
                   onClick={() => {
@@ -151,7 +170,7 @@ const Watch = () => {
                     </Typography>
                   </Box>
                 </Paper>
-              </SitoContainer>
+              </motion.div>
             );
           });
           setAllData(data.l);
@@ -281,7 +300,7 @@ const Watch = () => {
           }}
         >
           <SitoImage
-            src={photo.content}
+            src={photo && photo.content !== "" ? photo.content : noProduct}
             alt={menu}
             sx={{
               objectFit: "cover",

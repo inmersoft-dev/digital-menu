@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+
+// styles
 import "./index.css";
 
 // context
