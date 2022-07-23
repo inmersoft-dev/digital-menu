@@ -53,6 +53,18 @@ import {
   motionLiCss,
 } from "../../assets/animations/motion";
 
+// styles
+import {
+  headerBox,
+  mainWindow,
+  productContentBox,
+  productDescriptionBox,
+  productImage,
+  productImageBox,
+  productList,
+  typeBoxCss,
+} from "../../assets/styles/styles";
+
 const Edit = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -137,12 +149,7 @@ const Edit = () => {
                   }}
                 >
                   <SitoContainer sx={{ marginRight: "20px" }}>
-                    <Box
-                      sx={{
-                        width: { md: "160px", sm: "120px", xs: "80px" },
-                        height: { md: "160px", sm: "120px", xs: "80px" },
-                      }}
-                    >
+                    <Box sx={productImageBox}>
                       <SitoImage
                         src={
                           item.ph && item.ph.content !== ""
@@ -150,36 +157,15 @@ const Edit = () => {
                             : noProduct
                         }
                         alt={item.n}
-                        sx={{
-                          objectFit: "cover",
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "100%",
-                        }}
+                        sx={productImage}
                       />
                     </Box>
                   </SitoContainer>
-                  <Box
-                    sx={{
-                      flexDirection: "column",
-                      justifyContent: "flex-start",
-                      width: { md: "585px", sm: "350px", xs: "95%" },
-                    }}
-                  >
+                  <Box sx={productContentBox}>
                     <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
                       {item.n}
                     </Typography>
-                    <Box
-                      sx={{
-                        height: { xs: "28px", sm: "50px", md: "100px" },
-                        lineHeight: "20px",
-                        wordBreak: "break-all",
-                        display: "-webkit-box",
-                        boxOrient: "vertical",
-                        lineClamp: 5,
-                        overflow: "hidden",
-                      }}
-                    >
+                    <Box sx={productDescriptionBox}>
                       <Typography variant="body1" sx={{ textAlign: "justify" }}>
                         {item.d}
                       </Typography>
@@ -354,10 +340,7 @@ const Edit = () => {
   }, []);
 
   return (
-    <SitoContainer
-      sx={{ width: "100vw", height: "100vh" }}
-      flexDirection="column"
-    >
+    <SitoContainer sx={mainWindow} flexDirection="column">
       <ToLogout />
       {selected && (
         <Modal
@@ -404,29 +387,22 @@ const Edit = () => {
       {error && loading === -1 && <NotConnected onRetry={retry} />}
       {loading === -1 && !error && <Empty />}
       {!error && loading === 0 && (
-        <Box
-          sx={{
-            margin: "0 20px 0 20px",
-            flexDirection: "column",
-          }}
-        >
+        <Box sx={productList}>
           {tabs.map((item, i) => (
-            <motion.ul
-              key={i}
-              variants={motionUlContainer}
-              className={motionUlCss}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <Box
-                id={`title-${i}`}
-                sx={{ width: { md: "800px", sm: "630px", xs: "100%" } }}
-              >
+            <Box key={i} sx={typeBoxCss}>
+              <Box id={`title-${i}`} sx={headerBox}>
                 <Typography variant="h5">{types[i]}</Typography>
               </Box>
-              {item}
-            </motion.ul>
+              <motion.ul
+                variants={motionUlContainer}
+                className={motionUlCss}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {item}
+              </motion.ul>
+            </Box>
           ))}
         </Box>
       )}

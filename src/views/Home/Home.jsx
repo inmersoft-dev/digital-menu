@@ -38,6 +38,16 @@ import {
   motionLiCss,
 } from "../../assets/animations/motion";
 
+// styles
+import {
+  mainWindow,
+  productContentBox,
+  productDescriptionBox,
+  productImage,
+  productImageBox,
+  productPaper,
+} from "../../assets/styles/styles";
+
 const Home = () => {
   const linkStyle = css({
     width: "100%",
@@ -86,22 +96,12 @@ const Home = () => {
                   id={`obj-${i}`}
                   elevation={1}
                   sx={{
-                    cursor: "pointer",
-                    marginTop: "20px",
-                    display: "flex",
-                    width: { md: "800px", sm: "630px", xs: "100%" },
-                    padding: "1rem",
-                    borderRadius: "1rem",
+                    ...productPaper,
                     background: theme.palette.background.paper,
                   }}
                 >
                   <SitoContainer sx={{ marginRight: "20px" }}>
-                    <Box
-                      sx={{
-                        width: { md: "160px", sm: "120px", xs: "80px" },
-                        height: { md: "160px", sm: "120px", xs: "80px" },
-                      }}
-                    >
+                    <Box sx={productImageBox}>
                       <SitoImage
                         src={
                           item.ph && item.ph.content !== ""
@@ -109,36 +109,15 @@ const Home = () => {
                             : noProduct
                         }
                         alt={item.m}
-                        sx={{
-                          objectFit: "cover",
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "100%",
-                        }}
+                        sx={productImage}
                       />
                     </Box>
                   </SitoContainer>
-                  <Box
-                    sx={{
-                      flexDirection: "column",
-                      justifyContent: "flex-start",
-                      width: { md: "585px", sm: "350px", xs: "95%" },
-                    }}
-                  >
+                  <Box sx={productContentBox}>
                     <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
                       {item.m}
                     </Typography>
-                    <Box
-                      sx={{
-                        height: { xs: "28px", sm: "50px", md: "100px" },
-                        lineHeight: "20px",
-                        wordBreak: "break-all",
-                        display: "-webkit-box",
-                        boxOrient: "vertical",
-                        lineClamp: 5,
-                        overflow: "hidden",
-                      }}
-                    >
+                    <Box sx={productDescriptionBox}>
                       <Typography variant="body1" sx={{ textAlign: "justify" }}>
                         {item.d}
                       </Typography>
@@ -180,10 +159,7 @@ const Home = () => {
   }, []);
 
   return (
-    <SitoContainer
-      sx={{ width: "100vw", height: "100vh" }}
-      flexDirection="column"
-    >
+    <SitoContainer sx={mainWindow} flexDirection="column">
       <Loading
         visible={loading === 1}
         sx={{

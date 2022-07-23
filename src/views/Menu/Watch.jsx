@@ -39,6 +39,20 @@ import {
   motionLiCss,
 } from "../../assets/animations/motion";
 
+// styles
+import {
+  typeBoxCss,
+  productPaper,
+  productImageBox,
+  productImage,
+  productContentBox,
+  productDescriptionBox,
+  headerBox,
+  productList,
+  mainContent,
+  mainWindow,
+} from "../../assets/styles/styles";
+
 const Watch = () => {
   const theme = useTheme();
   const location = useLocation();
@@ -105,22 +119,12 @@ const Watch = () => {
                   id={`obj-${i}`}
                   elevation={1}
                   sx={{
-                    cursor: "pointer",
-                    marginTop: "20px",
-                    display: "flex",
-                    width: { md: "800px", sm: "630px", xs: "100%" },
-                    padding: "1rem",
-                    borderRadius: "1rem",
+                    ...productPaper,
                     background: theme.palette.background.paper,
                   }}
                 >
                   <SitoContainer sx={{ marginRight: "20px" }}>
-                    <Box
-                      sx={{
-                        width: { md: "160px", sm: "120px", xs: "80px" },
-                        height: { md: "160px", sm: "120px", xs: "80px" },
-                      }}
-                    >
+                    <Box sx={productImageBox}>
                       <SitoImage
                         src={
                           item.ph && item.ph.content !== ""
@@ -128,36 +132,15 @@ const Watch = () => {
                             : noProduct
                         }
                         alt={item.n}
-                        sx={{
-                          objectFit: "cover",
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "100%",
-                        }}
+                        sx={productImage}
                       />
                     </Box>
                   </SitoContainer>
-                  <Box
-                    sx={{
-                      flexDirection: "column",
-                      justifyContent: "flex-start",
-                      width: { md: "585px", sm: "350px", xs: "95%" },
-                    }}
-                  >
+                  <Box sx={productContentBox}>
                     <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
                       {item.n}
                     </Typography>
-                    <Box
-                      sx={{
-                        height: { xs: "28px", sm: "50px", md: "100px" },
-                        lineHeight: "20px",
-                        wordBreak: "break-all",
-                        display: "-webkit-box",
-                        boxOrient: "vertical",
-                        lineClamp: 5,
-                        overflow: "hidden",
-                      }}
-                    >
+                    <Box sx={productDescriptionBox}>
                       <Typography variant="body1" sx={{ textAlign: "justify" }}>
                         {item.d}
                       </Typography>
@@ -222,7 +205,14 @@ const Watch = () => {
 
   const onClick = useCallback(
     (e) => {
+      console.log(
+        "click outside",
+        shouldScroll,
+        e.target.id,
+        e.target.id.split("-").length
+      );
       if (!shouldScroll && e.target.id && e.target.id.split("-").length > 2) {
+        console.log("click inside");
         setTab(Number(e.target.id.split("-")[2]));
         setShouldScroll(true);
       }
@@ -267,10 +257,7 @@ const Watch = () => {
   }, [currentOwner, currentMenu, location]);
 
   return (
-    <SitoContainer
-      sx={{ width: "100vw", height: "100vh", padding: "25px" }}
-      flexDirection="column"
-    >
+    <SitoContainer sx={mainWindow} flexDirection="column">
       {selected && (
         <Modal visible={visible} item={selected} onClose={onModalClose} />
       )}
@@ -280,31 +267,12 @@ const Watch = () => {
           zIndex: loading === 1 ? 99 : -1,
         }}
       />
-      <Box
-        sx={{
-          width: { md: "800px", sm: "630px", xs: "100%" },
-          flexDirection: "column",
-          display: "flex",
-          alignItems: "center",
-          marginTop: "80px",
-          margin: "80px auto 0 auto",
-        }}
-      >
-        <Box
-          sx={{
-            width: { md: "160px", sm: "120px", xs: "80px" },
-            height: { md: "160px", sm: "120px", xs: "80px" },
-          }}
-        >
+      <Box sx={mainContent}>
+        <Box sx={productImageBox}>
           <SitoImage
             src={photo && photo.content !== "" ? photo.content : noProduct}
             alt={menu}
-            sx={{
-              objectFit: "cover",
-              width: "100%",
-              height: "100%",
-              borderRadius: "100%",
-            }}
+            sx={productImage}
           />
         </Box>
         <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
@@ -325,29 +293,22 @@ const Watch = () => {
       )}
       {loading === -1 && !error && !currentOwner && !currentMenu && <Empty />}
       {!error && currentOwner && currentMenu && (
-        <Box
-          sx={{
-            padding: "20px 0",
-            flexDirection: "column",
-          }}
-        >
+        <Box sx={productList}>
           {tabs.map((item, i) => (
-            <motion.ul
-              key={i}
-              variants={motionUlContainer}
-              className={motionUlCss}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <Box
-                id={`title-${i}`}
-                sx={{ width: { md: "800px", sm: "630px", xs: "100%" } }}
-              >
+            <Box key={i} sx={typeBoxCss}>
+              <Box id={`title-${i}`} sx={headerBox}>
                 <Typography variant="h5">{types[i]}</Typography>
               </Box>
-              {item}
-            </motion.ul>
+              <motion.ul
+                variants={motionUlContainer}
+                className={motionUlCss}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {item}
+              </motion.ul>
+            </Box>
           ))}
         </Box>
       )}

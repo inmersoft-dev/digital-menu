@@ -14,11 +14,7 @@ export const motionUlContainer = {
 };
 
 export const motionUlCss = css({
-  flexDirection: "column",
-  marginTop: "20px",
   padding: 0,
-  alignItems: "center",
-  display: "flex",
 });
 
 export const motionLiAnimation = {
