@@ -28,6 +28,5 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           BRANCH: gh-pages
           FOLDER: build
