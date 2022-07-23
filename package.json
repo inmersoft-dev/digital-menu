@@ -12,6 +12,7 @@
     "@mui/x-data-grid": "^5.10.0",
     "axios": "^0.27.2",
     "env-cmd": "^10.1.0",
+    "framer-motion": "^6.5.1",
     "gh-pages": "^4.0.0",
     "in-viewport": "^3.6.0",
     "md5": "^2.3.0",
