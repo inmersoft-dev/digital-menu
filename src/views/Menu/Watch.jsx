@@ -46,6 +46,7 @@ const Watch = () => {
   const [error, setError] = useState(false);
   const [currentOwner, setCurrentOwner] = useState("");
   const [currentMenu, setCurrentMenu] = useState("");
+  const [menu, setMenu] = useState("");
   const [photo, setPhoto] = useState("");
   const [description, setDescription] = useState("");
 
@@ -64,6 +65,7 @@ const Watch = () => {
         const data = await response.data;
         if (data && data.t && data.l) {
           setPhoto(data.ph);
+          setMenu(data.m);
           setDescription(data.d);
           const tabsByType = [];
           data.t.forEach((item, i) => {
@@ -262,7 +264,7 @@ const Watch = () => {
         >
           <SitoImage
             src={photo.content}
-            alt={currentMenu}
+            alt={menu}
             sx={{
               objectFit: "cover",
               width: "100%",
@@ -272,7 +274,7 @@ const Watch = () => {
           />
         </Box>
         <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-          {currentMenu}
+          {menu}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "justify" }}>
           {description}
