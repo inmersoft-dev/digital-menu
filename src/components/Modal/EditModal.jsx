@@ -50,7 +50,14 @@ const Modal = (props) => {
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
     const { i, n, p, d, ph, t } = item;
     setPhoto(ph);
-    reset({ id: i, name: n, price: p, description: d, type: types[t] });
+    reset({
+      id: i,
+      name: n,
+      price: p,
+      description: d,
+      type: types[t],
+      photo: ph,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
 
