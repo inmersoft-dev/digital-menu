@@ -355,7 +355,7 @@ const Edit = () => {
           variant="contained"
           onClick={() => {
             setSelected({
-              i: allData.length,
+              i: allData[allData.length - 1].i + 1,
               ph: { ext: "", content: "" },
               n: "",
               d: "",
