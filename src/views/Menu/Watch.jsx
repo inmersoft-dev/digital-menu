@@ -214,14 +214,25 @@ const Watch = () => {
     [shouldScroll, setShouldScroll]
   );
 
+  const onKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Escape") {
+        if (visible) setVisible(false);
+      }
+    },
+    [visible, setVisible]
+  );
+
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
     window.addEventListener("click", onClick);
+    window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("click", onClick);
+      window.removeEventListener("keydown", onKeyDown);
     };
-  }, [onScroll, onClick]);
+  }, [onScroll, onClick, onKeyDown]);
 
   useEffect(() => {
     let user;
