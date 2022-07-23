@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -23,13 +23,13 @@ import Register from "./views/Auth/Register";
 import Watch from "./views/Menu/Watch";
 import Edit from "./views/Menu/Edit";
 import Settings from "./views/Settings/Settings";
+import NotFound from "./views/NotFound/NotFound";
 
 // functions
 import { userLogged, logoutUser } from "./utils/auth";
 
 // services
 import { validateBasicKey } from "./services/auth";
-import NotFound from "./views/NotFound/NotFound";
 
 const App = () => {
   const fetch = async () => {
@@ -57,7 +57,7 @@ const App = () => {
       <ToTop />
       <ThemeProvider theme={dark}>
         <CssBaseline />
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <HashRouter basename={process.env.PUBLIC_URL}>
           <ToLogin />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -69,7 +69,7 @@ const App = () => {
             <Route exact path="/menu/edit" element={<Edit />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </ThemeProvider>
     </SitoContainer>
   );
