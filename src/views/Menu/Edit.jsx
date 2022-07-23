@@ -282,7 +282,6 @@ const Edit = () => {
       ph: photo,
     };
     const indexes = [];
-    console.log(parsedData);
     newAllData.filter((item, i) => {
       if (item.i === parsedData.i) {
         indexes.push(i);
