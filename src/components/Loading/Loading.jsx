@@ -15,7 +15,10 @@ const Loading = (props) => {
 
   useEffect(() => {
     if (visible) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "auto";
+    else
+      setTimeout(() => {
+        document.body.style.overflow = "auto";
+      }, 400);
   }, [visible]);
 
   return (
