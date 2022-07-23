@@ -24,6 +24,9 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 import { getUserName, userLogged } from "../../utils/auth";
 
+// image
+import noProduct from "../../assets/images/no-product.webp";
+
 const Home = () => {
   const linkStyle = css({
     width: "100%",
@@ -86,7 +89,11 @@ const Home = () => {
                       }}
                     >
                       <SitoImage
-                        src={item.ph ? item.ph.content : ""}
+                        src={
+                          item.ph && item.ph.content !== ""
+                            ? item.ph.content
+                            : noProduct
+                        }
                         alt={item.m}
                         sx={{
                           objectFit: "cover",

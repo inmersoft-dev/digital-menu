@@ -51,8 +51,8 @@ const Modal = (props) => {
     const { i, n, p, d, ph, t } = item;
     setPhoto(ph);
     reset({ id: i, name: n, price: p, description: d, type: types[t] });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item]);
 
   useEffect(() => {
     setShow(visible);
@@ -197,7 +197,7 @@ const Modal = (props) => {
               />
             ) : (
               <SitoImage
-                src={photo ? photo.content : ""}
+                src={photo && photo.content !== "" ? photo.content : noProduct}
                 alt={getValues("name")}
                 sx={{
                   width: "100%",

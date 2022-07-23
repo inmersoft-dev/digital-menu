@@ -38,6 +38,9 @@ import { fetchMenu, saveMenu } from "../../services/menu";
 import { useNotification } from "../../context/NotificationProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 
+// images
+import noProduct from "../../assets/images/no-product.webp";
+
 const Edit = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -126,7 +129,11 @@ const Edit = () => {
                       }}
                     >
                       <SitoImage
-                        src={item.ph ? item.ph.content : ""}
+                        src={
+                          item.ph && item.ph.content !== ""
+                            ? item.ph.content
+                            : noProduct
+                        }
                         alt={item.n}
                         sx={{
                           objectFit: "cover",
@@ -355,7 +362,7 @@ const Edit = () => {
           variant="contained"
           onClick={() => {
             setSelected({
-              i: allData.length,
+              i: allData.length ? allData[allData.length - 1].i + 1 : 0,
               ph: { ext: "", content: "" },
               n: "",
               d: "",

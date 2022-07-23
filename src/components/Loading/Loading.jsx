@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 // prop-types
 import PropTypes from "prop-types";
 
@@ -10,6 +12,15 @@ import LoopIcon from "@mui/icons-material/Loop";
 const Loading = (props) => {
   const theme = useTheme();
   const { sx, visible } = props;
+
+  useEffect(() => {
+    if (visible) document.body.style.overflow = "hidden";
+    else
+      setTimeout(() => {
+        document.body.style.overflow = "auto";
+      }, 400);
+  }, [visible]);
+
   return (
     <Box
       sx={{
