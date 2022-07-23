@@ -114,13 +114,12 @@ const Login = () => {
         message: languageState.texts.Errors.SomeWrong,
       });
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     if (userLogged()) navigate("/menu/edit");
     setLoading(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const validate = () => {
