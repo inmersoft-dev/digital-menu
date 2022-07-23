@@ -19,6 +19,7 @@ import Loading from "../../components/Loading/Loading";
 import TabView from "../../components/TabView/TabView";
 import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
+import ToLogin from "../../components/ToLogin/ToLogin";
 import NotConnected from "../../components/NotConnected/NotConnected";
 
 // services
@@ -260,6 +261,7 @@ const Watch = () => {
           zIndex: loading === 1 ? 99 : -1,
         }}
       />
+      <ToLogin />
       <Box sx={mainContent}>
         <Box sx={productImageBox}>
           <SitoImage

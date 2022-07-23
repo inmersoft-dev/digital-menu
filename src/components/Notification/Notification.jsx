@@ -38,7 +38,11 @@ const Notification = () => {
           variant="filled"
           onClose={handleClose}
           severity={notificationState.type}
-          style={{ opacity: open ? 1 : 0, zIndex: open ? 98 : -1, minWidth: 250 }}
+          style={{
+            opacity: open ? 1 : 0,
+            zIndex: open ? 98 : -1,
+            minWidth: 250,
+          }}
         >
           {notificationState.message}
         </MuiAlert>

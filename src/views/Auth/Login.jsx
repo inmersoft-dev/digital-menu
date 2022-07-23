@@ -105,6 +105,7 @@ const Login = () => {
           ntype: "error",
           message,
         });
+        setLoading(false);
       }
     } catch (err) {
       console.log(err);
@@ -113,6 +114,7 @@ const Login = () => {
         ntype: "error",
         message: languageState.texts.Errors.SomeWrong,
       });
+      setLoading(false);
     }
   };
 

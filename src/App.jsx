@@ -58,7 +58,6 @@ const App = () => {
       <ThemeProvider theme={dark}>
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <ToLogin />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route exact path="/auth/" element={<Login />} />
