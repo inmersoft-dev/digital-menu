@@ -151,9 +151,7 @@ const Home = () => {
     }
   };
 
-  const retry = () => {
-    fetch();
-  };
+  const retry = () => fetch();
 
   useEffect(() => {
     retry();
