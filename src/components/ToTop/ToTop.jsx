@@ -16,7 +16,7 @@ const ToTop = () => {
   const onScroll = useCallback(
     (e) => {
       const top = window.pageYOffset || document.documentElement.scrollTop;
-      if (top > 200) setVisible(true);
+      if (top > 100) setVisible(true);
       else setVisible(false);
     },
     [setVisible]
@@ -40,9 +40,9 @@ const ToTop = () => {
         bottom: 10,
         padding: "5px",
         minWidth: 0,
-        transform: visible ? "scale(1)" : "scale(0)",
         transition: "all 500ms ease",
-        zIndex: visible ? 20 : -1,
+        transform: visible ? "scale(1)" : "scale(0)",
+        zIndex: visible ? 23 : -1,
       }}
     >
       <ArrowUpwardIcon />
