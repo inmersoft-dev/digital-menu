@@ -96,9 +96,7 @@ const Settings = () => {
     setLoading(false);
   };
 
-  const retry = () => {
-    fetch();
-  };
+  const retry = () => fetch();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -150,7 +148,7 @@ const Settings = () => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
     retry();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onQrDownload = () => {
