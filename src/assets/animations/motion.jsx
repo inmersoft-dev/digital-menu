@@ -15,6 +15,7 @@ export const motionUlContainer = {
 
 export const motionUlCss = css({
   padding: 0,
+  width: "100%",
 });
 
 export const motionLiAnimation = {
