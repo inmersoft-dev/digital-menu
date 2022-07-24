@@ -45,6 +45,10 @@ import { useLanguage } from "../../context/LanguageProvider";
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
+// firebase
+import { storage } from "../../utils/firebase";
+import { ref, deleteObject } from "firebase/storage";
+
 // animations
 import {
   motionUlContainer,
@@ -252,13 +256,24 @@ const Edit = () => {
     const newAllData = data.l;
     const newTypes = data.t;
     const deletionType = newTypes.indexOf(newTypes[newAllData[index].t]);
-    newAllData.splice(index, 1);
-    let found = false;
-    for (let i = 0; i < newAllData.length && !found; i += 1)
-      if (newAllData[i].t === deletionType) found = true;
-    if (!found) newTypes.splice(deletionType, 1);
-    saveMenu(getUserName(), getUserName(), newAllData, newTypes);
-    retry();
+    const deleteRef = ref(storage, `/files/${newAllData[index].i}`);
+    try {
+      await deleteObject(deleteRef);
+      newAllData.splice(index, 1);
+      let found = false;
+      for (let i = 0; i < newAllData.length && !found; i += 1)
+        if (newAllData[i].t === deletionType) found = true;
+      if (!found) newTypes.splice(deletionType, 1);
+      saveMenu(getUserName(), getUserName(), newAllData, newTypes);
+      retry();
+    } catch (err) {
+      console.log(err);
+      return setNotificationState({
+        type: "set",
+        ntype: "error",
+        message: languageState.texts.Errors.SomeWrong,
+      });
+    }
   };
 
   const onSubmit = async (remoteData) => {
