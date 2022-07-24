@@ -105,11 +105,7 @@ const Home = () => {
                   <SitoContainer sx={{ marginRight: "20px" }}>
                     <Box sx={productImageBox}>
                       <SitoImage
-                        src={
-                          item.ph && item.ph !== ""
-                            ? item.ph
-                            : noProduct
-                        }
+                        src={item.ph && item.ph !== "" ? item.ph : noProduct}
                         alt={item.m}
                         sx={productImage}
                       />
@@ -175,7 +171,6 @@ const Home = () => {
       {!error && loading === 0 && (
         <Box
           sx={{
-            margin: "20px 20px",
             flexDirection: "column",
           }}
         >
