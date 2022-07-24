@@ -71,7 +71,7 @@ const TabView = (props) => {
         top: 0,
         left: 0,
         background: theme.palette.background.paper,
-        zIndex: 20,
+        zIndex: 15,
       }}
     >
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

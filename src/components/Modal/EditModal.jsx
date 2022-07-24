@@ -24,6 +24,14 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
+// styles
+import {
+  modal,
+  modalContent,
+  productImage,
+  productImageBox,
+} from "../../assets/styles/styles";
+
 const Modal = (props) => {
   const theme = useTheme();
   const { languageState } = useLanguage();
@@ -110,7 +118,7 @@ const Modal = (props) => {
   const onUploadPhoto = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const storageRef = ref(storage, `/files/${file.name}`);
+    const storageRef = ref(storage, `/files/${getValues("id")}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
@@ -145,32 +153,15 @@ const Modal = (props) => {
   return (
     <Box
       sx={{
-        position: "fixed",
-        left: 0,
-        bottom: 0,
+        ...modal,
         zIndex: show ? 20 : -1,
         opacity: show ? 1 : -1,
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "center",
-        background: "#4e464652",
-        backdropFilter: "blur(4px)",
-        transition: "all 500ms ease",
       }}
     >
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: { md: "800px", sm: "630px", xs: "100%" },
-          height: "540px",
-          padding: "1rem",
-          borderRadius: "1rem",
+          ...modalContent,
           background: theme.palette.background.paper,
-          position: "relative",
-          transition: "all 500ms ease",
           opacity: show ? 1 : -1,
         }}
       >
@@ -188,12 +179,7 @@ const Modal = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Box
-            sx={{
-              width: { md: "160px", sm: "160px", xs: "160px" },
-              height: { md: "160px", sm: "160px", xs: "160px" },
-            }}
-          >
+          <Box sx={productImageBox}>
             <input
               id="product-photo"
               type="file"
@@ -201,30 +187,12 @@ const Modal = (props) => {
               value={image}
               onChange={onUploadPhoto}
             />
-            {photo && photo === "" ? (
-              <SitoImage
-                id="no-product"
-                src={noProduct}
-                alt="no-product"
-                sx={{
-                  width: "100%",
-                  cursor: "pointer",
-                  height: "100%",
-                  borderRadius: "100%",
-                }}
-              />
-            ) : (
-              <SitoImage
-                src={photo && photo !== "" ? photo : noProduct}
-                alt={getValues("name")}
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            )}
+            <SitoImage
+              id="no-product"
+              src={photo && photo !== "" ? photo : noProduct}
+              alt={getValues("name")}
+              sx={{ ...productImage, cursor: "pointer" }}
+            />
           </Box>
         </SitoContainer>
 

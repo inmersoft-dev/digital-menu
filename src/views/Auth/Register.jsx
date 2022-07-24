@@ -78,47 +78,57 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const { user, password } = data;
-    try {
-      const response = await register(user, password);
-      if (response.status === 200) {
-        logUser(remember, user);
-        createCookie(
-          config.basicKey,
-          response.data.expiration,
-          response.data.token
-        );
-        setNotificationState({
-          type: "set",
-          message: languageState.texts.Messages.RegisterSuccessful,
-          ntype: "success",
-        });
-        setTimeout(() => {
-          if (userLogged()) navigate("/menu/edit");
-        }, 100);
-      } else {
-        const { error } = response.data;
-        let message;
-        if (error.indexOf("username taken") > -1)
-          message = languageState.texts.Errors.UsernameTaken;
-        else if (error.indexOf("Error: Network Error") > -1)
-          message = languageState.texts.Errors.NotConnected;
-        else message = languageState.texts.Errors.SomeWrong;
+    const { user, password, rpassword } = data;
+    if (password === rpassword) {
+      try {
+        const response = await register(user, password);
+        if (response.status === 200) {
+          logUser(remember, user);
+          createCookie(
+            config.basicKey,
+            response.data.expiration,
+            response.data.token
+          );
+          setNotificationState({
+            type: "set",
+            message: languageState.texts.Messages.RegisterSuccessful,
+            ntype: "success",
+          });
+          setTimeout(() => {
+            if (userLogged()) navigate("/menu/edit");
+          }, 100);
+        } else {
+          const { error } = response.data;
+          let message;
+          if (error.indexOf("username taken") > -1)
+            message = languageState.texts.Errors.UsernameTaken;
+          else if (error.indexOf("Error: Network Error") > -1)
+            message = languageState.texts.Errors.NotConnected;
+          else message = languageState.texts.Errors.SomeWrong;
+          setNotificationState({
+            type: "set",
+            ntype: "error",
+            message,
+          });
+          setLoading(false);
+        }
+      } catch (err) {
+        console.log(err);
         setNotificationState({
           type: "set",
           ntype: "error",
-          message,
+          message: languageState.texts.Errors.SomeWrong,
         });
+        setLoading(false);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
       setNotificationState({
         type: "set",
         ntype: "error",
-        message: languageState.texts.Errors.SomeWrong,
+        message: languageState.texts.Errors.DifferentPassword,
       });
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -232,7 +242,7 @@ const Register = () => {
           )}
         />
         <Controller
-          name="password"
+          name="rpassword"
           control={control}
           render={({ field }) => (
             <FormControl

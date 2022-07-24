@@ -151,11 +151,7 @@ const Edit = () => {
                   <SitoContainer sx={{ marginRight: "20px" }}>
                     <Box sx={productImageBox}>
                       <SitoImage
-                        src={
-                          item.ph && item.ph !== ""
-                            ? item.ph
-                            : noProduct
-                        }
+                        src={item.ph && item.ph !== "" ? item.ph : noProduct}
                         alt={item.n}
                         sx={productImage}
                       />
@@ -372,7 +368,7 @@ const Edit = () => {
           onClick={() => {
             setSelected({
               i: allData.length ? allData[allData.length - 1].i + 1 : 0,
-              ph: { ext: "", content: "" },
+              ph: "",
               n: "",
               d: "",
               p: "",
