@@ -106,8 +106,8 @@ const Home = () => {
                     <Box sx={productImageBox}>
                       <SitoImage
                         src={
-                          item.ph && item.ph.content !== ""
-                            ? item.ph.content
+                          item.ph && item.ph !== ""
+                            ? item.ph
                             : noProduct
                         }
                         alt={item.m}

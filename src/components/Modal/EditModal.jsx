@@ -20,6 +20,10 @@ import noProduct from "../../assets/images/no-product.webp";
 import { useNotification } from "../../context/NotificationProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 
+// firebase
+import { storage } from "../../utils/firebase";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 const Modal = (props) => {
   const theme = useTheme();
   const { languageState } = useLanguage();
@@ -106,16 +110,23 @@ const Modal = (props) => {
   const onUploadPhoto = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setPhoto(url);
+          setValue(url);
+        });
+      }
+    );
     setImage(e.target.value);
     setImageFile(file);
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const content = e.target.result;
-      // the blob data is automatic received as base64
-      setPhoto({ ext: file.type.split("/")[1], content });
-      setValue("photo", { ext: file.type.split("/")[1], content });
-    };
-    reader.readAsDataURL(file);
   };
 
   const uploadPhoto = useCallback((e) => {
@@ -190,7 +201,7 @@ const Modal = (props) => {
               value={image}
               onChange={onUploadPhoto}
             />
-            {photo && photo.content === "" ? (
+            {photo && photo === "" ? (
               <SitoImage
                 id="no-product"
                 src={noProduct}
@@ -204,7 +215,7 @@ const Modal = (props) => {
               />
             ) : (
               <SitoImage
-                src={photo && photo.content !== "" ? photo.content : noProduct}
+                src={photo && photo !== "" ? photo : noProduct}
                 alt={getValues("name")}
                 sx={{
                   width: "100%",

@@ -128,8 +128,8 @@ const Watch = () => {
                     <Box sx={productImageBox}>
                       <SitoImage
                         src={
-                          item.ph && item.ph.content !== ""
-                            ? item.ph.content
+                          item.ph && item.ph !== ""
+                            ? item.ph
                             : noProduct
                         }
                         alt={item.n}
@@ -265,7 +265,7 @@ const Watch = () => {
       <Box sx={mainContent}>
         <Box sx={productImageBox}>
           <SitoImage
-            src={photo && photo.content !== "" ? photo.content : noProduct}
+            src={photo && photo !== "" ? photo : noProduct}
             alt={menu}
             sx={productImage}
           />

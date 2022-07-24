@@ -36,6 +36,10 @@ import { fetchMenu } from "../../services/menu.js";
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
+// firebase
+import { storage } from "../../utils/firebase";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 import config from "../../config";
 
 const Settings = () => {
@@ -61,15 +65,22 @@ const Settings = () => {
   const onUploadPhoto = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setPhoto(url);
+        });
+      }
+    );
     setImage(e.target.value);
     setImageFile(file);
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const content = e.target.result;
-      // the blob data is automatic received as base64
-      setPhoto({ ext: file.type.split("/")[1], content });
-    };
-    reader.readAsDataURL(file);
   };
 
   const uploadPhoto = useCallback((e) => {
@@ -224,9 +235,7 @@ const Settings = () => {
               >
                 <SitoImage
                   id="no-image"
-                  src={
-                    photo && photo.content !== "" ? photo.content : noProduct
-                  }
+                  src={photo && photo !== "" ? photo : noProduct}
                   alt="no-image"
                   sx={{
                     objectFit: "cover",
