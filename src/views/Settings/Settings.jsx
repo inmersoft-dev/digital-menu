@@ -65,7 +65,7 @@ const Settings = () => {
   const onUploadPhoto = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const storageRef = ref(storage, `/files/${file.name}`);
+    const storageRef = ref(storage, `/files/${getUserName()}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
