@@ -48,7 +48,11 @@ import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 // styles
-import { productImage, productImageBox } from "../../assets/styles/styles";
+import {
+  loadingPhotoSpinner,
+  productImage,
+  productImageBox,
+} from "../../assets/styles/styles";
 
 import config from "../../config";
 
@@ -89,7 +93,7 @@ const Settings = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setPhoto(url);
-          // setLoadingPhoto(false);
+          setLoadingPhoto(false);
         });
       }
     );
@@ -250,12 +254,8 @@ const Settings = () => {
                   <Loading
                     visible={loadingPhoto}
                     sx={{
-                      position: "relative",
-                      backdropFilter: "none",
+                      ...loadingPhotoSpinner,
                       background: theme.palette.background.default,
-                      borderRadius: "100%",
-                      boxShadow: "1px 1px 15px -4px",
-                  }
                     }}
                   />
                 ) : (

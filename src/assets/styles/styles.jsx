@@ -1,3 +1,10 @@
+export const loadingPhotoSpinner = {
+  position: "relative",
+  backdropFilter: "none",
+  borderRadius: "100%",
+  boxShadow: "1px 1px 15px -4px",
+};
+
 export const mainWindow = { width: "100vw", height: "100vh", padding: "25px" };
 
 export const modal = {

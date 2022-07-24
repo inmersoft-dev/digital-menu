@@ -7,6 +7,9 @@ import PropTypes from "prop-types";
 import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
 
+// own components
+import Loading from "../Loading/Loading";
+
 // @mui icons
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -30,6 +33,7 @@ import {
   modalContent,
   productImage,
   productImageBox,
+  loadingPhotoSpinner,
 } from "../../assets/styles/styles";
 
 const Modal = (props) => {
@@ -39,6 +43,7 @@ const Modal = (props) => {
 
   const { visible, onClose, onSubmit, item, types } = props;
 
+  const [loadingPhoto, setLoadingPhoto] = useState(false);
   const [show, setShow] = useState(visible);
 
   const [ok, setOk] = useState(1);
@@ -116,6 +121,7 @@ const Modal = (props) => {
   };
 
   const onUploadPhoto = (e) => {
+    setLoadingPhoto(true);
     const file = e.target.files[0];
     if (!file) return;
     const storageRef = ref(storage, `/files/${getValues("id")}`);
@@ -130,6 +136,7 @@ const Modal = (props) => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setPhoto(url);
           setValue(url);
+          setLoadingPhoto(false);
         });
       }
     );
@@ -187,12 +194,22 @@ const Modal = (props) => {
               value={image}
               onChange={onUploadPhoto}
             />
-            <SitoImage
-              id="no-product"
-              src={photo && photo !== "" ? photo : noProduct}
-              alt={getValues("name")}
-              sx={{ ...productImage, cursor: "pointer" }}
-            />
+            {loadingPhoto ? (
+              <Loading
+                visible={loadingPhoto}
+                sx={{
+                  ...loadingPhotoSpinner,
+                  background: theme.palette.background.default,
+                }}
+              />
+            ) : (
+              <SitoImage
+                id="no-product"
+                src={photo && photo !== "" ? photo : noProduct}
+                alt={getValues("name")}
+                sx={{ ...productImage, cursor: "pointer" }}
+              />
+            )}
           </Box>
         </SitoContainer>
 
