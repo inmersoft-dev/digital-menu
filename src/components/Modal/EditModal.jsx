@@ -27,6 +27,9 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
+// functions
+import { getUserName } from "../../utils/auth";
+
 // styles
 import {
   modal,
@@ -124,7 +127,10 @@ const Modal = (props) => {
     setLoadingPhoto(true);
     const file = e.target.files[0];
     if (!file) return;
-    const storageRef = ref(storage, `/files/${getValues("id")}`);
+    const storageRef = ref(
+      storage,
+      `/files/${getUserName()}-${getValues("id")}`
+    );
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
