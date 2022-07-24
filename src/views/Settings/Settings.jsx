@@ -20,7 +20,14 @@ import { css } from "@emotion/css";
 import DownloadIcon from "@mui/icons-material/Download";
 
 // @mui components
-import { Paper, Box, Button, TextField, Typography } from "@mui/material";
+import {
+  useTheme,
+  Paper,
+  Box,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
@@ -40,15 +47,20 @@ import noProduct from "../../assets/images/no-product.webp";
 import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
+// styles
+import { productImage, productImageBox } from "../../assets/styles/styles";
+
 import config from "../../config";
 
 const Settings = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
 
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
   const [loading, setLoading] = useState(true);
+  const [loadingPhoto, setLoadingPhoto] = useState(false);
   const [error, setError] = useState(false);
   const [photo, setPhoto] = useState("");
 
@@ -63,6 +75,7 @@ const Settings = () => {
   const [, setImageFile] = useState();
 
   const onUploadPhoto = (e) => {
+    setLoadingPhoto(true);
     const file = e.target.files[0];
     if (!file) return;
     const storageRef = ref(storage, `/files/${getUserName()}`);
@@ -76,6 +89,7 @@ const Settings = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setPhoto(url);
+          // setLoadingPhoto(false);
         });
       }
     );
@@ -228,23 +242,33 @@ const Settings = () => {
               />
               <Box
                 sx={{
-                  width: { md: "160px", sm: "120px", xs: "80px" },
-                  height: { md: "160px", sm: "120px", xs: "80px" },
+                  ...productImageBox,
                   borderRadius: "100%",
                 }}
               >
-                <SitoImage
-                  id="no-image"
-                  src={photo && photo !== "" ? photo : noProduct}
-                  alt="no-image"
-                  sx={{
-                    objectFit: "cover",
-                    width: "100%",
-                    cursor: "pointer",
-                    height: "100%",
-                    borderRadius: "100%",
-                  }}
-                />
+                {loadingPhoto ? (
+                  <Loading
+                    visible={loadingPhoto}
+                    sx={{
+                      position: "relative",
+                      backdropFilter: "none",
+                      background: theme.palette.background.default,
+                      borderRadius: "100%",
+                      boxShadow: "1px 1px 15px -4px",
+                  }
+                    }}
+                  />
+                ) : (
+                  <SitoImage
+                    id="no-image"
+                    src={photo && photo !== "" ? photo : noProduct}
+                    alt="no-image"
+                    sx={{
+                      ...productImage,
+                      cursor: "pointer",
+                    }}
+                  />
+                )}
               </Box>
             </SitoContainer>
             <Controller

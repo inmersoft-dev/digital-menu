@@ -31,6 +31,7 @@ import NotConnected from "../../components/NotConnected/NotConnected";
 import Empty from "../../components/Empty/Empty";
 import Modal from "../../components/Modal/EditModal";
 import ToLogout from "../../components/ToLogout/ToLogout";
+import ToLogin from "../../components/ToLogin/ToLogin";
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
@@ -353,6 +354,7 @@ const Edit = () => {
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
       <ToLogout />
+      <ToLogin />
       {selected && (
         <Modal
           visible={visible}
