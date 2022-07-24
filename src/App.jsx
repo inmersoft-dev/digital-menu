@@ -52,7 +52,6 @@ const App = () => {
       justifyContent="center"
     >
       <Notification />
-
       <ToTop />
       <ThemeProvider theme={dark}>
         <CssBaseline />
