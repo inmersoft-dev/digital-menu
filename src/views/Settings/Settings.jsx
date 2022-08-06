@@ -79,7 +79,6 @@ const Settings = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           axios.get(`${config.apiUrl}get/photo`).then((data) => {
             setPhoto(`data:image/jpeg;base64,${data.data}`);
-            // setPhoto(url);
           });
         });
       }
@@ -238,9 +237,9 @@ const Settings = () => {
                   borderRadius: "100%",
                 }}
               >
-                <img
+                <SitoImage
                   id="no-image"
-                  src={photo /* && photo !== "" ? photo : noProduct */}
+                  src={photo && photo !== "" ? photo : noProduct}
                   alt="no-image"
                   sx={{
                     objectFit: "cover",
