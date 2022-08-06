@@ -13,6 +13,8 @@ import BackButton from "../../components/BackButton/BackButton";
 import NotConnected from "../../components/NotConnected/NotConnected";
 import ToLogout from "../../components/ToLogout/ToLogout";
 
+import axios from "axios";
+
 // @emotion
 import { css } from "@emotion/css";
 
@@ -20,14 +22,7 @@ import { css } from "@emotion/css";
 import DownloadIcon from "@mui/icons-material/Download";
 
 // @mui components
-import {
-  useTheme,
-  Paper,
-  Box,
-  Button,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Paper, Box, Button, TextField, Typography } from "@mui/material";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
@@ -47,24 +42,15 @@ import noProduct from "../../assets/images/no-product.webp";
 import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-// styles
-import {
-  loadingPhotoSpinner,
-  productImage,
-  productImageBox,
-} from "../../assets/styles/styles";
-
 import config from "../../config";
 
 const Settings = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
   const [loading, setLoading] = useState(true);
-  const [loadingPhoto, setLoadingPhoto] = useState(false);
   const [error, setError] = useState(false);
   const [photo, setPhoto] = useState("");
 
@@ -79,10 +65,9 @@ const Settings = () => {
   const [, setImageFile] = useState();
 
   const onUploadPhoto = (e) => {
-    setLoadingPhoto(true);
     const file = e.target.files[0];
     if (!file) return;
-    const storageRef = ref(storage, `/files/${getUserName()}`);
+    const storageRef = ref(storage, `/files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
@@ -92,8 +77,10 @@ const Settings = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setPhoto(url);
-          setLoadingPhoto(false);
+          axios.get(`${config.apiUrl}get/photo`).then((data) => {
+            setPhoto(`data:image/jpeg;base64,${data.data}`);
+            // setPhoto(url);
+          });
         });
       }
     );
@@ -246,29 +233,23 @@ const Settings = () => {
               />
               <Box
                 sx={{
-                  ...productImageBox,
+                  width: { md: "160px", sm: "120px", xs: "80px" },
+                  height: { md: "160px", sm: "120px", xs: "80px" },
                   borderRadius: "100%",
                 }}
               >
-                {loadingPhoto ? (
-                  <Loading
-                    visible={loadingPhoto}
-                    sx={{
-                      ...loadingPhotoSpinner,
-                      background: theme.palette.background.default,
-                    }}
-                  />
-                ) : (
-                  <SitoImage
-                    id="no-image"
-                    src={photo && photo !== "" ? photo : noProduct}
-                    alt="no-image"
-                    sx={{
-                      ...productImage,
-                      cursor: "pointer",
-                    }}
-                  />
-                )}
+                <img
+                  id="no-image"
+                  src={photo /* && photo !== "" ? photo : noProduct */}
+                  alt="no-image"
+                  sx={{
+                    objectFit: "cover",
+                    width: "100%",
+                    cursor: "pointer",
+                    height: "100%",
+                    borderRadius: "100%",
+                  }}
+                />
               </Box>
             </SitoContainer>
             <Controller
