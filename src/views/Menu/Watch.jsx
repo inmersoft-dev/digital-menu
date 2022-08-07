@@ -124,62 +124,65 @@ const Watch = () => {
             let parsedPhoto = "";
             if (item.ph) parsedPhoto = await getPhotoFromServer(item.i);
             if (parsedPhoto) item.loaded = parsedPhoto;
-            tabsByType[item.t].push(
-              <motion.li
-                key={item.i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={motionLiAnimation}
-                className={motionLiCss}
-              >
-                <Paper
-                  onClick={() => {
-                    setVisible(true);
-                    setSelected(
-                      data.l[getIndexOfByAttribute(data.l, "i", item.i)]
-                    );
-                  }}
-                  id={`obj-${item.i}`}
-                  elevation={1}
-                  sx={{
-                    ...productPaper,
-                    background: theme.palette.background.paper,
-                  }}
+            if (tabsByType[item.t])
+              tabsByType[item.t].push(
+                <motion.li
+                  key={item.i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={motionLiAnimation}
+                  className={motionLiCss}
                 >
-                  <SitoContainer sx={{ marginRight: "20px" }}>
-                    <Box sx={productImageBox}>
-                      <SitoImage
-                        src={
-                          item.ph && item.ph !== "" ? parsedPhoto : noProduct
-                        }
-                        alt={item.n}
-                        sx={productImage}
-                      />
-                    </Box>
-                  </SitoContainer>
-                  <Box sx={productContentBox}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                      {item.n}
-                    </Typography>
-                    <Box sx={productDescriptionBox}>
-                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                        {item.d}
+                  <Paper
+                    onClick={() => {
+                      setVisible(true);
+                      setSelected(
+                        data.l[getIndexOfByAttribute(data.l, "i", item.i)]
+                      );
+                    }}
+                    id={`obj-${item.i}`}
+                    elevation={1}
+                    sx={{
+                      ...productPaper,
+                      background: theme.palette.background.paper,
+                    }}
+                  >
+                    <SitoContainer sx={{ marginRight: "20px" }}>
+                      <Box sx={productImageBox}>
+                        <SitoImage
+                          src={
+                            item.ph && item.ph !== "" ? parsedPhoto : noProduct
+                          }
+                          alt={item.n}
+                          sx={productImage}
+                        />
+                      </Box>
+                    </SitoContainer>
+                    <Box sx={productContentBox}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ fontWeight: "bold" }}
+                      >
+                        {item.n}
+                      </Typography>
+                      <Box sx={productDescriptionBox}>
+                        <Typography
+                          variant="body1"
+                          sx={{ textAlign: "justify" }}
+                        >
+                          {item.d}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                        {item.p} CUP
                       </Typography>
                     </Box>
-                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                      {item.p} CUP
-                    </Typography>
-                  </Box>
-                </Paper>
-              </motion.li>
-            );
+                  </Paper>
+                </motion.li>
+              );
           }
-          const realTabsType = [];
-          realTabsType.forEach((item, i) => {
-            if (item.length) realTabsType.push(data.t[i]);
-          });
-          setTypes(realTabsType);
+          setTypes(data.t);
           setAllData(data.l);
           setTabs(tabsByType);
           setLoading(0);
@@ -302,7 +305,10 @@ const Watch = () => {
       </Box>
       <TabView
         value={tab}
-        tabs={types}
+        tabs={types.filter((item, i) => {
+          if (tabs[i].length) return item;
+          return null;
+        })}
         content={[]}
         shouldScroll={shouldScroll}
       />
@@ -320,7 +326,14 @@ const Watch = () => {
             .map((item, i) => (
               <Box key={i} sx={typeBoxCss}>
                 <Box id={`title-${i}`} sx={headerBox}>
-                  <Typography variant="h5">{types[i]}</Typography>
+                  <Typography variant="h5">
+                    {
+                      types.filter((item, i) => {
+                        if (tabs[i].length) return item;
+                        return null;
+                      })[i]
+                    }
+                  </Typography>
                 </Box>
                 <motion.ul
                   variants={motionUlContainer}

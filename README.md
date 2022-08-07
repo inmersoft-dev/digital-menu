@@ -4,8 +4,8 @@ The digital menu!!
 
 ### Found
 
-- 19 fixes
-  - 8 big
+- 20 fixes
+  - 9 big
   - 9 smalls
   - 2 suggestions
   - 1 issue
@@ -22,7 +22,7 @@ The digital menu!!
   - 1 small error
 - Anto (Neki10X)
   - 4 small errors
-  - 5 big errors
+  - 6 big errors
   - 1 issue
   - 1 suggestion
 - Livan (Livan)
