@@ -175,8 +175,12 @@ const Watch = () => {
               </motion.li>
             );
           }
+          const realTabsType = [];
+          realTabsType.forEach((item, i) => {
+            if (item.length) realTabsType.push(data.t[i]);
+          });
+          setTypes(realTabsType);
           setAllData(data.l);
-          setTypes(data.t);
           setTabs(tabsByType);
           setLoading(0);
         } else setLoading(-1);
