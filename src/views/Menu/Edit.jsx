@@ -127,86 +127,93 @@ const Edit = () => {
           let parsedPhoto = "";
           if (item.ph) parsedPhoto = await getPhotoFromServer(item.i);
           if (parsedPhoto) item.loaded = parsedPhoto;
-          tabsByType[item.t].push(
-            <motion.li
-              key={item.i}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={motionLiAnimation}
-              className={motionLiCss}
-            >
-              <Paper
-                id={`obj-${item.i}`}
-                elevation={1}
-                sx={{
-                  position: "relative",
-                  marginTop: "20px",
-                  width: { md: "800px", sm: "630px", xs: "100%" },
-                  padding: "1rem",
-                  borderRadius: "1rem",
-                  background: theme.palette.background.paper,
-                  alignItems: "center",
-                }}
+          if (tabsByType[item.t])
+            tabsByType[item.t].push(
+              <motion.li
+                key={item.i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={motionLiAnimation}
+                className={motionLiCss}
               >
-                <Box
+                <Paper
+                  id={`obj-${item.i}`}
+                  elevation={1}
                   sx={{
-                    width: { xs: "95%", md: "98%" },
-                    position: "absolute",
-                    marginTop: "-10px",
-                    justifyContent: "flex-end",
+                    position: "relative",
+                    marginTop: "20px",
+                    width: { md: "800px", sm: "630px", xs: "100%" },
+                    padding: "1rem",
+                    borderRadius: "1rem",
+                    background: theme.palette.background.paper,
+                    alignItems: "center",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: { xs: "95%", md: "98%" },
+                      position: "absolute",
+                      marginTop: "-10px",
+                      justifyContent: "flex-end",
 
-                    display: "flex",
-                    cursor: "pointer",
-                  }}
-                >
-                  <IconButton
-                    color="error"
-                    onClick={() => deleteProduct(item.i)}
+                      display: "flex",
+                      cursor: "pointer",
+                    }}
                   >
-                    <CloseIcon />
-                  </IconButton>
-                </Box>
-                <Box
-                  sx={{ cursor: "pointer", display: "flex" }}
-                  onClick={() => {
-                    setVisible(true);
-                    setSelected(
-                      data.l[getIndexOfByAttribute(data.l, "i", item.i)]
-                    );
-                  }}
-                >
-                  <SitoContainer sx={{ marginRight: "20px" }}>
-                    <Box sx={productImageBox}>
-                      <SitoImage
-                        src={
-                          item.ph && item.ph !== "" ? parsedPhoto : noProduct
-                        }
-                        alt={item.n}
-                        sx={productImage}
-                      />
-                    </Box>
-                  </SitoContainer>
-                  <Box sx={productContentBox}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                      {item.n}
-                    </Typography>
-                    <Box sx={productDescriptionBox}>
-                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                        {item.d}
+                    <IconButton
+                      color="error"
+                      onClick={() => deleteProduct(item.i)}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </Box>
+                  <Box
+                    sx={{ cursor: "pointer", display: "flex" }}
+                    onClick={() => {
+                      setVisible(true);
+                      setSelected(
+                        data.l[getIndexOfByAttribute(data.l, "i", item.i)]
+                      );
+                    }}
+                  >
+                    <SitoContainer sx={{ marginRight: "20px" }}>
+                      <Box sx={productImageBox}>
+                        <SitoImage
+                          src={
+                            item.ph && item.ph !== "" ? parsedPhoto : noProduct
+                          }
+                          alt={item.n}
+                          sx={productImage}
+                        />
+                      </Box>
+                    </SitoContainer>
+                    <Box sx={productContentBox}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ fontWeight: "bold" }}
+                      >
+                        {item.n}
+                      </Typography>
+                      <Box sx={productDescriptionBox}>
+                        <Typography
+                          variant="body1"
+                          sx={{ textAlign: "justify" }}
+                        >
+                          {item.d}
+                        </Typography>
+                      </Box>
+                      <Typography
+                        variant="body2"
+                        sx={{ fontWeight: "bold", width: "75%" }}
+                      >
+                        {item.p} CUP
                       </Typography>
                     </Box>
-                    <Typography
-                      variant="body2"
-                      sx={{ fontWeight: "bold", width: "75%" }}
-                    >
-                      {item.p} CUP
-                    </Typography>
                   </Box>
-                </Box>
-              </Paper>
-            </motion.li>
-          );
+                </Paper>
+              </motion.li>
+            );
         }
         const realTabsType = [];
         realTabsType.forEach((item, i) => {
