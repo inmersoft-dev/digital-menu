@@ -50,6 +50,10 @@ import {
   productPaper,
 } from "../../assets/styles/styles";
 
+import axios from "axios";
+
+import config from "../../config";
+
 const Home = () => {
   const linkStyle = css({
     width: "100%",
@@ -68,6 +72,12 @@ const Home = () => {
   const [, setAllData] = useState([]);
   const [list, setList] = useState([]);
 
+  const getPhotoFromServer = async (id) => {
+    const response = await axios.get(`${config.apiUrl}get/photo?photo=${id}`);
+    const data = await response.data;
+    return `data:image/jpeg;base64,${data}`;
+  };
+
   const fetch = async () => {
     setLoading(1);
     setError(false);
@@ -76,7 +86,10 @@ const Home = () => {
       const data = await response.data;
       if (data && data.u) {
         const newList = [];
-        Object.values(data.u).forEach((item, i) => {
+        const arrayData = Object.values(data.u);
+        console.log("adios");
+        for (const item of arrayData) {
+          const parsedPhoto = await getPhotoFromServer(item.i);
           newList.push(
             <motion.li
               key={item.i}
@@ -95,7 +108,7 @@ const Home = () => {
                 className={linkStyle}
               >
                 <Paper
-                  id={`obj-${i}`}
+                  id={`obj-${item.i}`}
                   elevation={1}
                   sx={{
                     ...productPaper,
@@ -105,7 +118,9 @@ const Home = () => {
                   <SitoContainer sx={{ marginRight: "20px" }}>
                     <Box sx={productImageBox}>
                       <SitoImage
-                        src={item.ph && item.ph !== "" ? item.ph : noProduct}
+                        src={
+                          item.ph && item.ph !== "" ? parsedPhoto : noProduct
+                        }
                         alt={item.m}
                         sx={productImage}
                       />
@@ -125,7 +140,8 @@ const Home = () => {
               </Link>
             </motion.li>
           );
-        });
+        }
+        console.log("hola");
         setList(newList);
         setAllData(Object.keys(data.u));
         setLoading(0);
