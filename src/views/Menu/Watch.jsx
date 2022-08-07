@@ -263,10 +263,8 @@ const Watch = () => {
       const [userParam, menuParam] = location.search.substring(1).split("&");
       user = userParam.split("=")[1];
       menu = menuParam.split("=")[1];
-      if (user && menu) {
-        setCurrentMenu(menu);
-        setCurrentOwner(user);
-      }
+      if (user) setCurrentOwner(user);
+      if (menu) setCurrentMenu(menu);
     }
     retry(user, menu);
     // eslint-disable-next-line react-hooks/exhaustive-deps
