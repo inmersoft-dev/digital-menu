@@ -40,6 +40,9 @@ import {
   motionLiCss,
 } from "../../assets/animations/motion";
 
+// functions
+import { getIndexOfByAttribute } from "../../utils/functions";
+
 // styles
 import {
   typeBoxCss,
@@ -88,10 +91,10 @@ const Watch = () => {
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
-  const getPhotoFromServer = (photo) => {
-    axios.get(`${config.apiUrl}get/photo?photo=${photo}`).then((data) => {
-      return `data:image/jpeg;base64,${data.data}`;
-    });
+  const getPhotoFromServer = async (id) => {
+    const response = await axios.get(`${config.apiUrl}get/photo?photo=${id}`);
+    const data = await response.data;
+    return `data:image/jpeg;base64,${data}`;
   };
 
   const fetch = async (user = undefined, menu = undefined) => {
@@ -106,7 +109,7 @@ const Watch = () => {
         const data = await response.data;
         if (data && data.t && data.l) {
           axios
-            .get(`${config.apiUrl}get/photo?photo=${data.ph}`)
+            .get(`${config.apiUrl}get/photo?photo=${data.u}`)
             .then((data) => {
               setPhoto(`data:image/jpeg;base64,${data.data}`);
             });
@@ -116,7 +119,9 @@ const Watch = () => {
           data.t.forEach((item, i) => {
             tabsByType.push([]);
           });
-          data.l.forEach((item, i) => {
+          for (const item of data.l) {
+            const parsedPhoto = await getPhotoFromServer(item.i);
+            if (parsedPhoto) item.loaded = parsedPhoto;
             tabsByType[item.t].push(
               <motion.li
                 key={item.i}
@@ -129,9 +134,11 @@ const Watch = () => {
                 <Paper
                   onClick={() => {
                     setVisible(true);
-                    setSelected(data.l[i]);
+                    setSelected(
+                      data.l[getIndexOfByAttribute(data.l, "i", item.i)]
+                    );
                   }}
-                  id={`obj-${i}`}
+                  id={`obj-${item.i}`}
                   elevation={1}
                   sx={{
                     ...productPaper,
@@ -142,9 +149,7 @@ const Watch = () => {
                     <Box sx={productImageBox}>
                       <SitoImage
                         src={
-                          item.ph && item.ph !== ""
-                            ? getPhotoFromServer(item.ph)
-                            : noProduct
+                          item.ph && item.ph !== "" ? parsedPhoto : noProduct
                         }
                         alt={item.n}
                         sx={productImage}
@@ -167,7 +172,8 @@ const Watch = () => {
                 </Paper>
               </motion.li>
             );
-          });
+          }
+
           setAllData(data.l);
           setTypes(data.t);
           setTabs(tabsByType);
@@ -201,7 +207,7 @@ const Watch = () => {
       if (!shouldScroll && allData) {
         const visibilities = [];
         for (let i = 0; i < allData.length; i += 1) {
-          const elem = document.getElementById(`obj-${i}`);
+          const elem = document.getElementById(`obj-${allData[i].i}`);
           const isInViewport = inViewport(elem);
           visibilities.push({
             index: i,

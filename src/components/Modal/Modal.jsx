@@ -84,7 +84,12 @@ const Modal = (props) => {
             <SitoImage
               src={preview ? preview : noProduct}
               alt={item.n}
-              sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
+              sx={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "100%",
+                objectFit: "cover",
+              }}
             />
           </Box>
         </SitoContainer>
@@ -118,9 +123,9 @@ const Modal = (props) => {
           </Typography>
           <Typography
             variant="body"
-            sx={{ width: "100%", textAlign: "center", marginTop: "10px" }}
+            sx={{ width: "75%", textAlign: "center", marginTop: "10px" }}
           >
-            {item.d}
+            {item.d} CUP
           </Typography>
         </SitoContainer>
       </Box>

@@ -14,11 +14,8 @@ const Loading = (props) => {
   const { sx, visible } = props;
 
   useEffect(() => {
-    if (visible) document.body.style.overflow = "hidden";
-    else
-      setTimeout(() => {
-        document.body.style.overflow = "auto";
-      }, 400);
+    /* if (visible) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto"; */
   }, [visible]);
 
   return (

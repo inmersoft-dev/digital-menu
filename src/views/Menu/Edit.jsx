@@ -143,6 +143,7 @@ const Edit = () => {
                   padding: "1rem",
                   borderRadius: "1rem",
                   background: theme.palette.background.paper,
+                  alignItems: "center",
                 }}
               >
                 <Box
@@ -151,6 +152,7 @@ const Edit = () => {
                     position: "absolute",
                     marginTop: "-10px",
                     justifyContent: "flex-end",
+
                     display: "flex",
                     cursor: "pointer",
                   }}
@@ -191,7 +193,10 @@ const Edit = () => {
                         {item.d}
                       </Typography>
                     </Box>
-                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                    <Typography
+                      variant="body2"
+                      sx={{ fontWeight: "bold", width: "75%" }}
+                    >
                       {item.p} CUP
                     </Typography>
                   </Box>
