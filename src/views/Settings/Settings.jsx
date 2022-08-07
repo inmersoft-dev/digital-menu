@@ -83,6 +83,7 @@ const Settings = () => {
   const [, setImageFile] = useState();
 
   const onUploadPhoto = (e) => {
+    setLoadingPhoto(true);
     const file = e.target.files[0];
     if (!file) return;
     const storageRef = ref(storage, `/files/${getUserName()}`);
@@ -100,6 +101,7 @@ const Settings = () => {
             .then((data) => {
               setPhoto(url);
               setPreview(`data:image/jpeg;base64,${data.data}`);
+              setLoadingPhoto(false);
             });
         });
       }
@@ -212,7 +214,7 @@ const Settings = () => {
       }}
     >
       <ToLogout />
-      <BackButton />
+      <BackButton to="/menu/edit" />
       <Paper
         sx={{
           display: "flex",

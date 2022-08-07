@@ -27,9 +27,6 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-// functions
-import { getUserName } from "../../utils/auth";
-
 // styles
 import {
   modal,
@@ -50,7 +47,7 @@ const Modal = (props) => {
 
   const { visible, onClose, onSubmit, item, types } = props;
 
-  const [loadingPhoto, setLoadingPhoto] = useState(false);
+  const [loadingPhoto, setLoadingPhoto] = useState(true);
   const [show, setShow] = useState(visible);
 
   const [ok, setOk] = useState(1);
@@ -58,7 +55,8 @@ const Modal = (props) => {
   const [image, setImage] = useState("");
   const [, setImageFile] = useState();
 
-  const [photo, setPhoto] = useState({ edt: "", content: "" });
+  const [, setPhoto] = useState("");
+  const [preview, setPreview] = useState("");
   const { control, handleSubmit, reset, getValues, setValue } = useForm({
     defaultValues: {
       id: "",
@@ -69,10 +67,28 @@ const Modal = (props) => {
     },
   });
 
+  const getPhotoFromServer = () => {
+    axios
+      .get(`${config.apiUrl}get/photo?photo=${getValues("id")}`)
+      .then((data) => {
+        console.log(getValues("id"));
+        setPreview(`data:image/jpeg;base64,${data.data}`);
+        setLoadingPhoto(false);
+      });
+  };
+
   useEffect(() => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
     const { i, n, p, d, ph, t } = item;
+    if (!item.loaded) {
+      setPreview("");
+      setLoadingPhoto(true);
+      getPhotoFromServer();
+    } else {
+      setPreview(item.loaded);
+      setLoadingPhoto(false);
+    }
     setPhoto(ph);
     reset({
       id: i,
@@ -82,6 +98,7 @@ const Modal = (props) => {
       type: types[t],
       photo: ph,
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
 
@@ -131,10 +148,7 @@ const Modal = (props) => {
     setLoadingPhoto(true);
     const file = e.target.files[0];
     if (!file) return;
-    const storageRef = ref(
-      storage,
-      `/files/${getUserName()}-${getValues("id")}`
-    );
+    const storageRef = ref(storage, `/files/${getValues("id")}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
@@ -144,11 +158,14 @@ const Modal = (props) => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          axios.get(`${config.apiUrl}get/photo?photo${url}`).then((data) => {
-            setPhoto(`data:image/jpeg;base64,${data.data}`);
-          });
-          setValue(url);
-          setLoadingPhoto(false);
+          axios
+            .get(`${config.apiUrl}get/photo?photo=${getValues("id")}`)
+            .then((data) => {
+              setPhoto(url);
+              setPreview(`data:image/jpeg;base64,${data.data}`);
+              setValue("photo", url);
+              setLoadingPhoto(false);
+            });
         });
       }
     );
@@ -189,7 +206,7 @@ const Modal = (props) => {
           justifyContent="flex-end"
           alignItems="center"
         >
-          <IconButton color="error" onClick={onShowOff}>
+          <IconButton color="error" disabled={loadingPhoto} onClick={onShowOff}>
             <CloseIcon />
           </IconButton>
         </SitoContainer>
@@ -217,7 +234,7 @@ const Modal = (props) => {
             ) : (
               <SitoImage
                 id="no-product"
-                src={photo && photo !== "" ? photo : noProduct}
+                src={preview && preview !== "" ? preview : noProduct}
                 alt={getValues("name")}
                 sx={{ ...productImage, cursor: "pointer" }}
               />
@@ -324,6 +341,7 @@ const Modal = (props) => {
               type="submit"
               variant="contained"
               sx={{ marginTop: "10px" }}
+              disabled={loadingPhoto}
             >
               {languageState.texts.Insert.Buttons.Save}
             </Button>

@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import PropTypes from "prop-types";
+
 // @mui components
 import { Button } from "@mui/material";
 
@@ -9,7 +11,8 @@ import ChevronLeft from "@mui/icons-material/ChevronLeft";
 // sito components
 import SitoContainer from "sito-container";
 
-const BackButton = () => {
+const BackButton = (props) => {
+  const { to } = props;
   return (
     <SitoContainer
       sx={{
@@ -18,7 +21,7 @@ const BackButton = () => {
         left: "10px",
       }}
     >
-      <Link to="/">
+      <Link to={to}>
         <Button
           variant="contained"
           color="primary"
@@ -29,6 +32,14 @@ const BackButton = () => {
       </Link>
     </SitoContainer>
   );
+};
+
+BackButton.defaultProps = {
+  to: "/",
+};
+
+BackButton.propTypes = {
+  to: PropTypes.string,
 };
 
 export default BackButton;

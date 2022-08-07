@@ -35,6 +35,7 @@ import ToLogin from "../../components/ToLogin/ToLogin";
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
+import { getIndexOfByAttribute } from "../../utils/functions";
 
 // services
 import { fetchMenu, saveMenu } from "../../services/menu";
@@ -103,10 +104,10 @@ const Edit = () => {
     return data;
   };
 
-  const getPhotoFromServer = (photo) => {
-    axios.get(`${config.apiUrl}get/photo?photo=${photo}`).then((data) => {
-      return `data:image/jpeg;base64,${data.data}`;
-    });
+  const getPhotoFromServer = async (id) => {
+    const response = await axios.get(`${config.apiUrl}get/photo?photo=${id}`);
+    const data = await response.data;
+    return `data:image/jpeg;base64,${data}`;
   };
 
   const fetch = async () => {
@@ -120,7 +121,9 @@ const Edit = () => {
         data.t.forEach((item, i) => {
           tabsByType.push([]);
         });
-        data.l.forEach((item, i) => {
+        for (const item of data.l) {
+          const parsedPhoto = await getPhotoFromServer(item.i);
+          if (parsedPhoto) item.loaded = parsedPhoto;
           tabsByType[item.t].push(
             <motion.li
               key={item.i}
@@ -131,7 +134,7 @@ const Edit = () => {
               className={motionLiCss}
             >
               <Paper
-                id={`obj-${i}`}
+                id={`obj-${item.i}`}
                 elevation={1}
                 sx={{
                   position: "relative",
@@ -152,7 +155,10 @@ const Edit = () => {
                     cursor: "pointer",
                   }}
                 >
-                  <IconButton color="error" onClick={() => deleteProduct(i)}>
+                  <IconButton
+                    color="error"
+                    onClick={() => deleteProduct(item.i)}
+                  >
                     <CloseIcon />
                   </IconButton>
                 </Box>
@@ -160,16 +166,16 @@ const Edit = () => {
                   sx={{ cursor: "pointer", display: "flex" }}
                   onClick={() => {
                     setVisible(true);
-                    setSelected(data.l[i]);
+                    setSelected(
+                      data.l[getIndexOfByAttribute(data.l, "i", item.i)]
+                    );
                   }}
                 >
                   <SitoContainer sx={{ marginRight: "20px" }}>
                     <Box sx={productImageBox}>
                       <SitoImage
                         src={
-                          item.ph && item.ph !== ""
-                            ? getPhotoFromServer(item.ph)
-                            : noProduct
+                          item.ph && item.ph !== "" ? parsedPhoto : noProduct
                         }
                         alt={item.n}
                         sx={productImage}
@@ -193,7 +199,7 @@ const Edit = () => {
               </Paper>
             </motion.li>
           );
-        });
+        }
         setAllData(data.l);
         setTypes(data.t);
         setTabs(tabsByType);
@@ -238,7 +244,7 @@ const Edit = () => {
       if (!shouldScroll && allData) {
         const visibilities = [];
         for (let i = 0; i < allData.length; i += 1) {
-          const elem = document.getElementById(`obj-${i}`);
+          const elem = document.getElementById(`obj-${allData[i].i}`);
           const isInViewport = inViewport(elem);
           visibilities.push({
             index: i,
@@ -270,11 +276,12 @@ const Edit = () => {
     const data = await justGetData();
     const newAllData = data.l;
     const newTypes = data.t;
-    const deletionType = newTypes.indexOf(newTypes[newAllData[index].t]);
-    const deleteRef = ref(storage, `/files/${newAllData[index].i}`);
+    const realIndex = getIndexOfByAttribute(newAllData, "i", index);
+    const deletionType = newTypes.indexOf(newTypes[newAllData[realIndex].t]);
+    const deleteRef = ref(storage, `/files/${newAllData[realIndex].i}`);
     try {
       await deleteObject(deleteRef);
-      newAllData.splice(index, 1);
+      newAllData.splice(realIndex, 1);
       let found = false;
       for (let i = 0; i < newAllData.length && !found; i += 1)
         if (newAllData[i].t === deletionType) found = true;
@@ -336,6 +343,14 @@ const Edit = () => {
         ntype: "error",
         message: languageState.texts.Errors.SomeWrong,
       });
+    setSelected({
+      i: `${getUserName()}-${allData.length ? allData.length : 0}`,
+      ph: "",
+      n: "",
+      d: "",
+      p: "",
+      t: "",
+    });
     retry();
   };
 
@@ -398,7 +413,7 @@ const Edit = () => {
           variant="contained"
           onClick={() => {
             setSelected({
-              i: allData.length ? allData[allData.length - 1].i + 1 : 0,
+              i: `${getUserName()}-${allData.length ? allData.length : 0}`,
               ph: "",
               n: "",
               d: "",

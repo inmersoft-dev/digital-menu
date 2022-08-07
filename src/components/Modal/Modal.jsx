@@ -9,6 +9,9 @@ import SitoImage from "sito-image";
 // @mui icons
 import CloseIcon from "@mui/icons-material/Close";
 
+// image
+import noProduct from "../../assets/images/no-product.webp";
+
 // @mui
 import { useTheme, Box, Typography, IconButton } from "@mui/material";
 import { useEffect } from "react";
@@ -18,15 +21,28 @@ import {
   productImageBox,
 } from "../../assets/styles/styles";
 
+import axios from "axios";
+
+import config from "../../config";
+
 const Modal = (props) => {
   const theme = useTheme();
   const { visible, onClose, item } = props;
 
   const [show, setShow] = useState(visible);
 
+  const [preview, setPreview] = useState("");
+
+  const getPhotoFromServer = (id) => {
+    axios.get(`${config.apiUrl}get/photo?photo=${id}`).then((data) => {
+      setPreview(`data:image/jpeg;base64,${data.data}`);
+    });
+  };
+
   useEffect(() => {
     setShow(visible);
-  }, [visible]);
+    getPhotoFromServer(item.i);
+  }, [visible, item]);
 
   const onShowOff = () => {
     onClose();
@@ -66,7 +82,7 @@ const Modal = (props) => {
         >
           <Box sx={productImageBox}>
             <SitoImage
-              src={item.ph}
+              src={preview ? preview : noProduct}
               alt={item.n}
               sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
             />

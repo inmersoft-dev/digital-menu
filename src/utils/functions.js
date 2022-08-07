@@ -49,3 +49,16 @@ export const ComplexIndexOf = (array, item, attributes = [], startIn = 0) => {
     }
   return -1;
 };
+
+/**
+ *
+ * @param {object[]} array
+ * @param {string} attribute
+ * @param {any} value
+ * @returns
+ */
+export const getIndexOfByAttribute = (array, attribute, value) => {
+  for (let i = 0; i < array.length; i += 1)
+    if (array[i][attribute] === value) return i;
+  return -1;
+};
