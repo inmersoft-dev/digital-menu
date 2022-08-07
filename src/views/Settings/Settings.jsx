@@ -126,7 +126,7 @@ const Settings = () => {
           axios
             .get(`${config.apiUrl}get/photo?photo=${getUserName()}`)
             .then((data) => {
-              setPhoto(data.ph);
+              setPhoto(getUserName());
               setPreview(`data:image/jpeg;base64,${data.data}`);
             });
         reset({ menu: data.m, description: data.d });
