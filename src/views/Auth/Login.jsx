@@ -90,7 +90,9 @@ const Login = () => {
           if (userLogged()) navigate("/menu/edit");
         }, 100);
       } else {
-        const { error } = response.data;
+        let error;
+        if (response.data) error = response.data.error;
+        error = response.error;
         let message;
         if (
           error.indexOf("not found") > -1 ||

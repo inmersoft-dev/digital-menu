@@ -22,7 +22,14 @@ import { css } from "@emotion/css";
 import DownloadIcon from "@mui/icons-material/Download";
 
 // @mui components
-import { Paper, Box, Button, TextField, Typography } from "@mui/material";
+import {
+  useTheme,
+  Paper,
+  Box,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
@@ -45,14 +52,25 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import config from "../../config";
 
 const Settings = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
 
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
+  const [loadingPhoto, setLoadingPhoto] = useState(false);
+
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [photo, setPhoto] = useState("");
+  const [preview, setPreview] = useState("");
 
   const { control, handleSubmit, reset, getValues } = useForm({
     defaultValues: {
@@ -67,7 +85,7 @@ const Settings = () => {
   const onUploadPhoto = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const storageRef = ref(storage, `/files/${file.name}`);
+    const storageRef = ref(storage, `/files/${getUserName()}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
@@ -77,9 +95,12 @@ const Settings = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          axios.get(`${config.apiUrl}get/photo`).then((data) => {
-            setPhoto(`data:image/jpeg;base64,${data.data}`);
-          });
+          axios
+            .get(`${config.apiUrl}get/photo?photo=${getUserName()}`)
+            .then((data) => {
+              setPhoto(url);
+              setPreview(`data:image/jpeg;base64,${data.data}`);
+            });
         });
       }
     );
@@ -99,16 +120,18 @@ const Settings = () => {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
       if (data) {
-        setPhoto(data.ph);
+        if (data.ph)
+          axios
+            .get(`${config.apiUrl}get/photo?photo=${getUserName()}`)
+            .then((data) => {
+              setPhoto(data.ph);
+              setPreview(`data:image/jpeg;base64,${data.data}`);
+            });
         reset({ menu: data.m, description: data.d });
       }
     } catch (err) {
       console.log(err);
-      setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: languageState.texts.Errors.NotConnected,
-      });
+      showNotification("error", languageState.texts.Errors.NotConnected);
       setError(true);
     }
     setLoading(false);
@@ -124,27 +147,17 @@ const Settings = () => {
         getUserName(),
         menu || "",
         description || "",
-        photo || { ext: "", content: "" }
+        photo || ""
       );
       if (response.status === 200)
-        setNotificationState({
-          type: "set",
-          ntype: "success",
-          message: languageState.texts.Messages.SaveSuccessful,
-        });
-      else
-        setNotificationState({
-          type: "set",
-          ntype: "error",
-          message: languageState.texts.Errors.SomeWrong,
-        });
+        showNotification(
+          "success",
+          languageState.texts.Messages.SaveSuccessful
+        );
+      else showNotification("error", languageState.texts.Errors.SomeWrong);
     } catch (err) {
       console.log(err);
-      setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: languageState.texts.Errors.SomeWrong,
-      });
+      showNotification("error", languageState.texts.Errors.SomeWrong);
     }
     setLoading(false);
   };
@@ -237,18 +250,31 @@ const Settings = () => {
                   borderRadius: "100%",
                 }}
               >
-                <SitoImage
-                  id="no-image"
-                  src={photo && photo !== "" ? photo : noProduct}
-                  alt="no-image"
-                  sx={{
-                    objectFit: "cover",
-                    width: "100%",
-                    cursor: "pointer",
-                    height: "100%",
-                    borderRadius: "100%",
-                  }}
-                />
+                {loadingPhoto ? (
+                  <Loading
+                    visible={loadingPhoto}
+                    sx={{
+                      position: "relative",
+                      backdropFilter: "none",
+                      borderRadius: "1rem",
+                      boxShadow: "1px 1px 15px -4px",
+                      background: theme.palette.background.default,
+                    }}
+                  />
+                ) : (
+                  <SitoImage
+                    id="no-image"
+                    src={preview && preview !== "" ? preview : noProduct}
+                    alt="user"
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "1rem",
+                      cursor: "pointer",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
               </Box>
             </SitoContainer>
             <Controller

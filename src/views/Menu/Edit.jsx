@@ -70,6 +70,10 @@ import {
   typeBoxCss,
 } from "../../assets/styles/styles";
 
+import axios from "axios";
+
+import config from "../../config";
+
 const Edit = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -97,6 +101,12 @@ const Edit = () => {
     const response = await fetchMenu(getUserName(), getUserName());
     const data = await response.data;
     return data;
+  };
+
+  const getPhotoFromServer = (photo) => {
+    axios.get(`${config.apiUrl}get/photo?photo=${photo}`).then((data) => {
+      return `data:image/jpeg;base64,${data.data}`;
+    });
   };
 
   const fetch = async () => {
@@ -156,7 +166,11 @@ const Edit = () => {
                   <SitoContainer sx={{ marginRight: "20px" }}>
                     <Box sx={productImageBox}>
                       <SitoImage
-                        src={item.ph && item.ph !== "" ? item.ph : noProduct}
+                        src={
+                          item.ph && item.ph !== ""
+                            ? getPhotoFromServer(item.ph)
+                            : noProduct
+                        }
                         alt={item.n}
                         sx={productImage}
                       />

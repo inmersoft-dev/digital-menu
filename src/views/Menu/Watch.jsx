@@ -54,6 +54,10 @@ import {
   mainWindow,
 } from "../../assets/styles/styles";
 
+import axios from "axios";
+
+import config from "../../config";
+
 const Watch = () => {
   const theme = useTheme();
   const location = useLocation();
@@ -84,6 +88,12 @@ const Watch = () => {
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
+  const getPhotoFromServer = (photo) => {
+    axios.get(`${config.apiUrl}get/photo?photo=${photo}`).then((data) => {
+      return `data:image/jpeg;base64,${data.data}`;
+    });
+  };
+
   const fetch = async (user = undefined, menu = undefined) => {
     setLoading(1);
     setError(false);
@@ -95,7 +105,11 @@ const Watch = () => {
         );
         const data = await response.data;
         if (data && data.t && data.l) {
-          setPhoto(data.ph);
+          axios
+            .get(`${config.apiUrl}get/photo?photo=${data.ph}`)
+            .then((data) => {
+              setPhoto(`data:image/jpeg;base64,${data.data}`);
+            });
           setMenu(data.m);
           setDescription(data.d);
           const tabsByType = [];
@@ -129,7 +143,7 @@ const Watch = () => {
                       <SitoImage
                         src={
                           item.ph && item.ph !== ""
-                            ? item.ph
+                            ? getPhotoFromServer(item.ph)
                             : noProduct
                         }
                         alt={item.n}

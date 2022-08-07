@@ -39,6 +39,10 @@ import {
   loadingPhotoSpinner,
 } from "../../assets/styles/styles";
 
+import axios from "axios";
+
+import config from "../../config";
+
 const Modal = (props) => {
   const theme = useTheme();
   const { languageState } = useLanguage();
@@ -140,7 +144,9 @@ const Modal = (props) => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setPhoto(url);
+          axios.get(`${config.apiUrl}get/photo?photo${url}`).then((data) => {
+            setPhoto(`data:image/jpeg;base64,${data.data}`);
+          });
           setValue(url);
           setLoadingPhoto(false);
         });
