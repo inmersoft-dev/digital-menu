@@ -118,6 +118,7 @@ const Edit = () => {
       const response = await fetchMenu(getUserName(), getUserName());
       const data = await response.data;
       if (data && data.t && data.l) {
+        console.log(data);
         setMenuName(data.m);
         const tabsByType = [];
         data.t.forEach((item, i) => {
@@ -442,6 +443,7 @@ const Edit = () => {
     });
     if (indexes.length) newAllData[indexes[0]] = { ...parsedData };
     else newAllData.push(parsedData);
+    console.log(newAllData);
     const result = await saveMenu(
       getUserName(),
       menuName,
