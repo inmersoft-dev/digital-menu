@@ -291,9 +291,11 @@ const Edit = () => {
     const newTypes = data.t;
     const realIndex = getIndexOfByAttribute(newAllData, "i", index);
     const deletionType = newTypes.indexOf(newTypes[newAllData[realIndex].t]);
-    const deleteRef = ref(storage, `/files/${newAllData[realIndex].i}`);
+    let deleteRef;
+    if (newAllData[realIndex].ph)
+      deleteRef = ref(storage, `/files/${newAllData[realIndex].i}`);
     try {
-      await deleteObject(deleteRef);
+      if (deleteRef) await deleteObject(deleteRef);
       newAllData.splice(realIndex, 1);
       let found = false;
       for (let i = 0; i < newAllData.length && !found; i += 1)
