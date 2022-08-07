@@ -108,11 +108,12 @@ const Watch = () => {
         );
         const data = await response.data;
         if (data && data.t && data.l) {
-          axios
-            .get(`${config.apiUrl}get/photo?photo=${data.u}`)
-            .then((data) => {
-              setPhoto(`data:image/jpeg;base64,${data.data}`);
-            });
+          if (data.ph)
+            axios
+              .get(`${config.apiUrl}get/photo?photo=${data.u}`)
+              .then((data) => {
+                setPhoto(`data:image/jpeg;base64,${data.data}`);
+              });
           setMenu(data.m);
           setDescription(data.d);
           const tabsByType = [];
@@ -120,7 +121,8 @@ const Watch = () => {
             tabsByType.push([]);
           });
           for (const item of data.l) {
-            const parsedPhoto = await getPhotoFromServer(item.i);
+            let parsedPhoto = "";
+            if (item.ph) parsedPhoto = await getPhotoFromServer(item.i);
             if (parsedPhoto) item.loaded = parsedPhoto;
             tabsByType[item.t].push(
               <motion.li

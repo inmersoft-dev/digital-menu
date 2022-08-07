@@ -299,7 +299,8 @@ const Edit = () => {
         tabsByType.push([]);
       });
       for (const item of newAllData) {
-        const parsedPhoto = await getPhotoFromServer(item.i);
+        let parsedPhoto = "";
+        if (item.ph) parsedPhoto = await getPhotoFromServer(item.i);
         if (parsedPhoto) item.loaded = parsedPhoto;
         tabsByType[item.t].push(
           <motion.li
