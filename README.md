@@ -12,18 +12,18 @@ The digital menu!!
 
 ### Testers
 
-- Carmen
+- Carmen (Lakklakk)
   - 1 big error
-- Erni
+- Erni (Balcon123)
   - 4 small errors
-- Lia
+- Lia (lia)
   - 1 suggestion
   - 1 big error
   - 1 small error
-- Anto
+- Anto (Neki10X)
   - 4 small errors
   - 5 big errors
   - 1 issue
   - 1 suggestion
-- Livan
+- Livan (Livan)
   - 1 big error
