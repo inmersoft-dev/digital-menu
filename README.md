@@ -4,7 +4,7 @@ The digital menu!!
 
 ### Found
 
-- 18 fixes
+- 19 fixes
   - 8 big
   - 9 smalls
   - 2 suggestions
