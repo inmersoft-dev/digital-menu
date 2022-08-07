@@ -118,6 +118,7 @@ const Edit = () => {
       const response = await fetchMenu(getUserName(), getUserName());
       const data = await response.data;
       if (data && data.t && data.l) {
+        console.log(data);
         setMenuName(data.m);
         const tabsByType = [];
         data.t.forEach((item, i) => {
@@ -216,7 +217,7 @@ const Edit = () => {
             );
         }
         const realTabsType = [];
-        realTabsType.forEach((item, i) => {
+        tabsByType.forEach((item, i) => {
           if (item.length) realTabsType.push(data.t[i]);
         });
         setTypes(realTabsType);
@@ -394,7 +395,7 @@ const Edit = () => {
         );
       }
       const realTabsType = [];
-      realTabsType.forEach((item, i) => {
+      tabsByType.forEach((item, i) => {
         if (item.length) realTabsType.push(newTypes[i]);
       });
       setTypes(realTabsType);
@@ -414,6 +415,7 @@ const Edit = () => {
   const onSubmit = async (remoteData) => {
     setVisible(false);
     setLoading(1);
+
     const { id, name, type, description, price, photo } = remoteData;
     let typePosition = types.indexOf(type);
     const newAllData = [];
@@ -423,6 +425,7 @@ const Edit = () => {
     });
     const newTypes = types;
     if (typePosition === -1) newTypes.push(type);
+    console.log(typePosition, type, newTypes);
     typePosition = types.indexOf(type);
     const parsedData = {
       i: id,
