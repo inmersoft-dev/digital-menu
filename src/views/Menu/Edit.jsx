@@ -208,9 +208,14 @@ const Edit = () => {
             </motion.li>
           );
         }
+        const realTabsType = [];
+        realTabsType.forEach((item, i) => {
+          if (item.length) realTabsType.push(data.t[i]);
+        });
+        setTypes(realTabsType);
         setTabs(tabsByType);
         setAllData(data.l);
-        setTypes(data.t);
+
         setLoading(0);
       } else {
         setLoading(-1);
@@ -379,9 +384,13 @@ const Edit = () => {
           </motion.li>
         );
       }
+      const realTabsType = [];
+      realTabsType.forEach((item, i) => {
+        if (item.length) realTabsType.push(newTypes[i]);
+      });
+      setTypes(realTabsType);
       setTabs(tabsByType);
       setAllData(newAllData);
-      setTypes(newTypes);
       setLoading(0);
     } catch (err) {
       console.log(err);
