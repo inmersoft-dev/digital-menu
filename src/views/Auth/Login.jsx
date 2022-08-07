@@ -92,7 +92,7 @@ const Login = () => {
       } else {
         let error;
         if (response.data) error = response.data.error;
-        error = response.error;
+        else error = response.error;
         let message;
         if (
           error.indexOf("not found") > -1 ||
