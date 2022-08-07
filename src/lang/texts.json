@@ -13,7 +13,7 @@
       "Wrong": "Usuario o contraseña incorrecta",
       "NameRequired": "Debes introducir un nombre",
       "PriceRequired": "Debes introducir un precio",
-      "TypeRequired": "Debes introducir un tipo",
+      "TypeRequired": "Debes introducir una categoría",
       "DescriptionRequired": "Debes introducir una descripción",
       "PasswordLengthValidation": "La contraseña debe tener al menos 8 caracteres y no debe pasar de 12 caracteres",
       "PasswordCharacterValidation": "La contraseña debe tener al menos una letra mayúscula, una minúscula y un número",
@@ -59,7 +59,7 @@
           "Placeholder": "ej 100"
         },
         "Type": {
-          "Label": "Categoria",
+          "Label": "Categoría",
           "Placeholder": "ej: Bebidas"
         }
       },
