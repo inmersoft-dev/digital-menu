@@ -26,7 +26,7 @@ const Loading = (props) => {
         alignItems: "center",
         justifyContent: "center",
         transition: "all 400ms ease",
-        position: "absolute",
+        position: "fixed",
         width: "100%",
         height: "100%",
         top: 0,

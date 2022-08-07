@@ -71,7 +71,6 @@ const Modal = (props) => {
     axios
       .get(`${config.apiUrl}get/photo?photo=${getValues("id")}`)
       .then((data) => {
-        console.log(getValues("id"));
         setPreview(`data:image/jpeg;base64,${data.data}`);
         setLoadingPhoto(false);
       });
@@ -81,7 +80,7 @@ const Modal = (props) => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
     const { i, n, p, d, ph, t } = item;
-    if (!item.loaded) {
+    if (!item.loaded && ph) {
       setPreview("");
       setLoadingPhoto(true);
       getPhotoFromServer();
@@ -184,7 +183,7 @@ const Modal = (props) => {
     return () => {
       if (image !== null) image.onclick = undefined;
     };
-  }, [uploadPhoto]);
+  }, [uploadPhoto, loadingPhoto]);
 
   return (
     <Box

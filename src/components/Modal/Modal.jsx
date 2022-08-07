@@ -108,7 +108,7 @@ const Modal = (props) => {
               marginTop: "10px",
             }}
           >
-            {item.p}
+            {item.p} CUP
           </Typography>
           <Typography
             variant="h3"
@@ -125,7 +125,7 @@ const Modal = (props) => {
             variant="body"
             sx={{ width: "75%", textAlign: "center", marginTop: "10px" }}
           >
-            {item.d} CUP
+            {item.d}
           </Typography>
         </SitoContainer>
       </Box>

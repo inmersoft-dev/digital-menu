@@ -95,6 +95,7 @@ const Edit = () => {
   const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
 
+  const [menuName, setMenuName] = useState("");
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
@@ -117,6 +118,7 @@ const Edit = () => {
       const response = await fetchMenu(getUserName(), getUserName());
       const data = await response.data;
       if (data && data.t && data.l) {
+        setMenuName(data.m);
         const tabsByType = [];
         data.t.forEach((item, i) => {
           tabsByType.push([]);
@@ -205,9 +207,9 @@ const Edit = () => {
             </motion.li>
           );
         }
+        setTabs(tabsByType);
         setAllData(data.l);
         setTypes(data.t);
-        setTabs(tabsByType);
         setLoading(0);
       } else {
         setLoading(-1);
@@ -290,9 +292,95 @@ const Edit = () => {
       let found = false;
       for (let i = 0; i < newAllData.length && !found; i += 1)
         if (newAllData[i].t === deletionType) found = true;
-      if (!found) newTypes.splice(deletionType, 1);
-      saveMenu(getUserName(), getUserName(), newAllData, newTypes);
-      retry();
+      // if (!found) newTypes.splice(deletionType, 1);
+      await saveMenu(getUserName(), getUserName(), newAllData, newTypes);
+      const tabsByType = [];
+      newTypes.forEach((item, i) => {
+        tabsByType.push([]);
+      });
+      for (const item of newAllData) {
+        const parsedPhoto = await getPhotoFromServer(item.i);
+        if (parsedPhoto) item.loaded = parsedPhoto;
+        tabsByType[item.t].push(
+          <motion.li
+            key={item.i}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={motionLiAnimation}
+            className={motionLiCss}
+          >
+            <Paper
+              id={`obj-${item.i}`}
+              elevation={1}
+              sx={{
+                position: "relative",
+                marginTop: "20px",
+                width: { md: "800px", sm: "630px", xs: "100%" },
+                padding: "1rem",
+                borderRadius: "1rem",
+                background: theme.palette.background.paper,
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  width: { xs: "95%", md: "98%" },
+                  position: "absolute",
+                  marginTop: "-10px",
+                  justifyContent: "flex-end",
+
+                  display: "flex",
+                  cursor: "pointer",
+                }}
+              >
+                <IconButton color="error" onClick={() => deleteProduct(item.i)}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <Box
+                sx={{ cursor: "pointer", display: "flex" }}
+                onClick={() => {
+                  setVisible(true);
+                  setSelected(
+                    data.l[getIndexOfByAttribute(data.l, "i", item.i)]
+                  );
+                }}
+              >
+                <SitoContainer sx={{ marginRight: "20px" }}>
+                  <Box sx={productImageBox}>
+                    <SitoImage
+                      src={item.ph && item.ph !== "" ? parsedPhoto : noProduct}
+                      alt={item.n}
+                      sx={productImage}
+                    />
+                  </Box>
+                </SitoContainer>
+                <Box sx={productContentBox}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                    {item.n}
+                  </Typography>
+                  <Box sx={productDescriptionBox}>
+                    <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                      {item.d}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: "bold", width: "75%" }}
+                  >
+                    {item.p} CUP
+                  </Typography>
+                </Box>
+              </Box>
+            </Paper>
+          </motion.li>
+        );
+      }
+      setTabs(tabsByType);
+      setAllData(newAllData);
+      setTypes(newTypes);
+      setLoading(0);
     } catch (err) {
       console.log(err);
       return setNotificationState({
@@ -308,7 +396,10 @@ const Edit = () => {
     setLoading(1);
     const { id, name, type, description, price, photo } = remoteData;
     let typePosition = types.indexOf(type);
-    const newAllData = allData;
+    const newAllData = [];
+    allData.forEach((item) => {
+      newAllData.push(item);
+    });
     const newTypes = types;
     if (typePosition === -1) newTypes.push(type);
     typePosition = types.indexOf(type);
@@ -332,7 +423,7 @@ const Edit = () => {
     else newAllData.push(parsedData);
     const result = await saveMenu(
       getUserName(),
-      getUserName(),
+      menuName,
       newAllData,
       newTypes
     );
@@ -349,7 +440,11 @@ const Edit = () => {
         message: languageState.texts.Errors.SomeWrong,
       });
     setSelected({
-      i: `${getUserName()}-${allData.length ? allData.length : 0}`,
+      i: `${getUserName()}-${
+        allData.length
+          ? Number(allData[allData.length - 1].i.split("-")[1]) + 1
+          : 0
+      }`,
       ph: "",
       n: "",
       d: "",
@@ -418,7 +513,11 @@ const Edit = () => {
           variant="contained"
           onClick={() => {
             setSelected({
-              i: `${getUserName()}-${allData.length ? allData.length : 0}`,
+              i: `${getUserName()}-${
+                allData.length
+                  ? Number(allData[allData.length - 1].i.split("-")[1]) + 1
+                  : 0
+              }`,
               ph: "",
               n: "",
               d: "",
@@ -435,22 +534,27 @@ const Edit = () => {
       {loading === -1 && !error && <Empty />}
       {!error && loading === 0 && (
         <Box sx={productList}>
-          {tabs.map((item, i) => (
-            <Box key={i} sx={typeBoxCss}>
-              <Box id={`title-${i}`} sx={headerBox}>
-                <Typography variant="h5">{types[i]}</Typography>
+          {tabs
+            .filter((item) => {
+              if (item.length > 0) return item;
+              return null;
+            })
+            .map((item, i) => (
+              <Box key={i} sx={typeBoxCss}>
+                <Box id={`title-${i}`} sx={headerBox}>
+                  <Typography variant="h5">{types[i]}</Typography>
+                </Box>
+                <motion.ul
+                  variants={motionUlContainer}
+                  className={motionUlCss}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
+                  {item}
+                </motion.ul>
               </Box>
-              <motion.ul
-                variants={motionUlContainer}
-                className={motionUlCss}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                {item}
-              </motion.ul>
-            </Box>
-          ))}
+            ))}
         </Box>
       )}
     </SitoContainer>
