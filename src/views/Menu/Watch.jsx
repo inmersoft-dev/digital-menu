@@ -175,7 +175,6 @@ const Watch = () => {
               </motion.li>
             );
           }
-
           setAllData(data.l);
           setTypes(data.t);
           setTabs(tabsByType);
@@ -307,24 +306,29 @@ const Watch = () => {
         <NotConnected onRetry={retry} />
       )}
       {loading === -1 && !error && !currentOwner && !currentMenu && <Empty />}
-      {!error && currentOwner && currentMenu && (
+      {!error && currentOwner && (
         <Box sx={productList}>
-          {tabs.map((item, i) => (
-            <Box key={i} sx={typeBoxCss}>
-              <Box id={`title-${i}`} sx={headerBox}>
-                <Typography variant="h5">{types[i]}</Typography>
+          {tabs
+            .filter((item) => {
+              if (item.length > 0) return item;
+              return null;
+            })
+            .map((item, i) => (
+              <Box key={i} sx={typeBoxCss}>
+                <Box id={`title-${i}`} sx={headerBox}>
+                  <Typography variant="h5">{types[i]}</Typography>
+                </Box>
+                <motion.ul
+                  variants={motionUlContainer}
+                  className={motionUlCss}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
+                  {item}
+                </motion.ul>
               </Box>
-              <motion.ul
-                variants={motionUlContainer}
-                className={motionUlCss}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                {item}
-              </motion.ul>
-            </Box>
-          ))}
+            ))}
         </Box>
       )}
     </SitoContainer>
