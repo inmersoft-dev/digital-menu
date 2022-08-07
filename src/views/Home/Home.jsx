@@ -87,12 +87,13 @@ const Home = () => {
       if (data && data.u) {
         const newList = [];
         const arrayData = Object.values(data.u);
-        console.log("adios");
+
         for (const item of arrayData) {
-          const parsedPhoto = await getPhotoFromServer(item.i);
+          console.log(item, arrayData);
+          const parsedPhoto = await getPhotoFromServer(item.u);
           newList.push(
             <motion.li
-              key={item.i}
+              key={item.u}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -108,7 +109,7 @@ const Home = () => {
                 className={linkStyle}
               >
                 <Paper
-                  id={`obj-${item.i}`}
+                  id={`obj-${item.u}`}
                   elevation={1}
                   sx={{
                     ...productPaper,
