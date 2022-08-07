@@ -398,7 +398,8 @@ const Edit = () => {
     let typePosition = types.indexOf(type);
     const newAllData = [];
     allData.forEach((item) => {
-      newAllData.push(item);
+      const { d, i, n, p, ph, t } = item;
+      newAllData.push({ d, i, n, p, ph, t });
     });
     const newTypes = types;
     if (typePosition === -1) newTypes.push(type);
