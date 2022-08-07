@@ -222,7 +222,6 @@ const Edit = () => {
         setTypes(realTabsType);
         setTabs(tabsByType);
         setAllData(data.l);
-
         setLoading(0);
       } else {
         setLoading(-1);
