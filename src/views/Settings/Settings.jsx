@@ -3,6 +3,9 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 
+// imagekitio-react
+import { IKContext, IKUpload } from "imagekitio-react";
+
 // sito components
 import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
@@ -45,11 +48,10 @@ import { fetchMenu } from "../../services/menu.js";
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
-// firebase
-import { storage } from "../../utils/firebase";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-
 import config from "../../config";
+import { removeImage } from "../../services/photo";
+
+const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
 
 const Settings = () => {
   const theme = useTheme();
@@ -79,37 +81,6 @@ const Settings = () => {
     },
   });
 
-  const [image, setImage] = useState("");
-  const [, setImageFile] = useState();
-
-  const onUploadPhoto = (e) => {
-    setLoadingPhoto(true);
-    const file = e.target.files[0];
-    if (!file) return;
-    const storageRef = ref(storage, `/files/${getUserName()}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {},
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          axios
-            .get(`${config.apiUrl}get/photo?photo=${getUserName()}`)
-            .then((data) => {
-              setPhoto(url);
-              setPreview(`data:image/jpeg;base64,${data.data}`);
-              setLoadingPhoto(false);
-            });
-        });
-      }
-    );
-    setImage(e.target.value);
-    setImageFile(file);
-  };
-
   const uploadPhoto = useCallback((e) => {
     const file = document.getElementById("menu-photo");
     if (file !== null) file.click();
@@ -122,13 +93,10 @@ const Settings = () => {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
       if (data) {
-        if (data.ph)
-          axios
-            .get(`${config.apiUrl}get/photo?photo=${getUserName()}`)
-            .then((data) => {
-              setPhoto(getUserName());
-              setPreview(`data:image/jpeg;base64,${data.data}`);
-            });
+        if (data.ph) {
+          setPhoto(data.ph);
+          setPreview(data.ph.url);
+        }
         reset({ menu: data.m, description: data.d });
       }
     } catch (err) {
@@ -203,6 +171,21 @@ const Settings = () => {
     img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
   };
 
+  const onLoading = () => setLoadingPhoto(true);
+
+  const onSuccess = async (res) => {
+    const { url, fileId } = res;
+    if (photo) await removeImage(photo.fileId);
+    setPhoto({ fileId, url });
+    setPreview(url);
+    setLoadingPhoto(false);
+  };
+
+  const onError = (e) => {
+    showNotification("errror", String(e));
+    setLoadingPhoto(false);
+  };
+
   return (
     <Box
       sx={{
@@ -238,13 +221,6 @@ const Settings = () => {
               {languageState.texts.Settings.Title}
             </Typography>
             <SitoContainer sx={{ width: "100%" }} justifyContent="center">
-              <input
-                id="menu-photo"
-                type="file"
-                accept=".jpg, .png, .webp, .gif"
-                value={image}
-                onChange={onUploadPhoto}
-              />
               <Box
                 sx={{
                   width: { md: "160px", sm: "120px", xs: "80px" },
@@ -252,30 +228,46 @@ const Settings = () => {
                   borderRadius: "100%",
                 }}
               >
-                {loadingPhoto ? (
-                  <Loading
-                    visible={loadingPhoto}
-                    sx={{
-                      position: "relative",
-                      backdropFilter: "none",
-                      borderRadius: "1rem",
-                      boxShadow: "1px 1px 15px -4px",
-                      background: theme.palette.background.default,
-                    }}
-                  />
-                ) : (
-                  <SitoImage
-                    id="no-image"
-                    src={preview && preview !== "" ? preview : noProduct}
-                    alt="user"
-                    sx={{
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: "1rem",
-                      cursor: "pointer",
-                      objectFit: "cover",
-                    }}
-                  />
+                {!loading && (
+                  <IKContext
+                    publicKey={imagekitPublicKey}
+                    urlEndpoint={imagekitUrl}
+                    authenticationEndpoint={imagekitAuthUrl}
+                    transformationPosition="path"
+                  >
+                    <IKUpload
+                      id="menu-photo"
+                      fileName={`${getUserName()}`}
+                      onChange={onLoading}
+                      onError={onError}
+                      onSuccess={onSuccess}
+                    />
+                    {loadingPhoto ? (
+                      <Loading
+                        visible={loadingPhoto}
+                        sx={{
+                          position: "relative",
+                          backdropFilter: "none",
+                          borderRadius: "1rem",
+                          boxShadow: "1px 1px 15px -4px",
+                          background: theme.palette.background.default,
+                        }}
+                      />
+                    ) : (
+                      <SitoImage
+                        id="no-image"
+                        src={preview && preview !== "" ? preview : noProduct}
+                        alt="user"
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "1rem",
+                          cursor: "pointer",
+                          objectFit: "cover",
+                        }}
+                      />
+                    )}
+                  </IKContext>
                 )}
               </Box>
             </SitoContainer>
