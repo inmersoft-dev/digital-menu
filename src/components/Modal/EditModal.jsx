@@ -3,6 +3,9 @@ import { useForm, Controller } from "react-hook-form";
 
 import PropTypes from "prop-types";
 
+// imagekitio-react
+import { IKContext, IKUpload } from "imagekitio-react";
+
 // sito components
 import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
@@ -23,10 +26,6 @@ import noProduct from "../../assets/images/no-product.webp";
 import { useNotification } from "../../context/NotificationProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 
-// firebase
-import { storage } from "../../utils/firebase";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-
 // styles
 import {
   modal,
@@ -36,9 +35,12 @@ import {
   loadingPhotoSpinner,
 } from "../../assets/styles/styles";
 
-import axios from "axios";
+// services
+import { removeImage } from "../../services/photo";
 
 import config from "../../config";
+
+const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
 
 const Modal = (props) => {
   const theme = useTheme();
@@ -52,10 +54,7 @@ const Modal = (props) => {
 
   const [ok, setOk] = useState(1);
 
-  const [image, setImage] = useState("");
-  const [, setImageFile] = useState();
-
-  const [, setPhoto] = useState("");
+  const [photo, setPhoto] = useState("");
   const [preview, setPreview] = useState("");
   const { control, handleSubmit, reset, getValues, setValue } = useForm({
     defaultValues: {
@@ -67,28 +66,13 @@ const Modal = (props) => {
     },
   });
 
-  const getPhotoFromServer = () => {
-    axios
-      .get(`${config.apiUrl}get/photo?photo=${getValues("id")}`)
-      .then((data) => {
-        setPreview(`data:image/jpeg;base64,${data.data}`);
-        setLoadingPhoto(false);
-      });
-  };
-
   useEffect(() => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
     const { i, n, p, d, ph, t } = item;
-    if (!item.loaded && ph) {
-      setPreview("");
-      setLoadingPhoto(true);
-      getPhotoFromServer();
-    } else {
-      setPreview(item.loaded);
-      setLoadingPhoto(false);
-    }
+    if (ph) setPreview(ph.url);
     setPhoto(ph);
+    setLoadingPhoto(false);
     reset({
       id: i,
       name: n,
@@ -114,6 +98,13 @@ const Modal = (props) => {
     setOk(true);
   };
 
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
+
   const invalidate = (e) => {
     e.preventDefault();
     if (ok) {
@@ -135,41 +126,8 @@ const Modal = (props) => {
           message = languageState.texts.Errors.NameRequired;
           break;
       }
-      return setNotificationState({
-        type: "set",
-        ntype: "error",
-        message,
-      });
+      return showNotification("error", message);
     }
-  };
-
-  const onUploadPhoto = (e) => {
-    setLoadingPhoto(true);
-    const file = e.target.files[0];
-    if (!file) return;
-    const storageRef = ref(storage, `/files/${getValues("id")}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {},
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          axios
-            .get(`${config.apiUrl}get/photo?photo=${getValues("id")}`)
-            .then((data) => {
-              setPhoto(url);
-              setPreview(`data:image/jpeg;base64,${data.data}`);
-              setValue("photo", url);
-              setLoadingPhoto(false);
-            });
-        });
-      }
-    );
-    setImage(e.target.value);
-    setImageFile(file);
   };
 
   const uploadPhoto = useCallback((e) => {
@@ -184,6 +142,22 @@ const Modal = (props) => {
       if (image !== null) image.onclick = undefined;
     };
   }, [uploadPhoto, loadingPhoto]);
+
+  const onLoading = () => setLoadingPhoto(true);
+
+  const onSuccess = async (res) => {
+    const { url, fileId } = res;
+    if (photo) await removeImage(photo.fileId);
+    setPhoto({ fileId, url });
+    setValue("photo", { fileId, url });
+    setPreview(url);
+    setLoadingPhoto(false);
+  };
+
+  const onError = (e) => {
+    showNotification("error", languageState.texts.Errors.SomeWrong);
+    setLoadingPhoto(false);
+  };
 
   return (
     <Box
@@ -215,29 +189,36 @@ const Modal = (props) => {
           justifyContent="center"
         >
           <Box sx={productImageBox}>
-            <input
-              id="product-photo"
-              type="file"
-              accept=".jpg, .png, .webp, .gif"
-              value={image}
-              onChange={onUploadPhoto}
-            />
-            {loadingPhoto ? (
-              <Loading
-                visible={loadingPhoto}
-                sx={{
-                  ...loadingPhotoSpinner,
-                  background: theme.palette.background.default,
-                }}
+            <IKContext
+              publicKey={imagekitPublicKey}
+              urlEndpoint={imagekitUrl}
+              authenticationEndpoint={imagekitAuthUrl}
+              transformationPosition="path"
+            >
+              <IKUpload
+                id="product-photo"
+                fileName={getValues("id")}
+                onChange={onLoading}
+                onError={onError}
+                onSuccess={onSuccess}
               />
-            ) : (
-              <SitoImage
-                id="no-product"
-                src={preview && preview !== "" ? preview : noProduct}
-                alt={getValues("name")}
-                sx={{ ...productImage, cursor: "pointer" }}
-              />
-            )}
+              {loadingPhoto ? (
+                <Loading
+                  visible={loadingPhoto}
+                  sx={{
+                    ...loadingPhotoSpinner,
+                    background: theme.palette.background.default,
+                  }}
+                />
+              ) : (
+                <SitoImage
+                  id="no-product"
+                  src={preview && preview !== "" ? preview : noProduct}
+                  alt={getValues("name")}
+                  sx={{ ...productImage, cursor: "pointer" }}
+                />
+              )}
+            </IKContext>
           </Box>
         </SitoContainer>
 
