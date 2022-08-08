@@ -140,7 +140,7 @@ const Settings = () => {
         image.onclick = undefined;
       }
     };
-  }, [uploadPhoto]);
+  }, [uploadPhoto, loading, loadingPhoto]);
 
   useEffect(() => {
     if (!userLogged()) navigate("/");
@@ -180,7 +180,7 @@ const Settings = () => {
   };
 
   const onError = (e) => {
-    showNotification("errror", String(e));
+    showNotification("error", languageState.texts.Errors.SomeWrong);
     setLoadingPhoto(false);
   };
 
