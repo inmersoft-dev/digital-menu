@@ -39,6 +39,7 @@ import { getIndexOfByAttribute } from "../../utils/functions";
 
 // services
 import { fetchMenu, saveMenu } from "../../services/menu";
+import { removeImage } from "../../services/photo";
 
 // contexts
 import { useNotification } from "../../context/NotificationProvider";
@@ -46,10 +47,6 @@ import { useLanguage } from "../../context/LanguageProvider";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
-
-// firebase
-import { storage } from "../../utils/firebase";
-import { ref, deleteObject } from "firebase/storage";
 
 // animations
 import {
@@ -70,10 +67,6 @@ import {
   productList,
   typeBoxCss,
 } from "../../assets/styles/styles";
-
-import axios from "axios";
-
-import config from "../../config";
 
 const Edit = () => {
   const theme = useTheme();
@@ -105,10 +98,93 @@ const Edit = () => {
     return data;
   };
 
-  const getPhotoFromServer = async (id) => {
-    const response = await axios.get(`${config.apiUrl}get/photo?photo=${id}`);
-    const data = await response.data;
-    return `data:image/jpeg;base64,${data}`;
+  const setOnView = (types, data) => {
+    const tabsByType = [];
+    types.forEach((item, i) => {
+      tabsByType.push([]);
+    });
+    for (const item of data) {
+      let parsedPhoto = "";
+      if (item.ph) parsedPhoto = item.ph.url;
+      if (parsedPhoto) item.loaded = parsedPhoto;
+      if (tabsByType[item.t])
+        tabsByType[item.t].push(
+          <motion.li
+            key={item.i}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={motionLiAnimation}
+            className={motionLiCss}
+          >
+            <Paper
+              id={`obj-${item.i}`}
+              elevation={1}
+              sx={{
+                position: "relative",
+                marginTop: "20px",
+                width: { md: "800px", sm: "630px", xs: "100%" },
+                padding: "1rem",
+                borderRadius: "1rem",
+                background: theme.palette.background.paper,
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  width: { xs: "95%", md: "98%" },
+                  position: "absolute",
+                  marginTop: "-10px",
+                  justifyContent: "flex-end",
+
+                  display: "flex",
+                  cursor: "pointer",
+                }}
+              >
+                <IconButton color="error" onClick={() => deleteProduct(item.i)}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <Box
+                sx={{ cursor: "pointer", display: "flex" }}
+                onClick={() => {
+                  setVisible(true);
+                  setSelected(data[getIndexOfByAttribute(data, "i", item.i)]);
+                }}
+              >
+                <SitoContainer sx={{ marginRight: "20px" }}>
+                  <Box sx={productImageBox}>
+                    <SitoImage
+                      src={item.ph && item.ph !== "" ? parsedPhoto : noProduct}
+                      alt={item.n}
+                      sx={productImage}
+                    />
+                  </Box>
+                </SitoContainer>
+                <Box sx={productContentBox}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                    {item.n}
+                  </Typography>
+                  <Box sx={productDescriptionBox}>
+                    <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                      {item.d}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: "bold", width: "75%" }}
+                  >
+                    {item.p} CUP
+                  </Typography>
+                </Box>
+              </Box>
+            </Paper>
+          </motion.li>
+        );
+    }
+    setTypes(types);
+    setTabs(tabsByType);
+    setAllData(data);
   };
 
   const fetch = async () => {
@@ -119,105 +195,7 @@ const Edit = () => {
       const data = await response.data;
       if (data && data.t && data.l) {
         setMenuName(data.m);
-        const tabsByType = [];
-        data.t.forEach((item, i) => {
-          tabsByType.push([]);
-        });
-        for (const item of data.l) {
-          let parsedPhoto = "";
-          if (item.ph) parsedPhoto = await getPhotoFromServer(item.i);
-          if (parsedPhoto) item.loaded = parsedPhoto;
-          if (tabsByType[item.t])
-            tabsByType[item.t].push(
-              <motion.li
-                key={item.i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={motionLiAnimation}
-                className={motionLiCss}
-              >
-                <Paper
-                  id={`obj-${item.i}`}
-                  elevation={1}
-                  sx={{
-                    position: "relative",
-                    marginTop: "20px",
-                    width: { md: "800px", sm: "630px", xs: "100%" },
-                    padding: "1rem",
-                    borderRadius: "1rem",
-                    background: theme.palette.background.paper,
-                    alignItems: "center",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: { xs: "95%", md: "98%" },
-                      position: "absolute",
-                      marginTop: "-10px",
-                      justifyContent: "flex-end",
-
-                      display: "flex",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <IconButton
-                      color="error"
-                      onClick={() => deleteProduct(item.i)}
-                    >
-                      <CloseIcon />
-                    </IconButton>
-                  </Box>
-                  <Box
-                    sx={{ cursor: "pointer", display: "flex" }}
-                    onClick={() => {
-                      setVisible(true);
-                      setSelected(
-                        data.l[getIndexOfByAttribute(data.l, "i", item.i)]
-                      );
-                    }}
-                  >
-                    <SitoContainer sx={{ marginRight: "20px" }}>
-                      <Box sx={productImageBox}>
-                        <SitoImage
-                          src={
-                            item.ph && item.ph !== "" ? parsedPhoto : noProduct
-                          }
-                          alt={item.n}
-                          sx={productImage}
-                        />
-                      </Box>
-                    </SitoContainer>
-                    <Box sx={productContentBox}>
-                      <Typography
-                        variant="subtitle1"
-                        sx={{ fontWeight: "bold" }}
-                      >
-                        {item.n}
-                      </Typography>
-                      <Box sx={productDescriptionBox}>
-                        <Typography
-                          variant="body1"
-                          sx={{ textAlign: "justify" }}
-                        >
-                          {item.d}
-                        </Typography>
-                      </Box>
-                      <Typography
-                        variant="body2"
-                        sx={{ fontWeight: "bold", width: "75%" }}
-                      >
-                        {item.p} CUP
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Paper>
-              </motion.li>
-            );
-        }
-        setTypes(data.t);
-        setTabs(tabsByType);
-        setAllData(data.l);
+        setOnView(data.t, data.l);
         setLoading(0);
       } else {
         setLoading(-1);
@@ -293,111 +271,16 @@ const Edit = () => {
     const newTypes = data.t;
     const realIndex = getIndexOfByAttribute(newAllData, "i", index);
     const deletionType = newTypes.indexOf(newTypes[newAllData[realIndex].t]);
-    let deleteRef;
     if (newAllData[realIndex].ph)
-      deleteRef = ref(storage, `/files/${newAllData[realIndex].i}`);
+      await removeImage(newAllData[realIndex].ph.fileId);
     try {
-      if (deleteRef) await deleteObject(deleteRef);
       newAllData.splice(realIndex, 1);
       let found = false;
       for (let i = 0; i < newAllData.length && !found; i += 1)
         if (newAllData[i].t === deletionType) found = true;
       // if (!found) newTypes.splice(deletionType, 1);
       await saveMenu(getUserName(), getUserName(), newAllData, newTypes);
-      const tabsByType = [];
-      newTypes.forEach((item, i) => {
-        tabsByType.push([]);
-      });
-      for (const item of newAllData) {
-        let parsedPhoto = "";
-        if (item.ph) parsedPhoto = await getPhotoFromServer(item.i);
-        if (parsedPhoto) item.loaded = parsedPhoto;
-        if (tabsByType[item.t])
-          tabsByType[item.t].push(
-            <motion.li
-              key={item.i}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={motionLiAnimation}
-              className={motionLiCss}
-            >
-              <Paper
-                id={`obj-${item.i}`}
-                elevation={1}
-                sx={{
-                  position: "relative",
-                  marginTop: "20px",
-                  width: { md: "800px", sm: "630px", xs: "100%" },
-                  padding: "1rem",
-                  borderRadius: "1rem",
-                  background: theme.palette.background.paper,
-                  alignItems: "center",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: { xs: "95%", md: "98%" },
-                    position: "absolute",
-                    marginTop: "-10px",
-                    justifyContent: "flex-end",
-
-                    display: "flex",
-                    cursor: "pointer",
-                  }}
-                >
-                  <IconButton
-                    color="error"
-                    onClick={() => deleteProduct(item.i)}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </Box>
-                <Box
-                  sx={{ cursor: "pointer", display: "flex" }}
-                  onClick={() => {
-                    setVisible(true);
-                    setSelected(
-                      data.l[getIndexOfByAttribute(data.l, "i", item.i)]
-                    );
-                  }}
-                >
-                  <SitoContainer sx={{ marginRight: "20px" }}>
-                    <Box sx={productImageBox}>
-                      <SitoImage
-                        src={
-                          item.ph && item.ph !== "" ? parsedPhoto : noProduct
-                        }
-                        alt={item.n}
-                        sx={productImage}
-                      />
-                    </Box>
-                  </SitoContainer>
-                  <Box sx={productContentBox}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                      {item.n}
-                    </Typography>
-                    <Box sx={productDescriptionBox}>
-                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                        {item.d}
-                      </Typography>
-                    </Box>
-                    <Typography
-                      variant="body2"
-                      sx={{ fontWeight: "bold", width: "75%" }}
-                    >
-                      {item.p} CUP
-                    </Typography>
-                  </Box>
-                </Box>
-              </Paper>
-            </motion.li>
-          );
-      }
-
-      setTypes(newTypes);
-      setTabs(tabsByType);
-      setAllData(newAllData);
+      setOnView(newTypes, newAllData);
       setLoading(0);
     } catch (err) {
       console.log(err);
