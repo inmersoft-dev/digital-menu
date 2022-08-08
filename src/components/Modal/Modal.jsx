@@ -21,10 +21,6 @@ import {
   productImageBox,
 } from "../../assets/styles/styles";
 
-import axios from "axios";
-
-import config from "../../config";
-
 const Modal = (props) => {
   const theme = useTheme();
   const { visible, onClose, item } = props;
@@ -33,15 +29,9 @@ const Modal = (props) => {
 
   const [preview, setPreview] = useState("");
 
-  const getPhotoFromServer = (id) => {
-    axios.get(`${config.apiUrl}get/photo?photo=${id}`).then((data) => {
-      setPreview(`data:image/jpeg;base64,${data.data}`);
-    });
-  };
-
   useEffect(() => {
     setShow(visible);
-    getPhotoFromServer(item.i);
+    if (item.ph) setPreview(item.ph.url);
   }, [visible, item]);
 
   const onShowOff = () => {
