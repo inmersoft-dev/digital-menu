@@ -123,10 +123,10 @@ const Modal = (props) => {
       let message = "";
       switch (id) {
         case "type":
-          message = languageState.texts.Errors.PriceRequired;
+          message = languageState.texts.Errors.TypeRequired;
           break;
         case "description":
-          message = languageState.texts.Errors.PriceRequired;
+          message = languageState.texts.Errors.DescriptionRequired;
           break;
         case "price":
           message = languageState.texts.Errors.PriceRequired;

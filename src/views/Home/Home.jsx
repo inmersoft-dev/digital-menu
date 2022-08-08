@@ -88,7 +88,8 @@ const Home = () => {
         const newList = [];
         const arrayData = Object.values(data.u);
         for (const item of arrayData) {
-          const parsedPhoto = await getPhotoFromServer(item.u);
+          let parsedPhoto = item.u;
+          if (item.ph) parsedPhoto = await getPhotoFromServer(item.u);
           newList.push(
             <motion.li
               key={item.u}

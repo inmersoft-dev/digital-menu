@@ -108,11 +108,12 @@ const Watch = () => {
         );
         const data = await response.data;
         if (data && data.t && data.l) {
-          axios
-            .get(`${config.apiUrl}get/photo?photo=${data.u}`)
-            .then((data) => {
-              setPhoto(`data:image/jpeg;base64,${data.data}`);
-            });
+          if (data.ph)
+            axios
+              .get(`${config.apiUrl}get/photo?photo=${data.u}`)
+              .then((data) => {
+                setPhoto(`data:image/jpeg;base64,${data.data}`);
+              });
           setMenu(data.m);
           setDescription(data.d);
           const tabsByType = [];
@@ -120,62 +121,69 @@ const Watch = () => {
             tabsByType.push([]);
           });
           for (const item of data.l) {
-            const parsedPhoto = await getPhotoFromServer(item.i);
+            let parsedPhoto = "";
+            if (item.ph) parsedPhoto = await getPhotoFromServer(item.i);
             if (parsedPhoto) item.loaded = parsedPhoto;
-            tabsByType[item.t].push(
-              <motion.li
-                key={item.i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={motionLiAnimation}
-                className={motionLiCss}
-              >
-                <Paper
-                  onClick={() => {
-                    setVisible(true);
-                    setSelected(
-                      data.l[getIndexOfByAttribute(data.l, "i", item.i)]
-                    );
-                  }}
-                  id={`obj-${item.i}`}
-                  elevation={1}
-                  sx={{
-                    ...productPaper,
-                    background: theme.palette.background.paper,
-                  }}
+            if (tabsByType[item.t])
+              tabsByType[item.t].push(
+                <motion.li
+                  key={item.i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={motionLiAnimation}
+                  className={motionLiCss}
                 >
-                  <SitoContainer sx={{ marginRight: "20px" }}>
-                    <Box sx={productImageBox}>
-                      <SitoImage
-                        src={
-                          item.ph && item.ph !== "" ? parsedPhoto : noProduct
-                        }
-                        alt={item.n}
-                        sx={productImage}
-                      />
-                    </Box>
-                  </SitoContainer>
-                  <Box sx={productContentBox}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                      {item.n}
-                    </Typography>
-                    <Box sx={productDescriptionBox}>
-                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                        {item.d}
+                  <Paper
+                    onClick={() => {
+                      setVisible(true);
+                      setSelected(
+                        data.l[getIndexOfByAttribute(data.l, "i", item.i)]
+                      );
+                    }}
+                    id={`obj-${item.i}`}
+                    elevation={1}
+                    sx={{
+                      ...productPaper,
+                      background: theme.palette.background.paper,
+                    }}
+                  >
+                    <SitoContainer sx={{ marginRight: "20px" }}>
+                      <Box sx={productImageBox}>
+                        <SitoImage
+                          src={
+                            item.ph && item.ph !== "" ? parsedPhoto : noProduct
+                          }
+                          alt={item.n}
+                          sx={productImage}
+                        />
+                      </Box>
+                    </SitoContainer>
+                    <Box sx={productContentBox}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ fontWeight: "bold" }}
+                      >
+                        {item.n}
+                      </Typography>
+                      <Box sx={productDescriptionBox}>
+                        <Typography
+                          variant="body1"
+                          sx={{ textAlign: "justify" }}
+                        >
+                          {item.d}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                        {item.p} CUP
                       </Typography>
                     </Box>
-                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                      {item.p} CUP
-                    </Typography>
-                  </Box>
-                </Paper>
-              </motion.li>
-            );
+                  </Paper>
+                </motion.li>
+              );
           }
-
-          setAllData(data.l);
           setTypes(data.t);
+          setAllData(data.l);
           setTabs(tabsByType);
           setLoading(0);
         } else setLoading(-1);
@@ -261,10 +269,8 @@ const Watch = () => {
       const [userParam, menuParam] = location.search.substring(1).split("&");
       user = userParam.split("=")[1];
       menu = menuParam.split("=")[1];
-      if (user && menu) {
-        setCurrentMenu(menu);
-        setCurrentOwner(user);
-      }
+      if (user) setCurrentOwner(user);
+      if (menu) setCurrentMenu(menu);
     }
     retry(user, menu);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -299,7 +305,10 @@ const Watch = () => {
       </Box>
       <TabView
         value={tab}
-        tabs={types}
+        tabs={types.filter((item, i) => {
+          if (tabs[i].length) return item;
+          return null;
+        })}
         content={[]}
         shouldScroll={shouldScroll}
       />
@@ -307,24 +316,36 @@ const Watch = () => {
         <NotConnected onRetry={retry} />
       )}
       {loading === -1 && !error && !currentOwner && !currentMenu && <Empty />}
-      {!error && currentOwner && currentMenu && (
+      {!error && currentOwner && (
         <Box sx={productList}>
-          {tabs.map((item, i) => (
-            <Box key={i} sx={typeBoxCss}>
-              <Box id={`title-${i}`} sx={headerBox}>
-                <Typography variant="h5">{types[i]}</Typography>
+          {tabs
+            .filter((item) => {
+              if (item.length > 0) return item;
+              return null;
+            })
+            .map((item, i) => (
+              <Box key={i} sx={typeBoxCss}>
+                <Box id={`title-${i}`} sx={headerBox}>
+                  <Typography variant="h5">
+                    {
+                      types.filter((item, i) => {
+                        if (tabs[i].length) return item;
+                        return null;
+                      })[i]
+                    }
+                  </Typography>
+                </Box>
+                <motion.ul
+                  variants={motionUlContainer}
+                  className={motionUlCss}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
+                  {item}
+                </motion.ul>
               </Box>
-              <motion.ul
-                variants={motionUlContainer}
-                className={motionUlCss}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                {item}
-              </motion.ul>
-            </Box>
-          ))}
+            ))}
         </Box>
       )}
     </SitoContainer>

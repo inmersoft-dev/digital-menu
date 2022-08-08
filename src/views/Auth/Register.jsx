@@ -235,7 +235,7 @@ const Register = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label={languageState.texts.Login.Inputs.Password.Label}
                 {...field}
               />
             </FormControl>
@@ -273,7 +273,7 @@ const Register = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label={languageState.texts.Login.Inputs.RPassword.Label}
                 {...field}
               />
             </FormControl>
