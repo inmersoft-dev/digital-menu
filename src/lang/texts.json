@@ -1,5 +1,11 @@
 {
   "es": {
+    "Tooltips": {
+      "ToLogin": "Iniciar sesión",
+      "ToSettings": "Ajustes",
+      "ToLogout": "Cerrar sesión",
+      "ToTop": "Ir arriba"
+    },
     "NotFound": {
       "Title": "404 No encontrado",
       "Description": "La página que buscas no se encuentra o ha sido eliminada",
