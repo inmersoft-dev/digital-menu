@@ -57,10 +57,6 @@ import {
   mainWindow,
 } from "../../assets/styles/styles";
 
-import axios from "axios";
-
-import config from "../../config";
-
 const Watch = () => {
   const theme = useTheme();
   const location = useLocation();
@@ -91,12 +87,6 @@ const Watch = () => {
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
-  const getPhotoFromServer = async (id) => {
-    const response = await axios.get(`${config.apiUrl}get/photo?photo=${id}`);
-    const data = await response.data;
-    return `data:image/jpeg;base64,${data}`;
-  };
-
   const fetch = async (user = undefined, menu = undefined) => {
     setLoading(1);
     setError(false);
@@ -108,12 +98,7 @@ const Watch = () => {
         );
         const data = await response.data;
         if (data && data.t && data.l) {
-          if (data.ph)
-            axios
-              .get(`${config.apiUrl}get/photo?photo=${data.u}`)
-              .then((data) => {
-                setPhoto(`data:image/jpeg;base64,${data.data}`);
-              });
+          if (data.ph) setPhoto(data.ph.url);
           setMenu(data.m);
           setDescription(data.d);
           const tabsByType = [];
@@ -122,7 +107,7 @@ const Watch = () => {
           });
           for (const item of data.l) {
             let parsedPhoto = "";
-            if (item.ph) parsedPhoto = await getPhotoFromServer(item.i);
+            if (item.ph) parsedPhoto = item.ph.url;
             if (parsedPhoto) item.loaded = parsedPhoto;
             if (tabsByType[item.t])
               tabsByType[item.t].push(
