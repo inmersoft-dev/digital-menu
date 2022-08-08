@@ -239,6 +239,7 @@ const Modal = (props) => {
                   }}
                   id="price"
                   type="number"
+                  inputProps={{ min: 0 }}
                   required
                   onInput={validate}
                   onInvalid={invalidate}
