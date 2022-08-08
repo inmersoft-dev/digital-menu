@@ -50,10 +50,6 @@ import {
   productPaper,
 } from "../../assets/styles/styles";
 
-import axios from "axios";
-
-import config from "../../config";
-
 const Home = () => {
   const linkStyle = css({
     width: "100%",
@@ -72,12 +68,6 @@ const Home = () => {
   const [, setAllData] = useState([]);
   const [list, setList] = useState([]);
 
-  const getPhotoFromServer = async (id) => {
-    const response = await axios.get(`${config.apiUrl}get/photo?photo=${id}`);
-    const data = await response.data;
-    return `data:image/jpeg;base64,${data}`;
-  };
-
   const fetch = async () => {
     setLoading(1);
     setError(false);
@@ -89,7 +79,7 @@ const Home = () => {
         const arrayData = Object.values(data.u);
         for (const item of arrayData) {
           let parsedPhoto = item.u;
-          if (item.ph) parsedPhoto = await getPhotoFromServer(item.u);
+          if (item.ph) parsedPhoto = item.ph.url;
           newList.push(
             <motion.li
               key={item.u}

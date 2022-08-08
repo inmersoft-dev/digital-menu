@@ -16,8 +16,6 @@ import BackButton from "../../components/BackButton/BackButton";
 import NotConnected from "../../components/NotConnected/NotConnected";
 import ToLogout from "../../components/ToLogout/ToLogout";
 
-import axios from "axios";
-
 // @emotion
 import { css } from "@emotion/css";
 
@@ -44,12 +42,12 @@ import { userLogged, getUserName } from "../../utils/auth";
 // services
 import { saveProfile } from "../../services/profile";
 import { fetchMenu } from "../../services/menu.js";
+import { removeImage } from "../../services/photo";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
 import config from "../../config";
-import { removeImage } from "../../services/photo";
 
 const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
 
