@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // in-viewport
 import inViewport from "in-viewport";
@@ -62,7 +62,6 @@ import {
 const Watch = () => {
   const theme = useTheme();
   const location = useLocation();
-  const navigate = useNavigate();
 
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();

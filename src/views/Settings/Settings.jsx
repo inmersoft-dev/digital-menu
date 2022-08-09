@@ -39,7 +39,6 @@ import { useNotification } from "../../context/NotificationProvider";
 
 // utils
 import { userLogged, getUserName } from "../../utils/auth";
-import { justHasNumbersAndLetters } from "../../utils/functions";
 
 // services
 import { saveProfile } from "../../services/profile";
