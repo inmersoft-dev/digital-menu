@@ -172,7 +172,6 @@ const Settings = () => {
   const onLoading = () => setLoadingPhoto(true);
 
   const onSuccess = async (res) => {
-    console.log(res);
     const { url, fileId } = res;
     if (photo) await removeImage(photo.fileId);
     setPhoto({ fileId, url });
@@ -181,13 +180,6 @@ const Settings = () => {
   };
 
   const onError = (e) => {
-    console.log(
-      config.imagekitAuthUrl,
-      config.imagekitDeleteUrl,
-      config.imagekitPublicKey,
-      config.imagekitUrl
-    );
-    console.log(e);
     showNotification("error", languageState.texts.Errors.SomeWrong);
     setLoadingPhoto(false);
   };
