@@ -59,6 +59,8 @@ const Settings = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
+  const [menuNameError, setMenuNameError] = useState(false);
+
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
   const showNotification = (ntype, message) =>
@@ -123,7 +125,14 @@ const Settings = () => {
           "success",
           languageState.texts.Messages.SaveSuccessful
         );
-      else showNotification("error", languageState.texts.Errors.SomeWrong);
+      else {
+        const { error } = response.data;
+        if (error.indexOf("menu") > -1) {
+          setMenuNameError(true);
+          document.getElementById("menu").focus();
+          showNotification("error", languageState.texts.Errors.MenuNameTaken);
+        } else showNotification("error", languageState.texts.Errors.SomeWrong);
+      }
     } catch (err) {
       console.log(err);
       showNotification("error", languageState.texts.Errors.SomeWrong);
@@ -276,6 +285,7 @@ const Settings = () => {
               control={control}
               render={({ field }) => (
                 <TextField
+                  color={menuNameError ? "error" : "primary"}
                   sx={{ width: "100%", marginTop: "20px" }}
                   id="menu"
                   label={languageState.texts.Settings.Inputs.Menu.Label}
