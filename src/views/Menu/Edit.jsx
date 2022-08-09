@@ -93,7 +93,7 @@ const Edit = () => {
   const [shouldScroll, setShouldScroll] = useState(false);
 
   const justGetData = async () => {
-    const response = await fetchMenu(getUserName(), getUserName());
+    const response = await fetchMenu(getUserName());
     const data = await response.data;
     return data;
   };
@@ -191,7 +191,7 @@ const Edit = () => {
     setLoading(1);
     setError(false);
     try {
-      const response = await fetchMenu(getUserName(), getUserName());
+      const response = await fetchMenu(getUserName());
       const data = await response.data;
       if (data && data.t && data.l) {
         setMenuName(data.m);
