@@ -39,6 +39,7 @@ import { useNotification } from "../../context/NotificationProvider";
 
 // utils
 import { userLogged, getUserName } from "../../utils/auth";
+import { justHasNumbersAndLetters } from "../../utils/functions";
 
 // services
 import { saveProfile } from "../../services/profile";
@@ -111,6 +112,7 @@ const Settings = () => {
   const retry = () => fetch();
 
   const onSubmit = async (data) => {
+    setMenuNameError(false);
     setLoading(true);
     const { menu, description } = data;
     try {

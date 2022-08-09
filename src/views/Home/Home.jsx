@@ -50,6 +50,9 @@ import {
   productPaper,
 } from "../../assets/styles/styles";
 
+// utils
+import { spaceToDashes } from "../../utils/functions";
+
 const Home = () => {
   const linkStyle = css({
     width: "100%",
@@ -93,7 +96,7 @@ const Home = () => {
                 to={
                   userLogged() && item.u === getUserName()
                     ? "/menu/edit"
-                    : `/menu/?user=${item.u}&menu=${item.m}`
+                    : `/menu/${spaceToDashes(item.m)}`
                 }
                 className={linkStyle}
               >

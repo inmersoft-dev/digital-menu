@@ -17,6 +17,7 @@
       "Empty": "No hay productos",
       "UsernameTaken": "Nombre de usuario en uso",
       "MenuNameTaken": "Nombre de menú en uso",
+      "InvalidMenuName": "Nombre del menú inválido, solo se permiten letras y números",
       "SomeWrong": "Ha ocurrido un error",
       "Wrong": "Usuario o contraseña incorrecta",
       "NameRequired": "Debes introducir un nombre",
