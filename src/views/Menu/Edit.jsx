@@ -279,7 +279,7 @@ const Edit = () => {
       for (let i = 0; i < newAllData.length && !found; i += 1)
         if (newAllData[i].t === deletionType) found = true;
       // if (!found) newTypes.splice(deletionType, 1);
-      await saveMenu(getUserName(), getUserName(), newAllData, newTypes);
+      await saveMenu(getUserName(), menuName, newAllData, newTypes);
       setOnView(newTypes, newAllData);
       setLoading(0);
     } catch (err) {

@@ -15,6 +15,7 @@ import Loading from "../../components/Loading/Loading";
 import BackButton from "../../components/BackButton/BackButton";
 import NotConnected from "../../components/NotConnected/NotConnected";
 import ToLogout from "../../components/ToLogout/ToLogout";
+import RegisterNewUser from "../../components/RegisterNewUser/RegisterNewUser";
 
 // @emotion
 import { css } from "@emotion/css";
@@ -195,6 +196,7 @@ const Settings = () => {
       }}
     >
       <ToLogout />
+      <RegisterNewUser />
       <BackButton to="/menu/edit" />
       <Paper
         sx={{

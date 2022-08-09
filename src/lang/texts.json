@@ -4,7 +4,8 @@
       "ToLogin": "Iniciar sesión",
       "ToSettings": "Ajustes",
       "ToLogout": "Cerrar sesión",
-      "ToTop": "Ir arriba"
+      "ToTop": "Ir arriba",
+      "RegisterNewUser": "Registrar nuevo usuario"
     },
     "NotFound": {
       "Title": "404 No encontrado",
@@ -94,7 +95,7 @@
       "Remember": "Recordarme",
       "Buttons": {
         "Login": "Iniciar sesión",
-        "Register": "Registrarse"
+        "Register": "Registrar"
       }
     },
     "Inputs": [

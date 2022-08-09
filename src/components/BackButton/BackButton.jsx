@@ -16,7 +16,7 @@ const BackButton = (props) => {
   return (
     <SitoContainer
       sx={{
-        position: "absolute",
+        position: "fixed",
         top: "10px",
         left: "10px",
       }}
