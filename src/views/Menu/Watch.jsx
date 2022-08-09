@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -42,7 +43,7 @@ import {
 } from "../../assets/animations/motion";
 
 // functions
-import { getIndexOfByAttribute } from "../../utils/functions";
+import { getIndexOfByAttribute, dashesToSpace } from "../../utils/functions";
 
 // styles
 import {
@@ -98,12 +99,12 @@ const Watch = () => {
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
-  const fetch = async (menu = undefined) => {
+  const fetch = async () => {
     setLoading(1);
     setError(false);
     try {
-      console.log(menu, currentMenu);
-      const response = await fetchMenu(menu || currentMenu);
+      const realMenu = currentMenu;
+      const response = await fetchMenu(dashesToSpace(realMenu));
       const data = await response.data;
       if (data && data.t && data.l) {
         if (data.ph) setPhoto(data.ph.url);
@@ -246,14 +247,20 @@ const Watch = () => {
   }, [onScroll, onClick, onKeyDown]);
 
   useEffect(() => {
+    if (currentMenu.length) retry();
+  }, [currentMenu]);
+
+  useEffect(() => {
+    setLoading(-1);
+  }, [notFound]);
+
+  useEffect(() => {
     if (location.pathname) {
       const splitPath = location.pathname.split("/");
       if (splitPath.length > 2) {
         const menuName = location.pathname.split("/")[2];
-        if (menuName) {
-          setCurrentMenu(menuName);
-          retry(menuName);
-        } else setNotFound(true);
+        if (menuName) setCurrentMenu(menuName);
+        else setNotFound(true);
       } else setNotFound(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
