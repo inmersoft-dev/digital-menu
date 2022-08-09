@@ -172,6 +172,7 @@ const Settings = () => {
   const onLoading = () => setLoadingPhoto(true);
 
   const onSuccess = async (res) => {
+    console.log(res);
     const { url, fileId } = res;
     if (photo) await removeImage(photo.fileId);
     setPhoto({ fileId, url });
