@@ -179,7 +179,7 @@ const Settings = () => {
     setLoadingPhoto(false);
   };
 
-  const onError = (e) => {
+  const onError = () => {
     showNotification("error", languageState.texts.Errors.SomeWrong);
     setLoadingPhoto(false);
   };
