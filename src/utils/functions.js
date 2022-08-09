@@ -1,3 +1,11 @@
+export const spaceToDashes = (string) =>
+  string.replace(/\s+/g, "-").toLowerCase();
+
+export const dashesToSpace = (string) => string.replace(/-/g, " ");
+
+export const justHasNumbersAndLetters = (string) =>
+  /^[a-zA-Z0-9]+$/i.test(string);
+
 /**
  * Scroll to a target position, default the top of the page.
  * @param {number} [target=0] - The target position to scroll to.
