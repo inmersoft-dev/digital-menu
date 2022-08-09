@@ -179,7 +179,14 @@ const Settings = () => {
     setLoadingPhoto(false);
   };
 
-  const onError = () => {
+  const onError = (e) => {
+    console.log(
+      config.imagekitAuthUrl,
+      config.imagekitDeleteUrl,
+      config.imagekitPublicKey,
+      config.imagekitUrl
+    );
+    console.log(e);
     showNotification("error", languageState.texts.Errors.SomeWrong);
     setLoadingPhoto(false);
   };
