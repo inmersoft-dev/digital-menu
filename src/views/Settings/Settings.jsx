@@ -39,6 +39,7 @@ import { useNotification } from "../../context/NotificationProvider";
 
 // utils
 import { userLogged, getUserName } from "../../utils/auth";
+import { spaceToDashes } from "../../utils/functions";
 
 // services
 import { saveProfile } from "../../services/profile";
@@ -339,9 +340,7 @@ const Settings = () => {
               }}
             >
               <QRCode
-                value={`${
-                  config.url
-                }menu/?user=${getUserName()}&menu=${getValues("menu")}`}
+                value={`${config.url}menu/${spaceToDashes(getValues("menu"))}`}
                 id="QRCode"
               />
               <Button
