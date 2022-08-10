@@ -75,7 +75,8 @@
       "Buttons": {
         "Retry": "Recargar",
         "Insert": "Nuevo Producto",
-        "Save": "Guardar"
+        "Save": "Guardar",
+        "Edit": "Editar mi menú"
       }
     },
     "Login": {

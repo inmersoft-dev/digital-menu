@@ -84,7 +84,7 @@ const Login = () => {
           ntype: "success",
         });
         setTimeout(() => {
-          if (userLogged()) navigate("/menu/edit");
+          if (userLogged()) navigate("/settings");
         }, 100);
       } else {
         let error;

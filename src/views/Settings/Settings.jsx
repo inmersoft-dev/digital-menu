@@ -111,6 +111,29 @@ const Settings = () => {
 
   const retry = () => fetch();
 
+  const [ok, setOk] = useState(1);
+
+  const validate = () => {
+    setOk(true);
+  };
+
+  const invalidate = (e) => {
+    e.preventDefault();
+    if (ok) {
+      const { id } = e.target;
+      e.target.focus();
+      setOk(false);
+      switch (id) {
+        default:
+          setMenuNameError(true);
+          return showNotification(
+            "error",
+            languageState.texts.Errors.NameRequired
+          );
+      }
+    }
+  };
+
   const onSubmit = async (data) => {
     setMenuNameError(false);
     setLoading(true);
@@ -122,13 +145,14 @@ const Settings = () => {
         description || "",
         photo || ""
       );
-      if (response.status === 200)
+      if (response.status === 200) {
         showNotification(
           "success",
           languageState.texts.Messages.SaveSuccessful
         );
-      else {
-        const { error } = response.data;
+        return true;
+      } else {
+        const { error } = response;
         if (error.indexOf("menu") > -1) {
           setMenuNameError(true);
           document.getElementById("menu").focus();
@@ -140,6 +164,7 @@ const Settings = () => {
       showNotification("error", languageState.texts.Errors.SomeWrong);
     }
     setLoading(false);
+    return false;
   };
 
   useEffect(() => {
@@ -194,6 +219,22 @@ const Settings = () => {
   const onError = (e) => {
     showNotification("error", languageState.texts.Errors.SomeWrong);
     setLoadingPhoto(false);
+  };
+
+  const goToEdit = async () => {
+    if (getValues("menu")) {
+      const value = await onSubmit({
+        menu: getValues("menu"),
+        description: getValues("description"),
+      });
+      console.log(value);
+      if (value) navigate("/menu/edit/");
+    } else {
+      setMenuNameError(true);
+      if (document.getElementById("menu"))
+        document.getElementById("menu").focus();
+      return showNotification("error", languageState.texts.Errors.NameRequired);
+    }
   };
 
   return (
@@ -290,6 +331,9 @@ const Settings = () => {
                   color={menuNameError ? "error" : "primary"}
                   sx={{ width: "100%", marginTop: "20px" }}
                   id="menu"
+                  required
+                  onInput={validate}
+                  onInvalid={invalidate}
                   label={languageState.texts.Settings.Inputs.Menu.Label}
                   placeholder={
                     languageState.texts.Settings.Inputs.Menu.Placeholder
@@ -323,8 +367,15 @@ const Settings = () => {
               justifyContent="flex-end"
               sx={{ width: "100%", marginTop: "20px" }}
             >
-              <Button type="submit" variant="contained">
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ marginRight: "10px" }}
+              >
                 {languageState.texts.Insert.Buttons.Save}
+              </Button>
+              <Button type="button" variant="outlined" onClick={goToEdit}>
+                {languageState.texts.Insert.Buttons.Edit}
               </Button>
             </SitoContainer>
             <Typography variant="h4" sx={{ marginTop: "20px" }}>

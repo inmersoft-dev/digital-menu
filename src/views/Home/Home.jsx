@@ -80,7 +80,10 @@ const Home = () => {
       if (data && data.u) {
         const newList = [];
         const arrayData = Object.values(data.u);
-        for (const item of arrayData) {
+        for (const item of arrayData.filter((item) => {
+          if (item.m) return item;
+          return null;
+        })) {
           let parsedPhoto = item.u;
           if (item.ph) parsedPhoto = item.ph.url;
           newList.push(

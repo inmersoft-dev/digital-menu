@@ -86,7 +86,7 @@ const Register = () => {
             languageState.texts.Messages.RegisterSuccessful
           );
         } else {
-          const { error } = response.data;
+          const { error } = response;
           let message;
           if (error.indexOf("username taken") > -1)
             message = languageState.texts.Errors.UsernameTaken;
