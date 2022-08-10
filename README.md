@@ -4,13 +4,14 @@ The digital menu!!
 
 ### Current version
 
-- 0.14.2
+- 0.15.11
 
 #### Changelog
 
-- load menu from pathname ex: [domain]/menu/[menu-name]
-- just number and letter on menu name
-- settings now valid menu name
+- now after login it takes to settings
+- you can go from settings to your menu
+- qr link fixed
+- fetch from menu/edit fixed
 
 ### Testers
 
