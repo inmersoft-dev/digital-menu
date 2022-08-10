@@ -81,7 +81,7 @@ const Home = () => {
         const newList = [];
         const arrayData = Object.values(data.u);
         for (const item of arrayData.filter((item) => {
-          if (item.m) return item;
+          if (item.m && item.m !== "admin") return item;
           return null;
         })) {
           let parsedPhoto = item.u;

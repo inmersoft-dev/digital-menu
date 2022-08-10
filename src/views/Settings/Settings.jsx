@@ -150,6 +150,7 @@ const Settings = () => {
           "success",
           languageState.texts.Messages.SaveSuccessful
         );
+        setLoading(false);
         return true;
       } else {
         const { error } = response;
@@ -227,7 +228,6 @@ const Settings = () => {
         menu: getValues("menu"),
         description: getValues("description"),
       });
-      console.log(value);
       if (value) navigate("/menu/edit/");
     } else {
       setMenuNameError(true);

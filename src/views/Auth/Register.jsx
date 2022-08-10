@@ -66,7 +66,7 @@ const Register = () => {
 
   const handleMouseDownRPassword = (event) => event.preventDefault();
 
-  const { control, handleSubmit } = useForm({
+  const { reset, control, handleSubmit } = useForm({
     defaultValues: {
       user: "",
       password: "",
@@ -85,6 +85,7 @@ const Register = () => {
             "success",
             languageState.texts.Messages.RegisterSuccessful
           );
+          reset({ user: "", password: "", rpassword: "" });
         } else {
           const { error } = response;
           let message;
