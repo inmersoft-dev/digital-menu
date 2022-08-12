@@ -193,7 +193,6 @@ const Edit = () => {
     setTypes(types);
     setTabs(tabsByType);
     setAllData(data);
-    console.log(types, tabsByType);
   };
 
   const fetch = async () => {
@@ -450,7 +449,6 @@ const Edit = () => {
             })
             .map((item, i) => (
               <Box key={i} sx={typeBoxCss}>
-                {console.log(item)}
                 <Box id={`title-${i}`} sx={headerBox}>
                   <Typography variant="h5">
                     {
