@@ -87,7 +87,7 @@ const Register = () => {
           );
           reset({ user: "", password: "", rpassword: "" });
         } else {
-          const { error } = response;
+          const { error } = response.data;
           let message;
           if (error.indexOf("username taken") > -1)
             message = languageState.texts.Errors.UsernameTaken;
@@ -100,7 +100,8 @@ const Register = () => {
         console.log(err);
         showNotification("error", languageState.texts.Errors.SomeWrong);
       }
-    } else showNotification("error", languageState.texts.Errors.SomeWrong);
+    } else
+      showNotification("error", languageState.texts.Errors.DifferentPassword);
     setLoading(false);
   };
 

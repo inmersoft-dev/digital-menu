@@ -38,7 +38,7 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // utils
-import { userLogged, getUserName } from "../../utils/auth";
+import { userLogged, getUserName, isAdmin } from "../../utils/auth";
 import { spaceToDashes } from "../../utils/functions";
 
 // services
@@ -153,7 +153,7 @@ const Settings = () => {
         setLoading(false);
         return true;
       } else {
-        const { error } = response;
+        const { error } = response.data;
         if (error.indexOf("menu") > -1) {
           setMenuNameError(true);
           document.getElementById("menu").focus();
@@ -248,7 +248,7 @@ const Settings = () => {
       }}
     >
       <ToLogout />
-      <RegisterNewUser />
+      {isAdmin() && <RegisterNewUser />}
       <BackButton to="/menu/edit" />
       <Paper
         sx={{
