@@ -111,13 +111,13 @@ const Watch = () => {
         setDescription(data.d);
         const tabsByType = [];
         data.t.forEach((item, i) => {
-          tabsByType.push([]);
+          tabsByType[item] = [];
         });
         for (const item of data.l) {
           let parsedPhoto = "";
           if (item.ph) parsedPhoto = item.ph.url;
           if (parsedPhoto) item.loaded = parsedPhoto;
-          if (tabsByType[item.t])
+          if (tabsByType[item.t]) {
             tabsByType[item.t].push(
               <motion.li
                 key={item.i}
@@ -168,6 +168,7 @@ const Watch = () => {
                 </Paper>
               </motion.li>
             );
+          }
         }
         setTypes(data.t);
         setAllData(data.l);
@@ -207,8 +208,11 @@ const Watch = () => {
           });
         }
         const localFirstActive = firstActive(visibilities);
-        if (localFirstActive !== -1 && tab !== localFirstActive.type)
-          setTab(localFirstActive.type);
+        if (
+          localFirstActive !== -1 &&
+          tab !== types.indexOf(localFirstActive.type)
+        )
+          setTab(types.indexOf(localFirstActive.type));
       }
       setShouldScroll(false);
     },
@@ -299,7 +303,7 @@ const Watch = () => {
           <TabView
             value={tab}
             tabs={types.filter((item, i) => {
-              if (tabs[i].length) return item;
+              if (Object.values(tabs[item]).length) return item;
               return null;
             })}
             content={[]}
@@ -311,7 +315,7 @@ const Watch = () => {
           {loading === -1 && !error && !currentMenu && <Empty />}
           {!error && (
             <Box sx={productList}>
-              {tabs
+              {Object.values(tabs)
                 .filter((item) => {
                   if (item.length > 0) return item;
                   return null;
@@ -322,7 +326,7 @@ const Watch = () => {
                       <Typography variant="h5">
                         {
                           types.filter((item, i) => {
-                            if (tabs[i].length) return item;
+                            if (Object.values(tabs[item]).length) return item;
                             return null;
                           })[i]
                         }

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -92,6 +93,13 @@ const Edit = () => {
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
+
   const justGetData = async () => {
     const response = await fetchMenu(getUserName());
     const data = await response.data;
@@ -101,7 +109,7 @@ const Edit = () => {
   const setOnView = (types, data) => {
     const tabsByType = [];
     types.forEach((item, i) => {
-      tabsByType.push([]);
+      tabsByType[item] = [];
     });
     for (const item of data) {
       let parsedPhoto = "";
@@ -185,6 +193,7 @@ const Edit = () => {
     setTypes(types);
     setTabs(tabsByType);
     setAllData(data);
+    console.log(types, tabsByType);
   };
 
   const fetch = async () => {
@@ -246,8 +255,11 @@ const Edit = () => {
           });
         }
         const localFirstActive = firstActive(visibilities);
-        if (localFirstActive !== -1 && tab !== localFirstActive.type)
-          setTab(localFirstActive.type);
+        if (
+          localFirstActive !== -1 &&
+          tab !== types.indexOf(localFirstActive.type)
+        )
+          setTab(types.indexOf(localFirstActive.type));
       }
       setShouldScroll(false);
     },
@@ -296,7 +308,7 @@ const Edit = () => {
     setVisible(false);
     setLoading(1);
     const { id, name, type, description, price, photo } = remoteData;
-    let typePosition = types.indexOf(type);
+    const typePosition = types.indexOf(type);
     const newAllData = [];
     // reading without loaded
     allData.forEach((item) => {
@@ -306,12 +318,10 @@ const Edit = () => {
     const newTypes = [];
     types.forEach((item) => newTypes.push(item));
     if (typePosition === -1) newTypes.push(type);
-    // taking new type position
-    typePosition = newTypes.indexOf(type);
     const parsedData = {
       i: id,
       n: name,
-      t: typePosition,
+      t: type,
       d: description,
       p: price,
       ph: photo,
@@ -333,17 +343,8 @@ const Edit = () => {
       newTypes
     );
     if (result.status === 200)
-      setNotificationState({
-        type: "set",
-        ntype: "success",
-        message: languageState.texts.Messages.SaveSuccessful,
-      });
-    else
-      setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: languageState.texts.Errors.SomeWrong,
-      });
+      showNotification("success", languageState.texts.Messages.SaveSuccessful);
+    else showNotification("error", languageState.texts.Errors.SomeWrong);
     setSelected({
       i: `${getUserName()}-${
         allData.length
@@ -406,8 +407,8 @@ const Edit = () => {
       />
       <TabView
         value={tab}
-        tabs={types.filter((item, i) => {
-          if (tabs[i].length) return item;
+        tabs={Object.keys(tabs).filter((item, i) => {
+          if (Object.values(tabs[item]).length) return item;
           return null;
         })}
         content={[]}
@@ -442,18 +443,19 @@ const Edit = () => {
       {loading === -1 && !error && <Empty />}
       {!error && loading === 0 && (
         <Box sx={productList}>
-          {tabs
+          {Object.values(tabs)
             .filter((item) => {
               if (item.length > 0) return item;
               return null;
             })
             .map((item, i) => (
               <Box key={i} sx={typeBoxCss}>
+                {console.log(item)}
                 <Box id={`title-${i}`} sx={headerBox}>
                   <Typography variant="h5">
                     {
-                      types.filter((item, i) => {
-                        if (tabs[i].length) return item;
+                      Object.keys(tabs).filter((item, i) => {
+                        if (Object.values(tabs[item]).length) return item;
                         return null;
                       })[i]
                     }
