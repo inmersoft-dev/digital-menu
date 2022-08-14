@@ -185,6 +185,7 @@ const Home = () => {
             flexDirection: "column",
           }}
         >
+          <Typography variant="h5">{languageState.texts.Title}</Typography>
           {list.map((item, i) => (
             <motion.ul
               key={i}
