@@ -7,15 +7,22 @@ import { getCookie } from "../utils/auth";
 
 /**
  * @param {string} user - the user name
+ * @param {string} oldName - the menu old name
  * @param {string} menuName - the menu name
  * @param {string} menuDescription - the menu description
  * @returns The response from the server.
  */
-export const saveProfile = async (user, menuName, menuDescription, photo) => {
+export const saveProfile = async (
+  user,
+  oldName,
+  menuName,
+  menuDescription,
+  photo
+) => {
   const response = await axios.post(
     // @ts-ignore
     `${config.apiUrl}user/save`,
-    { user, menuName, menuDescription, photo },
+    { user, oldName, menuName, menuDescription, photo },
     {
       headers: {
         ...getAuth,

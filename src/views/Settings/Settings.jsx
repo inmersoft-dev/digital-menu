@@ -60,6 +60,7 @@ const Settings = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
+  const [oldName, setOldName] = useState("");
   const [menuNameError, setMenuNameError] = useState(false);
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
@@ -99,6 +100,7 @@ const Settings = () => {
           setPhoto(data.ph);
           setPreview(data.ph.url);
         }
+        setOldName(data.m);
         reset({ menu: data.m, description: data.d });
       }
     } catch (err) {
@@ -141,6 +143,7 @@ const Settings = () => {
     try {
       const response = await saveProfile(
         getUserName(),
+        oldName,
         menu,
         description || "",
         photo || ""
