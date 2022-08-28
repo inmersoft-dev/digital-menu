@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import QRCode from "react-qr-code";
+import { QRCode } from "react-qrcode-logo";
 
 // imagekitio-react
 import { IKContext, IKUpload } from "imagekitio-react";
@@ -141,7 +141,7 @@ const Settings = () => {
     try {
       const response = await saveProfile(
         getUserName(),
-        menu || "",
+        menu,
         description || "",
         photo || ""
       );
@@ -189,22 +189,18 @@ const Settings = () => {
   }, []);
 
   const onQrDownload = () => {
-    const svg = document.getElementById("QRCode");
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      const pngFile = canvas.toDataURL("image/png");
-      const downloadLink = document.createElement("a");
-      downloadLink.download = "QRCode";
-      downloadLink.href = `${pngFile}`;
+    const canvas = document.getElementById("QRCode");
+    if (canvas) {
+      const pngUrl = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      let downloadLink = document.createElement("a");
+      downloadLink.href = pngUrl;
+      downloadLink.download = `your_name.png`;
+      document.body.appendChild(downloadLink);
       downloadLink.click();
-    };
-    img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+      document.body.removeChild(downloadLink);
+    }
   };
 
   const onLoading = () => setLoadingPhoto(true);
@@ -223,7 +219,7 @@ const Settings = () => {
   };
 
   const goToEdit = async () => {
-    if (getValues("menu")) {
+    if (getValues("menu") && getValues("menu").length) {
       const value = await onSubmit({
         menu: getValues("menu"),
         description: getValues("description"),
@@ -391,7 +387,13 @@ const Settings = () => {
               }}
             >
               <QRCode
-                value={`${config.url}menu/${spaceToDashes(getValues("menu"))}`}
+                value={`${config.url}menu/${spaceToDashes(getValues("menu"))}`} // here you should keep the link/value(string) for which you are generation promocode
+                size={256} // the dimension of the QR code (number)
+                logoImage={preview} // URL of the logo you want to use, make sure it is a dynamic url
+                logoHeight={60}
+                logoWidth={60}
+                logoOpacity={1}
+                enableCORS={true} // enabling CORS, this is the thing that will bypass that DOM check
                 id="QRCode"
               />
               <Button
