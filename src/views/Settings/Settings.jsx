@@ -271,7 +271,11 @@ const Settings = () => {
             <Typography variant="h3">
               {languageState.texts.Settings.Title}
             </Typography>
-            <SitoContainer sx={{ width: "100%" }} justifyContent="center">
+            <SitoContainer
+              sx={{ width: "100%", marginTop: "10px", flexWrap: "wrap" }}
+              justifyContent="center"
+              alignItems="center"
+            >
               <Box
                 sx={{
                   width: { md: "160px", sm: "120px", xs: "80px" },
@@ -321,47 +325,57 @@ const Settings = () => {
                   </IKContext>
                 )}
               </Box>
+              <Typography sx={{ marginLeft: "20px", maxWidth: "200px" }}>
+                {languageState.texts.Settings.ImageSuggestion}
+              </Typography>
             </SitoContainer>
-            <Controller
-              name="menu"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  color={menuNameError ? "error" : "primary"}
-                  sx={{ width: "100%", marginTop: "20px" }}
-                  id="menu"
-                  required
-                  onInput={validate}
-                  onInvalid={invalidate}
-                  label={languageState.texts.Settings.Inputs.Menu.Label}
-                  placeholder={
-                    languageState.texts.Settings.Inputs.Menu.Placeholder
-                  }
-                  variant="outlined"
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  sx={{ width: "100%", marginTop: "20px" }}
-                  id="description"
-                  label={languageState.texts.Settings.Inputs.Description.Label}
-                  placeholder={
-                    languageState.texts.Settings.Inputs.Description.Placeholder
-                  }
-                  multiline
-                  maxLength="255"
-                  maxRows={3}
-                  minRows={3}
-                  variant="outlined"
-                  {...field}
-                />
-              )}
-            />
+            <SitoContainer sx={{ marginTop: "10px" }}>
+              <Controller
+                name="menu"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    color={menuNameError ? "error" : "primary"}
+                    sx={{ width: "100%", marginTop: "20px" }}
+                    id="menu"
+                    required
+                    onInput={validate}
+                    onInvalid={invalidate}
+                    label={languageState.texts.Settings.Inputs.Menu.Label}
+                    placeholder={
+                      languageState.texts.Settings.Inputs.Menu.Placeholder
+                    }
+                    variant="outlined"
+                    {...field}
+                  />
+                )}
+              />
+            </SitoContainer>
+            <SitoContainer sx={{ marginTop: "10px" }}>
+              <Controller
+                name="description"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    sx={{ width: "100%", marginTop: "20px" }}
+                    id="description"
+                    label={
+                      languageState.texts.Settings.Inputs.Description.Label
+                    }
+                    placeholder={
+                      languageState.texts.Settings.Inputs.Description
+                        .Placeholder
+                    }
+                    multiline
+                    maxLength="255"
+                    maxRows={3}
+                    minRows={3}
+                    variant="outlined"
+                    {...field}
+                  />
+                )}
+              />
+            </SitoContainer>
             <SitoContainer
               justifyContent="flex-end"
               sx={{ width: "100%", marginTop: "20px" }}

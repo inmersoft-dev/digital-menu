@@ -40,6 +40,7 @@
       "Title": "Registro"
     },
     "Settings": {
+      "ImageSuggestion": "Se recomienda que el logo sea un imagen cuadrada",
       "Title": "Ajustes",
       "Qr": "Código Qr del menú",
       "Inputs": {
