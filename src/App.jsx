@@ -59,10 +59,10 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route exact path="/auth/" element={<Login />} />
-            <Route exact path="/auth/register" element={<Register />} />
+            <Route exact path="/auth/register-user" element={<Register />} />
             <Route exact path="/auth/logout" element={<Logout />} />
             <Route exact path="/settings/" element={<Settings />} />
-            <Route exact path="/menu/" element={<Watch />} />
+            <Route exact path="/menu/*" element={<Watch />} />
             <Route exact path="/menu/edit" element={<Edit />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -21,6 +22,7 @@ import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
 import ToLogin from "../../components/ToLogin/ToLogin";
 import NotConnected from "../../components/NotConnected/NotConnected";
+import NotFound from "../../views/NotFound/NotFound";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
@@ -41,7 +43,7 @@ import {
 } from "../../assets/animations/motion";
 
 // functions
-import { getIndexOfByAttribute } from "../../utils/functions";
+import { getIndexOfByAttribute, dashesToSpace } from "../../utils/functions";
 
 // styles
 import {
@@ -60,8 +62,18 @@ import {
 const Watch = () => {
   const theme = useTheme();
   const location = useLocation();
+
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
+
+  const [notFound, setNotFound] = useState(false);
+
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
 
   const [selected, setSelected] = useState({});
 
@@ -78,7 +90,6 @@ const Watch = () => {
 
   const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
-  const [currentOwner, setCurrentOwner] = useState("");
   const [currentMenu, setCurrentMenu] = useState("");
   const [menu, setMenu] = useState("");
   const [photo, setPhoto] = useState("");
@@ -87,29 +98,28 @@ const Watch = () => {
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
-  const fetch = async (user = undefined, menu = undefined) => {
+  const fetch = async () => {
     setLoading(1);
     setError(false);
-    if (user || currentOwner)
-      try {
-        const response = await fetchMenu(
-          user || currentOwner,
-          menu || currentMenu
-        );
-        const data = await response.data;
-        if (data && data.t && data.l) {
-          if (data.ph) setPhoto(data.ph.url);
-          setMenu(data.m);
-          setDescription(data.d);
+    try {
+      const realMenu = currentMenu;
+      const response = await fetchMenu(dashesToSpace(realMenu));
+      const data = await response.data;
+
+      if (data) {
+        if (data.ph) setPhoto(data.ph.url);
+        setMenu(data.m);
+        setDescription(data.d);
+        if (data.t && data.l) {
           const tabsByType = [];
           data.t.forEach((item, i) => {
-            tabsByType.push([]);
+            tabsByType[item] = [];
           });
           for (const item of data.l) {
             let parsedPhoto = "";
             if (item.ph) parsedPhoto = item.ph.url;
             if (parsedPhoto) item.loaded = parsedPhoto;
-            if (tabsByType[item.t])
+            if (tabsByType[item.t]) {
               tabsByType[item.t].push(
                 <motion.li
                   key={item.i}
@@ -166,22 +176,20 @@ const Watch = () => {
                   </Paper>
                 </motion.li>
               );
+            }
           }
           setTypes(data.t);
           setAllData(data.l);
           setTabs(tabsByType);
-          setLoading(0);
-        } else setLoading(-1);
-      } catch (err) {
-        console.log(err);
-        setNotificationState({
-          type: "set",
-          ntype: "error",
-          message: languageState.texts.Errors.NotConnected,
-        });
-        setError(true);
-        setLoading(-1);
-      }
+        }
+        setLoading(0);
+      } else setLoading(-1);
+    } catch (err) {
+      console.log(err);
+      showNotification("error", languageState.texts.Errors.NotConnected);
+      setError(true);
+      setLoading(-1);
+    }
   };
 
   const retry = () => fetch();
@@ -209,8 +217,11 @@ const Watch = () => {
           });
         }
         const localFirstActive = firstActive(visibilities);
-        if (localFirstActive !== -1 && tab !== localFirstActive.type)
-          setTab(localFirstActive.type);
+        if (
+          localFirstActive !== -1 &&
+          tab !== types.indexOf(localFirstActive.type)
+        )
+          setTab(types.indexOf(localFirstActive.type));
       }
       setShouldScroll(false);
     },
@@ -248,18 +259,24 @@ const Watch = () => {
   }, [onScroll, onClick, onKeyDown]);
 
   useEffect(() => {
-    let user;
-    let menu;
-    if (location.search) {
-      const [userParam, menuParam] = location.search.substring(1).split("&");
-      user = userParam.split("=")[1];
-      menu = menuParam.split("=")[1];
-      if (user) setCurrentOwner(user);
-      if (menu) setCurrentMenu(menu);
+    if (currentMenu.length) retry();
+  }, [currentMenu]);
+
+  useEffect(() => {
+    setLoading(-1);
+  }, [notFound]);
+
+  useEffect(() => {
+    if (location.pathname) {
+      const splitPath = location.pathname.split("/");
+      if (splitPath.length > 2) {
+        const menuName = location.pathname.split("/")[2];
+        if (menuName) setCurrentMenu(menuName);
+        else setNotFound(true);
+      } else setNotFound(true);
     }
-    retry(user, menu);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentOwner, currentMenu, location]);
+  }, [currentMenu, location]);
 
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
@@ -273,65 +290,71 @@ const Watch = () => {
         }}
       />
       <ToLogin />
-      <Box sx={mainContent}>
-        <Box sx={productImageBox}>
-          <SitoImage
-            src={photo && photo !== "" ? photo : noProduct}
-            alt={menu}
-            sx={productImage}
-          />
-        </Box>
-        <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-          {menu}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "justify" }}>
-          {description}
-        </Typography>
-      </Box>
-      <TabView
-        value={tab}
-        tabs={types.filter((item, i) => {
-          if (tabs[i].length) return item;
-          return null;
-        })}
-        content={[]}
-        shouldScroll={shouldScroll}
-      />
-      {error && !currentOwner && !currentMenu && loading === -1 && (
-        <NotConnected onRetry={retry} />
-      )}
-      {loading === -1 && !error && !currentOwner && !currentMenu && <Empty />}
-      {!error && currentOwner && (
-        <Box sx={productList}>
-          {tabs
-            .filter((item) => {
-              if (item.length > 0) return item;
+      {notFound ? (
+        <NotFound />
+      ) : (
+        <>
+          <Box sx={mainContent}>
+            <Box sx={productImageBox}>
+              <SitoImage
+                src={photo && photo !== "" ? photo : noProduct}
+                alt={menu}
+                sx={productImage}
+              />
+            </Box>
+            <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+              {menu}
+            </Typography>
+            <Typography variant="body1" sx={{ textAlign: "justify" }}>
+              {description}
+            </Typography>
+          </Box>
+          <TabView
+            value={tab}
+            tabs={types.filter((item, i) => {
+              if (Object.values(tabs[item]).length) return item;
               return null;
-            })
-            .map((item, i) => (
-              <Box key={i} sx={typeBoxCss}>
-                <Box id={`title-${i}`} sx={headerBox}>
-                  <Typography variant="h5">
-                    {
-                      types.filter((item, i) => {
-                        if (tabs[i].length) return item;
-                        return null;
-                      })[i]
-                    }
-                  </Typography>
-                </Box>
-                <motion.ul
-                  variants={motionUlContainer}
-                  className={motionUlCss}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
-                  {item}
-                </motion.ul>
-              </Box>
-            ))}
-        </Box>
+            })}
+            content={[]}
+            shouldScroll={shouldScroll}
+          />
+          {error && !currentMenu && loading === -1 && (
+            <NotConnected onRetry={retry} />
+          )}
+          {loading === -1 && !error && !currentMenu && <Empty />}
+          {!error && (
+            <Box sx={productList}>
+              {Object.values(tabs)
+                .filter((item) => {
+                  if (item.length > 0) return item;
+                  return null;
+                })
+                .map((item, i) => (
+                  <Box key={i} sx={typeBoxCss}>
+                    <Box id={`title-${i}`} sx={headerBox}>
+                      <Typography variant="h5">
+                        {
+                          types.filter((item, i) => {
+                            if (Object.values(tabs[item]).length) return item;
+                            return null;
+                          })[i]
+                        }
+                      </Typography>
+                    </Box>
+                    <motion.ul
+                      variants={motionUlContainer}
+                      className={motionUlCss}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true }}
+                    >
+                      {item}
+                    </motion.ul>
+                  </Box>
+                ))}
+            </Box>
+          )}
+        </>
       )}
     </SitoContainer>
   );

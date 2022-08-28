@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import QRCode from "react-qr-code";
+import { QRCode } from "react-qrcode-logo";
 
 // imagekitio-react
 import { IKContext, IKUpload } from "imagekitio-react";
@@ -15,6 +15,7 @@ import Loading from "../../components/Loading/Loading";
 import BackButton from "../../components/BackButton/BackButton";
 import NotConnected from "../../components/NotConnected/NotConnected";
 import ToLogout from "../../components/ToLogout/ToLogout";
+import RegisterNewUser from "../../components/RegisterNewUser/RegisterNewUser";
 
 // @emotion
 import { css } from "@emotion/css";
@@ -37,7 +38,8 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // utils
-import { userLogged, getUserName } from "../../utils/auth";
+import { userLogged, getUserName, isAdmin } from "../../utils/auth";
+import { spaceToDashes } from "../../utils/functions";
 
 // services
 import { saveProfile } from "../../services/profile";
@@ -57,6 +59,9 @@ const Settings = () => {
 
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
+
+  const [oldName, setOldName] = useState("");
+  const [menuNameError, setMenuNameError] = useState(false);
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
@@ -95,6 +100,7 @@ const Settings = () => {
           setPhoto(data.ph);
           setPreview(data.ph.url);
         }
+        setOldName(data.m);
         reset({ menu: data.m, description: data.d });
       }
     } catch (err) {
@@ -107,27 +113,62 @@ const Settings = () => {
 
   const retry = () => fetch();
 
+  const [ok, setOk] = useState(1);
+
+  const validate = () => {
+    setOk(true);
+  };
+
+  const invalidate = (e) => {
+    e.preventDefault();
+    if (ok) {
+      const { id } = e.target;
+      e.target.focus();
+      setOk(false);
+      switch (id) {
+        default:
+          setMenuNameError(true);
+          return showNotification(
+            "error",
+            languageState.texts.Errors.NameRequired
+          );
+      }
+    }
+  };
+
   const onSubmit = async (data) => {
+    setMenuNameError(false);
     setLoading(true);
     const { menu, description } = data;
     try {
       const response = await saveProfile(
         getUserName(),
-        menu || "",
+        oldName,
+        menu,
         description || "",
         photo || ""
       );
-      if (response.status === 200)
+      if (response.status === 200) {
         showNotification(
           "success",
           languageState.texts.Messages.SaveSuccessful
         );
-      else showNotification("error", languageState.texts.Errors.SomeWrong);
+        setLoading(false);
+        return true;
+      } else {
+        const { error } = response.data;
+        if (error.indexOf("menu") > -1) {
+          setMenuNameError(true);
+          document.getElementById("menu").focus();
+          showNotification("error", languageState.texts.Errors.MenuNameTaken);
+        } else showNotification("error", languageState.texts.Errors.SomeWrong);
+      }
     } catch (err) {
       console.log(err);
       showNotification("error", languageState.texts.Errors.SomeWrong);
     }
     setLoading(false);
+    return false;
   };
 
   useEffect(() => {
@@ -151,22 +192,18 @@ const Settings = () => {
   }, []);
 
   const onQrDownload = () => {
-    const svg = document.getElementById("QRCode");
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      const pngFile = canvas.toDataURL("image/png");
-      const downloadLink = document.createElement("a");
-      downloadLink.download = "QRCode";
-      downloadLink.href = `${pngFile}`;
+    const canvas = document.getElementById("QRCode");
+    if (canvas) {
+      const pngUrl = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      let downloadLink = document.createElement("a");
+      downloadLink.href = pngUrl;
+      downloadLink.download = `your_name.png`;
+      document.body.appendChild(downloadLink);
       downloadLink.click();
-    };
-    img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+      document.body.removeChild(downloadLink);
+    }
   };
 
   const onLoading = () => setLoadingPhoto(true);
@@ -184,6 +221,21 @@ const Settings = () => {
     setLoadingPhoto(false);
   };
 
+  const goToEdit = async () => {
+    if (getValues("menu") && getValues("menu").length) {
+      const value = await onSubmit({
+        menu: getValues("menu"),
+        description: getValues("description"),
+      });
+      if (value) navigate("/menu/edit/");
+    } else {
+      setMenuNameError(true);
+      if (document.getElementById("menu"))
+        document.getElementById("menu").focus();
+      return showNotification("error", languageState.texts.Errors.NameRequired);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -195,6 +247,7 @@ const Settings = () => {
       }}
     >
       <ToLogout />
+      {isAdmin() && <RegisterNewUser />}
       <BackButton to="/menu/edit" />
       <Paper
         sx={{
@@ -274,8 +327,12 @@ const Settings = () => {
               control={control}
               render={({ field }) => (
                 <TextField
+                  color={menuNameError ? "error" : "primary"}
                   sx={{ width: "100%", marginTop: "20px" }}
                   id="menu"
+                  required
+                  onInput={validate}
+                  onInvalid={invalidate}
                   label={languageState.texts.Settings.Inputs.Menu.Label}
                   placeholder={
                     languageState.texts.Settings.Inputs.Menu.Placeholder
@@ -309,8 +366,15 @@ const Settings = () => {
               justifyContent="flex-end"
               sx={{ width: "100%", marginTop: "20px" }}
             >
-              <Button type="submit" variant="contained">
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ marginRight: "10px" }}
+              >
                 {languageState.texts.Insert.Buttons.Save}
+              </Button>
+              <Button type="button" variant="outlined" onClick={goToEdit}>
+                {languageState.texts.Insert.Buttons.Edit}
               </Button>
             </SitoContainer>
             <Typography variant="h4" sx={{ marginTop: "20px" }}>
@@ -326,9 +390,13 @@ const Settings = () => {
               }}
             >
               <QRCode
-                value={`${
-                  config.url
-                }menu/?user=${getUserName()}&menu=${getValues("menu")}`}
+                value={`${config.url}menu/${spaceToDashes(getValues("menu"))}`} // here you should keep the link/value(string) for which you are generation promocode
+                size={256} // the dimension of the QR code (number)
+                logoImage={preview} // URL of the logo you want to use, make sure it is a dynamic url
+                logoHeight={60}
+                logoWidth={60}
+                logoOpacity={1}
+                enableCORS={true} // enabling CORS, this is the thing that will bypass that DOM check
                 id="QRCode"
               />
               <Button

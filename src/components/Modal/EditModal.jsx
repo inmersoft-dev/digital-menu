@@ -71,6 +71,7 @@ const Modal = (props) => {
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
     const { i, n, p, d, ph, t } = item;
     if (ph) setPreview(ph.url);
+    else setPreview(noProduct);
     setPhoto(ph);
     setLoadingPhoto(false);
     reset({

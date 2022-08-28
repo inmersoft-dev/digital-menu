@@ -1,10 +1,12 @@
 {
   "es": {
+    "Title": "Lista de Menús",
     "Tooltips": {
       "ToLogin": "Iniciar sesión",
       "ToSettings": "Ajustes",
       "ToLogout": "Cerrar sesión",
-      "ToTop": "Ir arriba"
+      "ToTop": "Ir arriba",
+      "RegisterNewUser": "Registrar nuevo usuario"
     },
     "NotFound": {
       "Title": "404 No encontrado",
@@ -15,6 +17,8 @@
       "NotConnected": "No tienes conexión con el servidor",
       "Empty": "No hay productos",
       "UsernameTaken": "Nombre de usuario en uso",
+      "MenuNameTaken": "Nombre de menú en uso",
+      "InvalidMenuName": "Nombre del menú inválido, solo se permiten letras y números",
       "SomeWrong": "Ha ocurrido un error",
       "Wrong": "Usuario o contraseña incorrecta",
       "NameRequired": "Debes introducir un nombre",
@@ -72,7 +76,8 @@
       "Buttons": {
         "Retry": "Recargar",
         "Insert": "Nuevo Producto",
-        "Save": "Guardar"
+        "Save": "Guardar",
+        "Edit": "Editar mi menú"
       }
     },
     "Login": {
@@ -94,7 +99,7 @@
       "Remember": "Recordarme",
       "Buttons": {
         "Login": "Iniciar sesión",
-        "Register": "Registrarse"
+        "Register": "Registrar"
       }
     },
     "Inputs": [

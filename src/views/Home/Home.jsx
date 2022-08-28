@@ -50,6 +50,9 @@ import {
   productPaper,
 } from "../../assets/styles/styles";
 
+// utils
+import { spaceToDashes } from "../../utils/functions";
+
 const Home = () => {
   const linkStyle = css({
     width: "100%",
@@ -77,7 +80,10 @@ const Home = () => {
       if (data && data.u) {
         const newList = [];
         const arrayData = Object.values(data.u);
-        for (const item of arrayData) {
+        for (const item of arrayData.filter((item) => {
+          if (item.m && item.m !== "admin") return item;
+          return null;
+        })) {
           let parsedPhoto = item.u;
           if (item.ph) parsedPhoto = item.ph.url;
           newList.push(
@@ -93,7 +99,7 @@ const Home = () => {
                 to={
                   userLogged() && item.u === getUserName()
                     ? "/menu/edit"
-                    : `/menu/?user=${item.u}&menu=${item.m}`
+                    : `/menu/${spaceToDashes(item.m)}`
                 }
                 className={linkStyle}
               >
@@ -179,6 +185,7 @@ const Home = () => {
             flexDirection: "column",
           }}
         >
+          <Typography variant="h5">{languageState.texts.Title}</Typography>
           {list.map((item, i) => (
             <motion.ul
               key={i}
