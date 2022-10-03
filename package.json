@@ -2,7 +2,7 @@
   "name": "digital-menu",
   "version": "0.15.11",
   "private": false,
-  "homepage": "https://inmersoft-dev.github.io/digital-menu/",
+  "homepage": "https://digitalmenu-bb1a1.web.app/",
   "dependencies": {
     "@emotion/css": "^11.9.0",
     "@emotion/react": "^11.9.0",
