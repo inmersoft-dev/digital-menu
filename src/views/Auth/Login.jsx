@@ -1,9 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
-// @emotion
-import { css } from "@emotion/css";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -87,10 +84,12 @@ const Login = () => {
           ntype: "success",
         });
         setTimeout(() => {
-          if (userLogged()) navigate("/menu/edit");
+          if (userLogged()) navigate("/settings");
         }, 100);
       } else {
-        const { error } = response.data;
+        let error;
+        if (response.data) error = response.data.error;
+        else error = response.error;
         let message;
         if (
           error.indexOf("not found") > -1 ||
@@ -244,11 +243,6 @@ const Login = () => {
           >
             {languageState.texts.Login.Buttons.Login}
           </Button>
-          <Link to="/auth/register" className={css({ textDecoration: "none" })}>
-            <Button variant="outlined">
-              {languageState.texts.Login.Buttons.Register}
-            </Button>
-          </Link>
         </SitoContainer>
       </form>
     </Paper>

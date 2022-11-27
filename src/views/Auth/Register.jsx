@@ -1,23 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useForm, Controller } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
-// @emotion
-import { css } from "@emotion/css";
 
 // sito components
 import SitoContainer from "sito-container";
 
 // own components
 import Loading from "../../components/Loading/Loading";
+import BackButton from "../../components/BackButton/BackButton";
 
 // @mui
 import {
   useTheme,
-  FormControlLabel,
   FormControl,
   Button,
-  Checkbox,
   IconButton,
   TextField,
   InputLabel,
@@ -36,12 +33,10 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // utils
-import { userLogged, logUser, createCookie } from "../../utils/auth";
+import { userLogged } from "../../utils/auth";
 
 // services
 import { register } from "../../services/auth";
-
-import config from "../../config";
 
 const Register = () => {
   const theme = useTheme();
@@ -49,12 +44,15 @@ const Register = () => {
   const { setNotificationState } = useNotification();
   const { languageState } = useLanguage();
 
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
+
   const [loading, setLoading] = useState(false);
   const [ok, setOk] = useState(1);
-
-  const [remember, setRemember] = useState(false);
-
-  const toggleRemember = () => setRemember(!remember);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -68,7 +66,7 @@ const Register = () => {
 
   const handleMouseDownRPassword = (event) => event.preventDefault();
 
-  const { control, handleSubmit } = useForm({
+  const { reset, control, handleSubmit } = useForm({
     defaultValues: {
       user: "",
       password: "",
@@ -78,53 +76,38 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const { user, password } = data;
-    try {
-      const response = await register(user, password);
-      if (response.status === 200) {
-        logUser(remember, user);
-        createCookie(
-          config.basicKey,
-          response.data.expiration,
-          response.data.token
-        );
-        setNotificationState({
-          type: "set",
-          message: languageState.texts.Messages.RegisterSuccessful,
-          ntype: "success",
-        });
-        setTimeout(() => {
-          if (userLogged()) navigate("/menu/edit");
-        }, 100);
-      } else {
-        const { error } = response.data;
-        let message;
-        if (error.indexOf("username taken") > -1)
-          message = languageState.texts.Errors.UsernameTaken;
-        else if (error.indexOf("Error: Network Error") > -1)
-          message = languageState.texts.Errors.NotConnected;
-        else message = languageState.texts.Errors.SomeWrong;
-        setNotificationState({
-          type: "set",
-          ntype: "error",
-          message,
-        });
+    const { user, password, rpassword } = data;
+    if (password === rpassword) {
+      try {
+        const response = await register(user, password);
+        if (response.status === 200) {
+          showNotification(
+            "success",
+            languageState.texts.Messages.RegisterSuccessful
+          );
+          reset({ user: "", password: "", rpassword: "" });
+        } else {
+          const { error } = response.data;
+          let message;
+          if (error.indexOf("username taken") > -1)
+            message = languageState.texts.Errors.UsernameTaken;
+          else if (error.indexOf("Error: Network Error") > -1)
+            message = languageState.texts.Errors.NotConnected;
+          else message = languageState.texts.Errors.SomeWrong;
+          showNotification("error", message);
+        }
+      } catch (err) {
+        console.log(err);
+        showNotification("error", languageState.texts.Errors.SomeWrong);
       }
-    } catch (err) {
-      console.log(err);
-      setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: languageState.texts.Errors.SomeWrong,
-      });
-    }
+    } else
+      showNotification("error", languageState.texts.Errors.DifferentPassword);
     setLoading(false);
   };
 
   useEffect(() => {
-    if (userLogged()) navigate("/menu/edit");
+    if (!userLogged()) navigate("/");
     setLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const validate = () => {
@@ -139,17 +122,15 @@ const Register = () => {
       setOk(false);
       switch (id) {
         case "user":
-          return setNotificationState({
-            type: "set",
-            ntype: "error",
-            message: languageState.texts.Errors.NameRequired,
-          });
+          return showNotification(
+            "error",
+            languageState.texts.Errors.NameRequired
+          );
         default:
-          return setNotificationState({
-            type: "set",
-            ntype: "error",
-            message: languageState.texts.Errors.NoEmptyPassword,
-          });
+          return showNotification(
+            "error",
+            languageState.texts.Errors.NoEmptyPassword
+          );
       }
     }
   };
@@ -166,6 +147,7 @@ const Register = () => {
         position: "relative",
       }}
     >
+      <BackButton to="/settings/" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Loading
           visible={loading}
@@ -225,14 +207,14 @@ const Register = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label={languageState.texts.Login.Inputs.Password.Label}
                 {...field}
               />
             </FormControl>
           )}
         />
         <Controller
-          name="password"
+          name="rpassword"
           control={control}
           render={({ field }) => (
             <FormControl
@@ -263,16 +245,11 @@ const Register = () => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label={languageState.texts.Login.Inputs.RPassword.Label}
                 {...field}
               />
             </FormControl>
           )}
-        />
-        <FormControlLabel
-          sx={{ marginTop: "20px" }}
-          control={<Checkbox checked={remember} onChange={toggleRemember} />}
-          label={languageState.texts.Login.Remember}
         />
         <SitoContainer
           justifyContent="flex-end"
@@ -285,11 +262,6 @@ const Register = () => {
           >
             {languageState.texts.Login.Buttons.Register}
           </Button>
-          <Link to="/auth/" className={css({ textDecoration: "none" })}>
-            <Button variant="outlined">
-              {languageState.texts.Login.Buttons.Login}
-            </Button>
-          </Link>
         </SitoContainer>
       </form>
     </Paper>

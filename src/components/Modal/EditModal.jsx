@@ -3,9 +3,15 @@ import { useForm, Controller } from "react-hook-form";
 
 import PropTypes from "prop-types";
 
+// imagekitio-react
+import { IKContext, IKUpload } from "imagekitio-react";
+
 // sito components
 import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
+
+// own components
+import Loading from "../Loading/Loading";
 
 // @mui icons
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,6 +26,22 @@ import noProduct from "../../assets/images/no-product.webp";
 import { useNotification } from "../../context/NotificationProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 
+// styles
+import {
+  modal,
+  modalContent,
+  productImage,
+  productImageBox,
+  loadingPhotoSpinner,
+} from "../../assets/styles/styles";
+
+// services
+import { removeImage } from "../../services/photo";
+
+import config from "../../config";
+
+const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
+
 const Modal = (props) => {
   const theme = useTheme();
   const { languageState } = useLanguage();
@@ -27,14 +49,13 @@ const Modal = (props) => {
 
   const { visible, onClose, onSubmit, item, types } = props;
 
+  const [loadingPhoto, setLoadingPhoto] = useState(true);
   const [show, setShow] = useState(visible);
 
   const [ok, setOk] = useState(1);
 
-  const [image, setImage] = useState("");
-  const [, setImageFile] = useState();
-
-  const [photo, setPhoto] = useState({ edt: "", content: "" });
+  const [photo, setPhoto] = useState("");
+  const [preview, setPreview] = useState("");
   const { control, handleSubmit, reset, getValues, setValue } = useForm({
     defaultValues: {
       id: "",
@@ -49,7 +70,10 @@ const Modal = (props) => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
     const { i, n, p, d, ph, t } = item;
+    if (ph) setPreview(ph.url);
+    else setPreview(noProduct);
     setPhoto(ph);
+    setLoadingPhoto(false);
     reset({
       id: i,
       name: n,
@@ -58,6 +82,7 @@ const Modal = (props) => {
       type: types[t],
       photo: ph,
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
 
@@ -74,6 +99,13 @@ const Modal = (props) => {
     setOk(true);
   };
 
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
+
   const invalidate = (e) => {
     e.preventDefault();
     if (ok) {
@@ -83,10 +115,10 @@ const Modal = (props) => {
       let message = "";
       switch (id) {
         case "type":
-          message = languageState.texts.Errors.PriceRequired;
+          message = languageState.texts.Errors.TypeRequired;
           break;
         case "description":
-          message = languageState.texts.Errors.PriceRequired;
+          message = languageState.texts.Errors.DescriptionRequired;
           break;
         case "price":
           message = languageState.texts.Errors.PriceRequired;
@@ -95,27 +127,8 @@ const Modal = (props) => {
           message = languageState.texts.Errors.NameRequired;
           break;
       }
-      return setNotificationState({
-        type: "set",
-        ntype: "error",
-        message,
-      });
+      return showNotification("error", message);
     }
-  };
-
-  const onUploadPhoto = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setImage(e.target.value);
-    setImageFile(file);
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const content = e.target.result;
-      // the blob data is automatic received as base64
-      setPhoto({ ext: file.type.split("/")[1], content });
-      setValue("photo", { ext: file.type.split("/")[1], content });
-    };
-    reader.readAsDataURL(file);
   };
 
   const uploadPhoto = useCallback((e) => {
@@ -129,37 +142,36 @@ const Modal = (props) => {
     return () => {
       if (image !== null) image.onclick = undefined;
     };
-  }, [uploadPhoto]);
+  }, [uploadPhoto, loadingPhoto]);
+
+  const onLoading = () => setLoadingPhoto(true);
+
+  const onSuccess = async (res) => {
+    const { url, fileId } = res;
+    if (photo) await removeImage(photo.fileId);
+    setPhoto({ fileId, url });
+    setValue("photo", { fileId, url });
+    setPreview(url);
+    setLoadingPhoto(false);
+  };
+
+  const onError = (e) => {
+    showNotification("error", languageState.texts.Errors.SomeWrong);
+    setLoadingPhoto(false);
+  };
 
   return (
     <Box
       sx={{
-        position: "fixed",
-        left: 0,
-        bottom: 0,
+        ...modal,
         zIndex: show ? 20 : -1,
         opacity: show ? 1 : -1,
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "center",
-        background: "#4e464652",
-        backdropFilter: "blur(4px)",
-        transition: "all 500ms ease",
       }}
     >
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: { md: "800px", sm: "630px", xs: "100%" },
-          height: "540px",
-          padding: "1rem",
-          borderRadius: "1rem",
+          ...modalContent,
           background: theme.palette.background.paper,
-          position: "relative",
-          transition: "all 500ms ease",
           opacity: show ? 1 : -1,
         }}
       >
@@ -168,7 +180,7 @@ const Modal = (props) => {
           justifyContent="flex-end"
           alignItems="center"
         >
-          <IconButton color="error" onClick={onShowOff}>
+          <IconButton color="error" disabled={loadingPhoto} onClick={onShowOff}>
             <CloseIcon />
           </IconButton>
         </SitoContainer>
@@ -177,43 +189,37 @@ const Modal = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Box
-            sx={{
-              width: { md: "160px", sm: "160px", xs: "160px" },
-              height: { md: "160px", sm: "160px", xs: "160px" },
-            }}
-          >
-            <input
-              id="product-photo"
-              type="file"
-              accept=".jpg, .png, .webp, .gif"
-              value={image}
-              onChange={onUploadPhoto}
-            />
-            {photo && photo.content === "" ? (
-              <SitoImage
-                id="no-product"
-                src={noProduct}
-                alt="no-product"
-                sx={{
-                  width: "100%",
-                  cursor: "pointer",
-                  height: "100%",
-                  borderRadius: "100%",
-                }}
+          <Box sx={productImageBox}>
+            <IKContext
+              publicKey={imagekitPublicKey}
+              urlEndpoint={imagekitUrl}
+              authenticationEndpoint={imagekitAuthUrl}
+              transformationPosition="path"
+            >
+              <IKUpload
+                id="product-photo"
+                fileName={getValues("id")}
+                onChange={onLoading}
+                onError={onError}
+                onSuccess={onSuccess}
               />
-            ) : (
-              <SitoImage
-                src={photo && photo.content !== "" ? photo.content : noProduct}
-                alt={getValues("name")}
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            )}
+              {loadingPhoto ? (
+                <Loading
+                  visible={loadingPhoto}
+                  sx={{
+                    ...loadingPhotoSpinner,
+                    background: theme.palette.background.default,
+                  }}
+                />
+              ) : (
+                <SitoImage
+                  id="no-product"
+                  src={preview && preview !== "" ? preview : noProduct}
+                  alt={getValues("name")}
+                  sx={{ ...productImage, cursor: "pointer" }}
+                />
+              )}
+            </IKContext>
           </Box>
         </SitoContainer>
 
@@ -234,6 +240,7 @@ const Modal = (props) => {
                   }}
                   id="price"
                   type="number"
+                  inputProps={{ min: 0 }}
                   required
                   onInput={validate}
                   onInvalid={invalidate}
@@ -316,6 +323,7 @@ const Modal = (props) => {
               type="submit"
               variant="contained"
               sx={{ marginTop: "10px" }}
+              disabled={loadingPhoto}
             >
               {languageState.texts.Insert.Buttons.Save}
             </Button>

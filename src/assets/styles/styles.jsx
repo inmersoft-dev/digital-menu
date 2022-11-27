@@ -1,4 +1,36 @@
+export const loadingPhotoSpinner = {
+  position: "relative",
+  backdropFilter: "none",
+  borderRadius: "100%",
+  boxShadow: "1px 1px 15px -4px",
+};
+
 export const mainWindow = { width: "100vw", height: "100vh", padding: "25px" };
+
+export const modal = {
+  position: "fixed",
+  left: 0,
+  bottom: 0,
+  width: "100vw",
+  height: "100vh",
+  display: "flex",
+  alignItems: "flex-end",
+  justifyContent: "center",
+  background: "#4e464652",
+  backdropFilter: "blur(4px)",
+  transition: "all 500ms ease",
+};
+
+export const modalContent = {
+  display: "flex",
+  flexDirection: "column",
+  width: { md: "800px", sm: "630px", xs: "100%" },
+  height: "90%",
+  padding: "1rem",
+  borderRadius: "1rem",
+  position: "relative",
+  transition: "all 500ms ease",
+};
 
 export const mainContent = {
   width: { md: "800px", sm: "630px", xs: "100%" },
@@ -47,7 +79,8 @@ export const productImage = {
 export const productContentBox = {
   flexDirection: "column",
   justifyContent: "flex-start",
-  width: { md: "585px", sm: "350px", xs: "95%" },
+  overflow: "hidden",
+  width: "100%",
 };
 
 export const productDescriptionBox = {

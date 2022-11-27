@@ -1,3 +1,11 @@
+export const spaceToDashes = (string) =>
+  string.replace(/\s+/g, "-").toLowerCase();
+
+export const dashesToSpace = (string) => string.replace(/-/g, " ");
+
+export const justHasNumbersAndLetters = (string) =>
+  /^[a-zA-Z0-9]+$/i.test(string);
+
 /**
  * Scroll to a target position, default the top of the page.
  * @param {number} [target=0] - The target position to scroll to.
@@ -47,5 +55,18 @@ export const ComplexIndexOf = (array, item, attributes = [], startIn = 0) => {
         if (equals) return i;
       }
     }
+  return -1;
+};
+
+/**
+ *
+ * @param {object[]} array
+ * @param {string} attribute
+ * @param {any} value
+ * @returns
+ */
+export const getIndexOfByAttribute = (array, attribute, value) => {
+  for (let i = 0; i < array.length; i += 1)
+    if (array[i][attribute] === value) return i;
   return -1;
 };

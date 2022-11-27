@@ -11,11 +11,8 @@ const Loading = (props) => {
   const { sx, visible } = props;
 
   useEffect(() => {
-    if (visible) document.body.style.overflow = "hidden";
-    else
-      setTimeout(() => {
-        document.body.style.overflow = "auto";
-      }, 400);
+    /* if (visible) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto"; */
   }, [visible]);
 
   return (
@@ -26,7 +23,7 @@ const Loading = (props) => {
         alignItems: "center",
         justifyContent: "center",
         transition: "all 400ms ease",
-        position: "absolute",
+        position: "fixed",
         width: "100%",
         height: "100%",
         top: 0,

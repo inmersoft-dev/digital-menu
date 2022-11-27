@@ -50,6 +50,9 @@ import {
   productPaper,
 } from "../../assets/styles/styles";
 
+// utils
+import { spaceToDashes } from "../../utils/functions";
+
 const Home = () => {
   const linkStyle = css({
     width: "100%",
@@ -76,10 +79,16 @@ const Home = () => {
       const data = await response.data;
       if (data && data.u) {
         const newList = [];
-        Object.values(data.u).forEach((item, i) => {
+        const arrayData = Object.values(data.u);
+        for (const item of arrayData.filter((item) => {
+          if (item.m && item.m !== "admin") return item;
+          return null;
+        })) {
+          let parsedPhoto = item.u;
+          if (item.ph) parsedPhoto = item.ph.url;
           newList.push(
             <motion.li
-              key={item.i}
+              key={item.u}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -90,12 +99,12 @@ const Home = () => {
                 to={
                   userLogged() && item.u === getUserName()
                     ? "/menu/edit"
-                    : `/menu/?user=${item.u}&menu=${item.m}`
+                    : `/menu/${spaceToDashes(item.m)}`
                 }
                 className={linkStyle}
               >
                 <Paper
-                  id={`obj-${i}`}
+                  id={`obj-${item.u}`}
                   elevation={1}
                   sx={{
                     ...productPaper,
@@ -106,9 +115,7 @@ const Home = () => {
                     <Box sx={productImageBox}>
                       <SitoImage
                         src={
-                          item.ph && item.ph.content !== ""
-                            ? item.ph.content
-                            : noProduct
+                          item.ph && item.ph !== "" ? parsedPhoto : noProduct
                         }
                         alt={item.m}
                         sx={productImage}
@@ -116,7 +123,10 @@ const Home = () => {
                     </Box>
                   </SitoContainer>
                   <Box sx={productContentBox}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                    <Typography
+                      variant="h3"
+                      sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                    >
                       {item.m}
                     </Typography>
                     <Box sx={productDescriptionBox}>
@@ -129,7 +139,7 @@ const Home = () => {
               </Link>
             </motion.li>
           );
-        });
+        }
         setList(newList);
         setAllData(Object.keys(data.u));
         setLoading(0);
@@ -175,10 +185,12 @@ const Home = () => {
       {!error && loading === 0 && (
         <Box
           sx={{
-            margin: "20px 20px",
             flexDirection: "column",
           }}
         >
+          <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+            {languageState.texts.Title}
+          </Typography>
           {list.map((item, i) => (
             <motion.ul
               key={i}

@@ -9,9 +9,17 @@ import SitoImage from "sito-image";
 // @mui icons
 import CloseIcon from "@mui/icons-material/Close";
 
+// image
+import noProduct from "../../assets/images/no-product.webp";
+
 // @mui
 import { useTheme, Box, Typography, IconButton } from "@mui/material";
 import { useEffect } from "react";
+import {
+  modal,
+  modalContent,
+  productImageBox,
+} from "../../assets/styles/styles";
 
 const Modal = (props) => {
   const theme = useTheme();
@@ -19,9 +27,12 @@ const Modal = (props) => {
 
   const [show, setShow] = useState(visible);
 
+  const [preview, setPreview] = useState("");
+
   useEffect(() => {
     setShow(visible);
-  }, [visible]);
+    if (item.ph) setPreview(item.ph.url);
+  }, [visible, item]);
 
   const onShowOff = () => {
     onClose();
@@ -32,34 +43,17 @@ const Modal = (props) => {
     <Box
       onClick={onShowOff}
       sx={{
-        position: "fixed",
-        left: 0,
-        bottom: 0,
+        ...modal,
         zIndex: show ? 20 : -1,
         opacity: show ? 1 : -1,
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "center",
-        background: "#4e464652",
-        backdropFilter: "blur(4px)",
-        transition: "all 500ms ease",
       }}
       onClose={onClose}
     >
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: { md: "800px", sm: "630px", xs: "100%" },
-          height: "90%",
-          padding: "1rem",
-          borderRadius: "1rem",
-          background: theme.palette.background.paper,
-          position: "relative",
-          transition: "all 500ms ease",
+          ...modalContent,
           opacity: show ? 1 : -1,
+          background: theme.palette.background.paper,
         }}
       >
         <SitoContainer
@@ -76,16 +70,16 @@ const Modal = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Box
-            sx={{
-              width: { md: "160px", sm: "160px", xs: "160px" },
-              height: { md: "160px", sm: "160px", xs: "160px" },
-            }}
-          >
+          <Box sx={productImageBox}>
             <SitoImage
-              src={item.ph}
+              src={preview ? preview : noProduct}
               alt={item.n}
-              sx={{ width: "100%", height: "100%", borderRadius: "100%" }}
+              sx={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "100%",
+                objectFit: "cover",
+              }}
             />
           </Box>
         </SitoContainer>
@@ -104,7 +98,7 @@ const Modal = (props) => {
               marginTop: "10px",
             }}
           >
-            {item.p}
+            {item.p} CUP
           </Typography>
           <Typography
             variant="h3"
@@ -119,7 +113,7 @@ const Modal = (props) => {
           </Typography>
           <Typography
             variant="body"
-            sx={{ width: "100%", textAlign: "center", marginTop: "10px" }}
+            sx={{ width: "75%", textAlign: "center", marginTop: "10px" }}
           >
             {item.d}
           </Typography>

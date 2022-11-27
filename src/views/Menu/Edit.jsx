@@ -25,18 +25,22 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 
 // own components
-import Loading from "../../components/Loading/Loading";
-import TabView from "../../components/TabView/TabView";
-import NotConnected from "../../components/NotConnected/NotConnected";
 import Empty from "../../components/Empty/Empty";
 import Modal from "../../components/Modal/EditModal";
+import Loading from "../../components/Loading/Loading";
+import TabView from "../../components/TabView/TabView";
+import ToLogin from "../../components/ToLogin/ToLogin";
 import ToLogout from "../../components/ToLogout/ToLogout";
+import NotConnected from "../../components/NotConnected/NotConnected";
+import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
+import { getIndexOfByAttribute } from "../../utils/functions";
 
 // services
 import { fetchMenu, saveMenu } from "../../services/menu";
+import { removeImage } from "../../services/photo";
 
 // contexts
 import { useNotification } from "../../context/NotificationProvider";
@@ -46,12 +50,7 @@ import { useLanguage } from "../../context/LanguageProvider";
 import noProduct from "../../assets/images/no-product.webp";
 
 // animations
-import {
-  motionUlContainer,
-  motionUlCss,
-  motionLiAnimation,
-  motionLiCss,
-} from "../../assets/animations/motion";
+import { motionUlCss, motionLiCss } from "../../assets/animations/motion";
 
 // styles
 import {
@@ -102,103 +101,114 @@ const Edit = () => {
   const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
 
+  const [menuName, setMenuName] = useState("");
   const [allData, setAllData] = useState([]);
   const [shouldScroll, setShouldScroll] = useState(false);
 
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
+
   const justGetData = async () => {
-    const response = await fetchMenu(getUserName(), getUserName());
+    const response = await fetchMenu(getUserName());
     const data = await response.data;
     return data;
+  };
+
+  const setOnView = (types, data) => {
+    const tabsByType = [];
+    types.forEach((item, i) => {
+      tabsByType[item] = [];
+    });
+    for (const item of data) {
+      let parsedPhoto = "";
+      if (item.ph) parsedPhoto = item.ph.url;
+      if (parsedPhoto) item.loaded = parsedPhoto;
+      if (tabsByType[item.t])
+        tabsByType[item.t].push(
+          <InViewComponent
+            key={item.i}
+            delay={`0.${item.i + 2}s`}
+            sx={motionLiCss}
+          >
+            <Paper
+              id={`obj-${item.i}`}
+              elevation={1}
+              sx={{
+                position: "relative",
+                marginTop: "20px",
+                width: { md: "800px", sm: "630px", xs: "100%" },
+                padding: "1rem",
+                borderRadius: "1rem",
+                background: theme.palette.background.paper,
+                alignItems: "center",
+              }}
+            >
+              <IconButton
+                sx={{ position: "absolute", top: "1px", right: "1px" }}
+                color="error"
+                onClick={() => deleteProduct(item.i)}
+              >
+                <CloseIcon />
+              </IconButton>
+              <Box
+                sx={{ cursor: "pointer", display: "flex" }}
+                onClick={() => {
+                  setVisible(true);
+                  setSelected(data[getIndexOfByAttribute(data, "i", item.i)]);
+                }}
+              >
+                <SitoContainer sx={{ marginRight: "20px" }}>
+                  <Box sx={productImageBox}>
+                    <SitoImage
+                      src={item.ph && item.ph !== "" ? parsedPhoto : noProduct}
+                      alt={item.n}
+                      sx={productImage}
+                    />
+                  </Box>
+                </SitoContainer>
+                <Box sx={productContentBox}>
+                  <Typography
+                    variant="h3"
+                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                  >
+                    {item.n}
+                  </Typography>
+                  <Box sx={productDescriptionBox}>
+                    <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                      {item.d}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: "bold", width: "75%" }}
+                  >
+                    {item.p} CUP
+                  </Typography>
+                </Box>
+              </Box>
+            </Paper>
+          </InViewComponent>
+        );
+    }
+    setTypes(types);
+    setTabs(tabsByType);
+    setAllData(data);
   };
 
   const fetch = async () => {
     setLoading(1);
     setError(false);
     try {
-      const response = await fetchMenu(getUserName(), getUserName());
+      const response = await fetchMenu(getUserName());
       const data = await response.data;
       if (data && data.t && data.l) {
-        const tabsByType = [];
-        data.t.forEach((item, i) => {
-          tabsByType.push([]);
-        });
-        data.l.forEach((item, i) => {
-          tabsByType[item.t].push(
-            <motion.li
-              key={item.i}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={motionLiAnimation}
-              className={motionLiCss}
-            >
-              <Paper
-                id={`obj-${i}`}
-                elevation={1}
-                sx={{
-                  position: "relative",
-                  marginTop: "20px",
-                  width: { md: "800px", sm: "630px", xs: "100%" },
-                  padding: "1rem",
-                  borderRadius: "1rem",
-                  background: theme.palette.background.paper,
-                }}
-              >
-                <Box
-                  sx={{
-                    width: { xs: "95%", md: "98%" },
-                    position: "absolute",
-                    marginTop: "-10px",
-                    justifyContent: "flex-end",
-                    display: "flex",
-                    cursor: "pointer",
-                  }}
-                >
-                  <IconButton color="error" onClick={() => deleteProduct(i)}>
-                    <CloseIcon />
-                  </IconButton>
-                </Box>
-                <Box
-                  sx={{ cursor: "pointer", display: "flex" }}
-                  onClick={() => {
-                    setVisible(true);
-                    setSelected(data.l[i]);
-                  }}
-                >
-                  <SitoContainer sx={{ marginRight: "20px" }}>
-                    <Box sx={productImageBox}>
-                      <SitoImage
-                        src={
-                          item.ph && item.ph.content !== ""
-                            ? item.ph.content
-                            : noProduct
-                        }
-                        alt={item.n}
-                        sx={productImage}
-                      />
-                    </Box>
-                  </SitoContainer>
-                  <Box sx={productContentBox}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                      {item.n}
-                    </Typography>
-                    <Box sx={productDescriptionBox}>
-                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                        {item.d}
-                      </Typography>
-                    </Box>
-                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                      {item.p} CUP
-                    </Typography>
-                  </Box>
-                </Box>
-              </Paper>
-            </motion.li>
-          );
-        });
-        setAllData(data.l);
-        setTypes(data.t);
-        setTabs(tabsByType);
+        setMenuName(data.m);
+        console.log(data.t, data.l);
+        setOnView(data.t, data.l);
         setLoading(0);
       } else {
         setLoading(-1);
@@ -240,7 +250,7 @@ const Edit = () => {
       if (!shouldScroll && allData) {
         const visibilities = [];
         for (let i = 0; i < allData.length; i += 1) {
-          const elem = document.getElementById(`obj-${i}`);
+          const elem = document.getElementById(`obj-${allData[i].i}`);
           const isInViewport = inViewport(elem);
           visibilities.push({
             index: i,
@@ -249,8 +259,11 @@ const Edit = () => {
           });
         }
         const localFirstActive = firstActive(visibilities);
-        if (localFirstActive !== -1 && tab !== localFirstActive.type)
-          setTab(localFirstActive.type);
+        if (
+          localFirstActive !== -1 &&
+          tab !== types.indexOf(localFirstActive.type)
+        )
+          setTab(types.indexOf(localFirstActive.type));
       }
       setShouldScroll(false);
     },
@@ -272,29 +285,47 @@ const Edit = () => {
     const data = await justGetData();
     const newAllData = data.l;
     const newTypes = data.t;
-    const deletionType = newTypes.indexOf(newTypes[newAllData[index].t]);
-    newAllData.splice(index, 1);
-    let found = false;
-    for (let i = 0; i < newAllData.length && !found; i += 1)
-      if (newAllData[i].t === deletionType) found = true;
-    if (!found) newTypes.splice(deletionType, 1);
-    saveMenu(getUserName(), getUserName(), newAllData, newTypes);
-    retry();
+    const realIndex = getIndexOfByAttribute(newAllData, "i", index);
+    const deletionType = newTypes.indexOf(newTypes[newAllData[realIndex].t]);
+    if (newAllData[realIndex].ph)
+      await removeImage(newAllData[realIndex].ph.fileId);
+    try {
+      newAllData.splice(realIndex, 1);
+      let found = false;
+      for (let i = 0; i < newAllData.length && !found; i += 1)
+        if (newAllData[i].t === deletionType) found = true;
+      // if (!found) newTypes.splice(deletionType, 1);
+      await saveMenu(getUserName(), menuName, newAllData, newTypes);
+      setOnView(newTypes, newAllData);
+      setLoading(0);
+    } catch (err) {
+      console.log(err);
+      return setNotificationState({
+        type: "set",
+        ntype: "error",
+        message: languageState.texts.Errors.SomeWrong,
+      });
+    }
   };
 
   const onSubmit = async (remoteData) => {
     setVisible(false);
     setLoading(1);
     const { id, name, type, description, price, photo } = remoteData;
-    let typePosition = types.indexOf(type);
-    const newAllData = allData;
-    const newTypes = types;
+    const typePosition = types.indexOf(type);
+    const newAllData = [];
+    // reading without loaded
+    allData.forEach((item) => {
+      const { d, i, n, p, ph, t } = item;
+      newAllData.push({ d, i, n, p, ph, t });
+    });
+    const newTypes = [];
+    types.forEach((item) => newTypes.push(item));
     if (typePosition === -1) newTypes.push(type);
-    typePosition = types.indexOf(type);
     const parsedData = {
       i: id,
       n: name,
-      t: typePosition,
+      t: type,
       d: description,
       p: price,
       ph: photo,
@@ -311,22 +342,25 @@ const Edit = () => {
     else newAllData.push(parsedData);
     const result = await saveMenu(
       getUserName(),
-      getUserName(),
+      menuName,
       newAllData,
       newTypes
     );
     if (result.status === 200)
-      setNotificationState({
-        type: "set",
-        ntype: "success",
-        message: languageState.texts.Messages.SaveSuccessful,
-      });
-    else
-      setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: languageState.texts.Errors.SomeWrong,
-      });
+      showNotification("success", languageState.texts.Messages.SaveSuccessful);
+    else showNotification("error", languageState.texts.Errors.SomeWrong);
+    setSelected({
+      i: `${getUserName()}-${
+        allData.length
+          ? Number(allData[allData.length - 1].i.split("-")[1]) + 1
+          : 0
+      }`,
+      ph: "",
+      n: "",
+      d: "",
+      p: "",
+      t: "",
+    });
     retry();
   };
 
@@ -359,6 +393,7 @@ const Edit = () => {
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
       <ToLogout />
+      <ToLogin />
       {selected && (
         <Modal
           visible={visible}
@@ -376,7 +411,10 @@ const Edit = () => {
       />
       <TabView
         value={tab}
-        tabs={types}
+        tabs={Object.keys(tabs).filter((item, i) => {
+          if (Object.values(tabs[item]).length) return item;
+          return null;
+        })}
         content={[]}
         shouldScroll={shouldScroll}
       />
@@ -388,8 +426,12 @@ const Edit = () => {
           variant="contained"
           onClick={() => {
             setSelected({
-              i: allData.length ? allData[allData.length - 1].i + 1 : 0,
-              ph: { ext: "", content: "" },
+              i: `${getUserName()}-${
+                allData.length
+                  ? Number(allData[allData.length - 1].i.split("-")[1]) + 1
+                  : 0
+              }`,
+              ph: "",
               n: "",
               d: "",
               p: "",
