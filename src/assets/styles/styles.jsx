@@ -80,7 +80,7 @@ export const productContentBox = {
   flexDirection: "column",
   justifyContent: "flex-start",
   overflow: "hidden",
-  width: { md: "585px", sm: "350px", xs: "95%" },
+  width: "100%",
 };
 
 export const productDescriptionBox = {

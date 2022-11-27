@@ -36,6 +36,7 @@ const ToTop = () => {
   return (
     <Tooltip title={languageState.texts.Tooltips.ToTop} placement="top">
       <Button
+        color="primary"
         onClick={scrollTo}
         variant="contained"
         sx={{

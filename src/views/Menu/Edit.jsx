@@ -26,13 +26,14 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 
 // own components
-import Loading from "../../components/Loading/Loading";
-import TabView from "../../components/TabView/TabView";
-import NotConnected from "../../components/NotConnected/NotConnected";
 import Empty from "../../components/Empty/Empty";
 import Modal from "../../components/Modal/EditModal";
-import ToLogout from "../../components/ToLogout/ToLogout";
+import Loading from "../../components/Loading/Loading";
+import TabView from "../../components/TabView/TabView";
 import ToLogin from "../../components/ToLogin/ToLogin";
+import ToLogout from "../../components/ToLogout/ToLogout";
+import NotConnected from "../../components/NotConnected/NotConnected";
+import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
@@ -50,12 +51,7 @@ import { useLanguage } from "../../context/LanguageProvider";
 import noProduct from "../../assets/images/no-product.webp";
 
 // animations
-import {
-  motionUlContainer,
-  motionUlCss,
-  motionLiAnimation,
-  motionLiCss,
-} from "../../assets/animations/motion";
+import { motionUlCss, motionLiCss } from "../../assets/animations/motion";
 
 // styles
 import {
@@ -117,13 +113,10 @@ const Edit = () => {
       if (parsedPhoto) item.loaded = parsedPhoto;
       if (tabsByType[item.t])
         tabsByType[item.t].push(
-          <motion.li
+          <InViewComponent
             key={item.i}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={motionLiAnimation}
-            className={motionLiCss}
+            delay={`0.${item.i + 2}s`}
+            sx={motionLiCss}
           >
             <Paper
               id={`obj-${item.i}`}
@@ -138,21 +131,13 @@ const Edit = () => {
                 alignItems: "center",
               }}
             >
-              <Box
-                sx={{
-                  width: { xs: "95%", md: "98%" },
-                  position: "absolute",
-                  marginTop: "-10px",
-                  justifyContent: "flex-end",
-
-                  display: "flex",
-                  cursor: "pointer",
-                }}
+              <IconButton
+                sx={{ position: "absolute", top: "1px", right: "1px" }}
+                color="error"
+                onClick={() => deleteProduct(item.i)}
               >
-                <IconButton color="error" onClick={() => deleteProduct(item.i)}>
-                  <CloseIcon />
-                </IconButton>
-              </Box>
+                <CloseIcon />
+              </IconButton>
               <Box
                 sx={{ cursor: "pointer", display: "flex" }}
                 onClick={() => {
@@ -190,7 +175,7 @@ const Edit = () => {
                 </Box>
               </Box>
             </Paper>
-          </motion.li>
+          </InViewComponent>
         );
     }
     setTypes(types);
@@ -206,6 +191,7 @@ const Edit = () => {
       const data = await response.data;
       if (data && data.t && data.l) {
         setMenuName(data.m);
+        console.log(data.t, data.l);
         setOnView(data.t, data.l);
         setLoading(0);
       } else {
@@ -462,15 +448,7 @@ const Edit = () => {
                     }
                   </Typography>
                 </Box>
-                <motion.ul
-                  variants={motionUlContainer}
-                  className={motionUlCss}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
-                  {item}
-                </motion.ul>
+                <Box sx={motionUlCss}>{item}</Box>
               </Box>
             ))}
         </Box>
