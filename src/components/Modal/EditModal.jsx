@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 
@@ -17,7 +18,15 @@ import Loading from "../Loading/Loading";
 import CloseIcon from "@mui/icons-material/Close";
 
 // @mui components
-import { useTheme, Box, Button, IconButton, TextField } from "@mui/material";
+import {
+  useTheme,
+  Box,
+  Button,
+  IconButton,
+  TextField,
+  Autocomplete,
+  createFilterOptions,
+} from "@mui/material";
 
 // image
 import noProduct from "../../assets/images/no-product.webp";
@@ -42,6 +51,8 @@ import config from "../../config";
 
 const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
 
+const filter = createFilterOptions();
+
 const Modal = (props) => {
   const theme = useTheme();
   const { languageState } = useLanguage();
@@ -54,6 +65,7 @@ const Modal = (props) => {
 
   const [ok, setOk] = useState(1);
 
+  const [type, setType] = useState(null);
   const [photo, setPhoto] = useState("");
   const [preview, setPreview] = useState("");
   const { control, handleSubmit, reset, getValues, setValue } = useForm({
@@ -62,28 +74,26 @@ const Modal = (props) => {
       price: "",
       name: "",
       description: "",
-      type: "",
     },
   });
 
   useEffect(() => {
     const textarea = document.getElementById("description");
     if (textarea !== null) textarea.setAttribute("maxlength", 255);
-    const { i, n, p, d, ph, t } = item;
-    if (ph) setPreview(ph.url);
+    const { id, name, price, description, photo, type } = item;
+    setType({ name: type });
+    if (photo) setPreview(photo.url);
     else setPreview(noProduct);
-    setPhoto(ph);
+    setPhoto(photo);
     setLoadingPhoto(false);
     reset({
-      id: i,
-      name: n,
-      price: p,
-      description: d,
-      type: types[t],
-      photo: ph,
+      id,
+      name,
+      price,
+      description,
+      type,
+      photo,
     });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
 
   useEffect(() => {
@@ -95,9 +105,7 @@ const Modal = (props) => {
     setShow(false);
   };
 
-  const validate = () => {
-    setOk(true);
-  };
+  const validate = () => setOk(true);
 
   const showNotification = (ntype, message) =>
     setNotificationState({
@@ -114,7 +122,7 @@ const Modal = (props) => {
       setOk(false);
       let message = "";
       switch (id) {
-        case "type":
+        case "types":
           message = languageState.texts.Errors.TypeRequired;
           break;
         case "description":
@@ -156,9 +164,22 @@ const Modal = (props) => {
   };
 
   const onError = (e) => {
+    console.error(e);
     showNotification("error", languageState.texts.Errors.SomeWrong);
     setLoadingPhoto(false);
   };
+
+  const onLocalSubmit = (d) => {
+    const { id, name, description, price } = d;
+    onSubmit(id, name, type.name, description, price, photo);
+  };
+
+  useEffect(() => {
+    if (!ok)
+      setTimeout(() => {
+        setOk(true);
+      }, 100);
+  }, [ok]);
 
   return (
     <Box
@@ -228,7 +249,7 @@ const Modal = (props) => {
           alignItems="center"
           sx={{ width: "100%" }}
         >
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onLocalSubmit)}>
             <Controller
               name="price"
               control={control}
@@ -298,15 +319,64 @@ const Modal = (props) => {
                 />
               )}
             />
-            <Controller
-              name="type"
-              control={control}
-              render={({ field }) => (
+            <Autocomplete
+              value={type}
+              onChange={(event, newValue) => {
+                if (typeof newValue === "string") {
+                  setType({
+                    name: newValue,
+                  });
+                } else if (newValue && newValue.inputValue) {
+                  // Create a new value from the user input
+                  setType({
+                    name: newValue.inputValue,
+                  });
+                } else {
+                  setType(newValue);
+                }
+              }}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
+
+                const { inputValue } = params;
+                // Suggest the creation of a new value
+                const isExisting = options.some(
+                  (option) => inputValue === option.name
+                );
+                if (inputValue !== "" && !isExisting) {
+                  filtered.push({
+                    inputValue,
+                    name: `${languageState.texts.Insert.Inputs.Type.Add} "${inputValue}"`,
+                  });
+                }
+
+                return filtered;
+              }}
+              selectOnFocus
+              clearOnBlur
+              handleHomeEndKeys
+              id="types"
+              options={types}
+              getOptionLabel={(option) => {
+                // Value selected with enter, right from the input
+                if (typeof option === "string") {
+                  return option;
+                }
+                // Add "xxx" option created dynamically
+                if (option.inputValue) {
+                  return option.inputValue;
+                }
+                // Regular option
+                return option.name;
+              }}
+              renderOption={(props, option) => (
+                <li {...props}>{option.name}</li>
+              )}
+              sx={{ width: "100%", marginTop: "10px" }}
+              freeSolo
+              renderInput={(params) => (
                 <TextField
-                  sx={{
-                    width: "100%",
-                    marginTop: "10px",
-                  }}
+                  {...params}
                   id="type"
                   required
                   onInput={validate}
@@ -315,7 +385,6 @@ const Modal = (props) => {
                   placeholder={
                     languageState.texts.Insert.Inputs.Type.Placeholder
                   }
-                  {...field}
                 />
               )}
             />
@@ -339,7 +408,7 @@ Modal.propTypes = {
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
   item: PropTypes.object,
-  types: PropTypes.arrayOf(PropTypes.string),
+  types: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })),
 };
 
 export default Modal;

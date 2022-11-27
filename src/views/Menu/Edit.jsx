@@ -1,11 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useCallback, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 
-// in-viewport
-import inViewport from "in-viewport";
-
-// @emotion
-import { motion } from "framer-motion";
+import md5 from "md5";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -28,7 +25,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import Empty from "../../components/Empty/Empty";
 import Modal from "../../components/Modal/EditModal";
 import Loading from "../../components/Loading/Loading";
-import TabView from "../../components/TabView/TabView";
 import ToLogin from "../../components/ToLogin/ToLogin";
 import ToLogout from "../../components/ToLogout/ToLogout";
 import NotConnected from "../../components/NotConnected/NotConnected";
@@ -36,7 +32,6 @@ import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // functions
 import { getUserName, userLogged } from "../../utils/auth";
-import { getIndexOfByAttribute } from "../../utils/functions";
 
 // services
 import { fetchMenu, saveMenu } from "../../services/menu";
@@ -49,8 +44,8 @@ import { useLanguage } from "../../context/LanguageProvider";
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
-// animations
-import { motionUlCss, motionLiCss } from "../../assets/animations/motion";
+// utils
+import { scrollTo } from "../../utils/functions";
 
 // styles
 import {
@@ -72,15 +67,28 @@ const Edit = () => {
 
   const [visible, setVisible] = useState(false);
 
-  const onModalClose = () => {
-    setVisible(false);
-  };
+  const onModalClose = () => setVisible(false);
 
   const typesReducer = (typesStates, action) => {
     const { type } = action;
     switch (type) {
       case "set": {
         const { newArray } = action;
+        if (newArray.length) newArray[0].active = true;
+        return newArray;
+      }
+      case "set-active": {
+        const { index } = action;
+        typesStates.forEach((item, i) => {
+          if (index === i) typesStates[i].active = true;
+          else typesStates[i].active = false;
+        });
+        return [...typesStates];
+      }
+      case "delete": {
+        const { index } = action;
+        const newArray = [...typesStates];
+        newArray.splice(index, 1);
         return newArray;
       }
       case "add": {
@@ -91,19 +99,46 @@ const Edit = () => {
         return [];
     }
   };
+
   const [productTypes, setProductTypes] = useReducer(typesReducer, []);
 
-  const [types, setTypes] = useState([]);
-
-  const [tab, setTab] = useState(0);
-  const [tabs, setTabs] = useState([]);
+  const productsReducer = (productsState, action) => {
+    const { type } = action;
+    switch (type) {
+      case "set": {
+        const { newArray } = action;
+        return newArray.map((item, i) => ({ ...item, index: i }));
+      }
+      case "delete": {
+        const { index } = action;
+        const newArray = [...productsState];
+        newArray.splice(index, 1);
+        return newArray.map((item, i) => ({ ...item, index: i }));
+      }
+      case "modify": {
+        const { index, newProduct } = action;
+        productsState[index] = newProduct;
+        return [...productsState];
+      }
+      case "add": {
+        const { newProduct } = action;
+        return [
+          ...productsState,
+          { ...newProduct, index: productsState.length },
+        ];
+      }
+      default:
+        return [];
+    }
+  };
+  const [products, setProducts] = useReducer(productsReducer, []);
 
   const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
 
   const [menuName, setMenuName] = useState("");
-  const [allData, setAllData] = useState([]);
-  const [shouldScroll, setShouldScroll] = useState(false);
+
+  const { setNotificationState } = useNotification();
 
   const showNotification = (ntype, message) =>
     setNotificationState({
@@ -112,256 +147,120 @@ const Edit = () => {
       message,
     });
 
-  const justGetData = async () => {
-    const response = await fetchMenu(getUserName());
-    const data = await response.data;
-    return data;
-  };
-
-  const setOnView = (types, data) => {
-    const tabsByType = [];
-    types.forEach((item, i) => {
-      tabsByType[item] = [];
-    });
-    for (const item of data) {
-      let parsedPhoto = "";
-      if (item.ph) parsedPhoto = item.ph.url;
-      if (parsedPhoto) item.loaded = parsedPhoto;
-      if (tabsByType[item.t])
-        tabsByType[item.t].push(
-          <InViewComponent
-            key={item.i}
-            delay={`0.${item.i + 2}s`}
-            sx={motionLiCss}
-          >
-            <Paper
-              id={`obj-${item.i}`}
-              elevation={1}
-              sx={{
-                position: "relative",
-                marginTop: "20px",
-                width: { md: "800px", sm: "630px", xs: "100%" },
-                padding: "1rem",
-                borderRadius: "1rem",
-                background: theme.palette.background.paper,
-                alignItems: "center",
-              }}
-            >
-              <IconButton
-                sx={{ position: "absolute", top: "1px", right: "1px" }}
-                color="error"
-                onClick={() => deleteProduct(item.i)}
-              >
-                <CloseIcon />
-              </IconButton>
-              <Box
-                sx={{ cursor: "pointer", display: "flex" }}
-                onClick={() => {
-                  setVisible(true);
-                  setSelected(data[getIndexOfByAttribute(data, "i", item.i)]);
-                }}
-              >
-                <SitoContainer sx={{ marginRight: "20px" }}>
-                  <Box sx={productImageBox}>
-                    <SitoImage
-                      src={item.ph && item.ph !== "" ? parsedPhoto : noProduct}
-                      alt={item.n}
-                      sx={productImage}
-                    />
-                  </Box>
-                </SitoContainer>
-                <Box sx={productContentBox}>
-                  <Typography
-                    variant="h3"
-                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
-                  >
-                    {item.n}
-                  </Typography>
-                  <Box sx={productDescriptionBox}>
-                    <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                      {item.d}
-                    </Typography>
-                  </Box>
-                  <Typography
-                    variant="body2"
-                    sx={{ fontWeight: "bold", width: "75%" }}
-                  >
-                    {item.p} CUP
-                  </Typography>
-                </Box>
-              </Box>
-            </Paper>
-          </InViewComponent>
-        );
-    }
-    setTypes(types);
-    setTabs(tabsByType);
-    setAllData(data);
-  };
-
   const fetch = async () => {
-    setLoading(1);
+    setLoading(0);
     setError(false);
     try {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
       if (data && data.t && data.l) {
         setMenuName(data.m);
-        console.log(data.t, data.l);
-        setOnView(data.t, data.l);
+        setProductTypes({
+          type: "set",
+          newArray: data.t.map((item) => ({ name: item })),
+        });
+        setProducts({ type: "set", newArray: data.l });
         setLoading(0);
-      } else {
-        setLoading(-1);
-        if (response.status !== 200)
-          setNotificationState({
-            type: "set",
-            ntype: "error",
-            message: languageState.texts.Errors.NotConnected,
-          });
       }
     } catch (err) {
-      console.log(err);
-      setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: languageState.texts.Errors.NotConnected,
-      });
+      console.error(err);
+      showNotification("error", String(err));
       setError(true);
       setLoading(-1);
     }
   };
 
-  const { setNotificationState } = useNotification();
   const { languageState } = useLanguage();
 
   const retry = () => fetch();
 
-  const firstActive = (array) => {
-    let i = 0;
-    while (i < array.length) {
-      if (array[i].visibility) return array[i];
-      i += 1;
-    }
-    return -1;
-  };
-
-  const onScroll = useCallback(
-    (e) => {
-      if (!shouldScroll && allData) {
-        const visibilities = [];
-        for (let i = 0; i < allData.length; i += 1) {
-          const elem = document.getElementById(`obj-${allData[i].i}`);
-          const isInViewport = inViewport(elem);
-          visibilities.push({
-            index: i,
-            visibility: isInViewport,
-            type: allData[i].t,
-          });
-        }
-        const localFirstActive = firstActive(visibilities);
-        if (
-          localFirstActive !== -1 &&
-          tab !== types.indexOf(localFirstActive.type)
-        )
-          setTab(types.indexOf(localFirstActive.type));
-      }
-      setShouldScroll(false);
-    },
-    [tab, allData, shouldScroll]
-  );
-
-  const onClick = useCallback(
-    (e) => {
-      if (!shouldScroll && e.target.id && e.target.id.split("-").length > 2) {
-        setTab(Number(e.target.id.split("-")[2]));
-        setShouldScroll(true);
-      }
-    },
-    [shouldScroll, setShouldScroll]
-  );
+  const onScroll = useCallback((e) => {}, []);
 
   const deleteProduct = async (index) => {
     setLoading(1);
-    const data = await justGetData();
-    const newAllData = data.l;
-    const newTypes = data.t;
-    const realIndex = getIndexOfByAttribute(newAllData, "i", index);
-    const deletionType = newTypes.indexOf(newTypes[newAllData[realIndex].t]);
-    if (newAllData[realIndex].ph)
-      await removeImage(newAllData[realIndex].ph.fileId);
     try {
-      newAllData.splice(realIndex, 1);
-      let found = false;
-      for (let i = 0; i < newAllData.length && !found; i += 1)
-        if (newAllData[i].t === deletionType) found = true;
-      // if (!found) newTypes.splice(deletionType, 1);
-      await saveMenu(getUserName(), menuName, newAllData, newTypes);
-      setOnView(newTypes, newAllData);
+      if (productTypes[index].photo)
+        await removeImage(productTypes.photo.fileId);
+      const newProducts = [...products];
+      newProducts.splice(index, 1);
+      await saveMenu(getUserName(), menuName, newProducts, productTypes);
+      setProducts({ type: "delete", index });
       setLoading(0);
     } catch (err) {
-      console.log(err);
-      return setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: languageState.texts.Errors.SomeWrong,
-      });
+      console.error(err);
+      showNotification("error", String(err));
     }
   };
 
-  const onSubmit = async (remoteData) => {
-    setVisible(false);
+  const onSubmit = async (id, name, type, description, price, photo) => {
     setLoading(1);
-    const { id, name, type, description, price, photo } = remoteData;
-    const typePosition = types.indexOf(type);
-    const newAllData = [];
-    // reading without loaded
-    allData.forEach((item) => {
-      const { d, i, n, p, ph, t } = item;
-      newAllData.push({ d, i, n, p, ph, t });
-    });
-    const newTypes = [];
-    types.forEach((item) => newTypes.push(item));
-    if (typePosition === -1) newTypes.push(type);
-    const parsedData = {
-      i: id,
-      n: name,
-      t: type,
-      d: description,
-      p: price,
-      ph: photo,
-    };
-    const indexes = [];
-    newAllData.filter((item, i) => {
-      if (item.i === parsedData.i) {
-        indexes.push(i);
-        return item;
+    try {
+      const newProductTypes = [...productTypes.map((item) => item.name)];
+      const typePosition = productTypes.find((item) => item.name === type);
+      if (!typePosition) {
+        setProductTypes({ type: "add", newType: { name: type } });
+        newProductTypes.push(type);
       }
-      return null;
-    });
-    if (indexes.length) newAllData[indexes[0]] = { ...parsedData };
-    else newAllData.push(parsedData);
-    const result = await saveMenu(
-      getUserName(),
-      menuName,
-      newAllData,
-      newTypes
-    );
-    if (result.status === 200)
-      showNotification("success", languageState.texts.Messages.SaveSuccessful);
-    else showNotification("error", languageState.texts.Errors.SomeWrong);
-    setSelected({
-      i: `${getUserName()}-${
-        allData.length
-          ? Number(allData[allData.length - 1].i.split("-")[1]) + 1
-          : 0
-      }`,
-      ph: "",
-      n: "",
-      d: "",
-      p: "",
-      t: "",
-    });
-    retry();
+      const newProducts = [...products];
+      if (!id || !id.length) {
+        const parsedObj = {
+          id: md5(name),
+          name,
+          type,
+          description,
+          price,
+          photo,
+        };
+        setProducts({
+          type: "add",
+          newProduct: parsedObj,
+        });
+        newProducts.push(parsedObj);
+      } else {
+        const indexOf = products.findIndex((item) => item.id === id);
+        const parsedObj = {
+          id,
+          name,
+          type,
+          description,
+          price,
+          photo,
+        };
+        if (indexOf > -1) {
+          setProducts({
+            type: "modify",
+            index: indexOf,
+            newProduct: parsedObj,
+          });
+          newProducts[indexOf] = parsedObj;
+        }
+      }
+      const result = await saveMenu(
+        getUserName(),
+        menuName,
+        newProducts,
+        newProductTypes
+      );
+      if (result.status === 200) {
+        showNotification(
+          "success",
+          languageState.texts.Messages.SaveSuccessful
+        );
+        setSelected({
+          id: "",
+          photo: "",
+          name: "",
+          description: "",
+          price: "",
+          type: "",
+        });
+        setVisible(false);
+        setLoading(0);
+      }
+    } catch (err) {
+      console.error(err);
+      showNotification("error", String(err));
+    }
   };
 
   const onKeyDown = useCallback(
@@ -375,19 +274,16 @@ const Edit = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
-    window.addEventListener("click", onClick);
     window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("click", onClick);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [onScroll, onClick, onKeyDown]);
+  }, [onScroll, onKeyDown]);
 
   useEffect(() => {
     if (!userLogged()) navigate("/auth/");
     retry();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -400,7 +296,7 @@ const Edit = () => {
           item={selected}
           onClose={onModalClose}
           onSubmit={onSubmit}
-          types={types}
+          types={productTypes}
         />
       )}
       <Loading
@@ -409,15 +305,41 @@ const Edit = () => {
           zIndex: loading === 1 ? 99 : -1,
         }}
       />
-      <TabView
-        value={tab}
-        tabs={Object.keys(tabs).filter((item, i) => {
-          if (Object.values(tabs[item]).length) return item;
-          return null;
-        })}
-        content={[]}
-        shouldScroll={shouldScroll}
-      />
+      <Paper
+        elevation={1}
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          borderRadius: 0,
+          background: theme.palette.background.paper,
+          zIndex: 15,
+        }}
+      >
+        {productTypes.map((item, i) => (
+          <Button
+            key={item.name}
+            onClick={() => {
+              const type = document.getElementById(`title-${item.name}`);
+              if (type !== null) scrollTo(type.offsetTop);
+              setProductTypes({ type: "set-active", index: i });
+            }}
+            color={item.active ? "primary" : "inherit"}
+            sx={{
+              borderRadius: 0,
+              borderBottom: item.active
+                ? `2px solid ${theme.palette.primary.main}`
+                : "",
+            }}
+          >
+            {item.name}
+          </Button>
+        ))}
+      </Paper>
+      {/* shouldScroll */}
       <SitoContainer
         sx={{ width: "100%", marginTop: "65px" }}
         justifyContent="center"
@@ -426,16 +348,12 @@ const Edit = () => {
           variant="contained"
           onClick={() => {
             setSelected({
-              i: `${getUserName()}-${
-                allData.length
-                  ? Number(allData[allData.length - 1].i.split("-")[1]) + 1
-                  : 0
-              }`,
-              ph: "",
-              n: "",
-              d: "",
-              p: "",
-              t: "",
+              id: "",
+              photo: "",
+              name: "",
+              description: "",
+              price: "",
+              type: "",
             });
             setVisible(true);
           }}
@@ -447,29 +365,100 @@ const Edit = () => {
       {loading === -1 && !error && <Empty />}
       {!error && loading === 0 && (
         <Box sx={productList}>
-          {productTypes.map((item) => (
-            <Box key={item} sx={typeBoxCss}>
-              <Box id={`title-${item}`} sx={headerBox}>
-                <Typography variant="h5">{item}</Typography>
+          {!loading &&
+            productTypes.map((item) => (
+              <Box key={item.name} sx={typeBoxCss}>
+                <Box id={`title-${item.name}`} sx={headerBox}>
+                  <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+                    {item.name}
+                  </Typography>
+                </Box>
+                <Box>
+                  {products
+                    .filter((jtem) => jtem.type === item.name)
+                    .map((jtem) => (
+                      <InViewComponent
+                        key={jtem.id}
+                        delay={`0.${1 * (jtem.index + 1)}s`}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          width: "100%",
+                        }}
+                      >
+                        <Paper
+                          id={`obj-${jtem.id}`}
+                          elevation={1}
+                          sx={{
+                            position: "relative",
+                            marginTop: "20px",
+                            width: { md: "800px", sm: "630px", xs: "100%" },
+                            padding: "1rem",
+                            borderRadius: "1rem",
+                            background: theme.palette.background.paper,
+                            alignItems: "center",
+                          }}
+                        >
+                          <IconButton
+                            sx={{
+                              position: "absolute",
+                              top: "1px",
+                              right: "1px",
+                            }}
+                            color="error"
+                            onClick={() => deleteProduct(jtem.index)}
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                          <Box
+                            sx={{ cursor: "pointer", display: "flex" }}
+                            onClick={() => {
+                              setVisible(true);
+                              setSelected(jtem);
+                            }}
+                          >
+                            <SitoContainer sx={{ marginRight: "20px" }}>
+                              <Box sx={productImageBox}>
+                                <SitoImage
+                                  src={
+                                    jtem.photo && jtem.photo.url !== ""
+                                      ? jtem.photo.url
+                                      : noProduct
+                                  }
+                                  alt={jtem.name}
+                                  sx={productImage}
+                                />
+                              </Box>
+                            </SitoContainer>
+                            <Box sx={productContentBox}>
+                              <Typography
+                                variant="h3"
+                                sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                              >
+                                {jtem.name}
+                              </Typography>
+                              <Box sx={productDescriptionBox}>
+                                <Typography
+                                  variant="body1"
+                                  sx={{ textAlign: "justify" }}
+                                >
+                                  {jtem.description}
+                                </Typography>
+                              </Box>
+                              <Typography
+                                variant="body2"
+                                sx={{ fontWeight: "bold", width: "75%" }}
+                              >
+                                {jtem.price} CUP
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Paper>
+                      </InViewComponent>
+                    ))}
+                </Box>
               </Box>
-            </Box>
-          ))}
-          {/* tabs.map((item, i) => (
-            <Box key={i} sx={typeBoxCss}>
-              <Box id={`title-${i}`} sx={headerBox}>
-                <Typography variant="h5">{types[i]}</Typography>
-              </Box>
-              <motion.ul
-                variants={motionUlContainer}
-                className={motionUlCss}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                {item}
-              </motion.ul>
-            </Box>
-          )) */}
+            ))}
         </Box>
       )}
     </SitoContainer>

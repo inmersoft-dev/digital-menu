@@ -99,6 +99,7 @@ const Settings = () => {
     try {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
+      console.log(data);
       if (data) {
         if (data.ph) {
           setPhoto(data.ph);

@@ -148,6 +148,7 @@
           "Placeholder": "ej 100"
         },
         "Type": {
+          "Add": "Añadir",
           "Label": "Categoría",
           "Placeholder": "ej: Bebidas"
         }
