@@ -170,7 +170,10 @@ const Edit = () => {
                   </Box>
                 </SitoContainer>
                 <Box sx={productContentBox}>
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                  <Typography
+                    variant="h3"
+                    sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                  >
                     {item.n}
                   </Typography>
                   <Box sx={productDescriptionBox}>
@@ -450,7 +453,7 @@ const Edit = () => {
             .map((item, i) => (
               <Box key={i} sx={typeBoxCss}>
                 <Box id={`title-${i}`} sx={headerBox}>
-                  <Typography variant="h5">
+                  <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
                     {
                       Object.keys(tabs).filter((item, i) => {
                         if (Object.values(tabs[item]).length) return item;

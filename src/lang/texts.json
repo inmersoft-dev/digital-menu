@@ -44,6 +44,84 @@
       "Title": "Ajustes",
       "Qr": "Código Qr del menú",
       "Inputs": {
+        "CenterTypes": {
+          "Label": "Tipo de negocio",
+          "Placeholder": "Bar",
+          "Types": [
+            {
+              "id": 2,
+              "name": "Casa Antigua"
+            },
+            {
+              "id": 3,
+              "name": "Restaurante"
+            },
+            {
+              "id": 4,
+              "name": "Casa de Renta"
+            },
+            {
+              "id": 5,
+              "name": "Bar"
+            },
+            {
+              "id": 7,
+              "name": "Cafetería"
+            },
+            {
+              "id": 9,
+              "name": "Gimnasios"
+            },
+            {
+              "id": 10,
+              "name": "Arte"
+            },
+            {
+              "id": 11,
+              "name": "Museo"
+            },
+            {
+              "id": 12,
+              "name": "Biblioteca"
+            },
+            {
+              "id": 13,
+              "name": "Vida nocturna"
+            },
+            {
+              "id": 14,
+              "name": "Supermercado"
+            },
+            {
+              "id": 15,
+              "name": "Centro comercial"
+            },
+            {
+              "id": 16,
+              "name": "Belleza"
+            },
+            {
+              "id": 17,
+              "name": "Electrónica"
+            },
+            {
+              "id": 18,
+              "name": "Ropa"
+            },
+            {
+              "id": 19,
+              "name": "Hotel"
+            },
+            {
+              "id": 20,
+              "name": "Gasolinera"
+            },
+            {
+              "id": 21,
+              "name": "Alquiler de coches"
+            }
+          ]
+        },
         "Menu": {
           "Label": "Nombre del centro",
           "Placeholder": "ej: El Rincón dulce"

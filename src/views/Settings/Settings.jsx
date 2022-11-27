@@ -31,6 +31,7 @@ import {
   Button,
   TextField,
   Typography,
+  Autocomplete,
 } from "@mui/material";
 
 // contexts
@@ -77,6 +78,9 @@ const Settings = () => {
   const [photo, setPhoto] = useState("");
   const [preview, setPreview] = useState("");
 
+  const [types, setTypes] = useState([]);
+  const handleTypes = (event, newValue) => setTypes(newValue);
+
   const { control, handleSubmit, reset, getValues } = useForm({
     defaultValues: {
       menu: "",
@@ -100,6 +104,7 @@ const Settings = () => {
           setPhoto(data.ph);
           setPreview(data.ph.url);
         }
+        if (data.types) setTypes(data.types);
         setOldName(data.m);
         reset({ menu: data.m, description: data.d });
       }
@@ -146,7 +151,8 @@ const Settings = () => {
         oldName,
         menu,
         description || "",
-        photo || ""
+        photo || "",
+        types || []
       );
       if (response.status === 200) {
         showNotification(
@@ -347,6 +353,33 @@ const Settings = () => {
                     }
                     variant="outlined"
                     {...field}
+                  />
+                )}
+              />
+            </SitoContainer>
+            <SitoContainer sx={{ width: "100%" }}>
+              <Autocomplete
+                sx={{ marginTop: "20px", width: "100%" }}
+                multiple
+                id="places"
+                onChange={handleTypes}
+                options={languageState.texts.Settings.Inputs.CenterTypes.Types}
+                getOptionLabel={(option) => option.name}
+                defaultValue={[]}
+                filterSelectedOptions
+                value={types || []}
+                ChipProps={{ color: "primary" }}
+                renderInput={(params) => (
+                  <TextField
+                    color="primary"
+                    {...params}
+                    label={
+                      languageState.texts.Settings.Inputs.CenterTypes.Label
+                    }
+                    placeholder={
+                      languageState.texts.Settings.Inputs.CenterTypes
+                        .Placeholder
+                    }
                   />
                 )}
               />

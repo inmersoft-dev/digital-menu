@@ -123,7 +123,10 @@ const Home = () => {
                     </Box>
                   </SitoContainer>
                   <Box sx={productContentBox}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                    <Typography
+                      variant="h3"
+                      sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                    >
                       {item.m}
                     </Typography>
                     <Box sx={productDescriptionBox}>
@@ -185,7 +188,9 @@ const Home = () => {
             flexDirection: "column",
           }}
         >
-          <Typography variant="h5">{languageState.texts.Title}</Typography>
+          <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+            {languageState.texts.Title}
+          </Typography>
           {list.map((item, i) => (
             <motion.ul
               key={i}
