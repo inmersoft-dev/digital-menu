@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 
 // in-viewport
@@ -76,6 +76,23 @@ const Edit = () => {
   const onModalClose = () => {
     setVisible(false);
   };
+
+  const typesReducer = (typesStates, action) => {
+    const { type } = action;
+    switch (type) {
+      case "set": {
+        const { newArray } = action;
+        return newArray;
+      }
+      case "add": {
+        const { newType } = action;
+        return [...typesStates, newType];
+      }
+      default:
+        return [];
+    }
+  };
+  const [productTypes, setProductTypes] = useReducer(typesReducer, []);
 
   const [types, setTypes] = useState([]);
 
@@ -388,7 +405,14 @@ const Edit = () => {
       {loading === -1 && !error && <Empty />}
       {!error && loading === 0 && (
         <Box sx={productList}>
-          {tabs.map((item, i) => (
+          {productTypes.map((item) => (
+            <Box key={item} sx={typeBoxCss}>
+              <Box id={`title-${item}`} sx={headerBox}>
+                <Typography variant="h5">{item}</Typography>
+              </Box>
+            </Box>
+          ))}
+          {/* tabs.map((item, i) => (
             <Box key={i} sx={typeBoxCss}>
               <Box id={`title-${i}`} sx={headerBox}>
                 <Typography variant="h5">{types[i]}</Typography>
@@ -403,7 +427,7 @@ const Edit = () => {
                 {item}
               </motion.ul>
             </Box>
-          ))}
+          )) */}
         </Box>
       )}
     </SitoContainer>
