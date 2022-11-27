@@ -26,11 +26,13 @@ import DownloadIcon from "@mui/icons-material/Download";
 // @mui components
 import {
   useTheme,
+  Switch,
   Paper,
   Box,
   Button,
   TextField,
   Typography,
+  FormControlLabel,
   Autocomplete,
 } from "@mui/material";
 
@@ -102,13 +104,13 @@ const Settings = () => {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
       if (data) {
-        if (data.ph) {
-          setPhoto(data.ph);
-          setPreview(data.ph.url);
+        if (data.photo) {
+          setPhoto(data.photo);
+          setPreview(data.photo.url);
         }
-        if (data.types) setTypes(data.types);
-        setOldName(data.m);
-        reset({ menu: data.m, description: data.d });
+        if (data.business) setTypes(data.types);
+        setOldName(data.menu);
+        reset({ menu: data.menu, description: data.description });
       }
     } catch (err) {
       console.error(err);
@@ -424,9 +426,28 @@ const Settings = () => {
                 {languageState.texts.Insert.Buttons.Edit}
               </Button>
             </SitoContainer>
-            <Typography variant="h4" sx={{ marginTop: "20px" }}>
-              {languageState.texts.Settings.Qr}
-            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { md: "row", xs: "column" },
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: "20px",
+              }}
+            >
+              <Typography variant="h4">
+                {languageState.texts.Settings.Qr}
+              </Typography>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={showLogoOnQr}
+                    onChange={(e) => setShowLogoOnQr(e.target.checked)}
+                  />
+                }
+                label={languageState.texts.Settings.ShowLogoOnQr}
+              />
+            </Box>
             <Box
               sx={{
                 width: "100%",
@@ -439,7 +460,7 @@ const Settings = () => {
               <QRCode
                 value={`${config.url}menu/${spaceToDashes(getValues("menu"))}`} // here you should keep the link/value(string) for which you are generation promocode
                 size={256} // the dimension of the QR code (number)
-                logoImage={preview} // URL of the logo you want to use, make sure it is a dynamic url
+                logoImage={showLogoOnQr ? preview : ""} // URL of the logo you want to use, make sure it is a dynamic url
                 logoHeight={60}
                 logoWidth={60}
                 logoOpacity={1}

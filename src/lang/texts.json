@@ -44,6 +44,7 @@
       "ImageSuggestion": "Se recomienda que el logo sea un imagen cuadrada",
       "Title": "Ajustes",
       "Qr": "Código Qr del menú",
+      "ShowLogoOnQr": "Mostrar logo en el qr",
       "Inputs": {
         "CenterTypes": {
           "Label": "Tipo de negocio",

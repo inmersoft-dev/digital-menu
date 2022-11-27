@@ -153,13 +153,15 @@ const Edit = () => {
     try {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
-      if (data && data.t && data.l) {
-        setMenuName(data.m);
+      if (data) {
+        setMenuName(data.menu);
         setProductTypes({
           type: "set",
-          newArray: data.t.map((item) => ({ name: item })),
+          newArray: data.types
+            ? data.types.map((item) => ({ name: item }))
+            : [],
         });
-        setProducts({ type: "set", newArray: data.l });
+        setProducts({ type: "set", newArray: data.list ? data.list : [] });
         setLoading(0);
       }
     } catch (err) {
