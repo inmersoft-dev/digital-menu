@@ -4,10 +4,7 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 
 // @mui components
-import { Box, useTheme } from "@mui/material";
-
-// @mui icons
-import LoopIcon from "@mui/icons-material/Loop";
+import { Box, CircularProgress, useTheme } from "@mui/material";
 
 const Loading = (props) => {
   const theme = useTheme();
@@ -40,7 +37,7 @@ const Loading = (props) => {
         ...sx,
       }}
     >
-      <LoopIcon sx={{ fontSize: "3rem" }} className="loading" color="primary" />
+      <CircularProgress color="primary" />
     </Box>
   );
 };
