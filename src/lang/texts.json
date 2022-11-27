@@ -136,6 +136,7 @@
     },
     "Insert": {
       "Title": "Crea tu menú",
+      "Categories": "Crea nuevos productos para filtrar por categorías",
       "Inputs": {
         "Product": {
           "Label": "Nombre del producto",

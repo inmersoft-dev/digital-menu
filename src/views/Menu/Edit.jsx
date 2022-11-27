@@ -311,6 +311,7 @@ const Edit = () => {
         elevation={1}
         sx={{
           width: "100%",
+          height: "36px",
           display: "flex",
           alignItems: "center",
           position: "fixed",
@@ -340,6 +341,11 @@ const Edit = () => {
             {item.name}
           </Button>
         ))}
+        {productTypes.length === 0 ? (
+          <Typography sx={{ marginLeft: "20px" }}>
+            {languageState.texts.Insert.Categories}
+          </Typography>
+        ) : null}
       </Paper>
       {/* shouldScroll */}
       <SitoContainer
