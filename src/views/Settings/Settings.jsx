@@ -114,7 +114,7 @@ const Settings = () => {
       }
     } catch (err) {
       console.error(err);
-      showNotification("error", err);
+      showNotification("error", String(err));
       setError(true);
     }
     setLoading(false);

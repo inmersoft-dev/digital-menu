@@ -1,15 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useReducer, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
-// in-viewport
-import inViewport from "in-viewport";
-
-// framer-motion
-import { motion } from "framer-motion";
-
 // @mui components
-import { useTheme, Paper, Box, Typography } from "@mui/material";
+import { useTheme, Paper, Box, Button, Typography } from "@mui/material";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -18,11 +12,11 @@ import SitoImage from "sito-image";
 // own components
 import Error from "../../components/Error/Error";
 import Loading from "../../components/Loading/Loading";
-import TabView from "../../components/TabView/TabView";
 import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
 import ToLogin from "../../components/ToLogin/ToLogin";
 import NotFound from "../../views/NotFound/NotFound";
+import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
@@ -34,21 +28,15 @@ import { useNotification } from "../../context/NotificationProvider";
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
-// animations
-import {
-  motionUlContainer,
-  motionUlCss,
-  motionLiAnimation,
-  motionLiCss,
-} from "../../assets/animations/motion";
-
 // functions
-import { getIndexOfByAttribute, dashesToSpace } from "../../utils/functions";
+import { dashesToSpace } from "../../utils/functions";
+
+// utils
+import { scrollTo } from "../../utils/functions";
 
 // styles
 import {
   typeBoxCss,
-  productPaper,
   productImageBox,
   productImage,
   productContentBox,
@@ -66,6 +54,40 @@ const Watch = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
+  const typesReducer = (typesStates, action) => {
+    const { type } = action;
+    switch (type) {
+      case "set": {
+        const { newArray } = action;
+        if (newArray.length) newArray[0].active = true;
+        return newArray;
+      }
+      case "set-active": {
+        const { index } = action;
+        typesStates.forEach((item, i) => {
+          if (index === i) typesStates[i].active = true;
+          else typesStates[i].active = false;
+        });
+        return [...typesStates];
+      }
+      case "delete": {
+        const { index } = action;
+        const newArray = [...typesStates];
+        newArray.splice(index, 1);
+        return newArray;
+      }
+      case "add": {
+        const { newType } = action;
+        return [...typesStates, newType];
+      }
+      default:
+        return [];
+    }
+  };
+
+  const [productTypes, setProductTypes] = useReducer(typesReducer, []);
+
+  const [products, setProducts] = useState([]);
   const [notFound, setNotFound] = useState(false);
 
   const showNotification = (ntype, message) =>
@@ -79,14 +101,7 @@ const Watch = () => {
 
   const [visible, setVisible] = useState(false);
 
-  const onModalClose = () => {
-    setVisible(false);
-  };
-
-  const [types, setTypes] = useState([]);
-
-  const [tab, setTab] = useState(0);
-  const [tabs, setTabs] = useState([]);
+  const onModalClose = () => setVisible(false);
 
   const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
@@ -95,9 +110,6 @@ const Watch = () => {
   const [photo, setPhoto] = useState("");
   const [description, setDescription] = useState("");
 
-  const [allData, setAllData] = useState([]);
-  const [shouldScroll, setShouldScroll] = useState(false);
-
   const fetch = async () => {
     setLoading(1);
     setError(false);
@@ -105,88 +117,22 @@ const Watch = () => {
       const realMenu = currentMenu;
       const response = await fetchMenu(dashesToSpace(realMenu));
       const data = await response.data;
-
       if (data) {
-        if (data.ph) setPhoto(data.ph.url);
-        setMenu(data.m);
-        setDescription(data.d);
-        if (data.t && data.l) {
-          const tabsByType = [];
-          data.t.forEach((item, i) => {
-            tabsByType[item] = [];
-          });
-          for (const item of data.l) {
-            let parsedPhoto = "";
-            if (item.ph) parsedPhoto = item.ph.url;
-            if (parsedPhoto) item.loaded = parsedPhoto;
-            if (tabsByType[item.t]) {
-              tabsByType[item.t].push(
-                <motion.li
-                  key={item.i}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={motionLiAnimation}
-                  className={motionLiCss}
-                >
-                  <Paper
-                    onClick={() => {
-                      setVisible(true);
-                      setSelected(
-                        data.l[getIndexOfByAttribute(data.l, "i", item.i)]
-                      );
-                    }}
-                    id={`obj-${item.i}`}
-                    elevation={1}
-                    sx={{
-                      ...productPaper,
-                      background: theme.palette.background.paper,
-                    }}
-                  >
-                    <SitoContainer sx={{ marginRight: "20px" }}>
-                      <Box sx={productImageBox}>
-                        <SitoImage
-                          src={
-                            item.ph && item.ph !== "" ? parsedPhoto : noProduct
-                          }
-                          alt={item.n}
-                          sx={productImage}
-                        />
-                      </Box>
-                    </SitoContainer>
-                    <Box sx={productContentBox}>
-                      <Typography
-                        variant="subtitle1"
-                        sx={{ fontWeight: "bold" }}
-                      >
-                        {item.n}
-                      </Typography>
-                      <Box sx={productDescriptionBox}>
-                        <Typography
-                          variant="body1"
-                          sx={{ textAlign: "justify" }}
-                        >
-                          {item.d}
-                        </Typography>
-                      </Box>
-                      <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                        {item.p} CUP
-                      </Typography>
-                    </Box>
-                  </Paper>
-                </motion.li>
-              );
-            }
-          }
-          setTypes(data.t);
-          setAllData(data.l);
-          setTabs(tabsByType);
-        }
+        if (data.photo) setPhoto(data.photo.url);
+        setMenu(data.menu);
+        setDescription(data.description);
+        setProductTypes({
+          type: "set",
+          newArray: data.types
+            ? data.types.map((item) => ({ name: item }))
+            : [],
+        });
+        setProducts(data.list ? data.list : []);
         setLoading(0);
-      } else setLoading(-1);
+      }
     } catch (err) {
       console.error(err);
-      showNotification("error", err);
+      showNotification("error", String(err));
       setError(true);
       setLoading(-1);
     }
@@ -194,49 +140,7 @@ const Watch = () => {
 
   const retry = () => fetch();
 
-  const firstActive = (array) => {
-    let i = 0;
-    while (i < array.length) {
-      if (array[i].visibility) return array[i];
-      i += 1;
-    }
-    return -1;
-  };
-
-  const onScroll = useCallback(
-    (e) => {
-      if (!shouldScroll && allData) {
-        const visibilities = [];
-        for (let i = 0; i < allData.length; i += 1) {
-          const elem = document.getElementById(`obj-${allData[i].i}`);
-          const isInViewport = inViewport(elem);
-          visibilities.push({
-            index: i,
-            visibility: isInViewport,
-            type: allData[i].t,
-          });
-        }
-        const localFirstActive = firstActive(visibilities);
-        if (
-          localFirstActive !== -1 &&
-          tab !== types.indexOf(localFirstActive.type)
-        )
-          setTab(types.indexOf(localFirstActive.type));
-      }
-      setShouldScroll(false);
-    },
-    [tab, allData, shouldScroll]
-  );
-
-  const onClick = useCallback(
-    (e) => {
-      if (!shouldScroll && e.target.id && e.target.id.split("-").length > 2) {
-        setTab(Number(e.target.id.split("-")[2]));
-        setShouldScroll(true);
-      }
-    },
-    [shouldScroll, setShouldScroll]
-  );
+  const onScroll = useCallback((e) => {}, []);
 
   const onKeyDown = useCallback(
     (e) => {
@@ -249,14 +153,12 @@ const Watch = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
-    window.addEventListener("click", onClick);
     window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("click", onClick);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [onScroll, onClick, onKeyDown]);
+  }, [onScroll, onKeyDown]);
 
   useEffect(() => {
     if (currentMenu.length) retry();
@@ -302,52 +204,144 @@ const Watch = () => {
                 sx={productImage}
               />
             </Box>
-            <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+            <Typography
+              variant="h3"
+              sx={{ fontWeight: "bold", fontSize: "1.5rem", margin: "10px 0" }}
+            >
               {menu}
             </Typography>
             <Typography variant="body1" sx={{ textAlign: "justify" }}>
               {description}
             </Typography>
           </Box>
-          <TabView
-            value={tab}
-            tabs={types.filter((item, i) => {
-              if (Object.values(tabs[item]).length) return item;
-              return null;
-            })}
-            content={[]}
-            shouldScroll={shouldScroll}
-          />
+          <Paper
+            elevation={1}
+            sx={{
+              width: "100%",
+              height: "36px",
+              display: "flex",
+              alignItems: "center",
+              position: "fixed",
+              top: 0,
+              left: 0,
+              borderRadius: 0,
+              background: theme.palette.background.paper,
+              zIndex: 15,
+            }}
+          >
+            {productTypes.map((item, i) => (
+              <Button
+                key={item.name}
+                onClick={() => {
+                  const type = document.getElementById(`title-${item.name}`);
+                  if (type !== null) scrollTo(type.offsetTop);
+                  setProductTypes({ type: "set-active", index: i });
+                }}
+                color={item.active ? "primary" : "inherit"}
+                sx={{
+                  borderRadius: 0,
+                  borderBottom: item.active
+                    ? `2px solid ${theme.palette.primary.main}`
+                    : "",
+                }}
+              >
+                {item.name}
+              </Button>
+            ))}
+            {productTypes.length === 0 ? (
+              <Typography sx={{ marginLeft: "20px" }}>
+                {languageState.texts.Insert.Categories}
+              </Typography>
+            ) : null}
+          </Paper>
           {error && !currentMenu && loading === -1 && <Error onRetry={retry} />}
           {loading === -1 && !error && !currentMenu && <Empty />}
           {!error && (
             <Box sx={productList}>
-              {Object.values(tabs)
-                .filter((item) => {
-                  if (item.length > 0) return item;
-                  return null;
-                })
-                .map((item, i) => (
-                  <Box key={i} sx={typeBoxCss}>
-                    <Box id={`title-${i}`} sx={headerBox}>
-                      <Typography variant="h5">
-                        {
-                          types.filter((item, i) => {
-                            if (Object.values(tabs[item]).length) return item;
-                            return null;
-                          })[i]
-                        }
+              {!loading &&
+                productTypes.map((item) => (
+                  <Box key={item.name} sx={typeBoxCss}>
+                    <Box id={`title-${item.name}`} sx={headerBox}>
+                      <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+                        {item.name}
                       </Typography>
                     </Box>
-                    <motion.ul
-                      variants={motionUlContainer}
-                      className={motionUlCss}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                    >
-                      {item}
-                    </motion.ul>
+                    <Box>
+                      {products
+                        .filter((jtem) => jtem.type === item.name)
+                        .map((jtem) => (
+                          <InViewComponent
+                            key={jtem.id}
+                            delay={`0.${1 * (jtem.index + 1)}s`}
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              width: "100%",
+                            }}
+                          >
+                            <Paper
+                              id={`obj-${jtem.id}`}
+                              elevation={1}
+                              sx={{
+                                position: "relative",
+                                marginTop: "20px",
+                                width: { md: "800px", sm: "630px", xs: "100%" },
+                                padding: "1rem",
+                                borderRadius: "1rem",
+                                background: theme.palette.background.paper,
+                                alignItems: "center",
+                              }}
+                            >
+                              <Box
+                                sx={{ cursor: "pointer", display: "flex" }}
+                                onClick={() => {
+                                  setVisible(true);
+                                  setSelected(jtem);
+                                }}
+                              >
+                                <SitoContainer sx={{ marginRight: "20px" }}>
+                                  <Box sx={productImageBox}>
+                                    <SitoImage
+                                      src={
+                                        jtem.photo && jtem.photo.url !== ""
+                                          ? jtem.photo.url
+                                          : noProduct
+                                      }
+                                      alt={jtem.name}
+                                      sx={productImage}
+                                    />
+                                  </Box>
+                                </SitoContainer>
+                                <Box sx={productContentBox}>
+                                  <Typography
+                                    variant="h3"
+                                    sx={{
+                                      fontWeight: "bold",
+                                      fontSize: "1rem",
+                                    }}
+                                  >
+                                    {jtem.name}
+                                  </Typography>
+                                  <Box sx={productDescriptionBox}>
+                                    <Typography
+                                      variant="body1"
+                                      sx={{ textAlign: "justify" }}
+                                    >
+                                      {jtem.description}
+                                    </Typography>
+                                  </Box>
+                                  <Typography
+                                    variant="body2"
+                                    sx={{ fontWeight: "bold", width: "75%" }}
+                                  >
+                                    {jtem.price} CUP
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            </Paper>
+                          </InViewComponent>
+                        ))}
+                    </Box>
                   </Box>
                 ))}
             </Box>
