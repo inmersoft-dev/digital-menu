@@ -1,8 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-// framer-motion
-import { motion } from "framer-motion";
 
 // @emotion/css
 import { css } from "@emotion/css";
@@ -15,11 +13,12 @@ import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
 
 // own components
-import Loading from "../../components/Loading/Loading";
+import Error from "../../components/Error/Error";
 import Empty from "../../components/Empty/Empty";
-import ToLogout from "../../components/ToLogout/ToLogout";
+import Loading from "../../components/Loading/Loading";
 import ToLogin from "../../components/ToLogin/ToLogin";
-import NotConnected from "../../components/NotConnected/NotConnected";
+import ToLogout from "../../components/ToLogout/ToLogout";
+import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // services
 import { fetchAll } from "../../services/menu.js";
@@ -31,14 +30,6 @@ import { getUserName, userLogged } from "../../utils/auth";
 
 // image
 import noProduct from "../../assets/images/no-product.webp";
-
-// animations
-import {
-  motionUlContainer,
-  motionUlCss,
-  motionLiAnimation,
-  motionLiCss,
-} from "../../assets/animations/motion";
 
 // styles
 import {
@@ -54,6 +45,8 @@ import {
 import { spaceToDashes } from "../../utils/functions";
 
 const Home = () => {
+  const theme = useTheme();
+
   const linkStyle = css({
     width: "100%",
     textDecoration: "none",
@@ -61,9 +54,15 @@ const Home = () => {
     justifyContent: "center",
   });
 
-  const theme = useTheme();
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
+
+  const showNotification = (ntype, message) =>
+    setNotificationState({
+      type: "set",
+      ntype,
+      message,
+    });
 
   const [loading, setLoading] = useState(1);
   const [error, setError] = useState(false);
@@ -77,87 +76,15 @@ const Home = () => {
     try {
       const response = await fetchAll();
       const data = await response.data;
-      if (data && data.u) {
-        const newList = [];
-        const arrayData = Object.values(data.u);
-        for (const item of arrayData.filter((item) => {
-          if (item.m && item.m !== "admin") return item;
-          return null;
-        })) {
-          let parsedPhoto = item.u;
-          if (item.ph) parsedPhoto = item.ph.url;
-          newList.push(
-            <motion.li
-              key={item.u}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={motionLiAnimation}
-              className={motionLiCss}
-            >
-              <Link
-                to={
-                  userLogged() && item.u === getUserName()
-                    ? "/menu/edit"
-                    : `/menu/${spaceToDashes(item.m)}`
-                }
-                className={linkStyle}
-              >
-                <Paper
-                  id={`obj-${item.u}`}
-                  elevation={1}
-                  sx={{
-                    ...productPaper,
-                    background: theme.palette.background.paper,
-                  }}
-                >
-                  <SitoContainer sx={{ marginRight: "20px" }}>
-                    <Box sx={productImageBox}>
-                      <SitoImage
-                        src={
-                          item.ph && item.ph !== "" ? parsedPhoto : noProduct
-                        }
-                        alt={item.m}
-                        sx={productImage}
-                      />
-                    </Box>
-                  </SitoContainer>
-                  <Box sx={productContentBox}>
-                    <Typography
-                      variant="h3"
-                      sx={{ fontWeight: "bold", fontSize: "1rem" }}
-                    >
-                      {item.m}
-                    </Typography>
-                    <Box sx={productDescriptionBox}>
-                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
-                        {item.d}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Paper>
-              </Link>
-            </motion.li>
-          );
-        }
-        setList(newList);
-        setAllData(Object.keys(data.u));
+      if (data && data.users) {
+        const arrayData = Object.values(data.users);
+        setList(arrayData.filter((item) => item.photo));
+        setAllData(Object.keys(data.users));
         setLoading(0);
-      } else {
-        setLoading(-1);
-        setNotificationState({
-          type: "set",
-          ntype: "error",
-          message: languageState.texts.Errors.NotConnected,
-        });
       }
     } catch (err) {
-      console.log(err);
-      setNotificationState({
-        type: "set",
-        ntype: "error",
-        message: languageState.texts.Errors.NotConnected,
-      });
+      console.error(err);
+      showNotification("error", String(err));
       setError(true);
       setLoading(-1);
     }
@@ -167,7 +94,6 @@ const Home = () => {
 
   useEffect(() => {
     retry();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -180,28 +106,70 @@ const Home = () => {
       />
 
       {userLogged() ? <ToLogout /> : <ToLogin />}
-      {error && loading === -1 && <NotConnected onRetry={retry} />}
-      {loading === -1 && !error && <Empty />}
-      {!error && loading === 0 && (
-        <Box
-          sx={{
-            flexDirection: "column",
-          }}
-        >
+      {error && loading === -1 && <Error onRetry={retry} />}
+      {list.length === 0 && !loading && (
+        <Empty text={languageState.texts.Errors.NoMenu} />
+      )}
+      {!error && list.length > 0 && loading === 0 && (
+        <Box>
           <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
             {languageState.texts.Title}
           </Typography>
           {list.map((item, i) => (
-            <motion.ul
-              key={i}
-              variants={motionUlContainer}
-              className={motionUlCss}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
+            <InViewComponent
+              key={item.id}
+              delay={`0.${1 * (item.index + 1)}s`}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}
             >
-              {item}
-            </motion.ul>
+              <Link
+                to={
+                  userLogged() && item.user === getUserName()
+                    ? "/menu/edit"
+                    : `/menu/${spaceToDashes(item.menu)}`
+                }
+                className={linkStyle}
+              >
+                <Paper
+                  id={`obj-${item.user}`}
+                  elevation={1}
+                  sx={{
+                    ...productPaper,
+                    background: theme.palette.background.paper,
+                  }}
+                >
+                  <SitoContainer sx={{ marginRight: "20px" }}>
+                    <Box sx={productImageBox}>
+                      <SitoImage
+                        src={
+                          item.photo && item.photo !== ""
+                            ? item.photo.url
+                            : noProduct
+                        }
+                        alt={item.menu}
+                        sx={productImage}
+                      />
+                    </Box>
+                  </SitoContainer>
+                  <Box sx={productContentBox}>
+                    <Typography
+                      variant="h3"
+                      sx={{ fontWeight: "bold", fontSize: "1rem" }}
+                    >
+                      {item.menu}
+                    </Typography>
+                    <Box sx={productDescriptionBox}>
+                      <Typography variant="body1" sx={{ textAlign: "justify" }}>
+                        {item.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Paper>
+              </Link>
+            </InViewComponent>
           ))}
         </Box>
       )}

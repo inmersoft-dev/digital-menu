@@ -51,9 +51,9 @@ const App = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Notification />
-      <ToTop />
       <ThemeProvider theme={dark}>
+        <Notification />
+        <ToTop />
         <CssBaseline />
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>

@@ -15,7 +15,8 @@
     },
     "Errors": {
       "NotConnected": "No tienes conexión con el servidor",
-      "Empty": "No hay productos",
+      "NoProducts": "No hay productos",
+      "NoMenu": "No hay catálogos",
       "UsernameTaken": "Nombre de usuario en uso",
       "MenuNameTaken": "Nombre de menú en uso",
       "InvalidMenuName": "Nombre del menú inválido, solo se permiten letras y números",

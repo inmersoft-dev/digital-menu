@@ -16,12 +16,12 @@ import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
 
 // own components
+import Error from "../../components/Error/Error";
 import Loading from "../../components/Loading/Loading";
 import TabView from "../../components/TabView/TabView";
 import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
 import ToLogin from "../../components/ToLogin/ToLogin";
-import NotConnected from "../../components/NotConnected/NotConnected";
 import NotFound from "../../views/NotFound/NotFound";
 
 // services
@@ -185,8 +185,8 @@ const Watch = () => {
         setLoading(0);
       } else setLoading(-1);
     } catch (err) {
-      console.log(err);
-      showNotification("error", languageState.texts.Errors.NotConnected);
+      console.error(err);
+      showNotification("error", err);
       setError(true);
       setLoading(-1);
     }
@@ -318,9 +318,7 @@ const Watch = () => {
             content={[]}
             shouldScroll={shouldScroll}
           />
-          {error && !currentMenu && loading === -1 && (
-            <NotConnected onRetry={retry} />
-          )}
+          {error && !currentMenu && loading === -1 && <Error onRetry={retry} />}
           {loading === -1 && !error && !currentMenu && <Empty />}
           {!error && (
             <Box sx={productList}>

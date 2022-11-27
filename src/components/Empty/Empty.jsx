@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 // @mui icons
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
@@ -10,28 +12,40 @@ import SitoContainer from "sito-container";
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
 
-const Empty = () => {
+const Empty = (props) => {
+  const { text, icon, sx } = props;
   const { languageState } = useLanguage();
   return (
     <SitoContainer
       alignItems="center"
       justifyContent="center"
-      sx={{
-        width: "80%",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: "auto",
-        textAlign: "center",
-        marginTop: "150px",
-      }}
+      sx={{ width: "100%", height: "500px", ...sx }}
       flexDirection="column"
     >
-      <ReceiptLongIcon color="secondary" sx={{ fontSize: "4rem" }} />
-      <Typography color="secondary" variant="h4">
-        {languageState.texts.Errors.Empty}
+      {icon}
+      <Typography
+        sx={{ marginTop: "15px" }}
+        color="inherit"
+        variant="subtitle1"
+      >
+        {text || languageState.texts.Errors.NoProducts}
       </Typography>
     </SitoContainer>
   );
+};
+
+Empty.defaultProps = {
+  sx: {},
+  icon: <ReceiptLongIcon color="inherit" size="large" />,
+  title: undefined,
+  button: undefined,
+  text: undefined,
+};
+
+Empty.propTypes = {
+  sx: PropTypes.object,
+  icon: PropTypes.node,
+  text: PropTypes.string,
 };
 
 export default Empty;

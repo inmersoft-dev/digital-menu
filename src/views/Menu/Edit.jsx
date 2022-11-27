@@ -22,12 +22,12 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 
 // own components
+import Error from "../../components/Error/Error";
 import Empty from "../../components/Empty/Empty";
 import Modal from "../../components/Modal/EditModal";
 import Loading from "../../components/Loading/Loading";
 import ToLogin from "../../components/ToLogin/ToLogin";
 import ToLogout from "../../components/ToLogout/ToLogout";
-import NotConnected from "../../components/NotConnected/NotConnected";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // functions
@@ -148,7 +148,7 @@ const Edit = () => {
     });
 
   const fetch = async () => {
-    setLoading(0);
+    setLoading(1);
     setError(false);
     try {
       const response = await fetchMenu(getUserName());
@@ -361,7 +361,7 @@ const Edit = () => {
           {languageState.texts.Insert.Buttons.Insert}
         </Button>
       </SitoContainer>
-      {error && loading === -1 && <NotConnected onRetry={retry} />}
+      {error && loading === -1 && <Error onRetry={retry} />}
       {loading === -1 && !error && <Empty />}
       {!error && loading === 0 && (
         <Box sx={productList}>

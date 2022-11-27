@@ -11,9 +11,9 @@ import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
 
 // own components
+import Error from "../../components/Error/Error";
 import Loading from "../../components/Loading/Loading";
 import BackButton from "../../components/BackButton/BackButton";
-import NotConnected from "../../components/NotConnected/NotConnected";
 import ToLogout from "../../components/ToLogout/ToLogout";
 import RegisterNewUser from "../../components/RegisterNewUser/RegisterNewUser";
 
@@ -66,6 +66,8 @@ const Settings = () => {
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
+  const [showLogoOnQr, setShowLogoOnQr] = useState(true);
+
   const showNotification = (ntype, message) =>
     setNotificationState({
       type: "set",
@@ -99,7 +101,6 @@ const Settings = () => {
     try {
       const response = await fetchMenu(getUserName());
       const data = await response.data;
-      console.log(data);
       if (data) {
         if (data.ph) {
           setPhoto(data.ph);
@@ -110,8 +111,8 @@ const Settings = () => {
         reset({ menu: data.m, description: data.d });
       }
     } catch (err) {
-      console.log(err);
-      showNotification("error", languageState.texts.Errors.NotConnected);
+      console.error(err);
+      showNotification("error", err);
       setError(true);
     }
     setLoading(false);
@@ -121,9 +122,7 @@ const Settings = () => {
 
   const [ok, setOk] = useState(1);
 
-  const validate = () => {
-    setOk(true);
-  };
+  const validate = () => setOk(true);
 
   const invalidate = (e) => {
     e.preventDefault();
@@ -462,7 +461,7 @@ const Settings = () => {
             </Box>
           </form>
         ) : (
-          <NotConnected onRetry={retry} />
+          <Error onRetry={retry} />
         )}
       </Paper>
     </Box>

@@ -10,6 +10,7 @@ import { getCookie } from "../utils/auth";
  * @param {string} oldName - the menu old name
  * @param {string} menuName - the menu name
  * @param {string} menuDescription - the menu description
+ * @param {string[]} business
  * @returns The response from the server.
  */
 export const saveProfile = async (
@@ -17,12 +18,13 @@ export const saveProfile = async (
   oldName,
   menuName,
   menuDescription,
-  photo
+  photo,
+  business
 ) => {
   const response = await axios.post(
     // @ts-ignore
     `${config.apiUrl}user/save`,
-    { user, oldName, menuName, menuDescription, photo },
+    { user, oldName, menuName, menuDescription, photo, business },
     {
       headers: {
         ...getAuth,
