@@ -2,6 +2,8 @@
 import { useEffect, useState, useCallback, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 
+import inViewport from "in-viewport";
+
 import md5 from "md5";
 
 // sito components
@@ -176,7 +178,26 @@ const Edit = () => {
 
   const retry = () => fetch();
 
-  const onScroll = useCallback((e) => {}, []);
+  const onScroll = useCallback(
+    (e) => {
+      let firstTrue = -1;
+      for (let i = 0; i < productTypes.length; i += 1) {
+        const elem = document.getElementById(`title-${productTypes[i].name}`);
+        const isInViewport = inViewport(elem);
+        if (isInViewport && firstTrue === -1) firstTrue = i;
+        if (
+          isInViewport &&
+          document.documentElement.scrollTop >=
+            Math.floor(elem.offsetTop - elem.getBoundingClientRect().top)
+        )
+          setProductTypes({
+            type: "set-active",
+            index: i,
+          });
+      }
+    },
+    [productTypes]
+  );
 
   const deleteProduct = async (index) => {
     setLoading(1);

@@ -144,7 +144,6 @@ const Watch = () => {
 
   const onScroll = useCallback(
     (e) => {
-      console.log();
       let firstTrue = -1;
       for (let i = 0; i < productTypes.length; i += 1) {
         const elem = document.getElementById(`title-${productTypes[i].name}`);
