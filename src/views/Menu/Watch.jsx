@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import inViewport from "in-viewport";
 
 // @mui components
-import { useTheme, Paper, Box, Button, Typography } from "@mui/material";
+import { useTheme, Paper, Box, Typography } from "@mui/material";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -18,13 +18,13 @@ import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
 import ToLogin from "../../components/ToLogin/ToLogin";
 import NotFound from "../../views/NotFound/NotFound";
+import TabView from "../../components/TabView/TabView";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
 
 // contexts
-import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // images
@@ -53,7 +53,6 @@ const Watch = () => {
   const theme = useTheme();
   const location = useLocation();
 
-  const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
 
   const typesReducer = (typesStates, action) => {
@@ -154,10 +153,7 @@ const Watch = () => {
           document.documentElement.scrollTop >=
             Math.floor(elem.offsetTop - elem.getBoundingClientRect().top)
         )
-          setProductTypes({
-            type: "set-active",
-            index: i,
-          });
+          setTab(i);
       }
     },
     [productTypes]
@@ -201,6 +197,14 @@ const Watch = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMenu, location]);
 
+  const [tab, setTab] = useState(0);
+
+  const changeTab = (e, value) => {
+    setTab(value);
+    const type = document.getElementById(`title-${productTypes[value].name}`);
+    if (type !== null) scrollTo(type.offsetTop);
+  };
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
       {selected && (
@@ -235,47 +239,12 @@ const Watch = () => {
               {description}
             </Typography>
           </Box>
-          <Paper
-            elevation={1}
-            sx={{
-              width: "100%",
-              height: "36px",
-              display: "flex",
-              alignItems: "center",
-              position: "fixed",
-              top: 0,
-              left: 0,
-              borderRadius: 0,
-              background: theme.palette.background.paper,
-              zIndex: 15,
-            }}
-          >
-            {productTypes.map((item, i) => (
-              <Button
-                key={item.name}
-                onClick={() => {
-                  const type = document.getElementById(`title-${item.name}`);
-                  console.log(type.offsetTop);
-                  if (type !== null) scrollTo(type.offsetTop);
-                  setProductTypes({ type: "set-active", index: i });
-                }}
-                color={item.active ? "primary" : "inherit"}
-                sx={{
-                  borderRadius: 0,
-                  borderBottom: item.active
-                    ? `2px solid ${theme.palette.primary.main}`
-                    : "",
-                }}
-              >
-                {item.name}
-              </Button>
-            ))}
-            {productTypes.length === 0 ? (
-              <Typography sx={{ marginLeft: "20px" }}>
-                {languageState.texts.Insert.Categories}
-              </Typography>
-            ) : null}
-          </Paper>
+          <TabView
+            value={tab}
+            onChange={changeTab}
+            tabs={productTypes.map((item, i) => item.name)}
+            content={[]}
+          />
           {error && !currentMenu && loading === -1 && <Error onRetry={retry} />}
           {loading === -1 && !error && !currentMenu && <Empty />}
           {!error && (

@@ -48,20 +48,7 @@ function a11yProps(index) {
 const TabView = (props) => {
   const theme = useTheme();
 
-  const { content, tabs, value, shouldScroll } = props;
-
-  const [localValue, setLocalValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    if (shouldScroll)
-      scrollTo(document.getElementById(`title-${newValue}`).offsetTop);
-    setLocalValue(newValue);
-  };
-
-  useEffect(() => {
-    handleChange({}, value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  const { content, tabs, value, onChange } = props;
 
   return (
     <Box
@@ -78,8 +65,8 @@ const TabView = (props) => {
         <Tabs
           textColor="primary"
           indicatorColor="primary"
-          value={localValue}
-          onChange={handleChange}
+          value={value}
+          onChange={onChange}
           variant="scrollable"
           scrollButtons="auto"
         >
