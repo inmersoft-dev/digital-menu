@@ -1,16 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from "react";
 
 // prop types
 import PropTypes from "prop-types";
 
 // @mui components
 import { useTheme, Tabs, Tab, Typography, Box } from "@mui/material";
-
-// functions
-import { scrollTo } from "../../utils/functions";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
