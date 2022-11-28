@@ -2,6 +2,8 @@
 import { useState, useEffect, useReducer, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
+import inViewport from "in-viewport";
+
 // @mui components
 import { useTheme, Paper, Box, Button, Typography } from "@mui/material";
 
@@ -140,7 +142,27 @@ const Watch = () => {
 
   const retry = () => fetch();
 
-  const onScroll = useCallback((e) => {}, []);
+  const onScroll = useCallback(
+    (e) => {
+      console.log();
+      let firstTrue = -1;
+      for (let i = 0; i < productTypes.length; i += 1) {
+        const elem = document.getElementById(`title-${productTypes[i].name}`);
+        const isInViewport = inViewport(elem);
+        if (isInViewport && firstTrue === -1) firstTrue = i;
+        if (
+          isInViewport &&
+          document.documentElement.scrollTop >=
+            Math.floor(elem.offsetTop - elem.getBoundingClientRect().top)
+        )
+          setProductTypes({
+            type: "set-active",
+            index: i,
+          });
+      }
+    },
+    [productTypes]
+  );
 
   const onKeyDown = useCallback(
     (e) => {
@@ -234,6 +256,7 @@ const Watch = () => {
                 key={item.name}
                 onClick={() => {
                   const type = document.getElementById(`title-${item.name}`);
+                  console.log(type.offsetTop);
                   if (type !== null) scrollTo(type.offsetTop);
                   setProductTypes({ type: "set-active", index: i });
                 }}
