@@ -31,7 +31,7 @@ const Modal = (props) => {
 
   useEffect(() => {
     setShow(visible);
-    if (item.ph) setPreview(item.ph.url);
+    if (item.photo) setPreview(item.photo.url);
   }, [visible, item]);
 
   const onShowOff = () => {
@@ -73,7 +73,7 @@ const Modal = (props) => {
           <Box sx={productImageBox}>
             <SitoImage
               src={preview ? preview : noProduct}
-              alt={item.n}
+              alt={item.name}
               sx={{
                 width: "100%",
                 height: "100%",
@@ -90,7 +90,7 @@ const Modal = (props) => {
           sx={{ width: "100%" }}
         >
           <Typography
-            variant="h5"
+            variant="subtitle1"
             sx={{
               fontWeight: "bold",
               width: "100%",
@@ -98,7 +98,7 @@ const Modal = (props) => {
               marginTop: "10px",
             }}
           >
-            {item.p} CUP
+            {item.price} CUP
           </Typography>
           <Typography
             variant="h3"
@@ -107,15 +107,16 @@ const Modal = (props) => {
               width: "100%",
               textAlign: "center",
               marginTop: "10px",
+              fontSize: "2rem",
             }}
           >
-            {item.n}
+            {item.name}
           </Typography>
           <Typography
             variant="body"
             sx={{ width: "75%", textAlign: "center", marginTop: "10px" }}
           >
-            {item.d}
+            {item.description}
           </Typography>
         </SitoContainer>
       </Box>

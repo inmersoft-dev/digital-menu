@@ -210,7 +210,7 @@ const Watch = () => {
             >
               {menu}
             </Typography>
-            <Typography variant="body1" sx={{ textAlign: "justify" }}>
+            <Typography variant="body1" sx={{ textAlign: "center" }}>
               {description}
             </Typography>
           </Box>
