@@ -1,4 +1,4 @@
-# digital-menu
+# services-marketplace
 
 The digital menu!!
 

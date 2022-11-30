@@ -1,6 +1,6 @@
 {
-  "name": "digital-menu",
-  "version": "0.16.10",
+  "name": "services-marketplace",
+  "version": "0.17.3",
   "private": false,
   "homepage": "https://digitalmenu-bb1a1.web.app/",
   "dependencies": {

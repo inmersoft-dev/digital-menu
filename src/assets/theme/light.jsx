@@ -12,9 +12,9 @@ const dark = createTheme({
       contrastText: "#ffffff",
     },
     secondary: {
-      main: "#c3c3c3",
-      light: "#e3e3e3",
-      dark: "#9a9a9a",
+      dark: " #171717",
+      main: "#222",
+      light: "#4e4e4e",
       contrastText: "#ffffff",
     },
     error: {
@@ -41,17 +41,17 @@ const dark = createTheme({
       dark: "#357a38",
       contrastText: "rgba(0,0,0,0.87)",
     },
-    divider: "rgba(87,87,87,0.5)",
+    divider: "rgba(0,0,0,0.12)",
     background: {
-      default: "#222",
-      paper: "#1f1f1f",
+      default: "#fafafa",
+      paper: "#fff",
     },
     text: {
-      main: "#fff",
-      primary: "#ffffff",
-      secondary: "rgba(255,255,255,0.7)",
-      disabled: "rgba(255,255,255,0.5)",
-      hint: "rgba(255,255,255,0.5)",
+      main: "rgba(0, 0, 0, 0.87)",
+      primary: "rgba(0, 0, 0, 0.54)",
+      secondary: "rgba(0, 0, 0, 0.54)",
+      disabled: "rgba(0, 0, 0, 0.38)",
+      hint: "rgba(0, 0, 0, 0.38)",
     },
   },
   typography: {

@@ -6,7 +6,23 @@ import { Link } from "react-router-dom";
 import { css } from "@emotion/css";
 
 // @mui components
-import { useTheme, Paper, Box, Typography } from "@mui/material";
+import {
+  useMediaQuery,
+  useTheme,
+  Paper,
+  Box,
+  Typography,
+  IconButton,
+  FormControl,
+  InputAdornment,
+  OutlinedInput,
+} from "@mui/material";
+
+// @mui/icons-material
+import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -24,6 +40,7 @@ import InViewComponent from "../../components/InViewComponent/InViewComponent";
 import { fetchAll } from "../../services/menu.js";
 
 // contexts
+import { useMode } from "../../context/ModeProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 import { getUserName, userLogged } from "../../utils/auth";
@@ -46,6 +63,7 @@ import { spaceToDashes } from "../../utils/functions";
 
 const Home = () => {
   const theme = useTheme();
+  const biggerThanMD = useMediaQuery("(min-width:900px)");
 
   const linkStyle = css({
     width: "100%",
@@ -55,7 +73,14 @@ const Home = () => {
   });
 
   const { languageState } = useLanguage();
+  const { modeState, setModeState } = useMode();
+
+  const toggleMode = () => setModeState({ type: "toggle" });
+
   const { setNotificationState } = useNotification();
+
+  const [showSearch, setShowSearch] = useState(false);
+  const toggleSearchInput = () => setShowSearch(!showSearch);
 
   const showNotification = (ntype, message) =>
     setNotificationState({
@@ -96,6 +121,16 @@ const Home = () => {
     retry();
   }, []);
 
+  const [toSearch, setToSearch] = useState("");
+  const handleToSearch = (e) => setToSearch(e.target.value);
+  const clearInput = () => setToSearch("");
+
+  const actionToSearch = (e) => {
+    e.preventDefault();
+  };
+
+  const preventDefault = (event) => event.preventDefault();
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
       <Loading
@@ -112,9 +147,119 @@ const Home = () => {
       )}
       {!error && list.length > 0 && loading === 0 && (
         <Box>
-          <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
-            {languageState.texts.Title}
-          </Typography>
+          <Box
+            sx={{
+              width: "100%",
+              overflow: "hidden",
+              transition: "height 200ms ease",
+              height: biggerThanMD ? "50px" : showSearch ? "100px" : "40px",
+            }}
+          >
+            <Box
+              sx={{
+                gap: "30px",
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "20px",
+                position: "relative",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+                {languageState.texts.Title}
+              </Typography>
+              {biggerThanMD ? (
+                <FormControl
+                  sx={{
+                    overflow: "hidden",
+                    position: "absolute",
+                    right: "40px",
+                    div: { borderRadius: "25px" },
+                    width: showSearch ? "50%" : "40px",
+                    transition: "all 1000ms ease",
+                    marginLeft: showSearch ? 0 : "50%",
+                    fieldset: {
+                      transition: "all 1000ms ease",
+                      borderWidth: showSearch ? "1px" : 0,
+                    },
+                    input: { padding: "7.5px 14px", fontSize: "15px" },
+                  }}
+                  variant="outlined"
+                  component="form"
+                >
+                  <OutlinedInput
+                    id="search"
+                    size="small"
+                    value={toSearch}
+                    placeholder={languageState.texts.Navbar.Search}
+                    onChange={handleToSearch}
+                    type="search"
+                    endAdornment={
+                      <InputAdornment position="end">
+                        {toSearch.length > 0 ? (
+                          <IconButton
+                            color="secondary"
+                            aria-label="clear"
+                            onClick={clearInput}
+                            onMouseDown={preventDefault}
+                            edge="end"
+                          >
+                            <CloseIcon fontSize="small" />
+                          </IconButton>
+                        ) : null}
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              ) : null}
+              <Box display="flex" alignItems="center">
+                <IconButton color="inherit" onClick={toggleSearchInput}>
+                  <SearchIcon />
+                </IconButton>
+                <IconButton color="inherit" onClick={toggleMode}>
+                  {modeState.mode === "light" ? (
+                    <DarkModeIcon />
+                  ) : (
+                    <LightModeIcon />
+                  )}
+                </IconButton>
+              </Box>
+            </Box>
+            <FormControl
+              sx={{
+                width: "100%",
+                div: { borderRadius: "25px" },
+                input: { padding: "7.5px 14px", fontSize: "15px" },
+              }}
+              variant="outlined"
+              component="form"
+            >
+              <OutlinedInput
+                id="search"
+                size="small"
+                value={toSearch}
+                placeholder={languageState.texts.Navbar.Search}
+                onChange={handleToSearch}
+                type="search"
+                endAdornment={
+                  <InputAdornment position="end">
+                    {toSearch.length > 0 ? (
+                      <IconButton
+                        color="secondary"
+                        aria-label="clear"
+                        onClick={clearInput}
+                        onMouseDown={preventDefault}
+                        edge="end"
+                      >
+                        <CloseIcon fontSize="small" />
+                      </IconButton>
+                    ) : null}
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Box>
           {list.map((item, i) => (
             <InViewComponent
               key={item.id}

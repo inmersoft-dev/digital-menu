@@ -1,5 +1,8 @@
 {
   "es": {
+    "Navbar": {
+      "Search": "Buscar..."
+    },
     "Title": "Lista de Menús",
     "Tooltips": {
       "ToLogin": "Iniciar sesión",

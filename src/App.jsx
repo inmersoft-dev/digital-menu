@@ -11,8 +11,9 @@ import Notification from "./components/Notification/Notification";
 // @mui
 import { ThemeProvider, CssBaseline } from "@mui/material";
 
-// theme
+// themes
 import dark from "./assets/theme/dark";
+import light from "./assets/theme/light";
 
 // views
 import Home from "./views/Home/Home";
@@ -27,10 +28,20 @@ import NotFound from "./views/NotFound/NotFound";
 // functions
 import { userLogged, logoutUser } from "./utils/auth";
 
+// contexts
+import { useMode } from "./context/ModeProvider";
+
 // services
 import { validateBasicKey } from "./services/auth";
 
 const App = () => {
+  const { modeState } = useMode();
+
+  useEffect(() => {
+    document.body.style.overflowX = "hidden";
+    document.body.style.transition = "all 200ms ease";
+  }, []);
+
   const fetch = async () => {
     const value = await validateBasicKey();
     if (!value) {
@@ -51,7 +62,7 @@ const App = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <ThemeProvider theme={dark}>
+      <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
         <Notification />
         <ToTop />
         <CssBaseline />
