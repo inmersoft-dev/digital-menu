@@ -9,13 +9,14 @@ import { useInView } from "framer-motion";
 import { Box } from "@mui/material";
 
 const InViewComponent = (props) => {
-  const { children, delay, className, flexOrder, sx } = props;
+  const { id, children, delay, className, flexOrder, sx } = props;
 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
   return (
     <Box
+      id={id}
       ref={ref}
       className={className}
       sx={{
@@ -35,6 +36,7 @@ const InViewComponent = (props) => {
 };
 
 InViewComponent.defaultProps = {
+  id: "",
   children: <></>,
   delay: "0.3s",
   className: "",
@@ -43,6 +45,7 @@ InViewComponent.defaultProps = {
 };
 
 InViewComponent.propTypes = {
+  id: PropTypes.string,
   children: PropTypes.node,
   delay: PropTypes.string,
   className: PropTypes.string,

@@ -1,11 +1,52 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useReducer, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import inViewport from "in-viewport";
 
 // @mui components
-import { useTheme, Paper, Box, Typography } from "@mui/material";
+import {
+  Box,
+  Tooltip,
+  useTheme,
+  IconButton,
+  Typography,
+  Link as MUILink,
+} from "@mui/material";
+
+// @mui/icons-material
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+// url
+import MapIcon from "@mui/icons-material/Map";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import PublicIcon from "@mui/icons-material/Public";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import PinterestIcon from "@mui/icons-material/Pinterest";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+
+// places
+import BalconyIcon from "@mui/icons-material/Balcony"; // old house
+import RestaurantIcon from "@mui/icons-material/Restaurant"; // restaurant
+import BedroomParentIcon from "@mui/icons-material/BedroomParent"; // rent house
+import LocalBarIcon from "@mui/icons-material/LocalBar"; // bar
+import DiningIcon from "@mui/icons-material/Dining"; // cafeteria
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"; // gym
+import ColorLensIcon from "@mui/icons-material/ColorLens"; // art
+import MuseumIcon from "@mui/icons-material/Museum"; // museum
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary"; // library
+import NightlifeIcon from "@mui/icons-material/Nightlife"; // night life
+import LocalMallIcon from "@mui/icons-material/LocalMall"; // mall
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore"; // shop
+import UmbrellaIcon from "@mui/icons-material/Umbrella"; // beauty
+import BoltIcon from "@mui/icons-material/Bolt"; // electronic
+import CheckroomIcon from "@mui/icons-material/Checkroom"; // cloth
+import HotelIcon from "@mui/icons-material/Hotel"; // hotel
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"; // fuel
+import CarRentalIcon from "@mui/icons-material/CarRental"; // car rental
 
 // sito components
 import SitoContainer from "sito-container";
@@ -16,16 +57,28 @@ import Error from "../../components/Error/Error";
 import Loading from "../../components/Loading/Loading";
 import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
-import ToLogin from "../../components/ToLogin/ToLogin";
 import NotFound from "../../views/NotFound/NotFound";
 import TabView from "../../components/TabView/TabView";
+import BackButton from "../../components/BackButton/BackButton";
+import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
+import {
+  sendQrCookie,
+  sendVisitCookie,
+  sendDescriptionCookie,
+  sendHowToGoCookie,
+} from "../../services/analytics";
 
 // contexts
+import { useMode } from "../../context/ModeProvider";
+import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
+
+// components
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
@@ -34,26 +87,60 @@ import noProduct from "../../assets/images/no-product.webp";
 import { dashesToSpace } from "../../utils/functions";
 
 // utils
-import { scrollTo } from "../../utils/functions";
+import { parserAccents } from "../../utils/parser";
+import { scrollTo, spaceToDashes } from "../../utils/functions";
 
 // styles
 import {
   typeBoxCss,
   productImageBox,
   productImage,
-  productContentBox,
-  productDescriptionBox,
   headerBox,
   productList,
   mainContent,
   mainWindow,
 } from "../../assets/styles/styles";
 
+const socialMediaIcons = {
+  any: <PublicIcon />,
+  facebook: <FacebookIcon />,
+  instagram: <InstagramIcon />,
+  twitter: <TwitterIcon />,
+  linkedIn: <LinkedInIcon />,
+  pinterest: <PinterestIcon />,
+  youtube: <YouTubeIcon />,
+};
+
+const placeTypeIcons = {
+  oldHouse: <BalconyIcon fontSize="small" />,
+  restaurant: <RestaurantIcon fontSize="small" />,
+  rentHouse: <BedroomParentIcon fontSize="small" />,
+  bar: <LocalBarIcon fontSize="small" />,
+  cafeteria: <DiningIcon fontSize="small" />,
+  gym: <FitnessCenterIcon fontSize="small" />,
+  art: <ColorLensIcon fontSize="small" />,
+  museum: <MuseumIcon fontSize="small" />,
+  library: <LocalLibraryIcon fontSize="small" />,
+  nightLife: <NightlifeIcon fontSize="small" />,
+  mall: <LocalMallIcon fontSize="small" />,
+  shop: <LocalGroceryStoreIcon fontSize="small" />,
+  beauty: <UmbrellaIcon fontSize="small" />,
+  electronic: <BoltIcon fontSize="small" />,
+  cloth: <CheckroomIcon fontSize="small" />,
+  hotel: <HotelIcon fontSize="small" />,
+  fuel: <LocalGasStationIcon fontSize="small" />,
+  carRental: <CarRentalIcon fontSize="small" />,
+};
+
 const Watch = () => {
   const theme = useTheme();
   const location = useLocation();
 
+  const { languageState } = useLanguage();
+  const { modeState, setModeState } = useMode();
   const { setNotificationState } = useNotification();
+
+  const toggleMode = () => setModeState({ type: "toggle" });
 
   const typesReducer = (typesStates, action) => {
     const { type } = action;
@@ -100,6 +187,10 @@ const Watch = () => {
 
   const [selected, setSelected] = useState({});
 
+  useEffect(() => {
+    sendDescriptionCookie(currentMenu, selected);
+  }, [selected]);
+
   const [visible, setVisible] = useState(false);
 
   const onModalClose = () => setVisible(false);
@@ -108,8 +199,12 @@ const Watch = () => {
   const [error, setError] = useState(false);
   const [currentMenu, setCurrentMenu] = useState("");
   const [menu, setMenu] = useState("");
+  const [phone, setPhone] = useState("");
+  const [socialMedia, setSocialMedia] = useState([]);
+  const [business, setBusiness] = useState([]);
   const [photo, setPhoto] = useState("");
   const [description, setDescription] = useState("");
+  const [geolocation, setGeoLocation] = useState({});
 
   const fetch = async () => {
     setLoading(1);
@@ -122,6 +217,10 @@ const Watch = () => {
         if (data.photo) setPhoto(data.photo.url);
         setMenu(data.menu);
         setDescription(data.description);
+        setPhone(data.phone);
+        setBusiness(data.business);
+        setSocialMedia(data.socialMedia);
+        if (data.location) setGeoLocation(data.location);
         setProductTypes({
           type: "set",
           newArray: data.types
@@ -185,17 +284,49 @@ const Watch = () => {
     setLoading(-1);
   }, [notFound]);
 
+  const [qr, setQr] = useState(-1);
+
   useEffect(() => {
+    let menuName = "";
+    let thereIsQr = -1;
     if (location.pathname) {
       const splitPath = location.pathname.split("/");
       if (splitPath.length > 2) {
-        const menuName = location.pathname.split("/")[2];
+        menuName = location.pathname.split("/")[2];
         if (menuName) setCurrentMenu(menuName);
         else setNotFound(true);
       } else setNotFound(true);
     }
+    if (location.search) {
+      const queryParams = location.search.substring(1);
+      const params = queryParams.split("&");
+      params.forEach((item) => {
+        const [paramName, paramValue] = item.split("=");
+        if (paramValue)
+          switch (paramName) {
+            case "visited":
+              if (menuName.length) {
+                sendQrCookie(menuName);
+                thereIsQr = 1;
+              }
+              break;
+            default:
+              setTimeout(() => {
+                const product = document.getElementById(`obj-${paramValue}`);
+                if (product !== null) scrollTo(product.offsetTop);
+              }, 1000);
+              break;
+          }
+      });
+    }
+    if (thereIsQr === -1) thereIsQr = 0;
+    setQr(thereIsQr);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMenu, location]);
+
+  useEffect(() => {
+    if (qr === 0) sendVisitCookie(currentMenu);
+  }, [qr, currentMenu]);
 
   const [tab, setTab] = useState(0);
 
@@ -205,8 +336,27 @@ const Watch = () => {
     if (type !== null) scrollTo(type.offsetTop);
   };
 
+  const parseI = (start, i) => {
+    let toReturn = start;
+    for (let j = 0; j < i; j += 1) toReturn += 0.2;
+    return toReturn;
+  };
+
+  const clickedMap = () => sendHowToGoCookie();
+
+  const hasProducts = useCallback(
+    (item) => {
+      const lProducts = products.filter((jtem) => jtem.type === item.name);
+      if (lProducts.length > 0) return true;
+      return false;
+    },
+    [products]
+  );
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
+      <BackButton flat to="/" />
+      <FabButtons />
       {selected && (
         <Modal visible={visible} item={selected} onClose={onModalClose} />
       )}
@@ -216,7 +366,6 @@ const Watch = () => {
           zIndex: loading === 1 ? 99 : -1,
         }}
       />
-      <ToLogin />
       {notFound ? (
         <NotFound />
       ) : (
@@ -231,110 +380,182 @@ const Watch = () => {
             </Box>
             <Typography
               variant="h3"
-              sx={{ fontWeight: "bold", fontSize: "1.5rem", margin: "10px 0" }}
+              sx={{ fontWeight: "bold", fontSize: "1.5rem", marginTop: "10px" }}
             >
               {menu}
             </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              {business.map((item) => (
+                <Tooltip key={item.url} title={item.name}>
+                  <Link
+                    to={`/?business=${parserAccents(
+                      spaceToDashes(item.name)
+                    ).toLowerCase()}`}
+                  >
+                    <IconButton color="primary">
+                      {
+                        placeTypeIcons[
+                          languageState.texts.Settings.Inputs.CenterTypes.Types.find(
+                            (jtem) => jtem.id === item.id
+                          ).icon
+                        ]
+                      }
+                    </IconButton>
+                  </Link>
+                </Tooltip>
+              ))}
+            </Box>
             <Typography variant="body1" sx={{ textAlign: "center" }}>
               {description}
             </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              {phone.length > 0 ? (
+                <InViewComponent delay="0s">
+                  <Tooltip
+                    title={
+                      languageState.texts.Settings.Inputs.Contact.SocialMedia
+                        .WhatsApp
+                    }
+                  >
+                    <MUILink
+                      href={`https://wa.me/${phone}`}
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      <IconButton color="primary">
+                        <WhatsAppIcon />
+                      </IconButton>
+                    </MUILink>
+                  </Tooltip>
+                </InViewComponent>
+              ) : null}
+              {socialMedia.map((item, i) => (
+                <InViewComponent delay={`${parseI(0.1, i)}s`} key={item.url}>
+                  <Tooltip
+                    title={
+                      languageState.texts.Settings.Inputs.Contact.SocialMedia
+                        .Icons[item.icon]
+                    }
+                  >
+                    <MUILink href={item.url} rel="noopener" target="_blank">
+                      <IconButton color="primary">
+                        {socialMediaIcons[item.icon]}
+                      </IconButton>
+                    </MUILink>
+                  </Tooltip>
+                </InViewComponent>
+              ))}
+              {geolocation.latitude && geolocation.longitude ? (
+                <InViewComponent delay={`${parseI(0.1, socialMedia.length)}s`}>
+                  <Tooltip title={languageState.texts.Map.Tooltip}>
+                    <MUILink
+                      onClick={clickedMap}
+                      href={`https://www.google.com/maps/dir//${geolocation.latitude},${geolocation.longitude}/@${geolocation.latitude},${geolocation.longitude},21z`}
+                    >
+                      <IconButton color="primary">
+                        <MapIcon />
+                      </IconButton>
+                    </MUILink>
+                  </Tooltip>
+                </InViewComponent>
+              ) : null}
+            </Box>
           </Box>
-          <TabView
-            value={tab}
-            onChange={changeTab}
-            tabs={productTypes.map((item, i) => item.name)}
-            content={[]}
-          />
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <TabView
+              sx={{
+                width: "100%",
+                position: "fixed",
+                top: 0,
+                left: 0,
+                background: theme.palette.background.paper,
+                zIndex: 15,
+              }}
+              tabsContainerSx={{
+                width: "calc(100% - 40px)",
+                paddingLeft: "40px",
+              }}
+              value={tab}
+              onChange={changeTab}
+              tabs={productTypes
+                .filter((item) => hasProducts(item))
+                .map((item, i) => item.name)}
+              content={[]}
+            />
+            <IconButton
+              color="inherit"
+              sx={{ position: "fixed", top: "3px", right: 0, zIndex: 40 }}
+              onClick={toggleMode}
+            >
+              {modeState.mode === "light" ? (
+                <DarkModeIcon />
+              ) : (
+                <LightModeIcon />
+              )}
+            </IconButton>
+          </Box>
           {error && !currentMenu && loading === -1 && <Error onRetry={retry} />}
           {loading === -1 && !error && !currentMenu && <Empty />}
           {!error && (
             <Box sx={productList}>
               {!loading &&
-                productTypes.map((item) => (
-                  <Box key={item.name} sx={typeBoxCss}>
-                    <Box id={`title-${item.name}`} sx={headerBox}>
-                      <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
-                        {item.name}
-                      </Typography>
-                    </Box>
-                    <Box>
-                      {products
-                        .filter((jtem) => jtem.type === item.name)
-                        .map((jtem) => (
-                          <InViewComponent
-                            key={jtem.id}
-                            delay={`0.${1 * (jtem.index + 1)}s`}
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              width: "100%",
-                            }}
-                          >
-                            <Paper
-                              id={`obj-${jtem.id}`}
-                              elevation={1}
+                productTypes
+                  .filter((item) => hasProducts(item))
+                  .map((item) => (
+                    <Box key={item.name} sx={typeBoxCss}>
+                      <Box id={`title-${item.name}`} sx={headerBox}>
+                        <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+                          {item.name}
+                        </Typography>
+                      </Box>
+                      <Box>
+                        {products
+                          .filter((jtem) => jtem.type === item.name)
+                          .map((jtem, j) => (
+                            <InViewComponent
+                              key={jtem.id}
+                              id={`obj-${spaceToDashes(
+                                parserAccents(jtem.name)
+                              )}`}
+                              delay={`${parseI(0.1, j)}s`}
                               sx={{
-                                position: "relative",
-                                marginTop: "20px",
-                                width: { md: "800px", sm: "630px", xs: "100%" },
-                                padding: "1rem",
-                                borderRadius: "1rem",
-                                background: theme.palette.background.paper,
-                                alignItems: "center",
+                                display: "flex",
+                                justifyContent: "center",
+                                width: "100%",
                               }}
                             >
-                              <Box
-                                sx={{ cursor: "pointer", display: "flex" }}
+                              <ProductCard
+                                item={jtem}
                                 onClick={() => {
                                   setVisible(true);
                                   setSelected(jtem);
                                 }}
-                              >
-                                <SitoContainer sx={{ marginRight: "20px" }}>
-                                  <Box sx={productImageBox}>
-                                    <SitoImage
-                                      src={
-                                        jtem.photo && jtem.photo.url !== ""
-                                          ? jtem.photo.url
-                                          : noProduct
-                                      }
-                                      alt={jtem.name}
-                                      sx={productImage}
-                                    />
-                                  </Box>
-                                </SitoContainer>
-                                <Box sx={productContentBox}>
-                                  <Typography
-                                    variant="h3"
-                                    sx={{
-                                      fontWeight: "bold",
-                                      fontSize: "1rem",
-                                    }}
-                                  >
-                                    {jtem.name}
-                                  </Typography>
-                                  <Box sx={productDescriptionBox}>
-                                    <Typography
-                                      variant="body1"
-                                      sx={{ textAlign: "justify" }}
-                                    >
-                                      {jtem.description}
-                                    </Typography>
-                                  </Box>
-                                  <Typography
-                                    variant="body2"
-                                    sx={{ fontWeight: "bold", width: "75%" }}
-                                  >
-                                    {jtem.price} CUP
-                                  </Typography>
-                                </Box>
-                              </Box>
-                            </Paper>
-                          </InViewComponent>
-                        ))}
+                              />
+                            </InViewComponent>
+                          ))}
+                      </Box>
                     </Box>
-                  </Box>
-                ))}
+                  ))}
             </Box>
           )}
         </>

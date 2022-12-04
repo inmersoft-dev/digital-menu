@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import PropTypes from "prop-types";
 
 // @mui icons
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -9,7 +10,8 @@ import { Button } from "@mui/material";
 // functions
 import { scrollTo } from "../../utils/functions";
 
-const ToTop = () => {
+const ToTop = (props) => {
+  const { show } = props;
   const [visible, setVisible] = useState(false);
 
   const onScroll = useCallback(
@@ -28,6 +30,10 @@ const ToTop = () => {
     };
   }, [onScroll]);
 
+  useEffect(() => {
+    if (show) setVisible(true);
+  }, [show]);
+
   return (
     <Button
       color="primary"
@@ -35,9 +41,6 @@ const ToTop = () => {
       variant="contained"
       sx={{
         borderRadius: "100%",
-        position: "fixed",
-        right: 10,
-        bottom: 10,
         padding: "5px",
         minWidth: 0,
         transition: "all 500ms ease",
@@ -48,6 +51,10 @@ const ToTop = () => {
       <ArrowUpwardIcon />
     </Button>
   );
+};
+
+ToTop.propTypes = {
+  show: PropTypes.bool.isRequired,
 };
 
 export default ToTop;

@@ -46,22 +46,29 @@ export const logoutUser = () => {
 /**
  * Takes a name, expiration, and value, and creates a cookie with those values
  * @param {string} name - The name of the cookie
- * @param {string} expiration - "2019-12-31 23:59:59"
+ * @param {any} expiration - "2019-12-31 23:59:59"
  * @param {any} value - The value of the cookie.
  */
 export const createCookie = (name, expiration, value) => {
-  const spaceSplit = expiration.split(" ");
-  const dashSplit = spaceSplit[0].split("-");
-  const colonSplit = spaceSplit[1].split(":");
-  const d = new Date(
-    Number(dashSplit[0]),
-    Number(dashSplit[1]),
-    Number(dashSplit[2]),
-    Number(colonSplit[0]),
-    Number(colonSplit[1]),
-    Number(colonSplit[2])
-  );
-  const expires = `expires=${d.toUTCString()}`;
+  let d = new Date();
+  if (typeof expiration === "string") {
+    const spaceSplit = expiration.split(" ");
+    const dashSplit = spaceSplit[0].split("-");
+    const colonSplit = spaceSplit[1].split(":");
+    d = new Date(
+      Number(dashSplit[0]),
+      Number(dashSplit[1]),
+      Number(dashSplit[2]),
+      Number(colonSplit[0]),
+      Number(colonSplit[1]),
+      Number(colonSplit[2])
+    );
+  }
+  let date = new Date();
+  if (typeof expiration !== "string") date.setDate(date.getDate() + expiration);
+  const expires = `expires=${
+    typeof expiration !== "string" ? date.toUTCString() : d.toUTCString()
+  }`;
   document.cookie = `${name}=${value};${expires}";path=/`;
 };
 
@@ -100,8 +107,9 @@ export const deleteCookie = (name) => {
  * @returns {number} The index of the first uppercase letter in the string.
  */
 export const findFirstUpperLetter = (str) => {
+  const upperLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   for (let i = 0; i < str.length; i += 1)
-    if (str[i] === str[i].toUpperCase()) return i;
+    if (upperLetters.indexOf(str[i]) > -1) return i;
   return -1;
 };
 
@@ -111,8 +119,9 @@ export const findFirstUpperLetter = (str) => {
  * @returns {number} The index of the first number in the string.
  */
 export const findFirstNumber = (str) => {
+  const numbers = "012345678";
   for (let i = 0; i < str.length; i += 1)
-    if (str[i] >= "0" && str[i] <= "9") return i;
+    if (numbers.indexOf(str[i]) > -1) return i;
   return -1;
 };
 
@@ -123,8 +132,9 @@ export const findFirstNumber = (str) => {
  * @returns {number} The index of the first lowercase letter in the string.
  */
 export const findFirstLowerLetter = (str) => {
+  const lowerLetters = "abcdefghijklmnopqrstuvwxyz";
   for (let i = 0; i < str.length; i += 1)
-    if (str[i] === str[i].toLowerCase()) return i;
+    if (lowerLetters.indexOf(str[i]) > -1) return i;
   return -1;
 };
 
@@ -141,7 +151,7 @@ export const findFirstLowerLetter = (str) => {
  */
 export const passwordValidation = (password, user) => {
   // validating password length
-  if (password.length < 8 || password.length > 12) return 0;
+  if (password.length < 8 || password.length > 25) return 0;
   // validating password special characters
   if (
     findFirstUpperLetter(password) === -1 ||
@@ -149,6 +159,22 @@ export const passwordValidation = (password, user) => {
     findFirstNumber(password) === -1
   )
     return 1;
-  if (password.indexOf(user.substring(0, user.indexOf("@"))) !== -1) return 2;
+  if (password.indexOf(user) !== -1) return 2;
+  return -1;
+};
+
+/**
+ *
+ * @param {string} password
+ * @param {string} rpassword
+ * @param {string} user
+ * @returns
+ */
+export const passwordsAreValid = (password, rpassword, user) => {
+  // validating passwords
+  let passwordValidationResult = passwordValidation(password, user);
+  if (passwordValidationResult > -1) return passwordValidationResult;
+  passwordValidationResult = passwordValidation(rpassword, user);
+  if (passwordValidationResult > -1) return passwordValidationResult;
   return -1;
 };

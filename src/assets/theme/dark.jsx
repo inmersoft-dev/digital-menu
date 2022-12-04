@@ -136,6 +136,7 @@ const dark = createTheme({
       fontWeight: 500,
       lineHeight: 1.75,
       letterSpacing: "0.02em",
+      textTransform: "capitalize",
       fontFamily: "Roboto, sans-serif",
     },
     caption: {

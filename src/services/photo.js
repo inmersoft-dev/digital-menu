@@ -7,21 +7,17 @@ import config from "../config";
  * @returns The status code of the response.
  */
 export const removeImage = async (imageId) => {
-  try {
-    const response = await axios.post(
-      config.imagekitDeleteUrl,
-      { imageId },
-      {
-        headers: getAuth,
-      }
-    );
-    const result = response.status;
-    if (result === 200) {
-      const data = await response.data;
-      return data;
+  const response = await axios.post(
+    config.imagekitDeleteUrl,
+    { imageId },
+    {
+      headers: getAuth,
     }
-    return 200;
-  } catch (err) {
-    return String(err);
+  );
+  const result = response.status;
+  if (result === 200) {
+    const data = await response.data;
+    return data;
   }
+  return 200;
 };

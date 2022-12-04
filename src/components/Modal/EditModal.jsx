@@ -210,7 +210,7 @@ const Modal = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Box sx={productImageBox}>
+          <Box sx={{ ...productImageBox, marginBottom: "20px" }}>
             <IKContext
               publicKey={imagekitPublicKey}
               urlEndpoint={imagekitUrl}
@@ -247,7 +247,7 @@ const Modal = (props) => {
         <SitoContainer
           flexDirection="column"
           alignItems="center"
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", form: { width: "100%" } }}
         >
           <form onSubmit={handleSubmit(onLocalSubmit)}>
             <Controller

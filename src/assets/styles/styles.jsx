@@ -5,7 +5,12 @@ export const loadingPhotoSpinner = {
   boxShadow: "1px 1px 15px -4px",
 };
 
-export const mainWindow = { width: "100vw", height: "100vh", padding: "25px" };
+export const mainWindow = {
+  width: { sm: "630px", xs: "100%" },
+  display: "flex",
+  minHeight: "100vh",
+  padding: { xs: "25px", sm: 0 },
+};
 
 export const modal = {
   position: "fixed",
@@ -24,16 +29,16 @@ export const modal = {
 export const modalContent = {
   display: "flex",
   flexDirection: "column",
-  width: { md: "800px", sm: "630px", xs: "100%" },
-  height: "90%",
+  width: { sm: "630px", xs: "100%" },
+  height: "80%",
   padding: "1rem",
-  borderRadius: "1rem",
+  borderRadius: "1rem 1rem 0 0",
   position: "relative",
   transition: "all 500ms ease",
 };
 
 export const mainContent = {
-  width: { md: "800px", sm: "630px", xs: "100%" },
+  width: { sm: "630px", xs: "100%" },
   flexDirection: "column",
   display: "flex",
   alignItems: "center",
@@ -43,6 +48,7 @@ export const mainContent = {
 
 export const productList = {
   padding: "20px 0",
+  width: "100%",
   flexDirection: "column",
 };
 
@@ -53,20 +59,20 @@ export const typeBoxCss = {
   display: "flex",
 };
 
-export const headerBox = { width: { md: "800px", sm: "630px", xs: "100%" } };
+export const headerBox = { width: "100%" };
 
 export const productPaper = {
   cursor: "pointer",
   marginTop: "20px",
   display: "flex",
-  width: { md: "800px", sm: "630px", xs: "100%" },
+  width: { sm: "630px", xs: "100%" },
   padding: "1rem",
   borderRadius: "1rem",
 };
 
 export const productImageBox = {
-  width: { md: "160px", sm: "120px", xs: "80px" },
-  height: { md: "160px", sm: "120px", xs: "80px" },
+  width: { md: "160px", sm: "120px", xs: "100px" },
+  height: { md: "160px", sm: "120px", xs: "100px" },
 };
 
 export const productImage = {
@@ -84,11 +90,8 @@ export const productContentBox = {
 };
 
 export const productDescriptionBox = {
-  height: { xs: "25px", sm: "50px", md: "100px" },
+  height: { xs: "50px", sm: "100px", md: "100%" },
   lineHeight: "20px",
-  wordBreak: "break-all",
-  display: "-webkit-box",
   boxOrient: "vertical",
-  lineClamp: 5,
   overflow: "hidden",
 };

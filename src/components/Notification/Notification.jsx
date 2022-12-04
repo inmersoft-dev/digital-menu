@@ -33,7 +33,7 @@ const Notification = () => {
 
   return (
     <div ref={ref}>
-      <Snackbar open={open} autoHideDuration={99000} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <MuiAlert
           variant="filled"
           onClose={handleClose}

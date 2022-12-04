@@ -12,9 +12,6 @@ import { css } from "@emotion/css";
 // sito components
 import SitoContainer from "sito-container";
 
-// own components
-import ToLogin from "../../components/ToLogin/ToLogin";
-
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
 
@@ -35,7 +32,6 @@ const NotFound = () => {
       }}
       flexDirection="column"
     >
-      <ToLogin />
       <DoDisturbIcon color="secondary" sx={{ fontSize: "4rem" }} />
       <Typography color="secondary" variant="h4" sx={{ marginTop: "20px" }}>
         {languageState.texts.NotFound.Title}
