@@ -1,9 +1,41 @@
 {
   "es": {
-    "Navbar": {
-      "Search": "Buscar..."
+    "AppName": "Marketplace",
+    "Map": {
+      "Save": "Guardar",
+      "Tooltip": "¿Cómo llegar?",
+      "Title": "Mapa",
+      "Inputs": {
+        "Longitude": {
+          "label": "Longitud",
+          "placeholder": "ej: -75.7119726"
+        },
+        "Latitude": {
+          "label": "Latitud",
+          "placeholder": "ej: 19.7521939"
+        }
+      },
+      "SearchAddressPlaceholder": "Escribe para buscar dirección"
     },
-    "Title": "Lista de Menús",
+    "CookieBox": {
+      "Description": "Nuestro sitio usa cookies para analizar el tráfico de información y así mejorar tu experiencia",
+      "Link": "Ver politica de cookies",
+      "Accept": "Aceptar",
+      "Decline": "Denegar"
+    },
+    "Navbar": {
+      "Search": "Buscar...",
+      "Filters": {
+        "Products": "Productos",
+        "Categories": "Categorias",
+        "Menus": "Catálogos"
+      },
+      "Models": {
+        "menus": "Lugares",
+        "products": "Productos"
+      }
+    },
+    "Title": "Lista de Catálogos",
     "Tooltips": {
       "ToLogin": "Iniciar sesión",
       "ToSettings": "Ajustes",
@@ -19,17 +51,20 @@
     "Errors": {
       "NotConnected": "No tienes conexión con el servidor",
       "NoProducts": "No hay productos",
+      "NoResults": "No hay resultados",
       "NoMenu": "No hay catálogos",
       "UsernameTaken": "Nombre de usuario en uso",
-      "MenuNameTaken": "Nombre de menú en uso",
+      "MenuNameTaken": "Nombre de catálogo en uso",
       "InvalidMenuName": "Nombre del menú inválido, solo se permiten letras y números",
       "SomeWrong": "Ha ocurrido un error",
       "Wrong": "Usuario o contraseña incorrecta",
       "NameRequired": "Debes introducir un nombre",
       "PriceRequired": "Debes introducir un precio",
+      "PhoneRequired": "Debes introducir un número celular",
       "TypeRequired": "Debes introducir una categoría",
+      "InvalidPhone": "Número de teléfono inválido",
       "DescriptionRequired": "Debes introducir una descripción",
-      "PasswordLengthValidation": "La contraseña debe tener al menos 8 caracteres y no debe pasar de 12 caracteres",
+      "PasswordLengthValidation": "La contraseña debe tener al menos 8 caracteres y no debe pasar de 25 caracteres",
       "PasswordCharacterValidation": "La contraseña debe tener al menos una letra mayúscula, una minúscula y un número",
       "PasswordNameValidation": "La contraseña no debe contener el nombre de usuario",
       "NoEmptyPassword": "La contraseña no puede estar vacía",
@@ -45,8 +80,9 @@
     },
     "Settings": {
       "ImageSuggestion": "Se recomienda que el logo sea un imagen cuadrada",
-      "Title": "Ajustes",
-      "Qr": "Código Qr del menú",
+      "Tabs": ["Generales", "Mapa", "Seguridad"],
+      "PasswordTitle": "Cambiar contraseña",
+      "Qr": "Código Qr del catálogo",
       "ShowLogoOnQr": "Mostrar logo en el qr",
       "Inputs": {
         "CenterTypes": {
@@ -55,77 +91,115 @@
           "Types": [
             {
               "id": 2,
-              "name": "Casa Antigua"
+              "name": "Casa Antigua",
+              "icon": "oldHouse"
             },
             {
               "id": 3,
-              "name": "Restaurante"
+              "name": "Restaurante",
+              "icon": "restaurant"
             },
             {
               "id": 4,
-              "name": "Casa de Renta"
+              "name": "Casa de Renta",
+              "icon": "rentHouse"
             },
             {
               "id": 5,
-              "name": "Bar"
+              "name": "Bar",
+              "icon": "bar"
             },
             {
               "id": 7,
-              "name": "Cafetería"
+              "name": "Cafetería",
+              "icon": "cafeteria"
             },
             {
               "id": 9,
-              "name": "Gimnasios"
+              "name": "Gimnasios",
+              "icon": "gym"
             },
             {
               "id": 10,
-              "name": "Arte"
+              "name": "Arte",
+              "icon": "art"
             },
             {
               "id": 11,
-              "name": "Museo"
+              "name": "Museo",
+              "icon": "museum"
             },
             {
               "id": 12,
-              "name": "Biblioteca"
+              "name": "Biblioteca",
+              "icon": "library"
             },
             {
               "id": 13,
-              "name": "Vida nocturna"
+              "name": "Vida nocturna",
+              "icon": "nightLife"
             },
             {
               "id": 14,
-              "name": "Supermercado"
+              "name": "Supermercado",
+              "icon": "mall"
             },
             {
               "id": 15,
-              "name": "Centro comercial"
+              "name": "Centro comercial",
+              "icon": "shop"
             },
             {
               "id": 16,
-              "name": "Belleza"
+              "name": "Belleza",
+              "icon": "beauty"
             },
             {
               "id": 17,
-              "name": "Electrónica"
+              "name": "Electrónica",
+              "icon": "electronic"
             },
             {
               "id": 18,
-              "name": "Ropa"
+              "name": "Ropa",
+              "icon": "cloth"
             },
             {
               "id": 19,
-              "name": "Hotel"
+              "name": "Hotel",
+              "icon": "hotel"
             },
             {
               "id": 20,
-              "name": "Gasolinera"
+              "name": "Gasolinera",
+              "icon": "fuel"
             },
             {
               "id": 21,
-              "name": "Alquiler de coches"
+              "name": "Alquiler de coches",
+              "icon": "carRental"
             }
           ]
+        },
+        "Contact": {
+          "Phone": {
+            "Label": "Teléfono",
+            "Placeholder": "ej: +53 56174215"
+          },
+          "SocialMedia": {
+            "Label": "Redes sociales",
+            "Placeholder": "https://mi-red-social.com",
+            "WhatsApp": "Whatsapp",
+            "Icons": {
+              "any": "Sitio web",
+              "facebook": "Facebook",
+              "instagram": "Instagram",
+              "twitter": "Twitter",
+              "linkedIn": "LinkedIn",
+              "pinterest": "Pinterest",
+              "youtube": "Youtube"
+            }
+          }
         },
         "Menu": {
           "Label": "Nombre del centro",
@@ -138,7 +212,7 @@
       }
     },
     "Insert": {
-      "Title": "Crea tu menú",
+      "Title": "Crea tu catálogo",
       "Categories": "Crea nuevos productos para filtrar por categorías",
       "Inputs": {
         "Product": {
@@ -163,7 +237,7 @@
         "Retry": "Recargar",
         "Insert": "Nuevo Producto",
         "Save": "Guardar",
-        "Edit": "Editar mi menú"
+        "Edit": "Editar catálogo"
       }
     },
     "Login": {

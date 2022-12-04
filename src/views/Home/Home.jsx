@@ -461,6 +461,11 @@ const Home = () => {
               zIndex: loading === 1 ? 10 : -1,
             }}
           />
+          {console.log(
+            "list",
+            list,
+            !error && list.length > 0 && loading === 0
+          )}
           {!error && list.length > 0 && loading === 0 && (
             <Box>
               {toSearch.length === 0
