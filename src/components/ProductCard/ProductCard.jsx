@@ -30,7 +30,7 @@ const ProductCard = (props) => {
       sx={{
         position: "relative",
         marginTop: "20px",
-        width: { md: "800px", sm: "630px", xs: "100%" },
+        width: { md: "800px", sm: "630px", xs: "90%" },
         padding: "1rem",
         borderRadius: "1rem",
         background: theme.palette.background.paper,
@@ -60,9 +60,7 @@ const ProductCard = (props) => {
             {item.name}
           </Typography>
           <Box sx={productDescriptionBox}>
-            <Typography variant="body1" sx={{ textAlign: "justify" }}>
-              {item.description}
-            </Typography>
+            <Typography variant="body1">{item.description}</Typography>
           </Box>
           <Typography variant="body2" sx={{ fontWeight: "bold", width: "75%" }}>
             {item.price} CUP

@@ -9,7 +9,7 @@ export const mainWindow = {
   width: { sm: "630px", xs: "100%" },
   display: "flex",
   minHeight: "100vh",
-  padding: { xs: "25px", sm: 0 },
+  padding: { xs: "25px", sm: "20px" },
 };
 
 export const modal = {
@@ -38,7 +38,7 @@ export const modalContent = {
 };
 
 export const mainContent = {
-  width: { sm: "630px", xs: "100%" },
+  width: { sm: "630px", xs: "90%" },
   flexDirection: "column",
   display: "flex",
   alignItems: "center",
@@ -59,7 +59,7 @@ export const typeBoxCss = {
   display: "flex",
 };
 
-export const headerBox = { width: "100%" };
+export const headerBox = { width: { md: "800px", sm: "630px", xs: "90%" } };
 
 export const productPaper = {
   cursor: "pointer",

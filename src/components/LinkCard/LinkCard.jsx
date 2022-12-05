@@ -86,9 +86,7 @@ const LinkCard = (props) => {
               : null}
           </Typography>
           <Box sx={productDescriptionBox}>
-            <Typography variant="body1" sx={{ textAlign: "justify" }}>
-              {item.description}
-            </Typography>
+            <Typography variant="body1">{item.description}</Typography>
           </Box>
           {item.price !== undefined ? (
             <Typography
