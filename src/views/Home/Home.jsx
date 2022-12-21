@@ -4,15 +4,15 @@ import { useLocation } from "react-router-dom";
 
 // @mui components
 import {
-  useMediaQuery,
   Box,
+  Chip,
+  useTheme,
+  useMediaQuery,
   Typography,
   IconButton,
   FormControl,
   InputAdornment,
   OutlinedInput,
-  Chip,
-  useTheme,
 } from "@mui/material";
 
 // @mui/icons-material
@@ -21,6 +21,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 
 // own components
@@ -28,6 +29,7 @@ import Error from "../../components/Error/Error";
 import Empty from "../../components/Empty/Empty";
 import Loading from "../../components/Loading/Loading";
 import LinkCard from "../../components/LinkCard/LinkCard";
+import CookieBox from "../../components/CookieBox/CookieBox";
 import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
 
@@ -36,6 +38,7 @@ import { fetchAll } from "../../services/menu.js";
 
 // contexts
 import { useMode } from "../../context/ModeProvider";
+import { useHistory } from "../../context/HistoryProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
@@ -45,7 +48,7 @@ import { spaceToDashes, dashesToSpace } from "../../utils/functions";
 import { getUserName, userLogged } from "../../utils/auth";
 
 // styles
-import { mainWindow } from "../../assets/styles/styles";
+import { mainWindow, responsiveGrid } from "../../assets/styles/styles";
 
 // services
 import { search } from "../../services/search";
@@ -104,25 +107,51 @@ const Home = () => {
   const preventDefault = (event) => event.preventDefault();
 
   const [showFilters, setShowFilters] = useState(false);
+  const [showHistory, setShowHistory] = useState("");
+
+  const { historyState, setHistoryState } = useHistory();
+
+  useEffect(() => {
+    const exist = localStorage.getItem("search-history");
+    if (exist !== null && exist !== "")
+      setHistoryState({
+        type: "set",
+        newArray: JSON.parse(exist).filter(
+          (item) => item !== null && item.trim().length > 0
+        ),
+      });
+  }, []);
+
   const toggleFilters = () => setShowFilters(!showFilters);
 
   const topBarHeight = useCallback(() => {
-    if (biggerThanMD && !showFilters) return "60px";
-    if (showSearch && showFilters)
-      if (biggerThanMD) return "120px";
-      else return "180px";
-    if (showSearch) return "120px";
-    return "60px";
-  }, [biggerThanMD, showSearch, showFilters]);
+    let returnHeight = 60;
+    if (biggerThanMD) {
+      if (showFilters) returnHeight += 60;
+      if (showHistory) returnHeight += 50;
+    } else {
+      if (showSearch) returnHeight += 55;
+      if (showFilters) returnHeight += 55;
+      if (showHistory) {
+        if (historyState.length) returnHeight += 50;
+        else returnHeight += 40;
+      }
+    }
+    return `${returnHeight}px`;
+  }, [biggerThanMD, showSearch, showFilters, showHistory, historyState]);
 
   const marginTopBar = useCallback(() => {
-    if (biggerThanMD && !showFilters) return "60px";
-    if (showSearch && showFilters)
-      if (biggerThanMD) return "100px";
-      else return "160px";
-    if (showSearch) return "100px";
-    return "40px";
-  }, [biggerThanMD, showSearch, showFilters]);
+    let returnHeight = 60;
+    if (biggerThanMD) {
+      if (showFilters) returnHeight += 60;
+      if (showHistory) returnHeight += 50;
+    } else {
+      if (showSearch) returnHeight += 55;
+      if (showFilters) returnHeight += 55;
+      if (showHistory) returnHeight += 40;
+    }
+    return `${returnHeight}px`;
+  }, [biggerThanMD, showSearch, showFilters, showHistory]);
 
   const fetch = async () => {
     setLoading(1);
@@ -134,8 +163,8 @@ const Home = () => {
         const arrayData = Object.values(data.users);
         setList(arrayData.filter((item) => item.photo));
         setAllData(Object.keys(data.users));
-        setLoading(0);
       }
+      setLoading(0);
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
@@ -158,41 +187,46 @@ const Home = () => {
     setLoading(1);
     setError(false);
     try {
-      if (toSearch.length) {
-        const response = await search(toSearch, {
-          searchingProducts,
-          searchingCategories,
-          searchingMenus,
-        });
-        const data = await response.list;
-        setSearchResult({ type: "set", newArray: data });
-        setLoading(0);
-      }
+      const response = await search(toSearch, {
+        searchingProducts,
+        searchingCategories,
+        searchingMenus,
+      });
+      const data = await response.list;
+      setSearchResult({ type: "set", newArray: data });
+      setLoading(0);
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
       setError(true);
       setLoading(-1);
     }
-  });
+  }, [toSearch, historyState]);
 
   useEffect(() => {
-    filter();
+    if (toSearch.length) filter();
   }, [toSearch, searchingProducts, searchingCategories, searchingMenus]);
 
   const handleToSearch = (e) => setToSearch(e.target.value);
 
-  const getLinkCard = (item, type) => {
-    if (type === "menu") {
-      if (userLogged() && item.user === getUserName()) return "/menu/edit";
-      return `/menu/${spaceToDashes(item.name)}`;
-    } else {
-      if (userLogged() && item.user === getUserName()) return "/menu/edit";
-      return `/menu/${spaceToDashes(item.menu)}?product=${spaceToDashes(
-        parserAccents(item.name)
-      )}`;
-    }
-  };
+  const getLinkCard = useCallback(
+    (item, type) => {
+      if (type === "menu") {
+        if (userLogged() && item.user === getUserName())
+          return `/menu/edit?search=${toSearch}`;
+        return `/menu/${spaceToDashes(item.name)}?search=${toSearch}`;
+      } else {
+        if (userLogged() && item.user === getUserName())
+          return `/menu/edit?search=${toSearch}`;
+        if (item.menu !== item.name)
+          return `/menu/${spaceToDashes(item.menu)}?product=${spaceToDashes(
+            parserAccents(item.name)
+          )}&search=${toSearch}`;
+        else return `/menu/${spaceToDashes(item.menu)}?search=${toSearch}`;
+      }
+    },
+    [toSearch]
+  );
 
   const searchResultIsEmpty = useCallback(() => {
     if (searchResult && (searchResult[0] || searchResult[1]))
@@ -243,11 +277,13 @@ const Home = () => {
 
   return (
     <Box sx={mainWindow} flexDirection="column">
+      <CookieBox />
       <FabButtons />
       <Box sx={{ minHeight: "100vh" }}>
         <Box
           sx={{
             width: "100%",
+            zIndex: 99,
             position: "fixed",
             top: 0,
             left: 0,
@@ -266,9 +302,8 @@ const Home = () => {
               width: "100%",
               display: "flex",
               alignItems: "center",
-              marginBottom: "20px",
+              marginBottom: biggerThanMD ? "20px" : "10px",
               position: "relative",
-
               justifyContent: "space-between",
             }}
           >
@@ -300,6 +335,7 @@ const Home = () => {
                   id="search"
                   size="small"
                   value={toSearch}
+                  onClick={() => setShowHistory(true)}
                   placeholder={languageState.texts.Navbar.Search}
                   onChange={handleToSearch}
                   type="search"
@@ -375,6 +411,7 @@ const Home = () => {
                 value={toSearch}
                 placeholder={languageState.texts.Navbar.Search}
                 onChange={handleToSearch}
+                onClick={() => setShowHistory(true)}
                 type="search"
                 startAdornment={
                   <InputAdornment position="start">
@@ -415,6 +452,37 @@ const Home = () => {
               />
             </FormControl>
           ) : null}
+          {historyState.length > 0 ? (
+            <Box
+              sx={{
+                display: "flex",
+                marginTop: "20px",
+                marginLeft: 0,
+                gap: "10px",
+                width: "100vw",
+                overflow: "auto",
+              }}
+            >
+              {historyState.map((item, i) => (
+                <Chip
+                  key={i}
+                  label={item}
+                  onClick={() => setToSearch(item)}
+                  icon={<AccessTimeIcon fontSize="small" />}
+                />
+              ))}
+            </Box>
+          ) : (
+            <Typography
+              sx={{
+                color: "gray",
+                marginTop: biggerThanMD ? 0 : "20px",
+                marginLeft: biggerThanMD ? 0 : "5px",
+              }}
+            >
+              {languageState.texts.Navbar.NoHistory}
+            </Typography>
+          )}
           <Box
             sx={{
               display: "flex",
@@ -424,19 +492,19 @@ const Home = () => {
             }}
           >
             <Chip
-              label={languageState.texts.Navbar.Filters.Products}
-              color={searchingProducts ? "primary" : undefined}
               onClick={toggleSearchingProducts}
+              color={searchingProducts ? "primary" : undefined}
+              label={languageState.texts.Navbar.Filters.Products}
             />
             <Chip
-              label={languageState.texts.Navbar.Filters.Categories}
-              color={searchingCategories ? "primary" : undefined}
               onClick={toggleSearchingCategories}
+              color={searchingCategories ? "primary" : undefined}
+              label={languageState.texts.Navbar.Filters.Categories}
             />
             <Chip
-              label={languageState.texts.Navbar.Filters.Menus}
-              color={searchingMenus ? "primary" : undefined}
               onClick={toggleSearchingMenus}
+              color={searchingMenus ? "primary" : undefined}
+              label={languageState.texts.Navbar.Filters.Menus}
             />
           </Box>
         </Box>
@@ -455,19 +523,20 @@ const Home = () => {
           <Loading
             visible={loading === 1}
             sx={{
+              height: "100px",
               background: "none",
               position: "absolute",
-              height: "100px",
               zIndex: loading === 1 ? 10 : -1,
             }}
           />
-          {console.log(
-            "list",
-            list,
-            !error && list.length > 0 && loading === 0
-          )}
           {!error && list.length > 0 && loading === 0 && (
-            <Box>
+            <Box
+              sx={{
+                ...responsiveGrid,
+                gap: "20px",
+                justifyContent: "flex-start",
+              }}
+            >
               {toSearch.length === 0
                 ? list.map((item, i) => (
                     <InViewComponent
@@ -476,10 +545,19 @@ const Home = () => {
                       sx={{
                         display: "flex",
                         justifyContent: "center",
-                        width: "100%",
+                        flex: { md: "1 1 0", xs: "inherit" },
+                        width: { md: "350px", xs: "100%" },
                       }}
                     >
                       <LinkCard
+                        onClick={() =>
+                          toSearch.length > 0
+                            ? setHistoryState({
+                                type: "add",
+                                newHistory: toSearch,
+                              })
+                            : {}
+                        }
                         item={item}
                         link={
                           userLogged() && item.user === getUserName()
@@ -499,19 +577,27 @@ const Home = () => {
                         >
                           {languageState.texts.Navbar.Models[item.type]}
                         </Typography>
-                        {item.list.map((jtem, i) => (
+                        {item.list.map((jtem, j) => (
                           <InViewComponent
-                            key={jtem.id}
+                            key={j}
                             delay={`0.${1 * (jtem.index + 1)}s`}
                             sx={{
+                              width: "100%",
                               display: "flex",
                               justifyContent: "center",
-                              width: "100%",
                             }}
                           >
                             <LinkCard
                               item={jtem}
                               link={getLinkCard(jtem, item.type)}
+                              onClick={() =>
+                                toSearch.length > 0
+                                  ? setHistoryState({
+                                      type: "add",
+                                      newHistory: toSearch,
+                                    })
+                                  : {}
+                              }
                             />
                           </InViewComponent>
                         ))}

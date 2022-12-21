@@ -69,7 +69,12 @@ const TabView = (props) => {
         >
           {tabs.map((item, i) => (
             <Tab
-              sx={{ textTransform: "capitalize" }}
+              sx={{
+                textTransform: "capitalize",
+                fontWeight: "bold",
+                fontSize: "1.1rem",
+                padding: "12px 16px 6px",
+              }}
               key={item}
               label={item}
               {...a11yProps(i)}

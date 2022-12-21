@@ -7,20 +7,25 @@ import { getCookie } from "../utils/auth";
 
 import md5 from "md5";
 
-export const validateBasicKey = async () => {
+/**
+ *
+ * @param {string} type
+ * @returns
+ */
+export const validateBasicKey = async (type) => {
   const response = await axios.post(
     // @ts-ignore
-    `${config.apiUrl}user/validate`,
+    `${config.apiUrl}user/${type === "admin" ? "is-admin" : "validate"}`,
     {},
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );
   const data = await response.data;
-  if (data.data.message) return true;
+  if (data.data.user) return data.data.user;
   return false;
 };
 
@@ -30,11 +35,11 @@ export const validateBasicKey = async () => {
  * @param {string} password - the user password
  * @returns The response from the server.
  */
-export const login = async (user, password) => {
+export const login = async (user, password, remember) => {
   const response = await axios.post(
     // @ts-ignore
     `${config.apiUrl}user/login`,
-    { user, password: md5(password) },
+    { user, password: md5(password), remember },
     {
       headers: getAuth,
     }

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { css } from "@emotion/css";
 
 // @mui/material
-import { useTheme, Paper, Box, Typography } from "@mui/material";
+import { useMediaQuery, useTheme, Paper, Box, Typography } from "@mui/material";
 
 // sito components
 import SitoImage from "sito-image";
@@ -17,6 +17,7 @@ import noProduct from "../../assets/images/no-product.webp";
 
 // styles
 import {
+  mainBox,
   productContentBox,
   productDescriptionBox,
   productImage,
@@ -25,32 +26,50 @@ import {
 } from "../../assets/styles/styles";
 
 const LinkCard = (props) => {
-  const { item, link } = props;
+  const { item, link, onClick, sx } = props;
   const theme = useTheme();
+  const biggerThanMD = useMediaQuery("(min-width:900px)");
 
-  const linkStyle = css({
-    width: "100%",
-    textDecoration: "none",
-    display: "flex",
-    justifyContent: "center",
-  });
+  const parseImage = (url) => {
+    const split = url.split("/");
+    split[3] = split[3] + "/tr:w-500";
+    let result = "";
+    split.forEach((item, i) => (result += i === 0 ? `${item}//` : `${item}/`));
+    result = result.substring(0, result.length - 1);
+    return result;
+  };
 
   return (
-    <Link to={link} className={linkStyle}>
+    <Link
+      to={link}
+      className={css({
+        textDecoration: "none",
+        width: biggerThanMD ? "auto" : "100%",
+      })}
+      onClick={onClick ? (e) => onClick(e) : () => {}}
+    >
       <Paper
         id={`obj-${item.user}`}
         elevation={1}
         sx={{
           ...productPaper,
           background: theme.palette.background.paper,
+          ...sx,
         }}
       >
-        <SitoContainer sx={{ marginRight: "20px" }}>
+        <Box sx={mainBox}>
           <Box sx={{ ...productImageBox, position: "relative" }}>
             <SitoImage
-              src={item.photo && item.photo !== "" ? item.photo.url : noProduct}
+              src={
+                item.photo && item.photo !== ""
+                  ? parseImage(item.photo.url)
+                  : noProduct
+              }
               alt={item.menu}
-              sx={productImage}
+              sx={{
+                ...productImage,
+                borderRadius: biggerThanMD ? "1rem 1rem 0 0" : "100%",
+              }}
             />
             {item.name && item.menu && item.name !== item.menu ? (
               <Box
@@ -74,7 +93,7 @@ const LinkCard = (props) => {
               </Box>
             ) : null}
           </Box>
-        </SitoContainer>
+        </Box>
         <Box sx={productContentBox}>
           <Typography
             variant="h3"
@@ -91,7 +110,7 @@ const LinkCard = (props) => {
           {item.price !== undefined ? (
             <Typography
               variant="body2"
-              sx={{ fontWeight: "bold", width: "75%" }}
+              sx={{ fontWeight: "bold", width: "80%" }}
             >
               {item.price} CUP
             </Typography>
@@ -104,6 +123,7 @@ const LinkCard = (props) => {
 
 LinkCard.propTypes = {
   link: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
   item: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

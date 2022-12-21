@@ -17,7 +17,8 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { createCookie, getCookie } from "../../utils/auth";
 import config from "../../config";
 
-const CookieBox = () => {
+const CookieBox = (props) => {
+  const { sx } = props;
   const { languageState } = useLanguage();
   const [hide, setHide] = useState(false);
 
@@ -52,23 +53,19 @@ const CookieBox = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        position: "fixed",
-        display: "flex",
-        justifyContent: "center",
-        zIndex: 99,
-      }}
-    >
+    <Box>
       {!hide ? (
         <Paper
           elevation={2}
           sx={{
-            bottom: "10px",
             padding: "20px",
             position: "fixed",
-            width: { xs: "80%", md: "auto" },
+            width: "300px",
+            zIndex: 99,
+            left: "5px",
+            bottom: "5px",
+            border: "1px solid #8080804a",
+            ...sx,
           }}
         >
           <motion.div

@@ -27,3 +27,15 @@ export const parserAccentsBack = (name) => {
   vocals.forEach((item, i) => (newName = newName.replaceAll(item, accents[i])));
   return newName;
 };
+
+/**
+ *
+ * @param {number} start
+ * @param {number} i
+ * @returns
+ */
+export const parseI = (start, i) => {
+  let toReturn = start;
+  for (let j = 0; j < i; j += 1) toReturn += 0.2;
+  return toReturn;
+};

@@ -13,31 +13,10 @@ import { getCookie } from "../utils/auth";
  * @param {string} models
  * @returns
  */
-export const search = async (text, models) => {
+export const executeOrder = async (order, menu) => {
   const response = await axios.post(
-    `${config.apiUrl}search`,
-    { text, models },
-    {
-      headers: {
-        ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
-      },
-    }
-  );
-  const data = await response.data;
-  return data;
-};
-
-/**
- *
- * @param {string[]} ids
- * @param {string} models
- * @returns
- */
-export const searchIds = async (ids, models) => {
-  const response = await axios.post(
-    `${config.apiUrl}search/array-ids`,
-    { ids, models },
+    `${config.apiUrl}order`,
+    { order, menu },
     {
       headers: {
         ...getAuth,

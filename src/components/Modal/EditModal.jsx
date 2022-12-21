@@ -40,8 +40,8 @@ import {
   modal,
   modalContent,
   productImage,
-  productImageBox,
   loadingPhotoSpinner,
+  imageTitleBox,
 } from "../../assets/styles/styles";
 
 // services
@@ -210,7 +210,7 @@ const Modal = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Box sx={{ ...productImageBox, marginBottom: "20px" }}>
+          <Box sx={{ ...imageTitleBox, marginBottom: "20px" }}>
             <IKContext
               publicKey={imagekitPublicKey}
               urlEndpoint={imagekitUrl}
@@ -237,7 +237,11 @@ const Modal = (props) => {
                   id="no-product"
                   src={preview && preview !== "" ? preview : noProduct}
                   alt={getValues("name")}
-                  sx={{ ...productImage, cursor: "pointer" }}
+                  sx={{
+                    ...productImage,
+                    borderRadius: "100%",
+                    cursor: "pointer",
+                  }}
                 />
               )}
             </IKContext>

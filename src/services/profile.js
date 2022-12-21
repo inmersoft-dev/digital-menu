@@ -20,8 +20,6 @@ export const saveProfile = async (
   oldName,
   menuName,
   phone,
-  socialMedia,
-  menuDescription,
   photo,
   business
 ) => {
@@ -33,15 +31,13 @@ export const saveProfile = async (
       oldName,
       menuName,
       phone,
-      socialMedia,
-      menuDescription,
       photo,
       business,
     },
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );
@@ -65,7 +61,7 @@ export const changePassword = async (user, password) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );
@@ -91,7 +87,33 @@ export const saveLocation = async (user, longitude, latitude) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
+      },
+    }
+  );
+  const data = await response.data;
+  return data;
+};
+
+/**
+ *
+ * @param {string} user
+ * @param {object[]} socialMedia
+ * @param {string} description
+ */
+export const saveSocial = async (user, socialMedia, description) => {
+  const response = await axios.post(
+    // @ts-ignore
+    `${config.apiUrl}user/save-social`,
+    {
+      user,
+      socialMedia,
+      description,
+    },
+    {
+      headers: {
+        ...getAuth,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );

@@ -34,7 +34,7 @@ import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // utils
-import { userLogged, logUser, createCookie } from "../../utils/auth";
+import { userLogged, createCookie } from "../../utils/auth";
 
 // services
 import { login } from "../../services/auth";
@@ -80,14 +80,14 @@ const Login = () => {
     setLoading(true);
     const { user, password } = data;
     try {
-      const response = await login(user, password);
+      const response = await login(user, password, remember);
       if (response.status === 200) {
-        logUser(remember, user);
         createCookie(
-          config.basicKey,
+          config.basicKeyCookie,
           response.data.expiration,
           response.data.token
         );
+        sessionStorage.setItem("user", user);
         showNotification(
           "success",
           languageState.texts.Messages.LoginSuccessful

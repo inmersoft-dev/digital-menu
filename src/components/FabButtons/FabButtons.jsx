@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // @emotion/css
@@ -26,6 +26,7 @@ import { isAdmin, userLogged } from "../../utils/auth";
 const FabButtons = (props) => {
   const { location } = props;
   const [active, setActive] = useState(false);
+  const [isAdminState, setIsAdminState] = useState(false);
 
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -46,6 +47,20 @@ const FabButtons = (props) => {
       opacity: 1,
     },
   };
+
+  const itsAdmin = async () => {
+    try {
+      const value = await isAdmin();
+      if (value) setIsAdminState(true);
+      setIsAdminState(false);
+    } catch (err) {
+      setIsAdminState(false);
+    }
+  };
+
+  useEffect(() => {
+    itsAdmin();
+  });
 
   return (
     <Box
@@ -84,7 +99,7 @@ const FabButtons = (props) => {
               </motion.div>
             </InViewComponent>
           ) : null}
-          {isAdmin() ? (
+          {isAdminState ? (
             <InViewComponent delay="0.3s">
               <motion.div className={active ? "appear" : "hidden"}>
                 <RegisterNewUser />

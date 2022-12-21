@@ -1,7 +1,1732 @@
 {
-  "es": {
+  "en": {
     "AppName": "Marketplace",
+    "Terms": [
+      {
+        "variant": "h3",
+        "content": "Terms and Conditions"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "These General Terms of Service (\"General Terms\") are a legal agreement between you, as a current or potential customer of the Inmersoft Marketplace services and/or Inmersoft Marketplace Apps (Marketplace Iré a Santiago, Marketplace Descubre Trinidad), and govern your use of Inmersoft Marketplace services, including mobile applications, websites, software, cloud-based solutions, hardware, and other products and services (collectively, the \"Services\"). By registering, you agree to these General Terms and any policies referenced within (\"Policies\"), including our Privacy Notice (see Section 8) and terms limiting our liability (see Section 18) and require individual arbitration for any potential legal disputes (see Section 21), which are collectively incorporated herein by reference. You also agree to additional terms specific to the Services you use (\"Additional Terms\"), such as those listed below, which are part of your agreement with us (collectively, the \"Terms\"). If you are using the Services on behalf of a business, you represent to us that you have the authority to bind that business or entity to these Terms, and that the business accepts these Terms. You should read all of our Terms carefully."
+      },
+      {
+        "variant": "h5",
+        "content": "1. Inmersoft Marketplace account registration"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You must open an account with us (an \"Imersoft Marketplace Account\") to use the Services. During registration, we will ask you for information, which may include, but is not limited to, your name and other personal information. You must provide accurate and complete information in response to our questions, and you must keep that information up to date. You are entirely responsible for all activity that occurs under your Inmersoft Marketplace Account, including any actions taken by persons to whom you have granted access to the Inmersoft Marketplace Account. We reserve the right to change the account type, suspend, or terminate the Inmersoft Marketplace Account of anyone who provides inaccurate, false, or incomplete information, or who fails to comply with account registration requirements."
+      },
+      {
+        "variant": "h5",
+        "content": "2. Revisions, Disclosures and Notices"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "We can modify the Terms at any time with a notice that we consider reasonable under the circumstances and always in accordance with the legislation in force in Cuba, publishing the revised version on our website or communicating it to you through the Services (each one a \" Revised version\"). The Revised Version will be effective as of the time it is posted, but will not apply retroactively. Your continued use of the Services after the posting of a Revised Version constitutes your acceptance of such Revised Version."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "By registering on our site you agree to Inmersoft Marketplace's electronic signature consent. We may provide you with legally required disclosures and notices and other information about your Inmersoft Marketplace Account electronically, by posting it on our website, sending notices through the Services, or by sending it by email to the address listed in your Inmersoft Marketplace Account. or that you have provided to the Inmersoft Marketplace. Electronic disclosures and notices have the same meaning and effect as if we had provided you with paper copies. Such disclosures and notices are deemed received by you within twenty-four (24) hours of being posted on our website, or within twenty-four (24) hours of being sent by email, unless we receive notice that the email did not arrive in your mailbox. If you wish to withdraw your consent to receive electronic communications, please contact Inmersoft Marketplace Technical Support. If we are unable to support your request, you may need to cancel your Inmersoft Marketplace account."
+      },
+      {
+        "variant": "h5",
+        "content": "3. Restrictions"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "1. Access or monitor any material or information on any Inmersoft Marketplace system using any manual process or robot(bots), spider, scraper, or other automated means;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "2. Except to the extent any restrictions are expressly prohibited by law, violate the restrictions in any robot exclusion headers on any Services, work around, or circumvent any of the Services' technical limitations, use any tools to enable features or functionality that are disabled on the Services, or decompile, disassemble, or reverse engineer the Services;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "3. Take or attempt to take any action that interferes with the proper working of the Services, prevents access to or use of the Services by our other customers, or imposes an unreasonable or disproportionately large load on our infrastructure;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "4. Copy, reproduce, alter, modify, create derivative works, publicly display, republish, upload, post, transmit, resell or distribute in any way material, information or Services from Inmersoft Marketplace"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "5. Use and benefit from the Services through a rental, lease, timeshare, service bureau, or other arrangement;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "6. Transfer any rights granted to you under these General Terms;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "7. Using the Services in a way that distracts you or prevents you from obeying traffic or safety laws;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "8. Use the Services for the sale of firearms, firearm parts, ammunition, weapons, or other devices designed to cause bodily harm;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "9. Using the Services for any illegal activity or goods or in any way that exposes you, other Inmersoft Marketplace users, our partners, or Inmersoft Marketplace to harm; either"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "10. Use the Services otherwise, except as expressly permitted in these Terms."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "If we reasonably suspect that your Inmersoft Marketplace Account has been used for an unauthorized, illegal, criminal, or incitement-to-crime purpose, you expressly authorize us to share information about you, your Inmersoft Marketplace Account, and any of your transactions with law enforcement. order."
+      },
+      {
+        "variant": "h5",
+        "content": "4. Supported mobile devices and third-party carriers"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "We do not guarantee that the Services will be compatible with your mobile device or carrier. Your use of the Services may be subject to the terms of your agreements with your mobile device manufacturer or carrier. A modified device may not be used to use the Services if the modification is contrary to the manufacturer's hardware or software guidelines, including disabling hardware or software controls."
+      },
+      {
+        "variant": "h5",
+        "content": "5. Your content"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "The Services may include features for uploading or providing tips, recommendations, comments, stories, photos, documents, logos, products, loyalty programs, promotions, advertisements, and other materials or information (\"Content\")."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You retain all rights to your Content, subject to the rights you granted us in these General Terms. You may modify or delete your Content through your Inmersoft Marketplace Account or by canceling your Inmersoft Marketplace Account, but your Content may persist in historical, archived, or cached copies and versions of it available on or through the Services."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You will not upload or provide Content or post, transmit, distribute or disseminate through the Services any material that:"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "a) is false, misleading, illegal, obscene, indecent, lewd, pornographic, defamatory, libelous, threatening, harassing, hateful, abusive;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "b) encourages conduct that would be considered a criminal offense or give rise to civil liability;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "c) or violates any obligation or right of any person or entity, including rights of publicity, privacy, or intellectual property rights;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "d) contains corrupted data or any other harmful, disruptive or destructive files;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "e) advertise products or services that compete with the products and services of Inmersoft Marketplace or its partners, as determined by us in our sole discretion; either"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "f) in our sole discretion, is objectionable, restricts, or prevents any person or entity from using or enjoying any part of the Services, or which may expose Inmersoft Marketplace, its affiliates, or its customers or others to harm or liability of any nature."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Although we have no obligation to monitor any Content, we have the absolute discretion to remove Content at any time and for any reason without notice. Inmersoft Marketplace may also monitor such Content to detect and prevent fraudulent activity or violations of the Inmersoft Marketplace General Terms. You understand that by using the Services, you may be exposed to Content that is offensive, indecent or objectionable. We assume no responsibility for any Content, including any loss or damage to any of your Content due to reasons unrelated to the operation of the Services."
+      },
+      {
+        "variant": "h5",
+        "content": "6. Copyright and Trademark Infringement"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "We respect the intellectual property rights of others and ask you to do the same. We have adopted an Intellectual Property Policy regarding third party claims that your material infringes the rights of others. We respond to all valid notices of such a violation, and our policy is to suspend or terminate the accounts of repeat infringers."
+      },
+      {
+        "variant": "h5",
+        "content": "7. Security"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "We have implemented technical and organizational measures designed to protect your personal information from accidental destruction, loss, alteration and unauthorized access, use, alteration or disclosure. However, we cannot guarantee that unauthorized third parties will never be able to attack and defeat those measures or use your personal information for improper purposes. You provide your personal information at your own risk."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You are solely responsible for protecting your password and for restricting access to the Services from your compatible mobile devices and computers and administrators of your Account. You will notify us immediately of any unauthorized use of your password or Inmersoft Marketplace Account or any other breach of security. You will promptly take all reasonable steps to mitigate the effects of a security breach and will cooperate with Inmersoft Marketplace and provide all information requested by Inmersoft Marketplace to remedy the breach. Any assistance provided by Inmersoft Marketplace in connection with a security breach does not in any way function as acceptance or acknowledgment that Inmersoft Marketplace is in any way responsible to you or any other party in connection with such breach. Likewise, technical assistance by Inmersoft Marketplace, due to the loss of its content due to improper use on your part, will be subject to additional costs."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Notwithstanding Sections 18 and 19, in the event of a dispute between two or more parties as to ownership of the account, we will be the sole arbitrator of such dispute in our sole discretion. Our decision (which may include termination or suspension of any disputed Inmersoft Marketplace Account) will be final and binding on all parties."
+      },
+      {
+        "variant": "h5",
+        "content": "8. Privacy"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace collects, uses, and protects the personal information you provide to us (including your account login) to provide the Services to you or for its own purposes. You should familiarize yourself with the Privacy Notice before using the Services."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace collects personal information from its customers and employees, Inmersoft Marketplace processes certain personal information from its customers or employees on behalf of its company as a service provider (\"data processor\"). In such circumstances, you agree that you will comply with the data protection laws applicable to you and provide data subjects with information about the processing of their personal information that satisfies the transparency requirements of such data protection laws and that ensures that the data Personal data can be processed in a fair, legal and transparent manner."
+      },
+      {
+        "variant": "h5",
+        "content": "9. Communications"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You agree to accept and receive communications from us, including emails, text messages, calls, and push notifications to the cell phone number you provided to us when you register for an Inmersoft Marketplace account or update the contact information associated with your account. Such communications may include, but are not limited to, requests for secondary authentication (two-factor authentication), bill receipts, reminders, notifications about updates to your account or account support, and marketing or promotional communications. You acknowledge that you are not required to consent to receiving promotional text messages or calls as a condition of using the Services. Call and text message communications may be generated by automated telephone dialing systems. Standard message and data rates applied by your wireless carrier may apply to text messages we send you."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You may opt out of receiving promotional email communications from us by following the unsubscribe options in such emails. You can opt out of receiving promotional phone calls by informing the caller that you would not like to receive future promotional calls. You acknowledge that opting out of receiving communications may affect your use of the Services."
+      },
+      {
+        "variant": "h5",
+        "content": "10. Paid services"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace Services include paid Services (\"Paid Services\") and free Services, for which no fees are charged (\"Free Services\"). Inmersoft Marketplace offers certain paid Services that will be paid for on a recurring basis (\"Subscription Services\"). Subscription Services may be subject to recurring charges and/or terms. By signing up for a Subscription Service, including after any free trial period, you agree to pay us the subscription fee and any applicable Taxes (as defined below) (\"Subscription Fee\"). See the Payment Terms for terms applicable to Paid Services."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Payment service fees can be paid by debit card, credit card, bank transfer, or deducted from your transaction proceeds. If you link a debit or credit card to your account, you authorize us to collect service fees paid by debiting your linked debit card or charging your associated credit card. Regardless of payment device, we reserve the right to collect Payment Service Fees by deduction from your transaction proceeds, the Balance (as defined in the Payment Terms) in your Inmersoft Marketplace Account, or your bank account. linked."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Unless otherwise provided in the terms of a Subscription Service, Subscription Fees will be charged on the first day of each month until canceled for monthly subscriptions and within 24 hours for annual subscriptions. expired within one year. You can cancel a Subscription Service at any time from your Inmersoft Marketplace Account settings. If you cancel a Subscription Service, you will continue to have access to that Subscription Service through the end of your current billing period, but you will not be entitled to a refund or credit for any Subscription Fees already paid or past due. We reserve the right to change our subscription fee upon thirty (30) days notice. Your continued use of the Subscription Services following notification of a change to our Subscription Fee will constitute your acceptance of those changes."
+      },
+      {
+        "variant": "h5",
+        "content": "11. Modification and Termination"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "We may terminate these General Terms or any Additional Terms, or suspend or terminate your Inmersoft Marketplace Account or your access to any Service, at any time for any reason. We may add or remove, suspend, halt, delete, discontinue, or impose conditions on the Services or any feature or aspect of a Service. We will take reasonable steps to notify you of termination or these other types of changes to the Service by email or the next time you attempt to access your Inmersoft Marketplace Account. You may also terminate the General Terms and Additional Terms applicable to your Inmersoft Marketplace Account by deactivating your Inmersoft Marketplace Account at any time."
+      },
+      {
+        "variant": "h5",
+        "content": "12. Effect of termination"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "If these General Terms or your Inmersoft Marketplace Account are terminated or suspended for any reason:"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "a) the license and any other rights granted under these Terms will terminate,"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "b) you agree to terminate and stop using all Services immediately,"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "c) we may (but are not required to) delete your information and account data stored on our servers, and"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "d) we will not be liable to you or to any third party for compensation, reimbursement or damages for any termination or suspension of the Services, or for the deletion of your information or account data. In addition to any payment obligations under the Payments Terms, the following sections of these General Terms survive and remain in effect in accordance with their terms upon termination: 5 (Your Content), 6 (Copyright Infringement and Trademarks), 7 (Security), 8 (Privacy), 12 (Effect of Termination), 14 (Property), 15 (Indemnification), 16 (Representations and Warranties), 17 (No Warranties), 18 (Limitation of Liability and Damages), 19 (Third Party Products), 20 (Disputes), 21 (Binding Individual Arbitration), 22 (Time Limit to File a Dispute), 23 (Third Party Service and Links to Other Websites), and 25 (Other provisions)."
+      },
+      {
+        "variant": "h5",
+        "content": "13. Your license"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "We grant you a limited, non-exclusive, revocable, non-transferable, non-sublicensable license to use the Paid Services, and a limited, non-exclusive, revocable, non-transferable, non-sublicensable, royalty-free license to use the Free Services authorized in these General Terms. We may make updates to the Services available to you, which you must agree to in order to continue using the Services. Any such update may be subject to additional terms disclosed to you at the time."
+      },
+      {
+        "variant": "h5",
+        "content": "14. Property"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "We reserve all rights not expressly granted to you in these General Terms. The Services are protected by copyright, trademarks, patents and other laws in force in Cuba and other countries. We own all right, title and interest in and to the Services and all copies of the Services. These General Terms do not grant you any rights in our trademarks or service marks."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "For the purposes of these General Terms, \"Intellectual Property Rights\" means all patent rights, copyrights, mask work rights, moral rights, publicity rights, trademark rights, trade dress and service mark, goodwill, trade secret rights and other intellectual rights. property rights that may exist now or in the future, and all its requests, registrations, renewals and extensions, in accordance with the laws in force in Cuba, another country, territory or other jurisdiction."
+      },
+      {
+        "variant": "h5",
+        "content": "15. Compensation"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You will indemnify, defend, and hold us and our processors (and our respective employees, directors, agents, affiliates, and representatives) harmless from and against any and all claims, costs, losses, damages, judgments, tax assessments, penalties, interest, and expenses (including, without limitation, reasonable attorneys' fees) arising out of or related to any claim, action, audit, investigation, inquiry or other proceeding brought by any person or entity arising out of or related to:"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "a) any actual or alleged breach of your representations, warranties and obligations set forth in these Terms;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "b) your misuse or inappropriate use of the Services;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "c) your violation of any third-party right, including without limitation any right of privacy, right of publicity, or intellectual property right;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "d) your violation of any Cuban or any other country law, rule or regulation;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "e) any third-party claims made by your Buyer regarding Inmersoft Marketplace's processing of your customer/Buyer's Personal Information in connection with the provision of the Services; Y"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "f) the access and/or use of the Services by any other party with your unique name, password or other appropriate security code; Y"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "g) any transaction, purchase, good or service in respect of which Inmersoft Marketplace provides or provided payment processing services to you in accordance with the Terms."
+      },
+      {
+        "variant": "h5",
+        "content": "16. Declarations and Warranties"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You must open an account with us (an \"Imersoft Marketplace Account\") to use the Services. During registration, we will ask you for information, which may include, but is not limited to, your name and other personal information. You must provide accurate and complete information in response to our questions, and you must keep that information up to date. You are entirely responsible for all activity that occurs under your Inmersoft Marketplace Account, including any actions taken by persons to whom you have granted access to the Inmersoft Marketplace Account. We reserve the right to change the account type, suspend, or terminate the Inmersoft Marketplace Account of anyone who provides inaccurate, false, or incomplete information, or who fails to comply with account registration requirements."
+      },
+      {
+        "variant": "h5",
+        "content": "17. No guarantees"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "USE OF “Inmersoft Marketplace” IN SECTIONS 17 AND 18 REFERS TO Inmersoft Marketplace, ITS OPERATORS, SUPPLIERS, AND LICENSORS (AND THEIR RESPECTIVE SUBSIDIARIES, AFFILIATES, AGENTS, DIRECTORS, AND EMPLOYEES)."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "THE SERVICES ARE PROVIDED \"AS IS\" WITHOUT REPRESENTATION OR WARRANTY, WHETHER EXPRESS, IMPLIED, OR STATUTORY. WITHOUT LIMITING THE FOREGOING, Inmersoft Marketplace SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace DOES NOT WARRANT, REPRESENT OR GUARANTEE IN ANY WAY THAT THE SERVICES ARE ACCURATE, RELIABLE OR CORRECT; THAT THE SERVICES WILL MEET YOUR REQUIREMENTS; THAT THE SERVICES WILL BE AVAILABLE AT ANY PARTICULAR TIME OR LOCATION, UNINTERRUPTED, ERROR-FREE, DEFECT-FREE OR SECURE; THAT ANY DEFECTS OR ERRORS IN THE SERVICES WILL BE CORRECTED; OR THAT THE SERVICES ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS OR FIT FOR ANY PARTICULAR PURPOSE."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace does not guarantee, endorse, guarantee or assume any responsibility for any product or service advertised or offered by a third party. Inmersoft Marketplace has no control over, or responsibility for, the goods or services that are paid for using the Services."
+      },
+      {
+        "variant": "h5",
+        "content": "18. Limitations of Liability and Damages"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL Inmersoft Marketplace BE LIABLE FOR ANY DIRECT, INDIRECT, PUNITIVE, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY DAMAGES, INCLUDING WITHOUT LIMITATION DAMAGES FOR LOST PROFITS, GOODWILL, USAGE, DATA OR OTHER INTANGIBLE LOSSES RESULTING FROM THE USE, INABILITY TO USE OR UNAVAILABILITY OF THE SERVICE. IN ALL CASES, Inmersoft Marketplace SHALL NOT BE LIABLE FOR ANY LOSS OR DAMAGE THAT IS NOT REASONABLY FORESEEABLE."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "UNDER NO CIRCUMSTANCES SHALL Inmersoft Marketplace BE LIABLE FOR ANY DAMAGE, LOSS OR INJURY RESULTING FROM HACKING, TAMPERING OR OTHER UNAUTHORIZED ACCESS TO OR USE OF THE SERVICES OR YOUR Inmersoft Marketplace ACCOUNT, OR THE INFORMATION CONTAINED THEREIN."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE AGGREGATE LIABILITY OF Inmersoft Marketplace IS LIMITED TO THE GREATER OF (A) THE AMOUNT OF FEES EARNED BY US IN CONNECTION WITH YOUR USE OF THE SERVICES DURING THE THREE (3) MONTH PERIOD IMMEDIATELY PRIOR TO THE EVENT GIVING RISE TO THE LIABILITY CLAIM."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "THIS LIMITATION OF LIABILITY SECTION APPLIES WHETHER THE ALLEGED LIABILITY IS BASED ON CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY, OR ANY OTHER BASIS, EVEN IF Inmersoft Marketplace HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+      },
+      {
+        "variant": "h5",
+        "content": "19. Third Party Products"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "All third-party hardware and other products included or sold with the Services are provided solely in accordance with the warranty and other terms specified by the manufacturer, who is solely responsible for service and support for their product. For service, support, or warranty assistance, you should contact the manufacturer directly. Inmersoft Marketplace MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, WITH RESPECT TO SUCH THIRD-PARTY PRODUCTS, AND EXPRESSLY DISCLAIMS ANY WARRANTIES OR CONDITIONS OF MERCHANTABILITY, NON-INFRINGEMENT, OR FITNESS FOR A PARTICULAR PURPOSE."
+      },
+      {
+        "variant": "h5",
+        "content": "20. Disputes"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "\"Disputes\" are defined as any claim, controversy or dispute between you and Inmersoft Marketplace, its operators, administrators, suppliers or licensors (or their respective affiliates, agents, directors or employees), whether arising before or during the period of these Terms, including any claim, controversy or dispute based on any conduct by you or Inmersoft Marketplace that occurred prior to the effective date of these Terms, including claims related in any way to these Terms or the Services, or any other aspect of our relationship."
+      },
+      {
+        "variant": "h5",
+        "content": "21. Binding Individual Arbitration"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You and Inmersoft Marketplace agree that any and all disputes, except those resolved informally, will be adjudicated by a neutral arbitrator who has the power to award the same individual damages as a court. ANY ARBITRATION UNDER THESE GENERAL TERMS SHALL ONLY BE ON AN INDIVIDUAL BASIS; CLASS ARBITRATIONS, CLASS ACTIONS, REPRESENTATIVE ACTIONS AND CONSOLIDATION WITH OTHER ARBITRATIONS ARE NOT ALLOWED. YOU GIVE UP ANY RIGHT TO HAVE A JURY DECIDE YOUR CASE AND YOU GIVE UP ANY RIGHT TO PARTICIPATE IN A CLASS ACTION AGAINST Inmersoft Marketplace. If any provision of this arbitration agreement is found to be unenforceable, the unenforceable provision will be set aside and the remaining terms of the arbitration will apply (but in no event will there be class or representative arbitration)."
+      },
+      {
+        "variant": "h5",
+        "content": "22. Limitation of time to start a dispute"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Any action or proceeding by you in connection with any Dispute must be commenced within one year after the cause of action arose."
+      },
+      {
+        "variant": "h5",
+        "content": "23. Third Party Services and Links to Other Websites"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "You may be offered services, products and promotions sponsored by third parties and not by Inmersoft Marketplace, including, without limitation, third-party developers using Inmersoft Marketplace services (\"Third Party Services\"). If you choose to use Third Party Services, you are responsible for reviewing and understanding the terms and conditions of those services. We are not responsible for the performance of any Third Party Services. In addition, you agree to resolve any disagreement between you and a third party regarding the terms and conditions of Third Party Services with that third party directly in accordance with the terms and conditions of that relationship, and not with Inmersoft Marketplace. The Services may contain links to third party websites. The inclusion of any link to a website does not imply an approval, endorsement or recommendation by Inmersoft Marketplace. Such third party websites are not governed by these General Terms. You access any website at your own risk. We expressly disclaim any liability for these websites. When you use a link to go from the Services to a third-party website, our Privacy Notice is no longer in effect. Your browsing and interaction on a third party website, including those linked to on the Services, is subject to that website's terms, rules and policies."
+      },
+      {
+        "variant": "h5",
+        "content": "24. Third party beneficiaries"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Nothing in these General Terms and any applicable Additional Terms is intended to create or create any right with respect to the subject matter of these General Terms and any applicable Additional Terms in any third party."
+      },
+      {
+        "variant": "h5",
+        "content": "25. Other provisions"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "These General Terms and any applicable Additional Terms or policies are a complete statement of the agreement between you and Inmersoft Marketplace with respect to the Services. In the event of a conflict between these General Terms and any other Inmersoft Marketplace agreement or policy, these General Terms will control and control the subject matter of such conflict. If any provision of these General Terms or any Additional Terms is invalid or unenforceable under applicable law in force in Cuba, then it will be changed and construed to achieve the objectives of such provision to the fullest extent possible under applicable law, and the remaining provisions will continue. in full force and effect. These General Terms do not limit any rights we may have under trade secret, copyright, patent or other laws. No waiver of any term of these General Terms shall be deemed a further or continuing waiver of such term or any other term."
+      }
+    ],
+    "CookiePolicy": [
+      {
+        "variant": "h3",
+        "content": "Cookie Policy"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "This page describes the types of cookies and other technologies used by the Inmersoft Marketplace."
+      },
+      {
+        "variant": "h5",
+        "content": "Cookies"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Cookies are small pieces of text sent to your browser by a website you visit. They help the website remember information about your visit, which can make it easier to visit the site again and do make the site more useful to you. Other technologies, including unique identifiers used to identify a browser, application or device, pixels, and local storage, may also be used for these purposes. Cookies and other technologies described throughout this page may be used for the purposes described below."
+      },
+      {
+        "variant": "h5",
+        "content": "Functionality"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Cookies and other technologies used for functionality allow you to access features that are essential to a service. Things that are considered essential to a service include preferences, such as your choice of language, information related to your session, such as the content of a shopping cart and product optimizations that help maintain and improve that service."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace uses the 'IS_AC' and 'IS_DC' cookies, which last for 2 years, to store a user's status regarding their cookie choices."
+      },
+      {
+        "variant": "h5",
+        "content": "Security"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Cookies and other technologies used for security help authenticate users, prevent fraud, and protect you while you interact with a service."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace uses 'IS_BK' for site access to the server, this lasts 30 minutes (30 days if remember me is activated), and is created each time which logs in."
+      },
+      {
+        "variant": "h5",
+        "content": "Analytics"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Cookies and other technologies used for analytics help collect data that allows services to understand how you interact with a particular service. This information allows services to improve content and create better features that enhance your experience. "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Some cookies and other technologies help sites and apps understand how their visitors interact with their services. For example, Inmersoft Marketplace uses a set of cookies to collect information and report site usage statistics without personally identifying users individual visitors. 'AIM', is the suffix of the main cookie used by Inmersoft Marketplace, allows a service to distinguish one visitor from another. 'AIM' Cookie Types:"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "- AIM_DT_VWC: Cookie that is created when a user visits the Inmersoft Marketplace website. It lasts one day"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "- AIM_DT_VTC: Cookie that is created when a user enters the catalog of a business, it lasts one day, it is created by catalog with the structure: [Catalog] AIM_DT_VTC."
+      },
+      {
+        "variant": "body1",
+        "content": "- AIM_DT_DC: Cookie that is created when a user reviews the description of a product, lasts 10 days, it is created per product with the structure: [Product] AIM_DT_DC."
+      },
+
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "- AIM_DT_HTG: Cookie that is created when a user presses the how to get there button, lasts one day."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "- AIM_DT_OC: Cookie that is created when a user clicks on the button to send order (order), lasts 1 day, it is created by order and by receiving customer with the structure: [Catalog] [Customer] AIM_DT_OC."
+      }
+    ],
     "Map": {
+      "Short": "Position",
+      "Placeholder": "Introduce the address",
+      "Save": "Save",
+      "Tooltip": "How to get?",
+      "Title": "Map",
+      "Inputs": {
+        "Longitude": {
+          "label": "Longitude",
+          "placeholder": "ex: -75.7119726"
+        },
+        "Latitude": {
+          "label": "Latitude",
+          "placeholder": "ex 19.7521939"
+        }
+      },
+      "SearchAddressPlaceholder": "Type to search an address"
+    },
+    "CookieBox": {
+      "Description": "Our site uses cookies to analyze traffic information and thus improve your experience",
+      "Link": "Cookies policy",
+      "Accept": "Accept",
+      "Decline": "Decline"
+    },
+    "Navbar": {
+      "Search": "Search...",
+      "Filters": {
+        "Products": "Products",
+        "Categories": "Categories",
+        "Menus": "Catalogs"
+      },
+      "NoHistory": "No recent searches...",
+      "Models": {
+        "menus": "Places",
+        "products": "Products"
+      }
+    },
+    "Title": "Catalog List",
+    "Tooltips": {
+      "ToLogin": "Sign in",
+      "ToSettings": "Settings",
+      "ToLogout": "Sign out",
+      "ToTop": "Go top",
+      "RegisterNewUser": "Sign up new user"
+    },
+    "NotFound": {
+      "Title": "404 Not Found",
+      "Description": "The page you are looking for cannot be found or has been removed",
+      "Link": "Go back"
+    },
+    "Errors": {
+      "NotConnected": "No connected to the server",
+      "NoProducts": "There are no products",
+      "NoResults": "There are no results",
+      "NoMenu": "There are no catalogs",
+      "UsernameTaken": "Username taken",
+      "MenuNameTaken": "Catalog name taken",
+      "InvalidMenuName": "Invalid catalog name, only can contain numbers and letters",
+      "SomeWrong": "Something went wrong",
+      "Wrong": "User or password wrong",
+      "NameRequired": "Name required",
+      "PriceRequired": "Price required",
+      "PhoneRequired": "Phone required",
+      "TypeRequired": "At least one category required",
+      "InvalidPhone": "Invalid phone",
+      "DescriptionRequired": "Description required",
+      "PasswordLengthValidation": "Password length must be between 8 and 25 characters",
+      "PasswordCharacterValidation": "Password must contain at least one upper letter, lower letter and a number",
+      "PasswordNameValidation": "Password can't contain the user name",
+      "NoEmptyPassword": "Password required",
+      "DifferentPassword": "Passwords don't match"
+    },
+    "Messages": {
+      "LoginSuccessful": "Signed in successfully",
+      "RegisterSuccessful": "Signed up successfully",
+      "SaveSuccessful": "Saved successfully"
+    },
+    "Register": {
+      "Title": "Sign Up"
+    },
+    "Settings": {
+      "ImageSuggestion": "It is recommended that the logo be a square image",
+      "Tabs": ["Generals", "Social", "Map", "Security", "QR"],
+      "PasswordTitle": "Change password",
+      "Qr": "Catalog QR code",
+      "ShowLogoOnQr": "Show logo on QR",
+      "Inputs": {
+        "CenterTypes": {
+          "Label": "Business types",
+          "Placeholder": "Bar",
+          "Types": [
+            {
+              "id": 2,
+              "name": "Old House",
+              "icon": "oldHouse"
+            },
+            {
+              "id": 3,
+              "name": "Restaurant",
+              "icon": "restaurant"
+            },
+            {
+              "id": 4,
+              "name": "Rent House",
+              "icon": "rentHouse"
+            },
+            {
+              "id": 5,
+              "name": "Bar",
+              "icon": "bar"
+            },
+            {
+              "id": 7,
+              "name": "Cafeteria",
+              "icon": "cafeteria"
+            },
+            {
+              "id": 9,
+              "name": "Gym",
+              "icon": "gym"
+            },
+            {
+              "id": 10,
+              "name": "Art",
+              "icon": "art"
+            },
+            {
+              "id": 11,
+              "name": "Museum",
+              "icon": "museum"
+            },
+            {
+              "id": 12,
+              "name": "Library",
+              "icon": "library"
+            },
+            {
+              "id": 13,
+              "name": "Night Life",
+              "icon": "nightLife"
+            },
+            {
+              "id": 14,
+              "name": "Mall",
+              "icon": "mall"
+            },
+            {
+              "id": 15,
+              "name": "Store",
+              "icon": "shop"
+            },
+            {
+              "id": 16,
+              "name": "Beauty",
+              "icon": "beauty"
+            },
+            {
+              "id": 17,
+              "name": "Electronic",
+              "icon": "electronic"
+            },
+            {
+              "id": 18,
+              "name": "Cloth",
+              "icon": "cloth"
+            },
+            {
+              "id": 19,
+              "name": "Hotel",
+              "icon": "hotel"
+            },
+            {
+              "id": 20,
+              "name": "Fuel",
+              "icon": "fuel"
+            },
+            {
+              "id": 21,
+              "name": "Car Rental",
+              "icon": "carRental"
+            }
+          ]
+        },
+        "Contact": {
+          "Count": {
+            "ToWhatsapp": {
+              "order": "order: "
+            },
+            "Clean": "Clear order",
+            "Submit": "Order",
+            "Remote": "Domicile",
+            "Share": "Share",
+            "CustomerName": {
+              "Short": "Name",
+              "Label": "Receiver name",
+              "Placeholder": "ex: Jose Andres Perez Meriño"
+            },
+            "Order": {
+              "Title": "Order",
+              "Total": "total: "
+            },
+            "CartTooltip": "Order",
+            "Title": "To Order",
+            "Label": "Count"
+          },
+          "Phone": {
+            "Short": "Phone",
+            "Label": "Phone",
+            "Placeholder": "ex: +53 56174215"
+          },
+          "SocialMedia": {
+            "Label": "Social Media",
+            "Placeholder": "https://mi-red-social.com",
+            "WhatsApp": "Whatsapp",
+            "Icons": {
+              "any": "Web Site",
+              "facebook": "Facebook",
+              "instagram": "Instagram",
+              "twitter": "Twitter",
+              "linkedIn": "LinkedIn",
+              "pinterest": "Pinterest",
+              "youtube": "Youtube"
+            }
+          }
+        },
+        "Menu": {
+          "Label": "Place Name",
+          "Placeholder": "ex: El Rincón dulce"
+        },
+        "Description": {
+          "Label": "Place description",
+          "Placeholder": "Some description"
+        }
+      }
+    },
+    "Insert": {
+      "Title": "Create your catalog",
+      "Categories": "Create new products to filter by categories",
+      "Inputs": {
+        "Product": {
+          "Label": "Product Name",
+          "Placeholder": "ex: Red Wine"
+        },
+        "Description": {
+          "Label": "Product Description",
+          "Placeholder": "Some description"
+        },
+        "Price": {
+          "Label": "Price",
+          "Placeholder": "ex: 100"
+        },
+        "Type": {
+          "Add": "Add",
+          "Label": "Category",
+          "Placeholder": "ex: Drink"
+        }
+      },
+      "Buttons": {
+        "Retry": "Reload",
+        "Insert": "New Product",
+        "Save": "Save",
+        "Edit": "Edit catalog"
+      }
+    },
+    "Login": {
+      "Title": "Sign In",
+      "Inputs": {
+        "User": {
+          "Label": "User",
+          "Placeholder": "ex: user"
+        },
+        "Password": {
+          "Label": "Password",
+          "Placeholder": "ex: *********"
+        },
+        "RPassword": {
+          "Label": "Confirm password",
+          "Placeholder": "ex: *********"
+        }
+      },
+      "Remember": "Remember me",
+      "Buttons": {
+        "Login": "Sign In",
+        "Register": "Sign Up"
+      }
+    },
+    "Inputs": [
+      {
+        "id": "title",
+        "type": "text",
+        "label": "Title",
+        "placeholder": "ej: Mi nota"
+      },
+      {
+        "id": "content",
+        "type": "text",
+        "label": "Content",
+        "placeholder": "Write here...",
+        "multiline": true,
+        "minRows": 4,
+        "maxRows": 4
+      }
+    ]
+  },
+  "es": {
+    "CookiePolicy": [
+      {
+        "variant": "h3",
+        "content": "Política de Cookies"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Esta página describe los tipos de cookies y otras tecnologías utilizadas por Inmersoft Marketplace."
+      },
+      {
+        "variant": "h5",
+        "content": "Cookies"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Las cookies son pequeños fragmentos de texto enviados a su navegador por un sitio web que visita. Ayudan a que el sitio web recuerde información sobre su visita, lo que puede hacer que sea más fácil volver a visitar el sitio y hacer que el sitio le resulte más útil. Otras tecnologías, incluidos los identificadores únicos utilizados para identificar un navegador, una aplicación o un dispositivo, píxeles y almacenamiento local, también se pueden utilizar para estos fines. Las cookies y otras tecnologías descritas a lo largo de esta página se pueden utilizar para los fines que se describen a continuación."
+      },
+      {
+        "variant": "h5",
+        "content": "Funcionalidad"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Las cookies y otras tecnologías utilizadas para la funcionalidad le permiten acceder a funciones que son fundamentales para un servicio. Las cosas que se consideran fundamentales para un servicio incluyen preferencias, como su elección de idioma, información relacionada con su sesión, como el contenido de un carrito de compras y optimizaciones de productos que ayudan a mantener y mejorar ese servicio."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace utiliza las cookies 'IS_AC' y 'IS_DC', que duran 2 años, para almacenar el estado de un usuario con respecto a sus opciones de cookies. "
+      },
+      {
+        "variant": "h5",
+        "content": "Seguridad"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Las cookies y otras tecnologías utilizadas para la seguridad ayudan a autenticar a los usuarios, prevenir el fraude y protegerlo mientras interactúa con un servicio."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace utiliza 'IS_BK' para el acceso del sitio al servidor, esta dura 30 minutos (30 días si recordar usuario está activo), y se crea cada vez que se inicia sesión."
+      },
+      {
+        "variant": "h5",
+        "content": "Analíticas"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Las cookies y otras tecnologías utilizadas para el análisis ayudan a recopilar datos que permiten a los servicios comprender cómo interactúa con un servicio en particular. Esta información permite que los servicios mejoren el contenido y creen mejores características que mejoren su experiencia."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Algunas cookies y otras tecnologías ayudan a los sitios y aplicaciones a comprender cómo sus visitantes interactúan con sus servicios. Por ejemplo, Inmersoft Marketplace utiliza un conjunto de cookies para recopilar información y reportar estadísticas de uso del sitio sin identificar personalmente a los visitantes individuales. 'AIM', es el sufijo de la cookie principal utilizada por Inmersoft Marketplace, permite que un servicio distinga a un visitante de otro. Tipos de cookies 'AIM':"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "- AIM_DT_VWC: Cookie que se crea cuando un usuario visita el sitio web de Inmersoft Marketplace. Dura un día"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "- AIM_DT_VTC: Cookie que se crea cuando un usuario entra en el catálogo de un negocio, dura un día, esta se crea por catálogo con la estructura: [Catálogo] AIM__DT_VTC."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "- AIM_DT_DC: Cookie que se crea cuando un usuario revisa la descripción de un producto, dura 10 días, esta se crea por producto con la estructura: [Producto] AIM__DT_DC."
+      },
+
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "- AIM_DT_HTG: Cookie que se crea cuando un usuario presiona el botón de ¿cómo llegar?, dura un día."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "- AIM_DT_OC: Cookie que se crea cuando un usuario presiona en el botón de enviar orden (pedido), dura 1 día, esta se crea por orden y por cliente receptor con la estructura: [Catálogo] [Cliente] AIM_DT_OC."
+      }
+    ],
+    "Terms": [
+      {
+        "variant": "h3",
+        "content": "Términos y Condiciones de uso"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Estos Términos generales de servicio (\"Términos generales\") son un acuerdo legal entre usted, como cliente actual o potencial de los servicios de Inmersoft Marketplace y/o Inmersoft Marketplace Apps (Marketplace Iré a Santiago, Marketplace Descubre Trinidad), y rigen su uso de los servicios de Inmersoft Marketplace, incluidas aplicaciones móviles, sitios web, software, soluciones basadas en la nube, hardware y otros productos y servicios (colectivamente, los \"Servicios\"). Al registrarse, usted acepta estos Términos generales y cualquier política a la que se haga referencia dentro de las (\"Políticas\"), incluido nuestro Aviso de privacidad (consulte la Sección 8) y los términos que limitan nuestra responsabilidad (consulte la Sección 18) y requieren arbitraje individual para cualquier disputa legal potencial (consulte la Sección 21), que se incorporan colectivamente en este documento por referencia. También acepta los términos adicionales específicos de los Servicios que utiliza (\"Términos adicionales\"), como los que se enumeran a continuación, que forman parte de su acuerdo con nosotros (colectivamente, los \"Términos\"). Si está utilizando los Servicios en nombre de una empresa, nos declara que tiene autoridad para vincular a esa empresa o entidad a estos Términos, y que la empresa acepta estos Términos. Debe leer todos nuestros Términos detenidamente."
+      },
+      {
+        "variant": "h5",
+        "content": "1. Registro de cuenta de Inmersoft Marketplace"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Debe abrir una cuenta con nosotros (una \"Cuenta Inmersoft Marketplace\") para utilizar los Servicios. Durante el registro, le pediremos información, que puede incluir, entre otros, su nombre y otra información personal. Debe proporcionar información precisa y completa en respuesta a nuestras preguntas, y debe mantener esa información actualizada. Usted es completamente responsable de toda la actividad que ocurra en su Cuenta de Inmersoft Marketplace, incluso de cualquier acción realizada por personas a las que les haya otorgado acceso a la Cuenta de Inmersoft Marketplace. Nos reservamos el derecho de cambiar el tipo de cuenta, suspender o cancelar la Cuenta de Inmersoft Marketplace de cualquier persona que proporcione información inexacta, falsa o incompleta, o que no cumpla con los requisitos de registro de la cuenta."
+      },
+      {
+        "variant": "h5",
+        "content": "2. Revisiones, Divulgaciones y Avisos"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Podemos modificar los Términos en cualquier momento con un aviso que consideremos razonable según las circunstancias y siempre con apego a la legislación vigente en Cuba, publicando la versión revisada en nuestro sitio web o comunicándoselo a usted a través de los Servicios (cada uno una \"Versión revisada\"). La Versión Revisada entrará en vigencia a partir del momento en que se publique, pero no se aplicará retroactivamente. Su uso continuado de los Servicios después de la publicación de una Versión revisada constituye su aceptación de dicha Versión revisada."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Al ser registrado en nuestro sitio usted acepta el consentimiento de firma electrónica de Inmersoft Marketplace. Podemos proporcionarle divulgaciones y avisos requeridos por la ley y otra información sobre su Cuenta de Inmersoft Marketplace electrónicamente, publicándola en nuestro sitio web, enviando notificaciones a través de los Servicios, o enviándola por correo electrónico a la dirección que figura en su Cuenta de Inmersoft Marketplace o que usted haya proporcionado a Inmersoft Marketplace. Las divulgaciones y notificaciones electrónicas tienen el mismo significado y efecto que si le hubiéramos proporcionado copias en papel. Dichas divulgaciones y avisos se consideran recibidos por usted dentro de las veinticuatro (24) horas posteriores a la publicación en nuestro sitio web, o dentro de las veinticuatro (24) horas posteriores al envío por correo electrónico, a menos que recibamos notificación de que el correo electrónico no llegó a su buzón. Si desea retirar su consentimiento para recibir comunicaciones electrónicas, diríjase con el Soporte técnico de Inmersoft Marketplace. Si no podemos respaldar su solicitud, es posible que deba cancelar su cuenta de Inmersoft Marketplace. "
+      },
+      {
+        "variant": "h5",
+        "content": "3. Restricciones"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "1. Acceder o monitorear cualquier material o información en cualquier sistema de Inmersoft Marketplace utilizando cualquier proceso manual o robot(bots), spider, scraper u otro medio automatizado;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "2. Excepto en la medida en que cualquier restricción esté expresamente prohibida por la ley, violar las restricciones en cualquier encabezado de exclusión de robot en cualquier Servicio, solucionar,  eludir cualquiera de las limitaciones técnicas de los Servicios, usar cualquier herramienta para habilitar características o funcionalidades que están deshabilitados en los Servicios, o descompilan, desensamblan o realizan ingeniería inversa de los Servicios;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "3. Realizar o intentar realizar cualquier acción que interfiera con el funcionamiento adecuado de los Servicios, impida el acceso o uso de los Servicios por parte de nuestros otros clientes, o imponga una carga irrazonable o desproporcionadamente grande en nuestra infraestructura;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "4. Copiar, reproducir, alterar, modificar, crear trabajos derivados, exhibir públicamente, republicar, cargar, publicar, transmitir, revender o distribuir de cualquier manera material, información o Servicios de Inmersoft Marketplace"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "5. Usar y beneficiarse de los servicios a través de un alquiler, arrendamiento, tiempo compartido, oficina de servicios u otro acuerdo;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "6. Transferir cualquier derecho otorgado a usted bajo estos Términos Generales;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "7. Usar los Servicios de una manera que lo distraiga o le impida obedecer las leyes de tráfico o seguridad;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "8. Utilizar los Servicios para la venta de armas de fuego, piezas de armas de fuego, municiones, armas u otros dispositivos diseñados para causar daño físico;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "9. Usar los Servicios para cualquier actividad o bienes ilegales o de cualquier manera que lo exponga a usted, a otros usuarios de Inmersoft Marketplace, a nuestros socios o a Inmersoft Marketplace a daños; o"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "10. Usar los Servicios de otra manera, excepto según lo permitido expresamente en estos Términos."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Si sospechamos razonablemente que su Cuenta de Inmersoft Marketplace se ha utilizado para un fin no autorizado, ilegal, delictivo o de incitación a delinquir, nos autoriza expresamente a compartir información sobre usted, su Cuenta de Inmersoft Marketplace y cualquiera de sus transacciones con las fuerzas del orden. "
+      },
+      {
+        "variant": "h5",
+        "content": "4. Dispositivos móviles compatibles y operadores de terceros"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "No garantizamos que los Servicios sean compatibles con su dispositivo móvil o proveedor. Su uso de los Servicios puede estar sujeto a los términos de sus acuerdos con el fabricante de su dispositivo móvil o su proveedor. No se puede usar un dispositivo modificado para usar los Servicios si la modificación es contraria a las pautas de software o hardware del fabricante, incluida la desactivación de los controles de hardware o software."
+      },
+      {
+        "variant": "h5",
+        "content": "5. Su contenido"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Los Servicios pueden incluir funciones para cargar o proporcionar sugerencias, recomendaciones, comentarios, historias, fotos, documentos, logotipos, productos, programas de fidelización, promociones, anuncios y otros materiales o información (\"Contenido\")."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Usted conserva todos los derechos sobre su Contenido, sujeto a los derechos que nos otorgó en estos Términos generales. Puede modificar o eliminar su Contenido a través de su Cuenta de Inmersoft Marketplace o cancelando su Cuenta de Inmersoft Marketplace, pero su Contenido puede persistir en copias históricas, archivadas o en caché y versiones del mismo disponibles en o a través de los Servicios."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "No cargará ni proporcionará Contenido ni publicará, transmitirá, distribuirá o diseminará a través de los Servicios ningún material que: "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "a) sea falso, engañoso, ilegal, obsceno, indecente, lascivo, pornográfico, difamatorio, calumnioso, amenazante, acosador, odioso, abusivo;"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "b) fomente conductas que serían consideradas un delito penal o dan lugar a responsabilidad civil; "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "c) o infrinja cualquier obligación o derecho de cualquier persona o entidad, incluidos los derechos de publicidad, privacidad o derechos de propiedad intelectual; "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "d) contiene datos dañados o cualquier otro archivo dañino, perturbador o destructivo; "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "e) anuncie productos o servicios que compitan con los productos y servicios de Inmersoft Marketplace o de sus socios, según lo determinemos a nuestro exclusivo criterio; o "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "f) a nuestro exclusivo criterio, es objetable, restringe o impide que cualquier persona o entidad que use o disfrute cualquier parte de los Servicios, o que pueda exponer a Inmersoft Marketplace, sus afiliados o sus clientes u otras personas a daños o responsabilidades de cualquier naturaleza."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Aunque no tenemos la obligación de monitorear ningún Contenido, tenemos absoluta discreción para eliminar el Contenido en cualquier momento y por cualquier motivo sin previo aviso. Inmersoft Marketplace también puede monitorear dicho Contenido para detectar y prevenir actividades fraudulentas o violaciones de los Términos generales de Inmersoft Marketplace. Usted comprende que al usar los Servicios, puede estar expuesto a Contenido que es ofensivo, indecente u objetable. No asumimos ninguna responsabilidad por ningún Contenido, incluida cualquier pérdida o daño a cualquiera de sus Contenidos por motivos ajenos al funcionamiento de los Servicios."
+      },
+      {
+        "variant": "h5",
+        "content": "6. Infracción de derechos de autor y marcas registradas"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Respetamos los derechos de propiedad intelectual de otros y le pedimos que haga lo mismo. Hemos adoptado una Política de propiedad intelectual con respecto a reclamos de terceros de que su material infringe los derechos de otros. Respondemos a todos los avisos válidos de dicha infracción, y nuestra política es suspender o cancelar las cuentas de los infractores reincidentes."
+      },
+      {
+        "variant": "h5",
+        "content": "7. Seguridad"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Hemos implementado medidas técnicas y organizativas diseñadas para proteger su información personal de destrucción accidental, pérdida, alteración y acceso, uso, alteración o divulgación no autorizados. Sin embargo, no podemos garantizar que terceros no autorizados nunca puedan atacar y vencer esas medidas o utilizar su información personal para fines indebidos. Usted proporciona su información personal bajo su propio riesgo."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Usted es el único responsable de proteger su contraseña y de restringir el acceso a los Servicios desde sus dispositivos móviles y computadoras compatibles y administradores de su Cuenta. Nos notificará de inmediato sobre cualquier uso no autorizado de su contraseña o Cuenta de Inmersoft Marketplace o cualquier otra violación de la seguridad. Inmediatamente tomará todas las medidas razonables para mitigar los efectos de una violación de seguridad y cooperará con Inmersoft Marketplace y proporcionará toda la información solicitada por Inmersoft Marketplace para remediar la violación. Cualquier asistencia proporcionada por Inmersoft Marketplace en relación con una violación de seguridad no funciona de ninguna manera como aceptación o reconocimiento de que Inmersoft Marketplace es de alguna manera responsable ante usted o cualquier otra parte en relación con dicha violación. Asimismo, la asistencia técnica por parte de Inmersoft Marketplace, debido a la pérdida de su contenido por uso indebido por su parte estará sujeta a costos adicionales."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Sin perjuicio de las Secciones 18 y 19, en caso de disputa entre dos o más partes en cuanto a la titularidad de la cuenta, seremos el único árbitro de dicha disputa a nuestro exclusivo criterio. Nuestra decisión (que puede incluir la rescisión o suspensión de cualquier Cuenta de Inmersoft Marketplace sujeta a disputa) será definitiva y vinculante para todas las partes. "
+      },
+      {
+        "variant": "h5",
+        "content": "8. Privacidad"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace recopila, usa y protege la información personal que usted nos proporciona (así como el inicio de sesión de su cuenta) para brindarle los Servicios o para sus propios fines. Debe familiarizarse con el Aviso de privacidad antes de utilizar los Servicios."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace recopila información personal de sus clientes y empleados, Inmersoft Marketplace procesa cierta información personal de sus clientes o empleados en nombre de su empresa como proveedor de servicios (\"procesador de datos\"). En tales circunstancias, usted acepta que cumplirá con las leyes de protección de datos aplicables a usted y proporcionará a los interesados información sobre el procesamiento de su información personal que satisfaga los requisitos de transparencia de dichas leyes de protección de datos y que garantice que los datos personales pueden ser procesados de manera justa, legal y transparente. "
+      },
+      {
+        "variant": "h5",
+        "content": "9. Comunicaciones"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Usted acuerda aceptar y recibir nuestras comunicaciones, incluidos correos electrónicos, mensajes de texto, llamadas y notificaciones automáticas al número de teléfono celular que nos proporcionó cuando se registra en una cuenta de Inmersoft Marketplace o actualiza la información de contacto asociada con su cuenta. Dichas comunicaciones pueden incluir, entre otras, solicitudes de autenticación secundaria (autenticación de dos factores), recibos de facturas, recordatorios, notificaciones sobre actualizaciones de su cuenta o soporte de cuenta y comunicaciones promocionales o de marketing. Usted reconoce que no está obligado a dar su consentimiento para recibir mensajes de texto o llamadas promocionales como condición para usar los Servicios. Las comunicaciones de llamadas y mensajes de texto pueden generarse mediante sistemas automáticos de marcación telefónica. Las tarifas estándar de mensajes y datos aplicadas por su proveedor de telefonía celular pueden aplicarse a los mensajes de texto que le enviamos."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Puede optar por no recibir comunicaciones promocionales por correo electrónico que le enviamos siguiendo las opciones de cancelación de suscripción en dichos correos electrónicos. Puede optar por no recibir llamadas telefónicas promocionales informando a la persona que llama que no le gustaría recibir futuras llamadas promocionales. Usted reconoce que optar por no recibir comunicaciones puede afectar su uso de los Servicios. "
+      },
+      {
+        "variant": "h5",
+        "content": "10. Servicios pagados"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Los Servicios de Inmersoft Marketplace incluyen Servicios pagos (\"Servicios pagos\") y Servicios gratuitos, por los cuales no se cobran tarifas (\"Servicios gratuitos\"). Inmersoft Marketplace ofrece ciertos Servicios de pago que se pagarán de forma recurrente (\"Servicios de suscripción\"). Los Servicios de Suscripción pueden estar sujetos a cargos y/o términos recurrentes. Al inscribirse a un Servicio de suscripción, incluso después de cualquier período de prueba gratuito, acepta pagarnos la tarifa de suscripción y cualquier Impuesto aplicable (como se define a continuación) (\"Tarifa de suscripción\"). Consulte los Términos de pago para conocer los términos aplicables a los Servicios de pago."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Las tarifas de servicio de pago pueden pagarse con tarjeta de débito, tarjeta de crédito, transferencia bancaria o deducirse de los ingresos de su transacción. Si vincula una tarjeta de débito o crédito a su cuenta, nos autoriza a cobrar las tarifas de servicio pagadas mediante débito de su tarjeta de débito vinculada o cargo a su tarjeta de crédito asociada. Independientemente del dispositivo de pago, nos reservamos el derecho de cobrar las Tarifas de servicio de pago mediante la deducción de los ingresos de su transacción, el Saldo (como se define en los Términos de pago) en su Cuenta de Inmersoft Marketplace o su cuenta bancaria vinculada."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "A menos que se indique lo contrario en los términos de un Servicio de suscripción, las Tarifas de suscripción se cobrarán el primer día de cada mes hasta que se cancelen para el caso de suscripciones mensuales y en caso de las suscripciones anuales en las primeras 24 horas vencido el plazo de un año. Puede cancelar un Servicio de suscripción en cualquier momento desde la configuración de su Cuenta de Inmersoft Marketplace. Si cancela un Servicio de suscripción, continuará teniendo acceso a ese Servicio de suscripción hasta el final de su período de facturación actual, pero no tendrá derecho a un reembolso o crédito por ninguna Tarifa de suscripción ya pagada o vencida. Nos reservamos el derecho de cambiar nuestra tarifa de suscripción con un aviso de treinta (30) días de antelación. Su uso continuado de los Servicios de suscripción después de la notificación de un cambio en nuestra Tarifa de suscripción constituirá su aceptación de dichos cambios. "
+      },
+      {
+        "variant": "h5",
+        "content": "11. Modificación y Terminación"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Podemos rescindir estos Términos generales o cualquiera de los Términos adicionales, o suspender o cancelar su Cuenta de Inmersoft Marketplace o su acceso a cualquier Servicio, en cualquier momento y por cualquier motivo. Podemos agregar o eliminar, suspender, detener, eliminar, descontinuar o imponer condiciones a los Servicios o cualquier característica o aspecto de un Servicio. Tomaremos las medidas razonables para notificarle la rescisión o estos otros tipos de cambios en el Servicio por correo electrónico o la próxima vez que intente acceder a su Cuenta de Inmersoft Marketplace. También puede rescindir los Términos generales y los Términos adicionales aplicables a su Cuenta de Inmersoft Marketplace desactivando su Cuenta de Inmersoft Marketplace en cualquier momento."
+      },
+      {
+        "variant": "h5",
+        "content": "12. Efecto de la rescisión"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Si estos Términos generales o su Cuenta de Inmersoft Marketplace se rescinden o suspenden por algún motivo: "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "a) la licencia y cualquier otro derecho otorgado en virtud de estos Términos terminarán, "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "b) usted acepta rescindir y dejar de usar todos los Servicios de inmediato,"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "c) podemos (pero no tenemos la obligación de) eliminar su información y datos de cuenta almacenados en nuestros servidores, y "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "d) no seremos responsables ante usted ni ante ningún tercero por compensación, reembolso o daños por cualquier terminación o suspensión de los Servicios , o para la eliminación de su información o datos de cuenta. Además de cualquier obligación de pago en virtud de los Términos de pago, las siguientes secciones de estos Términos generales sobreviven y permanecen vigentes de acuerdo con sus términos al momento de la rescisión: 5 (Su contenido), 6 (Infracción de derechos de autor y marcas comerciales), 7 (Seguridad), 8 (Privacidad), 12 (Efecto de rescisión), 14 (Propiedad), 15 (Indemnización), 16 (Declaraciones y garantías), 17 (Sin garantías), 18 (Limitación de responsabilidad y daños), 19 (Productos de terceros) , 20 (Disputas), 21 (Arbitraje individual vinculante), 22 (Límite de tiempo para iniciar una disputa), 23 (Servicio de terceros y enlaces a otros sitios web), y 25 (Otras provisiones)."
+      },
+      {
+        "variant": "h5",
+        "content": "13. Su licencia"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Le otorgamos una licencia limitada, no exclusiva, revocable, intransferible y no sublicenciable para usar los Servicios pagos, y una licencia libre de regalías, limitada, no exclusiva, revocable, intransferible y no sublicenciable para usar los Servicios Gratuitos autorizados en estas Condiciones Generales. Podemos hacer actualizaciones a los Servicios disponibles para usted, que debe aceptar para continuar usando los Servicios. Cualquier actualización de este tipo puede estar sujeta a términos adicionales que se le informen en ese momento."
+      },
+      {
+        "variant": "h5",
+        "content": "14. Propiedad"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Nos reservamos todos los derechos no otorgados expresamente a usted en estos Términos Generales. Los Servicios están protegidos por derechos de autor, marcas registradas, patentes y otras leyes vigentes en Cuba y otros países. Somos propietarios de todos los derechos, títulos e intereses sobre los Servicios y todas las copias de los Servicios. Estos Términos generales no le otorgan ningún derecho sobre nuestras marcas comerciales o marcas de servicio."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "A los efectos de estos Términos generales, \"Derechos de propiedad intelectual\" se refiere a todos los derechos de patente, derechos de autor, derechos de trabajo de máscara, derechos morales, derechos de publicidad, derechos de marca registrada, imagen comercial y marca de servicio, buena voluntad, derechos de secreto comercial y otros derechos intelectuales. derechos de propiedad que puedan existir ahora o en el futuro, y todas sus solicitudes, registros, renovaciones y prórrogas, conforme a las leyes vigentes en Cuba, otro país, territorio u otra jurisdicción. "
+      },
+      {
+        "variant": "h5",
+        "content": "15. Indemnización"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Usted nos indemnizará, defenderá y eximirá de toda responsabilidad a nosotros y a nuestros procesadores (y a nuestros respectivos empleados, directores, agentes, afiliados y representantes) frente a cualquier reclamo, costo, pérdida, daño, juicio, evaluación de impuestos, sanciones, intereses, y gastos (incluidos, entre otros, los honorarios razonables de los abogados) que surjan de o estén relacionados con cualquier reclamo, acción, auditoría, investigación, indagación u otro procedimiento iniciado por cualquier persona o entidad que surja de o se relacione con: "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "a) cualquier incumplimiento real o presunto de sus representaciones, garantías u obligaciones establecidas en estos Términos; "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "b) su uso indebido o inapropiado de los Servicios; "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "c) su violación de cualquier derecho de terceros, incluidos, entre otros, cualquier derecho de privacidad, derechos de publicidad o derechos de propiedad intelectual; "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "d) su violación de cualquier ley, regla o regulación Cubana o de cualquier otro país; "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "e) cualquier reclamo de terceros realizado por su Comprador con respecto al procesamiento de Inmersoft Marketplace de la Información personal de su cliente/Comprador en relación con la prestación de los Servicios; y "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "f) el acceso y/o uso de los Servicios por parte de cualquier otra parte con su nombre único, contraseña u otro código de seguridad apropiado; y "
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "g) cualquier transacción, compra, bien o servicio con respecto al cual Inmersoft Marketplace le brinda, o le proporcionó, servicios de procesamiento de pagos de acuerdo con los Términos."
+      },
+      {
+        "variant": "h5",
+        "content": "16. Declaraciones y Garantías"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Debe abrir una cuenta con nosotros (una \"Cuenta Inmersoft Marketplace\") para utilizar los Servicios. Durante el registro, le pediremos información, que puede incluir, entre otros, su nombre y otra información personal. Debe proporcionar información precisa y completa en respuesta a nuestras preguntas, y debe mantener esa información actualizada. Usted es completamente responsable de toda la actividad que ocurra en su Cuenta de Inmersoft Marketplace, incluso de cualquier acción realizada por personas a las que les haya otorgado acceso a la Cuenta de Inmersoft Marketplace. Nos reservamos el derecho de cambiar el tipo de cuenta, suspender o cancelar la Cuenta de Inmersoft Marketplace de cualquier persona que proporcione información inexacta, falsa o incompleta, o que no cumpla con los requisitos de registro de la cuenta."
+      },
+      {
+        "variant": "h5",
+        "content": "17. Sin garantías"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "EL USO DE “Inmersoft Marketplace” EN LAS SECCIONES 17 Y 18 SE REFIERE A Inmersoft Marketplace, SUS OPERADORES, PROVEEDORES Y LICENCIANTES (Y SUS RESPECTIVAS SUBSIDIARIAS, AFILIADOS, AGENTES, DIRECTORES Y EMPLEADOS)."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "LOS SERVICIOS SE PROPORCIONAN \"TAL CUAL\" SIN REPRESENTACIÓN NI GARANTÍA, YA SEA EXPRESA, IMPLÍCITA O ESTATUTARIA. SIN LIMITAR LO ANTERIOR, Inmersoft Marketplace NIEGA ESPECÍFICAMENTE CUALQUIER GARANTÍA IMPLÍCITA DE COMERCIABILIDAD, IDONEIDAD PARA UN FIN DETERMINADO O NO VIOLACIÓN."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace NO GARANTIZA, REPRESENTA NI GARANTIZA DE NINGUNA MANERA QUE LOS SERVICIOS SEAN EXACTOS, CONFIABLES O CORRECTOS; QUE LOS SERVICIOS CUMPLIRÁN CON SUS REQUISITOS; QUE LOS SERVICIOS ESTARÁN DISPONIBLES EN CUALQUIER MOMENTO O LUGAR EN PARTICULAR, SIN INTERRUPCIONES, SIN ERRORES, SIN DEFECTOS O SEGUROS; QUE CUALQUIER DEFECTO O ERROR EN LOS SERVICIOS SERÁ CORREGIDO; O QUE LOS SERVICIOS ESTÉN LIBRES DE VIRUS U OTROS COMPONENTES DAÑINOS O APTOS PARA CUALQUIER FIN EN PARTICULAR."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Inmersoft Marketplace no garantiza, avala, garantiza ni asume responsabilidad alguna por ningún producto o servicio anunciado u ofrecido por un tercero. Inmersoft Marketplace no tiene control ni responsabilidad por los bienes o servicios que se pagan por usar los Servicios. "
+      },
+      {
+        "variant": "h5",
+        "content": "18. Limitaciones de responsabilidad y daños"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "EN LA MEDIDA MÁXIMA PERMITIDA POR LA LEY APLICABLE VIGENTE, EN NINGÚN CASO Inmersoft Marketplace SERÁ RESPONSABLE DE CUALQUIER DAÑO DIRECTO, INDIRECTO, PUNITIVO, INCIDENTAL, ESPECIAL, CONSECUENTE O EJEMPLAR, INCLUYENDO SIN LIMITACIÓN DAÑOS POR PÉRDIDA DE BENEFICIOS, FONDO DE COMERCIO, USO, DATOS O OTRAS PÉRDIDAS INTANGIBLES QUE RESULTEN DEL USO, LA INCAPACIDAD DE USO O LA FALTA DE DISPONIBILIDAD DEL SERVICIO. EN TODOS LOS CASOS, Inmersoft Marketplace NO SERÁ RESPONSABLE DE NINGUNA PÉRDIDA O DAÑO QUE NO SEA RAZONABLEMENTE PREVISIBLE."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "BAJO NINGUNA CIRCUNSTANCIA Inmersoft Marketplace SERÁ RESPONSABLE DE CUALQUIER DAÑO, PÉRDIDA O LESIÓN RESULTANTE DE LA PIRATERÍA, LA MANIPULACIÓN U OTRO ACCESO O USO NO AUTORIZADO DE LOS SERVICIOS O SU CUENTA DE Inmersoft Marketplace, O LA INFORMACIÓN CONTENIDA EN ELLOS."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "EN LA MEDIDA MÁXIMA PERMITIDA POR LA LEY APLICABLE VIGENTE, LA RESPONSABILIDAD TOTAL DE Inmersoft Marketplace SE LIMITA A LA MAYOR DE (A) LA CANTIDAD DE TARIFAS GANADAS POR NOSOTROS EN RELACIÓN CON SU USO DE LOS SERVICIOS DURANTE EL PERÍODO DE TRES (3) MESES INMEDIATAMENTE ANTERIORES AL EVENTO QUE DA ORIGEN A LA RECLAMACIÓN DE RESPONSABILIDAD."
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "ESTA SECCIÓN DE LIMITACIÓN DE RESPONSABILIDAD SE APLICA YA SEA QUE LA PRESUNTA RESPONSABILIDAD SE BASA EN CONTRATO, AGRAVIO, NEGLIGENCIA, RESPONSABILIDAD ESTRICTA O CUALQUIER OTRA BASE, INCLUSO SI Inmersoft Marketplace HA SIDO ADVERTIDO DE LA POSIBILIDAD DE DICHO DAÑO. "
+      },
+      {
+        "variant": "h5",
+        "content": "19. Productos de terceros"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Todo el hardware de terceros y otros productos incluidos o vendidos con los Servicios se proporcionan únicamente de acuerdo con la garantía y otros términos especificados por el fabricante, quien es el único responsable del servicio y soporte para su producto. Para obtener asistencia de servicio, soporte o garantía, debe comunicarse directamente con el fabricante. Inmersoft Marketplace NO HACE DECLARACIONES NI GARANTÍAS, EXPRESAS O IMPLÍCITAS, CON RESPECTO A DICHOS PRODUCTOS DE TERCEROS, Y NIEGA EXPRESAMENTE CUALQUIER GARANTÍA O CONDICIÓN DE COMERCIABILIDAD, NO VIOLACIÓN O IDONEIDAD PARA UN FIN EN PARTICULAR."
+      },
+      {
+        "variant": "h5",
+        "content": "20. Disputas"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "\"Disputas\" se definen como cualquier reclamo, controversia o disputa entre usted y Inmersoft Marketplace, sus operadores, administradores, proveedores o licenciantes (o sus respectivos afiliados, agentes, directores o empleados), ya sea que surja antes o durante el período de vigencia de estos Términos, y incluyendo cualquier reclamo, controversia o disputa basada en cualquier conducta de usted o de Inmersoft Marketplace que haya ocurrido antes de la fecha de entrada en vigencia de estos Términos, incluidos los reclamos relacionados de alguna manera con estos Términos o los Servicios, o cualquier otro aspecto de nuestra relación."
+      },
+      {
+        "variant": "h5",
+        "content": "21. Arbitraje individual vinculante"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Usted y Inmersoft Marketplace acuerdan que todas y cada una de las disputas, excepto aquellas que se resuelvan de manera informal, serán arbitradas por un árbitro neutral que tiene el poder de otorgar los mismos daños y perjuicios individuales que un tribunal. CUALQUIER ARBITRAJE BAJO ESTOS TÉRMINOS GENERALES SÓLO SERÁ DE FORMA INDIVIDUAL; NO ESTÁN PERMITIDOS LOS ARBITRAJES COLECTIVOS, LAS ACCIONES COLECTIVAS, LAS ACCIONES REPRESENTATIVAS Y LA CONSOLIDACIÓN CON OTROS ARBITRAJES. USTED RENUNCIA A CUALQUIER DERECHO A QUE UN JURADO DECIDA SU CASO Y RENUNCIA A CUALQUIER DERECHO A PARTICIPAR EN UNA DEMANDA COLECTIVA CONTRA Inmersoft Marketplace. Si se determina que alguna disposición de este acuerdo de arbitraje es inaplicable, la disposición inaplicable se anulará y se aplicarán los términos restantes del arbitraje (pero en ningún caso habrá un arbitraje colectivo o representativo)."
+      },
+      {
+        "variant": "h5",
+        "content": "22. Limitación de tiempo para iniciar una disputa"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Cualquier acción o procedimiento por su parte en relación con cualquier disputa debe comenzar dentro de un año después de que se produzca la causa de la acción."
+      },
+      {
+        "variant": "h5",
+        "content": "23. Servicios de terceros y enlaces a otros sitios web"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Es posible que se le ofrezcan servicios, productos y promociones patrocinadas por terceros y no por Inmersoft Marketplace, incluidos, entre otros, desarrolladores externos que utilizan los servicios de Inmersoft Marketplace (\"Servicios de terceros\"). Si decide utilizar Servicios de terceros, será responsable de revisar y comprender los términos y condiciones de estos servicios. No somos responsables de la ejecución de ningún Servicio de terceros. Además, acepta resolver cualquier desacuerdo entre usted y un tercero con respecto a los términos y condiciones de los Servicios de terceros con ese tercero directamente de acuerdo con los términos y condiciones de esa relación, y no con Inmersoft Marketplace. Los Servicios pueden contener enlaces a sitios web de terceros. La inclusión de cualquier enlace a un sitio web no implica una aprobación, respaldo o recomendación por parte de Inmersoft Marketplace. Dichos sitios web de terceros no se rigen por estos Términos generales. Usted accede a cualquier sitio web bajo su propio riesgo. Renunciamos expresamente a cualquier responsabilidad por estos sitios web. Cuando utiliza un enlace para ir de los Servicios a un sitio web de un tercero, nuestro Aviso de privacidad ya no está vigente. Su navegación e interacción en un sitio web de terceros, incluidos aquellos que tienen un enlace en los Servicios, está sujeta a los términos, reglas y políticas de ese sitio web."
+      },
+      {
+        "variant": "h5",
+        "content": "24. Terceros beneficiarios"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Ninguna disposición de estos Términos generales y de los Términos adicionales aplicables pretende crear o crear ningún derecho con respecto al tema de estos Términos generales y los Términos adicionales aplicables en cualquier tercero."
+      },
+      {
+        "variant": "h5",
+        "content": "25. Otras Disposiciones"
+      },
+      {
+        "variant": "body1",
+        "sx": {
+          "textAlign": "justify"
+        },
+        "content": "Estos Términos generales y los Términos o políticas adicionales aplicables son una declaración completa del acuerdo entre usted y Inmersoft Marketplace con respecto a los Servicios. En caso de conflicto entre estos Términos generales y cualquier otro acuerdo o política de Inmersoft Marketplace, estos Términos generales prevalecerán y controlarán el tema de dicho conflicto. Si alguna disposición de estos Términos generales o cualquier Término adicional es inválida o inaplicable según la ley aplicable vigente en Cuba, entonces se cambiará e interpretará para lograr los objetivos de dicha disposición en la mayor medida posible según la ley aplicable, y las disposiciones restantes continuarán en su totalidad de fuerza y efecto. Estos Términos generales no limitan ningún derecho que podamos tener en virtud de secretos comerciales, derechos de autor, patentes u otras leyes. Ninguna renuncia a cualquier término de estos Términos generales se considerará una renuncia adicional o continua de dicho término o cualquier otro término."
+      }
+    ],
+    "AppName": "Inmersoft Marketplace",
+    "Map": {
+      "Short": "Posición",
+      "Placeholder": "Introduce la dirección",
       "Save": "Guardar",
       "Tooltip": "¿Cómo llegar?",
       "Title": "Mapa",
@@ -30,6 +1755,7 @@
         "Categories": "Categorias",
         "Menus": "Catálogos"
       },
+      "NoHistory": "No hay búsquedas recientes...",
       "Models": {
         "menus": "Lugares",
         "products": "Productos"
@@ -80,10 +1806,10 @@
     },
     "Settings": {
       "ImageSuggestion": "Se recomienda que el logo sea un imagen cuadrada",
-      "Tabs": ["Generales", "Mapa", "Seguridad"],
+      "Tabs": ["Generales", "Social", "Mapa", "Seguridad", "QR"],
       "PasswordTitle": "Cambiar contraseña",
-      "Qr": "Código Qr del catálogo",
-      "ShowLogoOnQr": "Mostrar logo en el qr",
+      "Qr": "Código QR del catálogo",
+      "ShowLogoOnQr": "Mostrar logo en el QR",
       "Inputs": {
         "CenterTypes": {
           "Label": "Tipo de negocio",
@@ -182,7 +1908,29 @@
           ]
         },
         "Contact": {
+          "Count": {
+            "ToWhatsapp": {
+              "order": "pedido: "
+            },
+            "Clean": "Limpiar orden",
+            "Submit": "Ordenar",
+            "Remote": "Domicilio",
+            "Share": "Compartir",
+            "CustomerName": {
+              "Short": "Nombre",
+              "Label": "Nombre del receptor",
+              "Placeholder": "ej: Jose Andres Perez Meriño"
+            },
+            "Order": {
+              "Title": "Orden",
+              "Total": "total: "
+            },
+            "CartTooltip": "Orden",
+            "Title": "Ordenar",
+            "Label": "Cantidad"
+          },
           "Phone": {
+            "Short": "Tel",
             "Label": "Teléfono",
             "Placeholder": "ej: +53 56174215"
           },
@@ -225,7 +1973,7 @@
         },
         "Price": {
           "Label": "Precio",
-          "Placeholder": "ej 100"
+          "Placeholder": "ej: 100"
         },
         "Type": {
           "Add": "Añadir",
@@ -245,7 +1993,7 @@
       "Inputs": {
         "User": {
           "Label": "Usuario",
-          "Placeholder": "ej: tusuario"
+          "Placeholder": "ej: usuario"
         },
         "Password": {
           "Label": "Contraseña",

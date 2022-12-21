@@ -1,47 +1,26 @@
 // @ts-check
 
 import config from "../config";
+import { validateBasicKey } from "../services/auth";
 
-export const getUserName = () => {
-  // @ts-ignore
-  if (localStorage.getItem(config.userCookie) !== null)
-    // @ts-ignore
-    return localStorage.getItem(config.userCookie);
-  // @ts-ignore
-  return sessionStorage.getItem(config.userCookie);
+export const getUserName = () => sessionStorage.getItem("user");
+
+export const isAdmin = async () => {
+  const value = await validateBasicKey("admin");
+  if (value) return true;
+  return false;
 };
-
-export const isAdmin = () => getUserName() === "admin";
 
 /**
  * If the user is logged in, return true, otherwise return false.
  */
 export const userLogged = () =>
   // @ts-ignore
-  localStorage.getItem(config.userCookie) !== null ||
-  // @ts-ignore
-  sessionStorage.getItem(config.userCookie) !== null;
+  getCookie(config.basicKeyCookie).length > 0;
 
-/**
- * If remember is true, it stores user data to localStorage, otherwise it stores it in sessionStorage
- * @param {boolean} remember - a boolean value that determines whether the user should be remembered or not.
- * @param {string} user - The user object that you want to store in the browser.
- */
-export const logUser = (remember, user) => {
+export const logoutUser = () =>
   // @ts-ignore
-  if (remember) localStorage.setItem(config.userCookie, user);
-  // @ts-ignore
-  else sessionStorage.setItem(config.userCookie, user);
-};
-
-export const logoutUser = () => {
-  // @ts-ignore
-  localStorage.removeItem(config.userCookie);
-  // @ts-ignore
-  sessionStorage.removeItem(config.userCookie);
-  // @ts-ignore
-  deleteCookie(config.basicKey);
-};
+  deleteCookie(config.basicKeyCookie);
 
 /**
  * Takes a name, expiration, and value, and creates a cookie with those values
@@ -97,9 +76,8 @@ export const getCookie = (cname) => {
  * Removes a cookie
  * @param {string} name
  */
-export const deleteCookie = (name) => {
-  document.cookie = `${name} + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"`;
-};
+export const deleteCookie = (name) =>
+  (document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`);
 
 /**
  * Find the first upper case letter in a string.

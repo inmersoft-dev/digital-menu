@@ -10,7 +10,13 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 /* eslint-disable no-shadow */
 /* eslint-disable react/function-component-definition */
-import { useLayoutEffect, useEffect, useState, useRef } from "react";
+import {
+  useLayoutEffect,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 
 // sito components
 import SitoContainer from "sito-container";
@@ -34,13 +40,11 @@ import { Box, Button, TextField } from "@mui/material";
 import MapIcon from "@mui/icons-material/Map";
 
 // contexts
-import { useLanguage } from "../../../context/LanguageProvider";
+import { useLanguage } from "../../context/LanguageProvider";
 
 // images
-import pointImage from "../../../assets/images/point.webp";
-// import Crash from "assets/images/crash";
-import config from "../../../config";
-import { useCallback } from "react";
+import pointImage from "../../assets/images/point.webp";
+import config from "../../config";
 
 const Map = (props) => {
   const {
@@ -67,14 +71,13 @@ const Map = (props) => {
 
   const [zoom, setZoom] = useState(15);
 
-  const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const [showMap, setShowMap] = useState(true);
 
   const init = async () => {
     try {
       setApiMap(config.mapBoxAPI);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
@@ -185,10 +188,11 @@ const Map = (props) => {
     });
     const geocoder = new MapboxGeocoder({
       // Initialize the geocoder
+      countries: "cu",
       accessToken: apiMap, // Set the access token
       mapboxgl, // Set the mapbox-gl instance
       zoom, // Set the zoom level for geocoding results
-      placeholder: "Enter an address or place name", // This placeholder text will display in the search bar
+      placeholder: languageState.texts.Map.Placeholder, // This placeholder text will display in the search bar
       /*  bbox: [-105.116, 39.679, -104.898, 39.837], */ // Set a bounding box
     });
     // Add the geocoder to the map
@@ -273,14 +277,17 @@ const Map = (props) => {
                 <MapIcon />
               </Button>
             )}
-            <Button
-              type="button"
-              color="primary"
-              variant="contained"
-              onClick={onSave}
-            >
-              {languageState.texts.Map.Save}
-            </Button>
+
+            {onSave ? (
+              <Button
+                type="button"
+                color="primary"
+                variant="contained"
+                onClick={onSave}
+              >
+                {languageState.texts.Map.Save}
+              </Button>
+            ) : null}
           </SitoContainer>
         </SitoContainer>
       )}

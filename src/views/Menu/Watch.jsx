@@ -1,42 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useReducer, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import inViewport from "in-viewport";
-
-// @mui components
-import {
-  Box,
-  Tooltip,
-  useTheme,
-  IconButton,
-  Typography,
-  Link as MUILink,
-} from "@mui/material";
+// @mui/material
+import { Box, Typography, Button, Tooltip, Badge } from "@mui/material";
 
 // @mui/icons-material
-import MapIcon from "@mui/icons-material/Map";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 // sito components
 import SitoContainer from "sito-container";
-import SitoImage from "sito-image";
 
 // own components
 import Error from "../../components/Error/Error";
-import Loading from "../../components/Loading/Loading";
 import Modal from "../../components/Modal/Modal";
 import Empty from "../../components/Empty/Empty";
+import MainContent from "./components/MainContent";
 import NotFound from "../../views/NotFound/NotFound";
-import TabView from "../../components/TabView/TabView";
-import BackButton from "../../components/BackButton/BackButton";
+import Loading from "../../components/Loading/Loading";
+import CookieBox from "../../components/CookieBox/CookieBox";
+import WatchAppBar from "../../components/AppBar/WatchAppBar";
 import FabButtons from "../../components/FabButtons/FabButtons";
 import InViewComponent from "../../components/InViewComponent/InViewComponent";
-
-// icons
-import { socialMediaIcons, placeTypeIcons } from "./icons";
 
 // services
 import { fetchMenu } from "../../services/menu.js";
@@ -44,47 +29,96 @@ import {
   sendQrCookie,
   sendVisitCookie,
   sendDescriptionCookie,
-  sendHowToGoCookie,
 } from "../../services/analytics";
 
 // contexts
-import { useMode } from "../../context/ModeProvider";
+import { useHistory } from "../../context/HistoryProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 import { useNotification } from "../../context/NotificationProvider";
 
 // components
+import OrderModal from "../../components/OrderModal/OrderModal";
 import ProductCard from "../../components/ProductCard/ProductCard";
-
-// images
-import noProduct from "../../assets/images/no-product.webp";
 
 // functions
 import { dashesToSpace } from "../../utils/functions";
 
 // utils
-import { parserAccents } from "../../utils/parser";
+import { parserAccents, parseI } from "../../utils/parser";
 import { scrollTo, spaceToDashes } from "../../utils/functions";
 
 // styles
 import {
   typeBoxCss,
-  productImageBox,
-  productImage,
-  headerBox,
   productList,
-  mainContent,
   mainWindow,
+  responsiveGrid,
 } from "../../assets/styles/styles";
 
 const Watch = () => {
-  const theme = useTheme();
   const location = useLocation();
 
   const { languageState } = useLanguage();
-  const { modeState, setModeState } = useMode();
-  const { setNotificationState } = useNotification();
+  const { setHistoryState } = useHistory();
 
-  const toggleMode = () => setModeState({ type: "toggle" });
+  const orderReducer = (orderStates, action) => {
+    const { type } = action;
+    switch (type) {
+      case "set": {
+        const { newArray } = action;
+        if (newArray.length) newArray[0].active = true;
+        return newArray;
+      }
+      case "delete": {
+        const { index } = action;
+        const newArray = [...orderStates];
+        newArray.splice(index, 1);
+        return newArray;
+      }
+      case "add": {
+        const { newProduct } = action;
+        const findIndex = orderStates.findIndex(
+          (item) => item.productId === newProduct.productId
+        );
+        if (findIndex > -1) {
+          orderStates[findIndex].count += newProduct.count;
+          orderStates[findIndex].cost += newProduct.cost;
+        } else orderStates.push(newProduct);
+        return [...orderStates];
+      }
+      default:
+        return [];
+    }
+  };
+
+  const [toOrder, setToOrder] = useReducer(orderReducer, []);
+
+  const [shake, setShake] = useState(false);
+
+  useEffect(() => {
+    if (toOrder.length > 0) {
+      setShake(true);
+      setTimeout(() => {
+        setShake(false);
+      }, 100);
+    }
+  }, [toOrder]);
+
+  const addToOrder = (count, product) => {
+    setToOrder({
+      type: "add",
+      newProduct: {
+        count,
+        productId: product.id,
+        product: product.name,
+        price: product.price,
+        cost: product.price * count,
+        photo: product.photo,
+      },
+    });
+  };
+
+  const { setNotificationState } = useNotification();
 
   const typesReducer = (typesStates, action) => {
     const { type } = action;
@@ -172,8 +206,8 @@ const Watch = () => {
             : [],
         });
         setProducts(data.list ? data.list : []);
-        setLoading(0);
       }
+      setLoading(0);
     } catch (err) {
       console.error(err);
       showNotification("error", String(err));
@@ -183,24 +217,6 @@ const Watch = () => {
   };
 
   const retry = () => fetch();
-
-  const onScroll = useCallback(
-    (e) => {
-      let firstTrue = -1;
-      for (let i = 0; i < productTypes.length; i += 1) {
-        const elem = document.getElementById(`title-${productTypes[i].name}`);
-        const isInViewport = inViewport(elem);
-        if (isInViewport && firstTrue === -1) firstTrue = i;
-        if (
-          isInViewport &&
-          document.documentElement.scrollTop >=
-            Math.floor(elem.offsetTop - elem.getBoundingClientRect().top)
-        )
-          setTab(i);
-      }
-    },
-    [productTypes]
-  );
 
   const onKeyDown = useCallback(
     (e) => {
@@ -212,13 +228,11 @@ const Watch = () => {
   );
 
   useEffect(() => {
-    window.addEventListener("scroll", onScroll);
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [onScroll, onKeyDown]);
+  }, [onKeyDown]);
 
   useEffect(() => {
     if (currentMenu.length) retry();
@@ -248,6 +262,19 @@ const Watch = () => {
         const [paramName, paramValue] = item.split("=");
         if (paramValue)
           switch (paramName) {
+            case "search": {
+              const exist = localStorage.getItem("search-history");
+              if (exist !== null && exist !== "")
+                setHistoryState({
+                  type: "set",
+                  newArray: JSON.parse(exist).filter(
+                    (item) => item !== null && item.trim().length > 0
+                  ),
+                });
+              if (paramValue.length > 0)
+                setHistoryState({ type: "add", newHistory: paramValue });
+              break;
+            }
             case "visited":
               if (menuName.length) {
                 sendQrCookie(menuName);
@@ -272,22 +299,6 @@ const Watch = () => {
     if (qr === 0) sendVisitCookie(currentMenu);
   }, [qr, currentMenu]);
 
-  const [tab, setTab] = useState(0);
-
-  const changeTab = (e, value) => {
-    setTab(value);
-    const type = document.getElementById(`title-${productTypes[value].name}`);
-    if (type !== null) scrollTo(type.offsetTop);
-  };
-
-  const parseI = (start, i) => {
-    let toReturn = start;
-    for (let j = 0; j < i; j += 1) toReturn += 0.2;
-    return toReturn;
-  };
-
-  const clickedMap = () => sendHowToGoCookie();
-
   const hasProducts = useCallback(
     (item) => {
       const lProducts = products.filter((jtem) => jtem.type === item.name);
@@ -297,12 +308,60 @@ const Watch = () => {
     [products]
   );
 
+  const [showOrder, setShowOrder] = useState();
+  const showOrderOff = () => setShowOrder(false);
+
+  const toggleOrder = () => setShowOrder(!showOrder);
+
+  const cleanOrder = () => setToOrder({ type: "clean" });
+
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
-      <BackButton flat to="/" />
+      <CookieBox />
+      {toOrder.length ? (
+        <OrderModal
+          menu={menu}
+          phone={phone}
+          visible={showOrder}
+          order={toOrder}
+          onClose={showOrderOff}
+          cleanOrder={cleanOrder}
+        />
+      ) : null}
+      {toOrder.length > 0 ? (
+        <Tooltip
+          title={languageState.texts.Settings.Inputs.Contact.Count.CartTooltip}
+          placement="right"
+        >
+          <Button
+            onClick={toggleOrder}
+            className={shake ? "shake" : ""}
+            variant="contained"
+            sx={{
+              borderRadius: "100%",
+              padding: "5px",
+              minWidth: 0,
+              zIndex: 20,
+              position: "fixed",
+              bottom: "10px",
+              left: "10px",
+            }}
+          >
+            <Badge badgeContent={toOrder.length} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </Button>
+        </Tooltip>
+      ) : null}
+
       <FabButtons />
       {selected && (
-        <Modal visible={visible} item={selected} onClose={onModalClose} />
+        <Modal
+          addCount={addToOrder}
+          visible={visible}
+          item={selected}
+          onClose={onModalClose}
+        />
       )}
       <Loading
         visible={loading === 1}
@@ -314,150 +373,16 @@ const Watch = () => {
         <NotFound />
       ) : (
         <>
-          <Box sx={mainContent}>
-            <Box sx={productImageBox}>
-              <SitoImage
-                src={photo && photo !== "" ? photo : noProduct}
-                alt={menu}
-                sx={productImage}
-              />
-            </Box>
-            <Typography
-              variant="h3"
-              sx={{ fontWeight: "bold", fontSize: "1.5rem", marginTop: "10px" }}
-            >
-              {menu}
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              {business.map((item) => (
-                <Tooltip key={item.url} title={item.name}>
-                  <Link
-                    to={`/?business=${parserAccents(
-                      spaceToDashes(item.name)
-                    ).toLowerCase()}`}
-                  >
-                    <IconButton color="primary">
-                      {
-                        placeTypeIcons[
-                          languageState.texts.Settings.Inputs.CenterTypes.Types.find(
-                            (jtem) => jtem.id === item.id
-                          ).icon
-                        ]
-                      }
-                    </IconButton>
-                  </Link>
-                </Tooltip>
-              ))}
-            </Box>
-            <Typography variant="body1" sx={{ textAlign: "center" }}>
-              {description}
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              {phone.length > 0 ? (
-                <InViewComponent delay="0s">
-                  <Tooltip
-                    title={
-                      languageState.texts.Settings.Inputs.Contact.SocialMedia
-                        .WhatsApp
-                    }
-                  >
-                    <MUILink
-                      href={`https://wa.me/${phone}`}
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      <IconButton color="primary">
-                        <WhatsAppIcon />
-                      </IconButton>
-                    </MUILink>
-                  </Tooltip>
-                </InViewComponent>
-              ) : null}
-              {socialMedia.map((item, i) => (
-                <InViewComponent delay={`${parseI(0.1, i)}s`} key={item.url}>
-                  <Tooltip
-                    title={
-                      languageState.texts.Settings.Inputs.Contact.SocialMedia
-                        .Icons[item.icon]
-                    }
-                  >
-                    <MUILink href={item.url} rel="noopener" target="_blank">
-                      <IconButton color="primary">
-                        {socialMediaIcons[item.icon]}
-                      </IconButton>
-                    </MUILink>
-                  </Tooltip>
-                </InViewComponent>
-              ))}
-              {geolocation.latitude && geolocation.longitude ? (
-                <InViewComponent delay={`${parseI(0.1, socialMedia.length)}s`}>
-                  <Tooltip title={languageState.texts.Map.Tooltip}>
-                    <MUILink
-                      onClick={clickedMap}
-                      href={`https://www.google.com/maps/dir//${geolocation.latitude},${geolocation.longitude}/@${geolocation.latitude},${geolocation.longitude},21z`}
-                    >
-                      <IconButton color="primary">
-                        <MapIcon />
-                      </IconButton>
-                    </MUILink>
-                  </Tooltip>
-                </InViewComponent>
-              ) : null}
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <TabView
-              sx={{
-                width: "100%",
-                position: "fixed",
-                top: 0,
-                left: 0,
-                background: theme.palette.background.paper,
-                zIndex: 15,
-              }}
-              tabsContainerSx={{
-                width: "calc(100% - 40px)",
-                paddingLeft: "40px",
-              }}
-              value={tab}
-              onChange={changeTab}
-              tabs={productTypes
-                .filter((item) => hasProducts(item))
-                .map((item, i) => item.name)}
-              content={[]}
-            />
-            <IconButton
-              color="inherit"
-              sx={{ position: "fixed", top: "3px", right: 0, zIndex: 40 }}
-              onClick={toggleMode}
-            >
-              {modeState.mode === "light" ? (
-                <DarkModeIcon />
-              ) : (
-                <LightModeIcon />
-              )}
-            </IconButton>
-          </Box>
+          <WatchAppBar productTypes={productTypes} hasProducts={hasProducts} />
+          <MainContent
+            menu={menu}
+            phone={phone}
+            photo={photo}
+            business={business}
+            socialMedia={socialMedia}
+            description={description}
+            geolocation={geolocation}
+          />
           {error && !currentMenu && loading === -1 && <Error onRetry={retry} />}
           {loading === -1 && !error && !currentMenu && <Empty />}
           {!error && (
@@ -467,14 +392,19 @@ const Watch = () => {
                   .filter((item) => hasProducts(item))
                   .map((item) => (
                     <Box key={item.name} sx={typeBoxCss}>
-                      <Box id={`title-${item.name}`} sx={headerBox}>
-                        <Typography sx={{ fontSize: "1.5rem" }} variant="h3">
+                      <Box id={`title-${item.name}`} sx={{ width: "100%" }}>
+                        <Typography
+                          sx={{ fontSize: "1.5rem", textAlign: "left" }}
+                          variant="h3"
+                        >
                           {item.name}
                         </Typography>
                       </Box>
-                      <Box>
+                      <Box sx={responsiveGrid}>
                         {products
-                          .filter((jtem) => jtem.type === item.name)
+                          .filter(
+                            (jtem) => jtem.type === item.name && jtem.visibility
+                          )
                           .map((jtem, j) => (
                             <InViewComponent
                               key={jtem.id}
@@ -485,10 +415,11 @@ const Watch = () => {
                               sx={{
                                 display: "flex",
                                 justifyContent: "center",
-                                width: "100%",
+                                width: { md: "350px", xs: "100%" },
                               }}
                             >
                               <ProductCard
+                                addToOrder={addToOrder}
                                 item={jtem}
                                 onClick={() => {
                                   setVisible(true);

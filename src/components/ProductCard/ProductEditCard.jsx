@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 // @mui/material
@@ -7,33 +8,37 @@ import {
   Paper,
   Box,
   Typography,
-  Button,
+  IconButton,
 } from "@mui/material";
-
-// @mui/icons-material
-import AddIcon from "@mui/icons-material/Add";
 
 // sito components
 import SitoImage from "sito-image";
 
+// @mui/icons-material
+import DeleteIcon from "@mui/icons-material/Delete";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 // styles
 import {
-  mainBox,
+  productImage,
+  productPaper,
+  productImageBox,
   productContentBox,
   productDescriptionBox,
-  productImage,
-  productImageBox,
-  productPaper,
+  mainBox,
 } from "../../assets/styles/styles";
 
 // images
 import noProduct from "../../assets/images/no-product.webp";
 
-const ProductCard = (props) => {
+const ProductEditCard = (props) => {
   const theme = useTheme();
   const biggerThanMD = useMediaQuery("(min-width:900px)");
 
-  const { onClick, item, addToOrder } = props;
+  const { item, changeVisibility, deleteProduct, onClick } = props;
+
+  const [visibility, setVisibility] = useState(false);
 
   return (
     <Paper
@@ -41,10 +46,35 @@ const ProductCard = (props) => {
       elevation={1}
       sx={{
         ...productPaper,
-        background: theme.palette.background.paper,
+        background: item.visibility
+          ? theme.palette.background.paper
+          : theme.palette.background.default,
       }}
+      onMouseEnter={() => setVisibility(true)}
+      onMouseLeave={() => setVisibility(false)}
     >
-      <Box sx={mainBox} onClick={onClick}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "1px",
+          right: "1px",
+          borderRadius: "1rem",
+          opacity: visibility ? 1 : 0,
+          transition: "opacity 500ms ease",
+          background: { md: "#222222aa", xs: "none" },
+        }}
+      >
+        <IconButton
+          color="secondary"
+          onClick={() => changeVisibility(item.index)}
+        >
+          {item.visibility ? <Visibility /> : <VisibilityOff />}
+        </IconButton>
+        <IconButton color="error" onClick={() => deleteProduct(item.index)}>
+          <DeleteIcon />
+        </IconButton>
+      </Box>
+      <Box sx={mainBox} onClick={() => onClick(item)}>
         <Box sx={productImageBox}>
           <SitoImage
             src={
@@ -68,37 +98,23 @@ const ProductCard = (props) => {
             {item.name}
           </Typography>
           <Box sx={productDescriptionBox}>
-            <Typography variant="body1">{item.description}</Typography>
+            <Typography variant="body1" sx={{ textAlign: "justify" }}>
+              {item.description}
+            </Typography>
           </Box>
           <Typography variant="body2" sx={{ fontWeight: "bold", width: "80%" }}>
             {item.price} CUP
           </Typography>
         </Box>
       </Box>
-      <Button
-        onClick={(e) => {
-          e.preventDefault();
-          addToOrder(1, item);
-        }}
-        variant="contained"
-        color="primary"
-        sx={{
-          minWidth: 0,
-          borderRadius: "100%",
-          padding: "5px",
-          position: "absolute",
-          right: "10px",
-          bottom: "10px",
-        }}
-      >
-        <AddIcon />
-      </Button>
     </Paper>
   );
 };
 
-ProductCard.propTypes = {
+ProductEditCard.propTypes = {
   onClick: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
+  changeVisibility: PropTypes.func.isRequired,
   addToOrder: PropTypes.func.isRequired,
   item: PropTypes.shape({
     id: PropTypes.string,
@@ -109,4 +125,4 @@ ProductCard.propTypes = {
   }).isRequired,
 };
 
-export default ProductCard;
+export default ProductEditCard;

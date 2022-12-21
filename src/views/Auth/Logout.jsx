@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -19,7 +20,6 @@ const Logout = () => {
     setTimeout(() => {
       navigate("/");
     }, 1000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

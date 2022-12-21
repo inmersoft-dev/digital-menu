@@ -7,8 +7,12 @@ import "@fontsource/poppins";
 // styles
 import "./index.css";
 
+// animations
+import "./assets/animations/shake.css";
+
 // context
 import { ModeProvider } from "./context/ModeProvider";
+import { HistoryProvider } from "./context/HistoryProvider";
 import { LanguageProvider } from "./context/LanguageProvider";
 import { NotificationProvider } from "./context/NotificationProvider";
 
@@ -19,7 +23,9 @@ root.render(
   <LanguageProvider>
     <ModeProvider>
       <NotificationProvider>
-        <App />
+        <HistoryProvider>
+          <App />
+        </HistoryProvider>
       </NotificationProvider>
     </ModeProvider>
   </LanguageProvider>

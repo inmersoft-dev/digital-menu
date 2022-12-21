@@ -6,6 +6,27 @@ import config from "../config";
 import { getCookie } from "../utils/auth";
 
 /**
+ *
+ * @param {string} menu
+ * @param {object[]} order
+ */
+export const saveOrder = async (menu, order) => {
+  const response = await axios.post(
+    // @ts-ignore
+    `${config.apiUrl}menu/save-order`,
+    {
+      menu,
+      order,
+    },
+    {
+      headers: getAuth,
+    }
+  );
+  const data = await response.data;
+  return data;
+};
+
+/**
  * @returns The response from the server.
  */
 export const fetchAll = async () => {
@@ -53,7 +74,7 @@ export const saveMenu = async (user, menuName, menu, types) => {
     {
       headers: {
         ...getAuth,
-        Authorization: `Bearer ${getCookie(config.basicKey)}`,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
       },
     }
   );

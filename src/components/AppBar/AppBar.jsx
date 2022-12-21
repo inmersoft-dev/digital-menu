@@ -33,21 +33,25 @@ const AppBar = () => {
         background: theme.palette.background.paper,
         zIndex: 15,
         display: "flex",
-        alignItems: "center",
+        alignItems: "center",   
       }}
     >
-      <BackButton
-        flat
-        to="/"
-        sx={{ position: "relative", top: 0, left: 0, marginTop: "-2px" }}
-      />
+      <BackButton flat to="/" sx={{ position: "relative", top: 0, left: 0 }} />
       <Typography
-        sx={{ fontSize: { xs: "1.3rem", md: "1.5rem" }, width: "100%" }}
+        sx={{
+          fontSize: { xs: "1.3rem", md: "1.5rem" },
+          width: "100%",
+          marginTop: "3px",
+        }}
         variant="h3"
       >
         {languageState.texts.AppName}
       </Typography>
-      <IconButton color="inherit" onClick={toggleMode}>
+      <IconButton
+        sx={{ marginTop: "2px" }}
+        color="inherit"
+        onClick={toggleMode}
+      >
         {modeState.mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
       </IconButton>
     </Box>
