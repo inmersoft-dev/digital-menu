@@ -159,6 +159,7 @@ const Home = () => {
     try {
       const response = await fetchAll();
       const data = await response.data;
+      console.log(data);
       if (data && data.users) {
         const arrayData = Object.values(data.users);
         setList(arrayData.filter((item) => item.photo));

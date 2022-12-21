@@ -10,7 +10,6 @@ import { useMediaQuery, useTheme, Paper, Box, Typography } from "@mui/material";
 
 // sito components
 import SitoImage from "sito-image";
-import SitoContainer from "sito-container";
 
 // image
 import noProduct from "../../assets/images/no-product.webp";
@@ -93,28 +92,28 @@ const LinkCard = (props) => {
               </Box>
             ) : null}
           </Box>
-        </Box>
-        <Box sx={productContentBox}>
-          <Typography
-            variant="h3"
-            sx={{ fontWeight: "bold", fontSize: "1rem" }}
-          >
-            {item.name || item.menu}{" "}
-            {item.name && item.menu && item.name !== item.menu
-              ? `- ${item.menu}`
-              : null}
-          </Typography>
-          <Box sx={productDescriptionBox}>
-            <Typography variant="body1">{item.description}</Typography>
-          </Box>
-          {item.price !== undefined ? (
+          <Box sx={productContentBox}>
             <Typography
-              variant="body2"
-              sx={{ fontWeight: "bold", width: "80%" }}
+              variant="h3"
+              sx={{ fontWeight: "bold", fontSize: "1rem" }}
             >
-              {item.price} CUP
+              {item.name || item.menu}{" "}
+              {item.name && item.menu && item.name !== item.menu
+                ? `- ${item.menu}`
+                : null}
             </Typography>
-          ) : null}
+            <Box sx={productDescriptionBox}>
+              <Typography variant="body1">{item.description}</Typography>
+            </Box>
+            {item.price !== undefined ? (
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: "bold", width: "80%" }}
+              >
+                {item.price} CUP
+              </Typography>
+            ) : null}
+          </Box>
         </Box>
       </Paper>
     </Link>
