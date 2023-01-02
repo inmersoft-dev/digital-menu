@@ -10,6 +10,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 // sito components
 import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // own components
 import Error from "../../components/Error/Error";
@@ -34,7 +35,6 @@ import {
 // contexts
 import { useHistory } from "../../context/HistoryProvider";
 import { useLanguage } from "../../context/LanguageProvider";
-import { useNotification } from "../../context/NotificationProvider";
 
 // components
 import OrderModal from "../../components/OrderModal/OrderModal";
@@ -206,13 +206,19 @@ const Watch = () => {
             : [],
         });
         setProducts(data.list ? data.list : []);
+        setLoading(0);
+      } else {
+        setError(true);
+        setLoading(-1);
+        setNotFound(true);
       }
-      setLoading(0);
     } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
-      setError(true);
-      setLoading(-1);
+      if (String(err).indexOf(422)) setNotFound(true);
+      else {
+        showNotification("error", String(err));
+        setError(true);
+        setLoading(-1);
+      }
     }
   };
 
@@ -317,7 +323,8 @@ const Watch = () => {
 
   return (
     <SitoContainer sx={mainWindow} flexDirection="column">
-      <CookieBox />
+      {!notFound ? <CookieBox /> : null}
+      {!notFound ? <FabButtons /> : null}
       {toOrder.length ? (
         <OrderModal
           menu={menu}
@@ -353,8 +360,6 @@ const Watch = () => {
           </Button>
         </Tooltip>
       ) : null}
-
-      <FabButtons />
       {selected && (
         <Modal
           addCount={addToOrder}

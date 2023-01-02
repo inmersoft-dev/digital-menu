@@ -4,6 +4,9 @@ import { useState, useEffect, useCallback } from "react";
 // @mui components
 import { Box } from "@mui/material";
 
+// sito components
+import { useNotification } from "sito-mui-notification";
+
 // components
 import AMap from "../../../components/Map/Map";
 import Error from "../../../components/Error/Error";
@@ -14,12 +17,11 @@ import { saveLocation } from "../../../services/profile";
 import { fetchMenu } from "../../../services/menu.js";
 
 // utils
-import { getUserName } from "../../../utils/auth";
+import { getUserName, userLogged } from "../../../utils/auth";
 
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
 import { useSettings } from "../../../context/SettingsProvider";
-import { useNotification } from "../../../context/NotificationProvider";
 
 const Map = () => {
   const { languageState } = useLanguage();
@@ -65,33 +67,34 @@ const Map = () => {
   }, [lng, lat]);
 
   const fetch = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const response = await fetchMenu(getUserName());
-      const data = await response.data;
-      console.log(data);
-      if (data && data.location) {
-        setLng(data.location.longitude);
-        setLat(data.location.latitude);
-        setSettingsState({
-          type: "set-map",
-          location: data.location,
-        });
-      } else {
-        setLng(-75.8287579);
-        setLat(20.0210691);
-        setSettingsState({
-          type: "set-map",
-          location: data.location,
-        });
+    if (userLogged()) {
+      setLoading(true);
+      setError(false);
+      try {
+        const response = await fetchMenu(getUserName(), ["location"]);
+        const data = await response.data;
+        if (data && data.location) {
+          setLng(data.location.longitude);
+          setLat(data.location.latitude);
+          setSettingsState({
+            type: "set-map",
+            location: data.location,
+          });
+        } else {
+          setLng(-75.8287579);
+          setLat(20.0210691);
+          setSettingsState({
+            type: "set-map",
+            location: data.location,
+          });
+        }
+      } catch (err) {
+        setError(true);
+        console.error(err);
+        showNotification("error", String(err));
       }
-    } catch (err) {
-      setError(true);
-      console.error(err);
-      showNotification("error", String(err));
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const retry = () => fetch();
@@ -126,7 +129,6 @@ const Map = () => {
           zIndex: loading ? 99 : -1,
         }}
       />
-      {console.log(error, lat, lng)}
       {!error ? (
         <Box sx={{ width: "100%", height: "100%" }}>
           {lat !== 0 && lng !== 0 ? (
@@ -138,12 +140,12 @@ const Map = () => {
               lng={lng}
               point={{ lat, lng }}
               onChange={onChangeMap}
-              onChangeLat={(e) =>
-                setLat(e && e.target ? Number(e.target.value) : e)
-              }
-              onChangeLng={(e) =>
-                setLng(e && e.target ? Number(e.target.value) : e)
-              }
+              onChangeLat={(e) => {
+                setLat(e && e.target ? Number(e.target.value) : e);
+              }}
+              onChangeLng={(e) => {
+                setLng(e && e.target ? Number(e.target.value) : e);
+              }}
             />
           ) : null}
         </Box>

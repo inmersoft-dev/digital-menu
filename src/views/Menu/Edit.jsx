@@ -9,6 +9,9 @@ import md5 from "md5";
 // @mui components
 import { Box, Typography } from "@mui/material";
 
+// sito components
+import { useNotification } from "sito-mui-notification";
+
 // own components
 import Error from "../../components/Error/Error";
 import Empty from "../../components/Empty/Empty";
@@ -29,7 +32,6 @@ import { fetchMenu, saveMenu } from "../../services/menu";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
-import { useNotification } from "../../context/NotificationProvider";
 
 // styles
 import {

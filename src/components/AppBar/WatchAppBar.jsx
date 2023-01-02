@@ -14,8 +14,8 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import TabView from "../TabView/TabView";
 import BackButton from "../BackButton/BackButton";
 
-// utils
-import { scrollTo } from "../../utils/functions";
+// some-javascript-utils
+import { scrollTo } from "some-javascript-utils/browser";
 
 // contexts
 import { useMode } from "../../context/ModeProvider";

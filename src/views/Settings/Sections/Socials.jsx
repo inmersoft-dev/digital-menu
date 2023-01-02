@@ -5,6 +5,7 @@ import { useState, useCallback, useEffect, useReducer } from "react";
 
 // sito components
 import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // @emotion
 import { css } from "@emotion/css";
@@ -40,14 +41,13 @@ import Loading from "../../../components/Loading/Loading";
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
 import { useSettings } from "../../../context/SettingsProvider";
-import { useNotification } from "../../../context/NotificationProvider";
 
 // services
 import { fetchMenu } from "../../../services/menu.js";
 import { saveSocial } from "../../../services/profile";
 
 // utils
-import { getUserName } from "../../../utils/auth";
+import { getUserName, userLogged } from "../../../utils/auth";
 
 const Socials = () => {
   const navigate = useNavigate();
@@ -171,28 +171,34 @@ const Socials = () => {
   const [menu, setMenu] = useState("");
 
   const fetch = async () => {
-    setLoading(true);
-    try {
-      const response = await fetchMenu(getUserName());
-      const data = await response.data;
-      if (data) {
-        setMenu(data.menu);
-        if (data.socialMedia)
-          setSocialMedia({ type: "set", newArray: data.socialMedia });
-        reset({
-          description: data.description,
-        });
-        setSettingsState({
-          type: "set-socials",
-          description: data.description,
-          socialMedia: data.socialMedia,
-        });
+    if (userLogged()) {
+      setLoading(true);
+      try {
+        const response = await fetchMenu(getUserName(), [
+          "menu",
+          "socialMedia",
+          "description",
+        ]);
+        const data = await response.data;
+        if (data) {
+          setMenu(data.menu);
+          if (data.socialMedia)
+            setSocialMedia({ type: "set", newArray: data.socialMedia });
+          reset({
+            description: data.description,
+          });
+          setSettingsState({
+            type: "set-socials",
+            description: data.description,
+            socialMedia: data.socialMedia,
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        showNotification("error", String(err));
       }
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const preventDefault = (event) => event.preventDefault();
@@ -388,10 +394,10 @@ const Socials = () => {
         sx={{ width: "100%", marginTop: "20px" }}
       >
         <Button type="submit" variant="contained" sx={{ marginRight: "10px" }}>
-          {languageState.texts.Insert.Buttons.Save}
+          {languageState.texts.Buttons.Save}
         </Button>
         <Button type="button" variant="outlined" onClick={goToEdit}>
-          {languageState.texts.Insert.Buttons.Edit}
+          {languageState.texts.Buttons.Edit}
         </Button>
       </SitoContainer>
     </form>

@@ -4,8 +4,8 @@ import config from "../config";
 
 import md5 from "md5";
 
-// functions
-import { getCookie } from "../utils/auth";
+// some-javascript-utils
+import { getCookie } from "some-javascript-utils/browser";
 
 /**
  * @param {string} user - the user name
@@ -109,6 +109,30 @@ export const saveSocial = async (user, socialMedia, description) => {
       user,
       socialMedia,
       description,
+    },
+    {
+      headers: {
+        ...getAuth,
+        Authorization: `Bearer ${getCookie(config.basicKeyCookie)}`,
+      },
+    }
+  );
+  const data = await response.data;
+  return data;
+};
+
+/**
+ *
+ * @param {string} user
+ * @param {object} schedule
+ */
+export const saveSchedule = async (user, schedule) => {
+  const response = await axios.post(
+    // @ts-ignore
+    `${config.apiUrl}user/save-schedule`,
+    {
+      user,
+      schedule,
     },
     {
       headers: {

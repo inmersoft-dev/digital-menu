@@ -7,8 +7,8 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 // @mui components
 import { Button } from "@mui/material";
 
-// functions
-import { scrollTo } from "../../utils/functions";
+// some-javascript-utils
+import { scrollTo } from "some-javascript-utils/browser";
 
 const ToTop = (props) => {
   const { show } = props;

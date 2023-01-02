@@ -15,6 +15,9 @@ import {
   OutlinedInput,
 } from "@mui/material";
 
+// sito components
+import { useNotification } from "sito-mui-notification";
+
 // @mui/icons-material
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
@@ -40,7 +43,6 @@ import { fetchAll } from "../../services/menu.js";
 import { useMode } from "../../context/ModeProvider";
 import { useHistory } from "../../context/HistoryProvider";
 import { useLanguage } from "../../context/LanguageProvider";
-import { useNotification } from "../../context/NotificationProvider";
 
 // utils
 import { parserAccents } from "../../utils/parser";
@@ -66,6 +68,10 @@ const Home = () => {
 
   const [showSearch, setShowSearch] = useState(false);
   const toggleSearchInput = () => setShowSearch(!showSearch);
+
+  useEffect(() => {
+    if (!showSearch) setShowFilters(false);
+  }, [showSearch]);
 
   const showNotification = (ntype, message) =>
     setNotificationState({
@@ -107,19 +113,25 @@ const Home = () => {
   const preventDefault = (event) => event.preventDefault();
 
   const [showFilters, setShowFilters] = useState(false);
-  const [showHistory, setShowHistory] = useState("");
+  const [showHistory, setShowHistory] = useState(false);
 
   const { historyState, setHistoryState } = useHistory();
 
   useEffect(() => {
-    const exist = localStorage.getItem("search-history");
-    if (exist !== null && exist !== "")
-      setHistoryState({
-        type: "set",
-        newArray: JSON.parse(exist).filter(
-          (item) => item !== null && item.trim().length > 0
-        ),
-      });
+    try {
+      const exist = localStorage.getItem("search-history");
+      if (exist !== null && exist !== "") {
+        setHistoryState({
+          type: "set",
+          newArray: JSON.parse(exist).filter(
+            (item) => item !== null && item.trim().length > 0
+          ),
+        });
+        setShowHistory(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   const toggleFilters = () => setShowFilters(!showFilters);
@@ -127,14 +139,16 @@ const Home = () => {
   const topBarHeight = useCallback(() => {
     let returnHeight = 60;
     if (biggerThanMD) {
-      if (showFilters) returnHeight += 60;
-      if (showHistory) returnHeight += 50;
-    } else {
-      if (showSearch) returnHeight += 55;
+      if (showHistory && showSearch) returnHeight += 50;
       if (showFilters) returnHeight += 55;
-      if (showHistory) {
-        if (historyState.length) returnHeight += 50;
-        else returnHeight += 40;
+    } else {
+      if (showFilters) returnHeight += 55;
+      if (showSearch) {
+        returnHeight += 55;
+        if (showHistory) {
+          if (historyState.length) returnHeight += 50;
+          else returnHeight += 40;
+        }
       }
     }
     return `${returnHeight}px`;
@@ -143,12 +157,17 @@ const Home = () => {
   const marginTopBar = useCallback(() => {
     let returnHeight = 60;
     if (biggerThanMD) {
-      if (showFilters) returnHeight += 60;
-      if (showHistory) returnHeight += 50;
-    } else {
-      if (showSearch) returnHeight += 55;
+      if (showHistory && showSearch) returnHeight += 50;
       if (showFilters) returnHeight += 55;
-      if (showHistory) returnHeight += 40;
+    } else {
+      if (showFilters) returnHeight += 55;
+      if (showSearch) {
+        returnHeight += 55;
+        if (showHistory) {
+          if (historyState.length) returnHeight += 50;
+          else returnHeight += 40;
+        }
+      }
     }
     return `${returnHeight}px`;
   }, [biggerThanMD, showSearch, showFilters, showHistory]);
@@ -159,7 +178,6 @@ const Home = () => {
     try {
       const response = await fetchAll();
       const data = await response.data;
-      console.log(data);
       if (data && data.users) {
         const arrayData = Object.values(data.users);
         setList(arrayData.filter((item) => item.photo));
@@ -237,40 +255,44 @@ const Home = () => {
   }, [searchResult]);
 
   useEffect(() => {
-    if (location.search) {
-      const queryParams = location.search.substring(1);
-      const params = queryParams.split("&");
-      params.forEach((item) => {
-        const [paramName, paramValue] = item.split("=");
-        if (paramValue)
-          switch (paramName) {
-            case "business":
-              setSearchingProducts(false);
-              setSearchingCategories(false);
-              setSearchingMenus(true);
-              setToSearch(dashesToSpace(paramValue));
-              setShowSearch(true);
-              break;
-            case "product": {
-              setSearchingProducts(true);
-              setSearchingCategories(false);
-              setSearchingMenus(false);
-              setToSearch(dashesToSpace(paramValue));
-              setShowSearch(true);
-              break;
+    try {
+      if (location.search) {
+        const queryParams = location.search.substring(1);
+        const params = queryParams.split("&");
+        params.forEach((item) => {
+          const [paramName, paramValue] = item.split("=");
+          if (paramValue)
+            switch (paramName) {
+              case "business":
+                setSearchingProducts(false);
+                setSearchingCategories(false);
+                setSearchingMenus(true);
+                setToSearch(dashesToSpace(paramValue));
+                setShowSearch(true);
+                break;
+              case "product": {
+                setSearchingProducts(true);
+                setSearchingCategories(false);
+                setSearchingMenus(false);
+                setToSearch(dashesToSpace(paramValue));
+                setShowSearch(true);
+                break;
+              }
+              case "category": {
+                setSearchingProducts(false);
+                setSearchingCategories(true);
+                setSearchingMenus(false);
+                setToSearch(dashesToSpace(paramValue));
+                setShowSearch(true);
+                break;
+              }
+              default:
+                break;
             }
-            case "category": {
-              setSearchingProducts(false);
-              setSearchingCategories(true);
-              setSearchingMenus(false);
-              setToSearch(dashesToSpace(paramValue));
-              setShowSearch(true);
-              break;
-            }
-            default:
-              break;
-          }
-      });
+        });
+      }
+    } catch (err) {
+      console.error(err);
     }
   }, [location]);
 
@@ -536,6 +558,7 @@ const Home = () => {
                 ...responsiveGrid,
                 gap: "20px",
                 justifyContent: "flex-start",
+                padding: { xs: "10px 20px", md: "10px 40px", lg: "10px 10rem" },
               }}
             >
               {toSearch.length === 0

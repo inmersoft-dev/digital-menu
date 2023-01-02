@@ -1,7 +1,11 @@
 import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
-import { createCookie, getCookie } from "../utils/auth";
+
+// some-javascript-utils
+import { createCookie, getCookie } from "some-javascript-utils/browser";
+
+// utils
 import { dashesToSpace } from "../utils/functions";
 
 /**

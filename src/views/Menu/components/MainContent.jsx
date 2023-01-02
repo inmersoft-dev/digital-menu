@@ -152,7 +152,7 @@ const MainContent = (props) => {
       {editing ? (
         <Box sx={{ marginTop: "20px" }}>
           <Button variant="contained" onClick={onAction}>
-            {languageState.texts.Insert.Buttons.Insert}
+            {languageState.texts.Buttons.Insert}
           </Button>
         </Box>
       ) : null}

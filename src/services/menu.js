@@ -1,9 +1,11 @@
 import axios from "axios";
-import { getAuth } from "../auth/auth";
-import config from "../config";
 
-// functions
-import { getCookie } from "../utils/auth";
+// some-javascript-utils
+import { getCookie } from "some-javascript-utils/browser";
+
+import { getAuth } from "../auth/auth";
+
+import config from "../config";
 
 /**
  *
@@ -27,12 +29,23 @@ export const saveOrder = async (menu, order) => {
 };
 
 /**
- * @returns The response from the server.
+ *
+ * @param {string} orderBy
+ * @param {number} page
+ * @param {number} count
+ * @param {string[]} attributes
+ * @returns
  */
-export const fetchAll = async () => {
-  const response = await axios.get(
+export const fetchAll = async (
+  orderBy = "date",
+  page = 1,
+  count = 10,
+  attributes = []
+) => {
+  const response = await axios.post(
     // @ts-ignore
     `${config.apiUrl}menu/`,
+    { orderBy, page, count, attributes },
     {
       headers: getAuth,
     }
@@ -42,14 +55,16 @@ export const fetchAll = async () => {
 };
 
 /**
- * Takes a user object and sends it to the backend to be authenticated
- * @param {string} menuName - the menu name
- * @returns The response from the server.
+ *
+ * @param {string} menuName
+ * @param {string[]} attributes
+ * @returns
  */
-export const fetchMenu = async (menuName) => {
-  const response = await axios.get(
+export const fetchMenu = async (menuName, attributes = []) => {
+  const response = await axios.post(
     // @ts-ignore
     `${config.apiUrl}menu/fetch?menuName=${menuName}`,
+    { menuName, attributes },
     {
       headers: getAuth,
     }

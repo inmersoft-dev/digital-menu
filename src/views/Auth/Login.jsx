@@ -2,8 +2,12 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+// some-javascript-utils
+import { createCookie } from "some-javascript-utils/browser";
+
 // sito components
 import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // own components
 import AppBar from "../../components/AppBar/AppBar";
@@ -31,10 +35,9 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
-import { useNotification } from "../../context/NotificationProvider";
 
 // utils
-import { userLogged, createCookie } from "../../utils/auth";
+import { userLogged } from "../../utils/auth";
 
 // services
 import { login } from "../../services/auth";
@@ -233,7 +236,7 @@ const Login = () => {
             variant="contained"
             sx={{ marginRight: "20px" }}
           >
-            {languageState.texts.Login.Buttons.Login}
+            {languageState.texts.Buttons.Login}
           </Button>
         </SitoContainer>
       </form>

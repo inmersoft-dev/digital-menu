@@ -2,6 +2,9 @@
 import { QRCode } from "react-qrcode-logo";
 import { useState, useEffect } from "react";
 
+// sito components
+import { useNotification } from "sito-mui-notification";
+
 // @mui/material
 import {
   Box,
@@ -21,10 +24,9 @@ import Loading from "../../../components/Loading/Loading";
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
 import { useSettings } from "../../../context/SettingsProvider";
-import { useNotification } from "../../../context/NotificationProvider";
 
 // utils
-import { getUserName } from "../../../utils/auth";
+import { getUserName, userLogged } from "../../../utils/auth";
 import { spaceToDashes } from "../../../utils/functions";
 
 // services
@@ -53,26 +55,28 @@ const QR = () => {
   const [preview, setPreview] = useState("");
 
   const fetch = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const response = await fetchMenu(getUserName());
-      const data = await response.data;
-      if (data) {
-        setMenu(data.menu);
-        if (data.photo) setPreview(data.photo.url);
-        setSettingsState({
-          type: "set-qr",
-          menu: data.menu,
-          preview: data.photo ? data.photo.url : "",
-        });
+    if (userLogged()) {
+      setLoading(true);
+      setError(false);
+      try {
+        const response = await fetchMenu(getUserName(), ["photo", "menu"]);
+        const data = await response.data;
+        if (data) {
+          setMenu(data.menu);
+          if (data.photo) setPreview(data.photo.url);
+          setSettingsState({
+            type: "set-qr",
+            menu: data.menu,
+            preview: data.photo ? data.photo.url : "",
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        showNotification("error", String(err));
+        setError(true);
       }
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
-      setError(true);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const retry = () => fetch();

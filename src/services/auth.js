@@ -2,8 +2,8 @@ import axios from "axios";
 import { getAuth } from "../auth/auth";
 import config from "../config";
 
-// functions
-import { getCookie } from "../utils/auth";
+// some-javascript-utils
+import { getCookie } from "some-javascript-utils/browser";
 
 import md5 from "md5";
 

@@ -2,14 +2,17 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// some-javascript-utils
+import { getUserLanguage } from "some-javascript-utils/browser";
+
 // sito components
 import SitoContainer from "sito-container";
-
-// own components
-import Notification from "./components/Notification/Notification";
+import NotificationContext from "sito-mui-notification";
 
 // @mui
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useMediaQuery, ThemeProvider, CssBaseline } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 // themes
 import dark from "./assets/theme/dark";
@@ -25,7 +28,7 @@ import Edit from "./views/Menu/Edit";
 import Settings from "./views/Settings/Settings";
 import NotFound from "./views/NotFound/NotFound";
 
-// functions
+// utils
 import { userLogged, logoutUser } from "./utils/auth";
 
 // components
@@ -40,9 +43,12 @@ import { SettingsProvider } from "./context/SettingsProvider";
 import { validateBasicKey } from "./services/auth";
 import { sendMobileCookie, sendPcCookie } from "./services/analytics";
 
+import config from "./config";
+
 const App = () => {
-  const { modeState } = useMode();
   const biggerThanMD = useMediaQuery("(min-width:900px)");
+
+  const { modeState } = useMode();
   const { languageState, setLanguageState } = useLanguage();
 
   useEffect(() => {
@@ -52,22 +58,27 @@ const App = () => {
 
   useEffect(() => {
     try {
-      const userLang = navigator.language || navigator.userLanguage;
-      if (userLang)
-        setLanguageState({ type: "set", lang: userLang.split("-")[0] });
+      setLanguageState({ type: "set", lang: getUserLanguage(config.language) });
     } catch (err) {
       console.error(err);
     }
   }, []);
 
   const fetch = async () => {
-    const value = await validateBasicKey();
-    if (!value) {
+    try {
+      const value = await validateBasicKey();
+      if (!value) {
+        logoutUser();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else sessionStorage.setItem("user", value);
+    } catch (err) {
       logoutUser();
       setTimeout(() => {
         window.location.reload();
       }, 1000);
-    } else sessionStorage.setItem("user", value);
+    }
   };
 
   useEffect(() => {
@@ -80,46 +91,55 @@ const App = () => {
   }, []);
 
   return (
-    <SitoContainer
-      sx={{ minHeight: "100vh" }}
-      alignItems="center"
-      justifyContent="center"
-    >
-      <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
-        <Notification />
-        <CssBaseline />
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route exact path="/auth/" element={<Login />} />
-            <Route exact path="/auth/register-user" element={<Register />} />
-            <Route exact path="/auth/logout" element={<Logout />} />
-            <Route
-              exact
-              path="/settings/"
-              element={
-                <SettingsProvider>
-                  <Settings />
-                </SettingsProvider>
-              }
-            />
-            <Route exact path="/menu/*" element={<Watch />} />
-            <Route exact path="/menu/edit" element={<Edit />} />
-            <Route
-              exact
-              path="/cookie-policy"
-              element={<MUIPrinter text={languageState.texts.CookiePolicy} />}
-            />
-            <Route
-              exact
-              path="/terms-conditions"
-              element={<MUIPrinter text={languageState.texts.Terms} />}
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </SitoContainer>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <SitoContainer
+        sx={{ minHeight: "100vh" }}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <ThemeProvider theme={modeState.mode === "light" ? light : dark}>
+          <CssBaseline />
+          <NotificationContext>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route exact path="/auth/" element={<Login />} />
+                <Route
+                  exact
+                  path="/auth/register-user"
+                  element={<Register />}
+                />
+                <Route exact path="/auth/logout" element={<Logout />} />
+                <Route
+                  exact
+                  path="/settings/"
+                  element={
+                    <SettingsProvider>
+                      <Settings />
+                    </SettingsProvider>
+                  }
+                />
+                <Route exact path="/menu/*" element={<Watch />} />
+                <Route exact path="/menu/edit" element={<Edit />} />
+                <Route
+                  exact
+                  path="/cookie-policy"
+                  element={
+                    <MUIPrinter text={languageState.texts.CookiePolicy} />
+                  }
+                />
+                <Route
+                  exact
+                  path="/terms-conditions"
+                  element={<MUIPrinter text={languageState.texts.Terms} />}
+                />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </NotificationContext>
+        </ThemeProvider>
+      </SitoContainer>
+    </LocalizationProvider>
   );
 };
 

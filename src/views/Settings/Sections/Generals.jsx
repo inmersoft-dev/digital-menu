@@ -1,7 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useReducer } from "react";
+
+// some-javascript-utils
+import { getUserLanguage } from "some-javascript-utils/browser";
 
 // @emotion
 import { css } from "@emotion/css";
@@ -12,6 +15,7 @@ import { IKContext, IKUpload } from "imagekitio-react";
 // sito components
 import SitoImage from "sito-image";
 import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // @mui/material
 import {
@@ -26,6 +30,7 @@ import {
   OutlinedInput,
   InputAdornment,
   FormHelperText,
+  createFilterOptions,
 } from "@mui/material";
 
 // @mui/icons-material
@@ -38,16 +43,17 @@ import Loading from "../../../components/Loading/Loading";
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
 import { useSettings } from "../../../context/SettingsProvider";
-import { useNotification } from "../../../context/NotificationProvider";
 
 // utils
 import {
   getUserName,
   findFirstLowerLetter,
   findFirstUpperLetter,
+  userLogged,
 } from "../../../utils/auth";
 
 // services
+import { search } from "../../../services/search";
 import { fetchMenu } from "../../../services/menu.js";
 import { removeImage } from "../../../services/photo";
 import { saveProfile } from "../../../services/profile";
@@ -56,12 +62,73 @@ import { saveProfile } from "../../../services/profile";
 import noProduct from "../../../assets/images/no-product.webp";
 
 import config from "../../../config";
+import { placeTypeList } from "../../../services/placeTypes/get";
 
 const { imagekitUrl, imagekitPublicKey, imagekitAuthUrl } = config;
+
+const filter = createFilterOptions();
 
 const Generals = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const [ref, setRef] = useState(null);
+
+  useEffect(() => {
+    if (ref) ref.focus();
+  }, [ref]);
+
+  const placeTypesReducer = (placeTypesState, action) => {
+    const { type } = action;
+    switch (type) {
+      case "set": {
+        const { array } = action;
+        return [...array];
+      }
+      case "add": {
+        const { array } = action;
+        array.forEach((item) => {
+          if (!placeTypesState.find((jtem) => item.id === jtem.id))
+            placeTypesState.push(item);
+        });
+        return [...placeTypesState];
+      }
+      default:
+        return [];
+    }
+  };
+
+  const [placeTypes, setPlaceTypes] = useReducer(placeTypesReducer, []);
+  const [loadingPlaceTypes, setLoadingPlaceTypes] = useState(false);
+  const [currentType, setCurrentType] = useState("");
+
+  const inputChange = (event, newInputValue) => setCurrentType(newInputValue);
+
+  const fetchPlaceTypes = useCallback(async () => {
+    setLoadingPlaceTypes(true);
+    try {
+      const response = await search(
+        currentType,
+        ["placeTypes"],
+        getUserLanguage(config.language)
+      );
+      const { list } = await response;
+      const parsedPlaceTypes = list.map((item) => ({
+        id: item.data.id,
+        name: item.data[getUserLanguage(config.language)],
+      }));
+
+      setPlaceTypes({ type: "add", array: parsedPlaceTypes });
+    } catch (err) {
+      console.error(err);
+      showNotification("error", String(err));
+    }
+    setLoadingPlaceTypes(false);
+  }, [currentType]);
+
+  useEffect(() => {
+    if (currentType.length) fetchPlaceTypes();
+  }, [currentType]);
 
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
@@ -82,7 +149,27 @@ const Generals = () => {
   const [preview, setPreview] = useState("");
 
   const [types, setTypes] = useState([]);
-  const handleTypes = (event, newValue) => setTypes(newValue);
+
+  const handleTypes = (event, newValue) => {
+    if (typeof newValue === "string") {
+      setTypes([
+        ...types,
+        {
+          name: newValue,
+        },
+      ]);
+    } else if (newValue && newValue.inputValue) {
+      // Create a new value from the user input
+      setTypes([
+        ...types,
+        {
+          name: newValue.inputValue,
+        },
+      ]);
+    } else {
+      setTypes(newValue);
+    }
+  };
 
   const { control, handleSubmit, reset, getValues, watch } = useForm({
     defaultValues: {
@@ -95,39 +182,45 @@ const Generals = () => {
   const [menuNameHelperText, setMenuNameHelperText] = useState(false);
 
   const fetch = async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const response = await fetchMenu(getUserName());
-      const data = await response.data;
-      console.log(data);
-      if (data) {
-        if (data.photo) {
-          setPhoto(data.photo);
-          setPreview(data.photo.url);
-        }
-        if (data.business) setTypes(data.business);
-        setOldName(data.menu);
+    if (userLogged()) {
+      setLoading(true);
+      setError(false);
+      try {
+        const response = await fetchMenu(getUserName(), [
+          "photo",
+          "business",
+          "menu",
+          "phone",
+        ]);
+        const data = await response.data;
+        if (data) {
+          if (data.photo) {
+            setPhoto(data.photo);
+            setPreview(data.photo.url);
+          }
+          if (data.business) setTypes(data.business);
+          setOldName(data.menu);
 
-        reset({
-          menu: data.menu,
-          phone: data.phone,
-        });
-        setSettingsState({
-          type: "set-generals",
-          menu: data.menu,
-          phone: data.phone,
-          preview: data.photo ? data.photo.url : "",
-          photo: data.photo,
-          business: data.business,
-        });
+          reset({
+            menu: data.menu,
+            phone: data.phone,
+          });
+          setSettingsState({
+            type: "set-generals",
+            menu: data.menu,
+            phone: data.phone,
+            preview: data.photo ? data.photo.url : "",
+            photo: data.photo,
+            business: data.business,
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        showNotification("error", String(err));
+        setError(true);
       }
-    } catch (err) {
-      console.error(err);
-      showNotification("error", String(err));
-      setError(true);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const uploadPhoto = useCallback((e) => {
@@ -177,20 +270,22 @@ const Generals = () => {
             menu,
             phone || "",
             photo || "",
-            types || []
+            types.map((item) => item.id) || []
           );
           if (response.status === 200) {
             showNotification(
               "success",
               languageState.texts.Messages.SaveSuccessful
             );
+            const parsedTypes = [];
+            const fetchTypes = await placeTypeList(0, 1, -1);
             setSettingsState({
               type: "set-generals",
               menu: menu,
               phone: phone || "",
               preview: photo ? photo.url : "",
               photo: photo || "",
-              business: types || [],
+              business: parsedTypes || [],
             });
             setLoading(false);
             return true;
@@ -292,6 +387,8 @@ const Generals = () => {
       setPhoneHelperText(languageState.texts.Errors.InvalidPhone);
     else setPhoneHelperText("");
   }, [phoneValue]);
+
+  const [opened, setOpened] = useState(false);
 
   return (
     <form
@@ -432,16 +529,71 @@ const Generals = () => {
           {/* Business */}
           <SitoContainer sx={{ width: "100%", marginTop: "30px" }}>
             <Autocomplete
-              sx={{ width: "100%" }}
               multiple
-              id="places"
-              onChange={handleTypes}
-              options={languageState.texts.Settings.Inputs.CenterTypes.Types}
-              getOptionLabel={(option) => option.name}
-              defaultValue={[]}
+              clearOnBlur
+              openOnFocus
+              autoComplete
+              id="business"
+              open={opened}
+              selectOnFocus
+              handleHomeEndKeys
+              includeInputInList
               filterSelectedOptions
+              sx={{
+                width: "100%",
+                div: { svg: { color: theme.palette.secondary.main } },
+              }}
+              noOptionsText={
+                languageState.texts.Settings.Inputs.CenterTypes.NoOptions
+              }
+              loadingText={
+                languageState.texts.Settings.Inputs.CenterTypes.Loading
+              }
+              onOpen={() => setOpened(true)}
+              onClose={() => setOpened(false)}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
+
+                const { inputValue } = params;
+                // Suggest the creation of a new value
+                const isExisting = options.some(
+                  (option) => inputValue === option.name
+                );
+                if (!loadingPlaceTypes && inputValue !== "" && !isExisting) {
+                  filtered.push({
+                    inputValue,
+                    name: `${languageState.texts.Insert.Inputs.Type.Add} "${inputValue}"`,
+                  });
+                }
+
+                return filtered;
+              }}
+              isOptionEqualToValue={(option, value) =>
+                option.name === value.name
+              }
+              loading={loadingPlaceTypes}
+              onChange={handleTypes}
+              options={placeTypes}
+              getOptionLabel={(option) => {
+                // Value selected with enter, right from the input
+                if (typeof option === "string") {
+                  return option;
+                }
+                // Add "xxx" option created dynamically
+                if (option.inputValue) {
+                  return option.inputValue;
+                }
+                // Regular option
+                return option.name;
+              }}
+              defaultValue={[]}
               value={types || []}
               ChipProps={{ color: "primary" }}
+              inputValue={currentType}
+              onInputChange={inputChange}
+              renderOption={(props, option) => (
+                <li {...props}>{option.name}</li>
+              )}
               renderInput={(params) => (
                 <TextField
                   color="primary"
@@ -453,10 +605,14 @@ const Generals = () => {
                           .Placeholder
                       : ""
                   }
+                  inputRef={(input) => {
+                    setRef(input);
+                  }}
                 />
               )}
             />
           </SitoContainer>
+
           {/* Buttons */}
           <SitoContainer
             justifyContent="flex-end"
@@ -467,10 +623,10 @@ const Generals = () => {
               variant="contained"
               sx={{ marginRight: "10px" }}
             >
-              {languageState.texts.Insert.Buttons.Save}
+              {languageState.texts.Buttons.Save}
             </Button>
             <Button type="button" variant="outlined" onClick={goToEdit}>
-              {languageState.texts.Insert.Buttons.Edit}
+              {languageState.texts.Buttons.Edit}
             </Button>
           </SitoContainer>
         </>

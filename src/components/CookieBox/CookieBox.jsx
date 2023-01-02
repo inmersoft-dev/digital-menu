@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+// some-javascript-utils
+import { createCookie, getCookie } from "some-javascript-utils/browser";
+
 // @emotion/css
 import { css } from "@emotion/css";
 
@@ -14,7 +17,7 @@ import { motion } from "framer-motion";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
-import { createCookie, getCookie } from "../../utils/auth";
+
 import config from "../../config";
 
 const CookieBox = (props) => {
