@@ -11,7 +11,7 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "These General Terms of Service (\"General Terms\") are a legal agreement between you, as a current or potential customer of the Inmersoft Marketplace services and/or Inmersoft Marketplace Apps (Marketplace Iré a Santiago, Marketplace Descubre Trinidad), and govern your use of Inmersoft Marketplace services, including mobile applications, websites, software, cloud-based solutions, hardware, and other products and services (collectively, the \"Services\"). By registering, you agree to these General Terms and any policies referenced within (\"Policies\"), including our Privacy Notice (see Section 8) and terms limiting our liability (see Section 18) and require individual arbitration for any potential legal disputes (see Section 21), which are collectively incorporated herein by reference. You also agree to additional terms specific to the Services you use (\"Additional Terms\"), such as those listed below, which are part of your agreement with us (collectively, the \"Terms\"). If you are using the Services on behalf of a business, you represent to us that you have the authority to bind that business or entity to these Terms, and that the business accepts these Terms. You should read all of our Terms carefully."
+        "content": "These General Terms of Service (\"General Terms\") are a legal agreement between you, as a current or potential customer of the Inmersoft Marketplace services and/or Inmersoft Marketplace Apps (Marketplace Descubre Trinidad, Marketplace Descubre Trinidad), and govern your use of Inmersoft Marketplace services, including mobile applications, websites, software, cloud-based solutions, hardware, and other products and services (collectively, the \"Services\"). By registering, you agree to these General Terms and any policies referenced within (\"Policies\"), including our Privacy Notice (see Section 8) and terms limiting our liability (see Section 18) and require individual arbitration for any potential legal disputes (see Section 21), which are collectively incorporated herein by reference. You also agree to additional terms specific to the Services you use (\"Additional Terms\"), such as those listed below, which are part of your agreement with us (collectively, the \"Terms\"). If you are using the Services on behalf of a business, you represent to us that you have the authority to bind that business or entity to these Terms, and that the business accepts these Terms. You should read all of our Terms carefully."
       },
       {
         "variant": "h5",
@@ -636,7 +636,7 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "Inmersoft Marketplace uses the 'DC_AC' and 'DC_DC' cookies, which last for 2 years, to store a user's status regarding their cookie choices."
+        "content": "Inmersoft Marketplace uses the 'DT_AC' and 'DT_DC' cookies, which last for 2 years, to store a user's status regarding their cookie choices."
       },
       {
         "variant": "h5",
@@ -654,14 +654,14 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "Inmersoft Marketplace uses 'DC_LG' for site to save user language, this lasts 2 years"
+        "content": "Inmersoft Marketplace uses 'DT_LG' for site to save user language, this lasts 2 years"
       },
       {
         "variant": "body1",
         "sx": {
           "textAlign": "justify"
         },
-        "content": "Inmersoft Marketplace uses 'DC_BK' for site access to the server, this lasts 30 minutes (30 days if remember me is activated), and is created each time which logs in."
+        "content": "Inmersoft Marketplace uses 'DT_BK' for site access to the server, this lasts 30 minutes (30 days if remember me is activated), and is created each time which logs in."
       },
       {
         "variant": "h5",
@@ -686,18 +686,18 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "- AIM_DC_VWC: Cookie that is created when a user visits the Inmersoft Marketplace website. It lasts one day"
+        "content": "- AIM_DT_VWC: Cookie that is created when a user visits the Inmersoft Marketplace website. It lasts one day"
       },
       {
         "variant": "body1",
         "sx": {
           "textAlign": "justify"
         },
-        "content": "- AIM_DC_VTC: Cookie that is created when a user enters the catalog of a business, it lasts one day, it is created by catalog with the structure: [Catalog] AIM_DC_VTC."
+        "content": "- AIM_DT_VTC: Cookie that is created when a user enters the catalog of a business, it lasts one day, it is created by catalog with the structure: [Catalog] AIM_DT_VTC."
       },
       {
         "variant": "body1",
-        "content": "- AIM_DC_DC: Cookie that is created when a user reviews the description of a product, lasts 10 days, it is created per product with the structure: [Product] AIM_DC_DC."
+        "content": "- AIM_DT_DC: Cookie that is created when a user reviews the description of a product, lasts 10 days, it is created per product with the structure: [Product] AIM_DT_DC."
       },
 
       {
@@ -705,14 +705,14 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "- AIM_DC_HTG: Cookie that is created when a user presses the how to get there button, lasts one day."
+        "content": "- AIM_DT_HTG: Cookie that is created when a user presses the how to get there button, lasts one day."
       },
       {
         "variant": "body1",
         "sx": {
           "textAlign": "justify"
         },
-        "content": "- AIM_DC_OC: Cookie that is created when a user clicks on the button to send order (order), lasts 1 day, it is created by order and by receiving customer with the structure: [Catalog] [Customer] AIM_DC_OC."
+        "content": "- AIM_DT_OC: Cookie that is created when a user clicks on the button to send order (order), lasts 1 day, it is created by order and by receiving customer with the structure: [Catalog] [Customer] AIM_DT_OC."
       }
     ],
     "Map": {
@@ -1006,7 +1006,7 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "Inmersoft Marketplace utiliza las cookies 'DC_AC' y 'DC_DC', que duran 2 años, para almacenar el estado de un usuario con respecto a sus opciones de cookies. "
+        "content": "Inmersoft Marketplace utiliza las cookies 'DT_AC' y 'DT_DC', que duran 2 años, para almacenar el estado de un usuario con respecto a sus opciones de cookies. "
       },
       {
         "variant": "h5",
@@ -1024,14 +1024,14 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "Inmersoft Marketplace utiliza 'DC_LG' para el guardar el lenguaje del usuario, esta dura 2 años."
+        "content": "Inmersoft Marketplace utiliza 'DT_LG' para el guardar el lenguaje del usuario, esta dura 2 años."
       },
       {
         "variant": "body1",
         "sx": {
           "textAlign": "justify"
         },
-        "content": "Inmersoft Marketplace utiliza 'DC_BK' para el acceso del sitio al servidor, esta dura 30 minutos (30 días si recordar usuario está activo), y se crea cada vez que se inicia sesión."
+        "content": "Inmersoft Marketplace utiliza 'DT_BK' para el acceso del sitio al servidor, esta dura 30 minutos (30 días si recordar usuario está activo), y se crea cada vez que se inicia sesión."
       },
       {
         "variant": "h5",
@@ -1056,21 +1056,21 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "- AIM_DC_VWC: Cookie que se crea cuando un usuario visita el sitio web de Inmersoft Marketplace. Dura un día"
+        "content": "- AIM_DT_VWC: Cookie que se crea cuando un usuario visita el sitio web de Inmersoft Marketplace. Dura un día"
       },
       {
         "variant": "body1",
         "sx": {
           "textAlign": "justify"
         },
-        "content": "- AIM_DC_VTC: Cookie que se crea cuando un usuario entra en el catálogo de un negocio, dura un día, esta se crea por catálogo con la estructura: [Catálogo] AIM__DC_VTC."
+        "content": "- AIM_DT_VTC: Cookie que se crea cuando un usuario entra en el catálogo de un negocio, dura un día, esta se crea por catálogo con la estructura: [Catálogo] AIM__DT_VTC."
       },
       {
         "variant": "body1",
         "sx": {
           "textAlign": "justify"
         },
-        "content": "- AIM_DC_DC: Cookie que se crea cuando un usuario revisa la descripción de un producto, dura 10 días, esta se crea por producto con la estructura: [Producto] AIM__DC_DC."
+        "content": "- AIM_DT_DC: Cookie que se crea cuando un usuario revisa la descripción de un producto, dura 10 días, esta se crea por producto con la estructura: [Producto] AIM__DT_DC."
       },
 
       {
@@ -1078,14 +1078,14 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "- AIM_DC_HTG: Cookie que se crea cuando un usuario presiona el botón de ¿cómo llegar?, dura un día."
+        "content": "- AIM_DT_HTG: Cookie que se crea cuando un usuario presiona el botón de ¿cómo llegar?, dura un día."
       },
       {
         "variant": "body1",
         "sx": {
           "textAlign": "justify"
         },
-        "content": "- AIM_DC_OC: Cookie que se crea cuando un usuario presiona en el botón de enviar orden (pedido), dura 1 día, esta se crea por orden y por cliente receptor con la estructura: [Catálogo] [Cliente] AIM_DC_OC."
+        "content": "- AIM_DT_OC: Cookie que se crea cuando un usuario presiona en el botón de enviar orden (pedido), dura 1 día, esta se crea por orden y por cliente receptor con la estructura: [Catálogo] [Cliente] AIM_DT_OC."
       }
     ],
     "Terms": [
@@ -1098,7 +1098,7 @@
         "sx": {
           "textAlign": "justify"
         },
-        "content": "Estos Términos generales de servicio (\"Términos generales\") son un acuerdo legal entre usted, como cliente actual o potencial de los servicios de Inmersoft Marketplace y/o Inmersoft Marketplace Apps (Marketplace Iré a Santiago, Marketplace Descubre Trinidad), y rigen su uso de los servicios de Inmersoft Marketplace, incluidas aplicaciones móviles, sitios web, software, soluciones basadas en la nube, hardware y otros productos y servicios (colectivamente, los \"Servicios\"). Al registrarse, usted acepta estos Términos generales y cualquier política a la que se haga referencia dentro de las (\"Políticas\"), incluido nuestro Aviso de privacidad (consulte la Sección 8) y los términos que limitan nuestra responsabilidad (consulte la Sección 18) y requieren arbitraje individual para cualquier disputa legal potencial (consulte la Sección 21), que se incorporan colectivamente en este documento por referencia. También acepta los términos adicionales específicos de los Servicios que utiliza (\"Términos adicionales\"), como los que se enumeran a continuación, que forman parte de su acuerdo con nosotros (colectivamente, los \"Términos\"). Si está utilizando los Servicios en nombre de una empresa, nos declara que tiene autoridad para vincular a esa empresa o entidad a estos Términos, y que la empresa acepta estos Términos. Debe leer todos nuestros Términos detenidamente."
+        "content": "Estos Términos generales de servicio (\"Términos generales\") son un acuerdo legal entre usted, como cliente actual o potencial de los servicios de Inmersoft Marketplace y/o Inmersoft Marketplace Apps (Marketplace Descubre Trinidad, Marketplace Descubre Trinidad), y rigen su uso de los servicios de Inmersoft Marketplace, incluidas aplicaciones móviles, sitios web, software, soluciones basadas en la nube, hardware y otros productos y servicios (colectivamente, los \"Servicios\"). Al registrarse, usted acepta estos Términos generales y cualquier política a la que se haga referencia dentro de las (\"Políticas\"), incluido nuestro Aviso de privacidad (consulte la Sección 8) y los términos que limitan nuestra responsabilidad (consulte la Sección 18) y requieren arbitraje individual para cualquier disputa legal potencial (consulte la Sección 21), que se incorporan colectivamente en este documento por referencia. También acepta los términos adicionales específicos de los Servicios que utiliza (\"Términos adicionales\"), como los que se enumeran a continuación, que forman parte de su acuerdo con nosotros (colectivamente, los \"Términos\"). Si está utilizando los Servicios en nombre de una empresa, nos declara que tiene autoridad para vincular a esa empresa o entidad a estos Términos, y que la empresa acepta estos Términos. Debe leer todos nuestros Términos detenidamente."
       },
       {
         "variant": "h5",
