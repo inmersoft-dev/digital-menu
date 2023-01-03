@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 // @mui/material
 import { Box, Tooltip, IconButton } from "@mui/material";
 
+// @mui/icons-material
+import StorefrontIcon from "@mui/icons-material/Storefront"; // store
+
 // utils
 import { parserAccents } from "../../utils/parser";
 import { spaceToDashes } from "../../utils/functions";
@@ -12,13 +15,8 @@ import { spaceToDashes } from "../../utils/functions";
 // icons
 import { placeTypeIcons } from "../../views/Menu/icons";
 
-// contexts
-import { useLanguage } from "../../context/LanguageProvider";
-
 const BusinessCategories = (props) => {
   const { business } = props;
-
-  const { languageState } = useLanguage();
 
   return (
     <Box
@@ -33,17 +31,15 @@ const BusinessCategories = (props) => {
         <Tooltip key={item.id} title={item.name}>
           <Link
             to={`/?business=${parserAccents(
-              spaceToDashes(item.name)
+              spaceToDashes(item.name || "")
             ).toLowerCase()}`}
           >
             <IconButton color="primary">
-              {
-                placeTypeIcons[
-                  languageState.texts.Settings.Inputs.CenterTypes.Types.find(
-                    (jtem) => jtem.id === item.id
-                  ).icon
-                ]
-              }
+              {placeTypeIcons[item.icon] ? (
+                placeTypeIcons[item.icon]
+              ) : (
+                <StorefrontIcon fontSize="small" />
+              )}
             </IconButton>
           </Link>
         </Tooltip>

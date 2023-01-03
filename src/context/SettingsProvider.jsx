@@ -13,6 +13,10 @@ const settingsReducer = (settingsState, action) => {
       const { photo, preview, business, menu, phone } = action;
       return { ...settingsState, photo, preview, business, menu, phone };
     }
+    case "set-schedule": {
+      const { schedule } = action;
+      return { ...settingsState, schedule };
+    }
     case "set-socials": {
       const { socialMedia, description } = action;
       return { ...settingsState, socialMedia, description };

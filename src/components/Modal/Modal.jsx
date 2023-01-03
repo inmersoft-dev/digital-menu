@@ -81,7 +81,7 @@ const Modal = (props) => {
 
   useEffect(() => {
     const countInput = document.getElementById("count");
-    if (countInput !== null) countInput.focus();
+    if (countInput !== null && show) countInput.focus();
     if (show) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "inherit";
   }, [show]);

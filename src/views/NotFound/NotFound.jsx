@@ -36,7 +36,11 @@ const NotFound = () => {
       <Typography color="secondary" variant="h4" sx={{ marginTop: "20px" }}>
         {languageState.texts.NotFound.Title}
       </Typography>
-      <Typography color="secondary" variant="h5" sx={{ marginTop: "20px" }}>
+      <Typography
+        color="secondary"
+        variant="body1"
+        sx={{ marginTop: "20px", width: "80vw" }}
+      >
         {languageState.texts.NotFound.Description}
       </Typography>
       <Link

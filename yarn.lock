@@ -11354,10 +11354,18 @@ sito-image@0.2.20:
     react-scripts "5.0.1"
     react-shimmer "^3.2.0"
 
-sito-mui-error-component@^0.3.1, sito-mui-error-component@^0.3.7:
+sito-mui-error-component@^0.3.1:
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/sito-mui-error-component/-/sito-mui-error-component-0.3.7.tgz#a995bde106104d7f1be4cc599608fe6463d6cd29"
   integrity sha512-GqCM2j2TMWVogMh4SZK1PIad+LhaTV7AswaYyJbdresUxJgua5iIk5sFD4QyEd9Gn3rZUrhGDz+ev7pPxjDzNw==
+  dependencies:
+    react-error-boundary "^3.1.4"
+    some-javascript-utils "^0.2.1"
+
+sito-mui-error-component@^0.3.9:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/sito-mui-error-component/-/sito-mui-error-component-0.3.9.tgz#f3e08ee8bc10f648493390583d6b361e7f9b91cd"
+  integrity sha512-H1FTfB+/d3gg/k6/oVmHiNOr3aH41or4hHx36ZlIZYw69x1YNJkAX6pY0uIoaOn8a3rQ4UttPXFzRYK+w0ZUhQ==
   dependencies:
     react-error-boundary "^3.1.4"
     some-javascript-utils "^0.2.1"

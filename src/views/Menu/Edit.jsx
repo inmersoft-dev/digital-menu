@@ -29,6 +29,7 @@ import { getUserName, userLogged } from "../../utils/auth";
 // services
 import { removeImage } from "../../services/photo";
 import { fetchMenu, saveMenu } from "../../services/menu";
+import { placeTypeList } from "../../services/placeTypes/get";
 
 // contexts
 import { useLanguage } from "../../context/LanguageProvider";
@@ -178,7 +179,13 @@ const Edit = () => {
         setMenu(data.menu);
         setDescription(data.description);
         setPhone(data.phone);
-        setBusiness(data.business);
+        if (data.business) {
+          const query = {};
+          data.business.forEach((item) => (query[item] = item));
+          const responsePlaceTypes = await placeTypeList(0, 1, -1, "id", query);
+          const { list } = responsePlaceTypes;
+          if (list) setBusiness(list);
+        }
         setSocialMedia(data.socialMedia);
         if (data.location) setGeoLocation(data.location);
         setProductTypes({

@@ -31,7 +31,7 @@
     "react-scripts": "5.0.1",
     "sito-container": "0.2.21",
     "sito-image": "0.2.20",
-    "sito-mui-error-component": "^0.3.7",
+    "sito-mui-error-component": "^0.3.9",
     "sito-mui-notification": "^0.3.1",
     "some-javascript-utils": "^0.2.1"
   },

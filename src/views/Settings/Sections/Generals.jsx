@@ -198,7 +198,19 @@ const Generals = () => {
             setPhoto(data.photo);
             setPreview(data.photo.url);
           }
-          if (data.business) setTypes(data.business);
+          if (data.business) {
+            const query = {};
+            data.business.forEach((item) => (query[item] = item));
+            const responsePlaceTypes = await placeTypeList(
+              0,
+              1,
+              -1,
+              "id",
+              query
+            );
+            const { list } = responsePlaceTypes;
+            if (list) setTypes(list);
+          }
           setOldName(data.menu);
 
           reset({
@@ -270,22 +282,21 @@ const Generals = () => {
             menu,
             phone || "",
             photo || "",
-            types.map((item) => item.id) || []
+            types,
+            getUserLanguage()
           );
           if (response.status === 200) {
             showNotification(
               "success",
               languageState.texts.Messages.SaveSuccessful
             );
-            const parsedTypes = [];
-            const fetchTypes = await placeTypeList(0, 1, -1);
             setSettingsState({
               type: "set-generals",
               menu: menu,
               phone: phone || "",
               preview: photo ? photo.url : "",
               photo: photo || "",
-              business: parsedTypes || [],
+              business: types || [],
             });
             setLoading(false);
             return true;
@@ -399,7 +410,7 @@ const Generals = () => {
         visible={loading}
         sx={{
           position: "absolute",
-          zIndex: loading ? 99 : -1,
+          zIndex: loading ? 9999 : -1,
         }}
       />
       {!error ? (

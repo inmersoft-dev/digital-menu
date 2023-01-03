@@ -2,6 +2,9 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+// sito components
+import ErrorBoundary from "sito-mui-error-component";
+
 // components
 import AppBar from "../../components/AppBar/AppBar";
 import TabView from "../../components/TabView/TabView";
@@ -35,6 +38,14 @@ const Settings = () => {
     if (!userLogged()) navigate("/");
   }, []);
 
+  const [reset, setReset] = useState(false);
+
+  useEffect(() => {
+    if (reset) setReset(false);
+  }, [reset]);
+
+  const resetComponents = () => setReset(true);
+
   return (
     <Box
       sx={{
@@ -46,6 +57,7 @@ const Settings = () => {
       }}
     >
       <AppBar />
+
       <FabButtons location="settings" />
       <Paper
         sx={{
@@ -56,23 +68,37 @@ const Settings = () => {
           borderRadius: "1rem",
         }}
       >
-        <TabView
-          sx={{
-            width: "100%",
-            height: "100%",
-          }}
-          value={tab}
-          onChange={(e, newTab) => setTab(newTab)}
-          tabs={languageState.texts.Settings.Tabs}
-          content={[
-            <Generals />,
-            <Schedule />,
-            <Socials />,
-            <Map />,
-            <Security />,
-            <QR />,
-          ]}
-        />
+        {!reset ? (
+          <TabView
+            sx={{
+              width: "100%",
+              height: "100%",
+            }}
+            value={tab}
+            onChange={(e, newTab) => setTab(newTab)}
+            tabs={languageState.texts.Settings.Tabs}
+            content={[
+              <ErrorBoundary onReset={() => resetComponents()}>
+                <Generals />
+              </ErrorBoundary>,
+              <ErrorBoundary onReset={() => resetComponents()}>
+                <Schedule />
+              </ErrorBoundary>,
+              <ErrorBoundary onReset={() => resetComponents()}>
+                <Socials />
+              </ErrorBoundary>,
+              <ErrorBoundary onReset={() => resetComponents()}>
+                <Map />
+              </ErrorBoundary>,
+              <ErrorBoundary onReset={() => resetComponents()}>
+                <Security />
+              </ErrorBoundary>,
+              <ErrorBoundary onReset={() => resetComponents()}>
+                <QR />
+              </ErrorBoundary>,
+            ]}
+          />
+        ) : null}
       </Paper>
     </Box>
   );

@@ -13,6 +13,7 @@ import { getCookie } from "some-javascript-utils/browser";
  * @param {string} menuName - the menu name
  * @param {string} menuDescription - the menu description
  * @param {string[]} business
+ * @param {string} lang
  * @returns The response from the server.
  */
 export const saveProfile = async (
@@ -21,7 +22,8 @@ export const saveProfile = async (
   menuName,
   phone,
   photo,
-  business
+  business,
+  lang
 ) => {
   const response = await axios.post(
     // @ts-ignore
@@ -33,6 +35,7 @@ export const saveProfile = async (
       phone,
       photo,
       business,
+      lang,
     },
     {
       headers: {

@@ -240,13 +240,13 @@ const Map = (props) => {
         transition: "transform 500ms ease",
       }}
     >
-      {!noInputs && (lng || lat) && (
+      {!noInputs && (
         <SitoContainer ignoreDefault className="row">
           <SitoContainer alignItems="center" sx={{ marginBottom: "20px" }}>
             <TextField
               label={languageState.texts.Map.Inputs.Longitude.label}
               placeholder={languageState.texts.Map.Inputs.Longitude.placeholder}
-              type="text"
+              type="number"
               name="lng"
               id="lng"
               value={lng}
@@ -256,7 +256,7 @@ const Map = (props) => {
             <TextField
               label={languageState.texts.Map.Inputs.Latitude.label}
               placeholder={languageState.texts.Map.Inputs.Latitude.placeholder}
-              type="text"
+              type="number"
               name="lat"
               id="lat"
               value={lat}

@@ -6,6 +6,9 @@ import useOnclickOutside from "react-cool-onclickoutside";
 
 import PropTypes from "prop-types";
 
+// sito components
+import { useNotification } from "sito-mui-notification";
+
 // @mui/material
 import {
   useTheme,
@@ -40,7 +43,6 @@ import {
 
 // context
 import { useLanguage } from "../../context/LanguageProvider";
-import { useNotification } from "../../context/NotificationProvider";
 
 // utils
 import { findFirstLowerLetter, findFirstUpperLetter } from "../../utils/auth";
@@ -233,6 +235,7 @@ const OrderModal = (props) => {
           background: theme.palette.background.paper,
         }}
       >
+        {console.log("pinga phone", phone)}
         <a
           href={`https://wa.me/${phone.replace(
             /\s/g,

@@ -7,6 +7,7 @@ import { getUserLanguage } from "some-javascript-utils/browser";
 
 // sito components
 import SitoContainer from "sito-container";
+import ErrorBoundary from "sito-mui-error-component";
 import NotificationContext from "sito-mui-notification";
 
 // @mui
@@ -102,14 +103,41 @@ const App = () => {
           <NotificationContext>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route exact path="/auth/" element={<Login />} />
+                <Route
+                  path="/"
+                  element={
+                    <ErrorBoundary>
+                      <Home />
+                    </ErrorBoundary>
+                  }
+                />
+                <Route
+                  exact
+                  path="/auth/"
+                  element={
+                    <ErrorBoundary>
+                      <Login />
+                    </ErrorBoundary>
+                  }
+                />
                 <Route
                   exact
                   path="/auth/register-user"
-                  element={<Register />}
+                  element={
+                    <ErrorBoundary>
+                      <Register />
+                    </ErrorBoundary>
+                  }
                 />
-                <Route exact path="/auth/logout" element={<Logout />} />
+                <Route
+                  exact
+                  path="/auth/logout"
+                  element={
+                    <ErrorBoundary>
+                      <Logout />
+                    </ErrorBoundary>
+                  }
+                />
                 <Route
                   exact
                   path="/settings/"
@@ -119,21 +147,50 @@ const App = () => {
                     </SettingsProvider>
                   }
                 />
-                <Route exact path="/menu/*" element={<Watch />} />
-                <Route exact path="/menu/edit" element={<Edit />} />
+                <Route
+                  exact
+                  path="/menu/*"
+                  element={
+                    <ErrorBoundary>
+                      <Watch />
+                    </ErrorBoundary>
+                  }
+                />
+                <Route
+                  exact
+                  path="/menu/edit"
+                  element={
+                    <ErrorBoundary>
+                      <Edit />
+                    </ErrorBoundary>
+                  }
+                />
                 <Route
                   exact
                   path="/cookie-policy"
                   element={
-                    <MUIPrinter text={languageState.texts.CookiePolicy} />
+                    <ErrorBoundary>
+                      <MUIPrinter text={languageState.texts.CookiePolicy} />
+                    </ErrorBoundary>
                   }
                 />
                 <Route
                   exact
                   path="/terms-conditions"
-                  element={<MUIPrinter text={languageState.texts.Terms} />}
+                  element={
+                    <ErrorBoundary>
+                      <MUIPrinter text={languageState.texts.Terms} />
+                    </ErrorBoundary>
+                  }
                 />
-                <Route path="*" element={<NotFound />} />
+                <Route
+                  path="*"
+                  element={
+                    <ErrorBoundary>
+                      <NotFound />
+                    </ErrorBoundary>
+                  }
+                />
               </Routes>
             </BrowserRouter>
           </NotificationContext>

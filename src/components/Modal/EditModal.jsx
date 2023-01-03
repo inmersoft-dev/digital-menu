@@ -8,8 +8,9 @@ import PropTypes from "prop-types";
 import { IKContext, IKUpload } from "imagekitio-react";
 
 // sito components
-import SitoContainer from "sito-container";
 import SitoImage from "sito-image";
+import SitoContainer from "sito-container";
+import { useNotification } from "sito-mui-notification";
 
 // own components
 import Loading from "../Loading/Loading";
@@ -32,7 +33,6 @@ import {
 import noProduct from "../../assets/images/no-product.webp";
 
 // contexts
-import { useNotification } from "../../context/NotificationProvider";
 import { useLanguage } from "../../context/LanguageProvider";
 
 // styles
@@ -398,7 +398,7 @@ const Modal = (props) => {
               sx={{ marginTop: "10px" }}
               disabled={loadingPhoto}
             >
-              {languageState.texts.Insert.Buttons.Save}
+              {languageState.texts.Buttons.Save}
             </Button>
           </form>
         </SitoContainer>

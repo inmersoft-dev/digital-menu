@@ -30,7 +30,6 @@ const Loading = (props) => {
         left: 0,
         backdropFilter: "blur(4px)",
         background: `${theme.palette.background.paper}`,
-        borderRadius: "1rem",
         ...sx,
       }}
     >

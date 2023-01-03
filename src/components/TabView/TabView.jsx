@@ -65,7 +65,8 @@ const TabView = (props) => {
           value={value || localTab}
           onChange={onChange || localOnChange}
           variant="scrollable"
-          scrollButtons="auto"
+          scrollButtons
+          allowScrollButtonsMobile
         >
           {tabs.map((item, i) => (
             <Tab

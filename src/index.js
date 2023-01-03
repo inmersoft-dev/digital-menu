@@ -25,9 +25,7 @@ root.render(
   <LanguageProvider>
     <ModeProvider>
       <HistoryProvider>
-        <ErrorBoundary>
-          <App />
-        </ErrorBoundary>
+        <App />
       </HistoryProvider>
     </ModeProvider>
   </LanguageProvider>

@@ -33,7 +33,7 @@ const AppBar = () => {
         background: theme.palette.background.paper,
         zIndex: 15,
         display: "flex",
-        alignItems: "center",   
+        alignItems: "center",
       }}
     >
       <BackButton flat to="/" sx={{ position: "relative", top: 0, left: 0 }} />

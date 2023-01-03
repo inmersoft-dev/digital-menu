@@ -1,67 +1,48 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useNavigate } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
-import { useState, useCallback, useEffect, useReducer } from "react";
+import { useState, useEffect } from "react";
+
+// @emotion
+import { css } from "@emotion/css";
 
 // sito components
 import SitoContainer from "sito-container";
 import { useNotification } from "sito-mui-notification";
 
-// @emotion
-import { css } from "@emotion/css";
-
 // @mui/icons-material
-import AddIcon from "@mui/icons-material/Add";
-import PublicIcon from "@mui/icons-material/Public";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import PinterestIcon from "@mui/icons-material/Pinterest";
-import YouTubeIcon from "@mui/icons-material/YouTube";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 // @mui/material
 import {
-  Box,
-  Chip,
   Button,
-  Select,
-  MenuItem,
-  TextField,
+  IconButton,
   Typography,
   InputLabel,
   FormControl,
   OutlinedInput,
   InputAdornment,
+  FormHelperText,
 } from "@mui/material";
 
-// own components
+// components
 import Loading from "../../../components/Loading/Loading";
 
 // contexts
 import { useLanguage } from "../../../context/LanguageProvider";
-import { useSettings } from "../../../context/SettingsProvider";
 
 // services
-import { fetchMenu } from "../../../services/menu.js";
-import { saveSocial } from "../../../services/profile";
+import { changePassword } from "../../../services/profile";
 
 // utils
-import { getUserName, userLogged } from "../../../utils/auth";
+import {
+  getUserName,
+  passwordsAreValid,
+  passwordValidation,
+} from "../../../utils/auth";
 
-const Socials = () => {
-  const navigate = useNavigate();
+const Security = () => {
   const { languageState } = useLanguage();
   const { setNotificationState } = useNotification();
-  const { settingsState, setSettingsState } = useSettings();
-
-  const [loading, setLoading] = useState(true);
-
-  const { control, handleSubmit, reset, getValues } = useForm({
-    defaultValues: {
-      description: "",
-    },
-  });
 
   const showNotification = (ntype, message) =>
     setNotificationState({
@@ -70,140 +51,101 @@ const Socials = () => {
       message,
     });
 
-  const [descriptionHelperText, setDescriptionHelperText] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [inputCurrentSocialMedia, setInputCurrentSocialMedia] = useState("");
-  const handleInputCurrentSocialMedia = (e) =>
-    setInputCurrentSocialMedia(e.target.value);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRPassword, setShowRPassword] = useState(false);
 
-  const [currentSocialMedia, setCurrentSocialMedia] = useState("any");
-  const handleSelectSocialMedia = (e) => setCurrentSocialMedia(e.target.value);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleClickRShowPassword = () => setShowRPassword(!showRPassword);
 
-  const icons = {
-    any: <PublicIcon sx={{ marginRight: "5px" }} />,
-    facebook: <FacebookIcon sx={{ marginRight: "5px" }} />,
-    instagram: <InstagramIcon sx={{ marginRight: "5px" }} />,
-    twitter: <TwitterIcon sx={{ marginRight: "5px" }} />,
-    linkedIn: <LinkedInIcon sx={{ marginRight: "5px" }} />,
-    pinterest: <PinterestIcon sx={{ marginRight: "5px" }} />,
-    youtube: <YouTubeIcon sx={{ marginRight: "5px" }} />,
-  };
+  const handleMouseDownPassword = (event) => event.preventDefault();
 
-  const socialMediaReducer = (socialMediaState, action) => {
-    const { type } = action;
-    switch (type) {
-      case "set": {
-        const { newArray } = action;
-        return newArray;
+  const [password, setPassword] = useState("");
+  const [rPassword, setRPassword] = useState("");
+
+  const [passwordHelperText, setPasswordHelperText] = useState("");
+  const [rpasswordHelperText, setRPasswordHelperText] = useState("");
+
+  useEffect(() => {
+    const passwordValidationResult = passwordValidation(
+      password,
+      getUserName()
+    );
+    if (passwordValidationResult > -1) {
+      switch (passwordValidationResult) {
+        case 0:
+          setPasswordHelperText(
+            languageState.texts.Errors.PasswordLengthValidation
+          );
+          break;
+        case 1:
+          setPasswordHelperText(
+            languageState.texts.Errors.PasswordCharacterValidation
+          );
+          break;
+        default:
+          setPasswordHelperText(
+            languageState.texts.Errors.PasswordNameValidation
+          );
+          break;
       }
-      case "add": {
-        const { newSocialMedia } = action;
-        return [...socialMediaState, newSocialMedia];
-      }
-      case "remove": {
-        const { index } = action;
-        const newArray = [...socialMediaState];
-        newArray.splice(index, 1);
-        return newArray;
-      }
-      default:
-        return [];
-    }
-  };
+    } else setPasswordHelperText("");
+  }, [password]);
 
-  const [socialMedia, setSocialMedia] = useReducer(socialMediaReducer, []);
-
-  const addSocialMedia = useCallback(() => {
-    if (inputCurrentSocialMedia.length) {
-      const newSocialMedia = {
-        url: inputCurrentSocialMedia,
-        icon: currentSocialMedia,
-      };
-      setInputCurrentSocialMedia("");
-      setCurrentSocialMedia("any");
-      setSocialMedia({ type: "add", newSocialMedia });
-    }
-  }, [currentSocialMedia, inputCurrentSocialMedia]);
-
-  const onSaveSocial = useCallback(
-    async (data) => {
-      const { description } = data;
-      if (!description || !description.length) {
-        const descriptionInput = document.getElementById("description");
-        if (descriptionInput !== null) descriptionInput.focus();
-        setDescriptionHelperText(
-          languageState.texts.Errors.DescriptionRequired
-        );
-      } else {
-        setDescriptionHelperText("");
+  const onChangePassword = async (e) => {
+    e.preventDefault();
+    setPasswordHelperText("");
+    setRPasswordHelperText("");
+    if (password === rPassword) {
+      const passwordValidationResult = passwordsAreValid(
+        password,
+        rPassword,
+        getUserName()
+      );
+      if (passwordValidationResult > -1)
+        switch (passwordValidationResult) {
+          case 0:
+            setPasswordHelperText(
+              languageState.texts.Errors.PasswordLengthValidation
+            );
+            break;
+          case 1:
+            setPasswordHelperText(
+              languageState.texts.Errors.PasswordCharacterValidation
+            );
+            break;
+          default:
+            setPasswordHelperText(
+              languageState.texts.Errors.PasswordNameValidation
+            );
+            break;
+        }
+      else {
         setLoading(true);
         try {
-          const response = await saveSocial(
-            getUserName(),
-            socialMedia || [],
-            description || ""
+          await changePassword(getUserName(), password, rPassword);
+          showNotification(
+            "success",
+            languageState.texts.Messages.SaveSuccessful
           );
-          if (response.status === 200) {
-            showNotification(
-              "success",
-              languageState.texts.Messages.SaveSuccessful
-            );
-            setSettingsState({
-              type: "set-socials",
-              description: description || "",
-              socialMedia: socialMedia || [],
-            });
-            setLoading(false);
-            return true;
-          } else
-            showNotification("error", languageState.texts.Errors.SomeWrong);
+          setPassword("");
+          setRPassword("");
+          setLoading(false);
+          return true;
         } catch (err) {
           console.error(err);
           showNotification("error", String(err));
         }
       }
-      setLoading(false);
-      return false;
-    },
-    [socialMedia]
-  );
-
-  const [menu, setMenu] = useState("");
-
-  const fetch = async () => {
-    if (userLogged()) {
-      setLoading(true);
-      try {
-        const response = await fetchMenu(getUserName(), [
-          "menu",
-          "socialMedia",
-          "description",
-        ]);
-        const data = await response.data;
-        if (data) {
-          setMenu(data.menu);
-          if (data.socialMedia)
-            setSocialMedia({ type: "set", newArray: data.socialMedia });
-          reset({
-            description: data.description,
-          });
-          setSettingsState({
-            type: "set-socials",
-            description: data.description,
-            socialMedia: data.socialMedia,
-          });
-        }
-      } catch (err) {
-        console.error(err);
-        showNotification("error", String(err));
-      }
-      setLoading(false);
+    } else {
+      setRPasswordHelperText(languageState.texts.Errors.DifferentPassword);
+      const rPasswordInput = document.getElementById("rPassword");
+      if (rPasswordInput !== null) rPasswordInput.focus();
     }
+    setLoading(false);
+    return false;
   };
-
-  const preventDefault = (event) => event.preventDefault();
-
-  const retry = () => fetch();
 
   const [ok, setOk] = useState(1);
 
@@ -216,179 +158,109 @@ const Socials = () => {
       e.target.focus();
       setOk(false);
       switch (id) {
-        default:
-          return setDescriptionHelperText(
-            languageState.texts.Errors.DescriptionRequired
+        default: {
+          return setPasswordHelperText(
+            languageState.texts.Errors.PasswordRequired
           );
+        }
       }
     }
   };
 
-  const init = () => {
-    setSocialMedia({ type: "set", newArray: settingsState.socialMedia });
-    reset({
-      description: settingsState.description,
-    });
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    const textarea = document.getElementById("description");
-    if (textarea !== null) textarea.setAttribute("maxlength", 255);
-    if (!settingsState.description || !settingsState.socialMedia) retry();
-    else init();
-  }, []);
-
-  const goToEdit = async () => {
-    if (menu.length) {
-      const value = await onSaveSocial({
-        description: getValues("description"),
-      });
-      if (value) navigate("/menu/edit/");
-    }
-  };
-
   return (
-    <form
-      onSubmit={handleSubmit(onSaveSocial)}
-      className={css({ width: "100%", position: "relative" })}
-    >
+    <form onSubmit={onChangePassword} className={css({ width: "100%" })}>
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: "bold",
+          fontSize: "1.5rem",
+          marginTop: "10px",
+        }}
+      >
+        {languageState.texts.Settings.PasswordTitle}
+      </Typography>
       <Loading
         visible={loading}
         sx={{
-          position: "absolute",
           zIndex: loading ? 99 : -1,
         }}
       />
-      {/* Social Media */}
-      <Box
-        sx={{
-          width: "100%",
-          marginTop: "20px",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <FormControl sx={{ width: { xs: "70px", md: "180px" } }}>
-          <Select
-            value={currentSocialMedia}
-            sx={{ div: { display: "flex" } }}
-            onChange={handleSelectSocialMedia}
-          >
-            {Object.keys(icons).map((item) => (
-              <MenuItem
-                key={item}
-                value={item}
-                sx={{ display: "flex", alignItems: "center" }}
-              >
-                {icons[item]}
-                <Typography
-                  sx={{
-                    display: { xs: "none", md: "inherit" },
-                  }}
-                >
-                  -{" "}
-                  {
-                    languageState.texts.Settings.Inputs.Contact.SocialMedia
-                      .Icons[item]
-                  }
-                </Typography>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+      {/* Password */}
+      <SitoContainer>
         <FormControl
-          sx={{
-            flex: 1,
-          }}
+          sx={{ width: "100%", marginTop: "20px" }}
+          color={passwordHelperText.length > 0 ? "error" : "primary"}
           variant="outlined"
         >
           <InputLabel>
-            {languageState.texts.Settings.Inputs.Contact.SocialMedia.Label}
+            {languageState.texts.Login.Inputs.Password.Label}
           </InputLabel>
           <OutlinedInput
-            id="search"
-            value={inputCurrentSocialMedia}
-            placeholder={
-              languageState.texts.Settings.Inputs.Contact.SocialMedia
-                .Placeholder
-            }
-            label={
-              languageState.texts.Settings.Inputs.Contact.SocialMedia.Label
-            }
-            onChange={handleInputCurrentSocialMedia}
-            type="url"
+            required
+            id="password"
+            onInput={validate}
+            onInvalid={invalidate}
+            placeholder={languageState.texts.Login.Inputs.Password.Placeholder}
+            type={showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  aria-label="add social media"
-                  onClick={addSocialMedia}
-                  onMouseDown={preventDefault}
+                <IconButton
+                  color="secondary"
+                  tabIndex={-1}
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
                   edge="end"
-                  sx={{
-                    borderRadius: "100%",
-                    minWidth: 0,
-                    minHeight: 0,
-                    width: "30px",
-                  }}
                 >
-                  <AddIcon fontSize="small" />
-                </Button>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
               </InputAdornment>
             }
+            label={languageState.texts.Login.Inputs.Password.Label}
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <FormHelperText>{passwordHelperText}</FormHelperText>
+        </FormControl>
+      </SitoContainer>
+      {/* rPassword */}
+      <SitoContainer sx={{ marginTop: "10px" }}>
+        <FormControl
+          sx={{ width: "100%", marginTop: "20px" }}
+          color={rpasswordHelperText.length > 0 ? "error" : "primary"}
+          variant="outlined"
+        >
+          <InputLabel htmlFor="outlined-adornment-password">
+            {languageState.texts.Login.Inputs.RPassword.Label}
+          </InputLabel>
+          <OutlinedInput
+            id="rPassword"
+            onInput={validate}
+            onInvalid={invalidate}
+            placeholder={languageState.texts.Login.Inputs.RPassword.Placeholder}
+            type={showRPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  color="secondary"
+                  tabIndex={-1}
+                  aria-label="toggle r password visibility"
+                  onClick={handleClickRShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showRPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label={languageState.texts.Login.Inputs.RPassword.Label}
+            value={rPassword}
+            onChange={(e) => setRPassword(e.target.value)}
           />
         </FormControl>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          flexWrap: "wrap",
-          marginTop: socialMedia.length > 0 ? "10px" : 0,
-          gap: "5px",
-        }}
-      >
-        {socialMedia.map((item, i) => (
-          <Chip
-            sx={{ svg: { borderRadius: "100%" } }}
-            key={item.url}
-            avatar={icons[item.icon]}
-            label={item.url}
-            color="primary"
-            onDelete={() => setSocialMedia({ type: "remove", index: i })}
-          />
-        ))}
-      </Box>
-      {/* Description */}
-      <SitoContainer sx={{ marginTop: "30px" }}>
-        <Controller
-          name="description"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              sx={{ width: "100%" }}
-              id="description"
-              label={languageState.texts.Settings.Inputs.Description.Label}
-              placeholder={
-                languageState.texts.Settings.Inputs.Description.Placeholder
-              }
-              helperText={descriptionHelperText}
-              color={descriptionHelperText ? "error" : "primary"}
-              onInput={validate}
-              onInvalid={invalidate}
-              multiline
-              maxLength="255"
-              maxRows={3}
-              minRows={3}
-              variant="outlined"
-              {...field}
-            />
-          )}
-        />
       </SitoContainer>
-      {/* Buttons */}
       <SitoContainer
         justifyContent="flex-end"
         sx={{ width: "100%", marginTop: "20px" }}
@@ -396,12 +268,9 @@ const Socials = () => {
         <Button type="submit" variant="contained" sx={{ marginRight: "10px" }}>
           {languageState.texts.Buttons.Save}
         </Button>
-        <Button type="button" variant="outlined" onClick={goToEdit}>
-          {languageState.texts.Buttons.Edit}
-        </Button>
       </SitoContainer>
     </form>
   );
 };
 
-export default Socials;
+export default Security;

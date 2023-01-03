@@ -52,7 +52,7 @@ const FabButtons = (props) => {
     try {
       const value = await isAdmin();
       if (value) setIsAdminState(true);
-      setIsAdminState(false);
+      else setIsAdminState(false);
     } catch (err) {
       setIsAdminState(false);
     }
